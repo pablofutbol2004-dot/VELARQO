@@ -1,0 +1,106 @@
+{
+  "name": "experiment_result",
+  "version": "1.0",
+  "description": "Campaign performance tracking for A/B testing and insights generation",
+  "fields": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "campaign_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "lead_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "company_name": {
+      "type": "string"
+    },
+    "vertical": {
+      "type": "string",
+      "description": "Windows, kitchens, solar, etc."
+    },
+    "segment": {
+      "type": "string",
+      "description": "Customer segment (quoted, lost, no-show, etc.)"
+    },
+    "message_variant": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Which email copy version (A/B/C)"
+    },
+    "offer": {
+      "type": "string",
+      "description": "Offer presented (discount, free quote, etc.)"
+    },
+    "send_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "send_day": {
+      "type": "string",
+      "enum": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    },
+    "opened": {
+      "type": "boolean"
+    },
+    "reply": {
+      "type": "boolean",
+      "description": "Did they reply"
+    },
+    "reply_sentiment": {
+      "type": "string",
+      "enum": ["positive", "maybe", "negative", "null"],
+      "description": "AI classification of reply"
+    },
+    "appointment_booked": {
+      "type": "boolean"
+    },
+    "appointment_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "quote_requested": {
+      "type": "boolean"
+    },
+    "quote_value": {
+      "type": "number",
+      "description": "Quote amount in GBP"
+    },
+    "quote_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sale_closed": {
+      "type": "boolean"
+    },
+    "revenue": {
+      "type": "number",
+      "description": "Final revenue if sale closed"
+    },
+    "revenue_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "id",
+    "campaign_id",
+    "lead_id",
+    "company_name",
+    "send_time",
+    "created_at"
+  ],
+  "indexes": [
+    ["campaign_id", "message_variant"],
+    ["segment", "reply_sentiment"],
+    ["company_name"],
+    ["send_time"]
+  ]
+}

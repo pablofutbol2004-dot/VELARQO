@@ -1,0 +1,9 @@
+company_name,website,email,phone,postcode,company_size,revenue,industry,lead_source
+Acme Windows Ltd.,acmewindows.co.uk,info@acmewindows.co.uk,020 7946 0958,SW1A 1AA,45,1200000,windows and double-glazing,csv_import
+Acme Windows Ltd,acmewindows.co.uk,info@acmewindows.co.uk,+44 20 7946 0958,SW1A1AA,45,1200000,windows,csv_import
+Brightframe Installations,brightframe.com,contact@brightframe.com,0161 496 0000,M1 1AE,80,3000000,UPVC frames,csv_import
+Brite Frame Installations,brightframe.com,sales@brightframe.com,0161 496 0001,M1 1AE,82,3100000,UPVC window frames,csv_import
+Solar Solutions Co,solarsolutions.co.uk,hello@solarsolutions.co.uk,0121 496 0002,B1 1AA,25,800000,solar panels,csv_import
+Kitchen Kraft Ltd,kitchenkraft.co.uk,info@kitchenkraft.co.uk,0113 496 0003,LS1 1AA,15,500000,kitchen fitting,csv_import
+Not A Real Company,,bademail,not-a-phone,ZZ99,,,unknown,csv_import
+Premier Roofing PLC,premierroofing.co.uk,quotes@premierroofing.co.uk,0114 496 0004,S1 1AA,120,5000000,roofing,csv_import

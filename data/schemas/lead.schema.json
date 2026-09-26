@@ -1,0 +1,87 @@
+{
+  "name": "lead",
+  "version": "1.0",
+  "description": "Core lead entity throughout prospecting and outreach pipeline",
+  "fields": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier"
+    },
+    "company_name": {
+      "type": "string",
+      "description": "Company name (normalized)"
+    },
+    "website": {
+      "type": "string",
+      "format": "url",
+      "description": "Company website"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Decision maker email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number (normalized)"
+    },
+    "postcode": {
+      "type": "string",
+      "description": "Geographic location"
+    },
+    "lead_source": {
+      "type": "string",
+      "enum": ["csv_import", "manual", "enrichment", "referral"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_contact": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "normalized": {
+      "type": "boolean",
+      "description": "Has data been standardized"
+    },
+    "enriched": {
+      "type": "boolean",
+      "description": "Has enrichment data been added"
+    },
+    "duplicate_of": {
+      "type": "string",
+      "format": "uuid",
+      "description": "If duplicate, UUID of canonical lead"
+    },
+    "icp_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Fit to configured ICP"
+    },
+    "research_summary": {
+      "type": "string",
+      "description": "Generated company research"
+    },
+    "angle": {
+      "type": "string",
+      "description": "Personalized outreach angle"
+    },
+    "campaign_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "ghl_contact_id": {
+      "type": "string",
+      "description": "Synced GoHighLevel contact ID"
+    }
+  },
+  "required": [
+    "id",
+    "company_name",
+    "email",
+    "created_at"
+  ]
+}

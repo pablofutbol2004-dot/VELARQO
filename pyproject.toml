@@ -1,0 +1,29 @@
+[project]
+name = "velarqo"
+version = "0.1.0"
+description = "Niche-agnostic intelligence platform for B2B outreach, lead management, and revenue recovery"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.2",
+    "python-dotenv>=1.0",
+    "pydantic>=2.7",
+    "click>=8.1",
+    "rapidfuzz>=3.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+]
+
+[tool.setuptools.packages.find]
+include = [
+    "lib*", "data*", "config*", "outreach*", "pipelines*",
+    "reporting*", "prospecting*", "integrations*",
+    "client_onboarding*", "database_reactivation*",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
