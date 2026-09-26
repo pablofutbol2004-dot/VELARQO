@@ -7,9 +7,13 @@ import click
 import pandas as pd
 
 from data.db import get_connection, init_db
+from lib.ai.research import research_leads
 from lib.normalization.normalize import normalize_lead
 from lib.scoring.icp_score import meets_threshold, score_icp
+from outreach.campaign_builder.queue import build_campaign_queue
+from outreach.personalization.generator import generate_campaign_emails
 from prospecting.deduplication.dedupe import deduplicate
+from prospecting.enrichment.enrich import enrich_leads
 
 DEFAULT_ICP_PATH = Path(__file__).parents[2] / "config" / "templates" / "icp-template.json"
 
@@ -42,7 +46,15 @@ def run_pipeline(csv_path: Path, icp_path: Path = DEFAULT_ICP_PATH) -> list[dict
         lead["icp_score"] = score_icp(lead, icp)
         lead["qualified"] = meets_threshold(lead["icp_score"], icp)
 
+    leads = enrich_leads(leads)
+    leads = research_leads(leads, icp)
+
     return leads
+
+
+def build_campaign(leads: list[dict], icp: dict, sender_name: str = "The Team") -> dict:
+    emails = generate_campaign_emails(leads, icp, sender_name)
+    return build_campaign_queue(emails, icp)
 
 
 def save_leads(leads: list[dict]) -> None:
@@ -96,6 +108,14 @@ def main(csv_path: Path, icp_path: Path, save: bool) -> None:
     for lead in leads:
         status = "DUPLICATE" if lead.get("duplicate_of") else ("QUALIFIED" if lead.get("qualified") else "unqualified")
         click.echo(f"  [{status:10}] {lead['company_name']:30} score={lead.get('icp_score')}")
+
+    icp = load_icp(icp_path)
+    campaign = build_campaign(leads, icp)
+    click.echo(f"\nCampaign {campaign['campaign_id']} queued: {len(campaign['queue'])} emails")
+    for item in campaign["queue"]:
+        click.echo(f"\n--- {item['company_name']} (variant {item['variant_index']}, send {item['send_time']}) ---")
+        click.echo(f"Subject: {item['subject']}")
+        click.echo(item["body"])
 
     if save:
         save_leads(leads)
