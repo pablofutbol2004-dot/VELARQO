@@ -10,6 +10,7 @@ from data.db import get_connection, init_db
 from lib.ai.research import research_leads
 from lib.normalization.normalize import normalize_lead
 from lib.scoring.icp_score import meets_threshold, score_icp
+from lib.tracking.experiments import record_send
 from outreach.campaign_builder.queue import build_campaign_queue
 from outreach.personalization.generator import generate_campaign_emails
 from prospecting.deduplication.dedupe import deduplicate
@@ -119,7 +120,9 @@ def main(csv_path: Path, icp_path: Path, save: bool) -> None:
 
     if save:
         save_leads(leads)
-        click.echo("\nSaved to data/velarqo.db")
+        for item in campaign["queue"]:
+            record_send(item, vertical=icp.get("vertical"))
+        click.echo("\nSaved to data/velarqo.db (leads + experiment_result rows)")
 
 
 if __name__ == "__main__":
