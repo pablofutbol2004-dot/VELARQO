@@ -1,0 +1,28 @@
+{
+  "name": "reactivation_record",
+  "version": "1.0",
+  "description": "Historical customer record ingested for database reactivation",
+  "fields": {
+    "id": { "type": "string", "format": "uuid" },
+    "name": { "type": "string" },
+    "email": { "type": "string", "format": "email" },
+    "phone": { "type": "string" },
+    "postcode": { "type": "string" },
+    "lead_source": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "last_contact": { "type": "string", "format": "date-time" },
+    "quote_value": { "type": "number" },
+    "quote_status": { "type": "string", "enum": ["quoted", "lost", "won", "expired", "unknown"] },
+    "appointment_status": { "type": "string", "enum": ["booked", "attended", "no_show", "cancelled", "unknown"] },
+    "notes": { "type": "string" },
+    "lost_reason": { "type": "string", "enum": ["price", "timing", "competitor", "no_show", "not_ready", "unknown"] },
+    "segment": { "type": "string" },
+    "recovery_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "economic_priority": { "type": "number" },
+    "recommended_offer": { "type": "string" },
+    "angle": { "type": "string" },
+    "suppressed": { "type": "boolean" },
+    "suppression_reason": { "type": "string" }
+  },
+  "required": ["id", "name", "created_at"]
+}

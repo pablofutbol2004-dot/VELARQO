@@ -24,7 +24,8 @@ def load_icp(icp_path: Path) -> dict:
 
 
 def load_leads_from_csv(csv_path: Path) -> list[dict]:
-    df = pd.read_csv(csv_path).where(pd.notnull, None)
+    df = pd.read_csv(csv_path)
+    df = df.astype(object).where(df.notna(), None)
     leads = df.to_dict(orient="records")
     for lead in leads:
         lead["id"] = str(uuid.uuid4())

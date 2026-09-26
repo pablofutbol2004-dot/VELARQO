@@ -1,0 +1,11 @@
+name,email,phone,postcode,lead_source,created_at,last_contact,quote_value,quote_status,appointment_status,notes,lost_reason
+John Smith,john.smith@example.com,020 7946 0111,SW1A 1AA,crm_import,2026-01-10T00:00:00,2026-06-01T00:00:00,4500,lost,attended,Went quiet after quote,price
+John Smith,john.smith@example.com,020 7946 0111,SW1A 1AA,crm_import,2026-01-10T00:00:00,2026-06-01T00:00:00,4500,lost,attended,Duplicate record,price
+Jane Doe,jane.doe@example.com,0161 496 0222,M1 1AE,crm_import,2026-08-01T00:00:00,2026-09-10T00:00:00,3200,unknown,no_show,Rescheduled twice already,no_show
+Bob Wilson,bob.wilson@example.com,0121 496 0333,B1 1AA,crm_import,2024-02-01T00:00:00,2024-03-01T00:00:00,6000,lost,attended,Chose a competitor,competitor
+Alice Brown,alice.brown@example.com,0113 496 0444,LS1 1AA,crm_import,2026-05-01T00:00:00,2026-06-15T00:00:00,2800,quoted,attended,Still deciding,not_ready
+Carol Evans,carol.evans@example.com,0114 496 0555,S1 1AA,crm_import,2025-11-01T00:00:00,2025-12-01T00:00:00,5200,expired,attended,Quote lapsed no response,timing
+Dave Green,,0117 496 0666,BS1 1AA,crm_import,2026-02-01T00:00:00,2026-03-01T00:00:00,1500,lost,no_show,No valid email on file,unknown
+Eve Adams,eve.adams@example.com,0141 496 0777,G1 1AA,crm_import,2026-01-15T00:00:00,2026-02-15T00:00:00,3900,won,attended,Closed already please unsubscribe from marketing,unknown
+Frank Hall,frank.hall@example.com,029 2049 0888,CF1 1AA,crm_import,2024-06-01T00:00:00,2024-07-01T00:00:00,7200,lost,attended,Very old lost quote,competitor
+Grace King,grace.king@example.com,028 9024 0999,BT1 1AA,crm_import,2025-10-01T00:00:00,2025-11-15T00:00:00,4100,lost,no_show,No-show then went cold,no_show

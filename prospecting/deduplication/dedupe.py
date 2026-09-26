@@ -3,45 +3,47 @@ from rapidfuzz import fuzz
 FUZZY_MATCH_THRESHOLD = 90
 
 
-def _exact_key(lead: dict) -> tuple[str, str]:
-    return (lead.get("email") or "", lead.get("company_name") or "")
+def _exact_key(record: dict, name_field: str) -> tuple[str, str]:
+    return (record.get("email") or "", record.get(name_field) or "")
 
 
-def _is_fuzzy_match(a: dict, b: dict) -> bool:
-    if not a.get("company_name") or not b.get("company_name"):
+def _is_fuzzy_match(a: dict, b: dict, name_field: str) -> bool:
+    if not a.get(name_field) or not b.get(name_field):
         return False
     if a.get("postcode") != b.get("postcode"):
         return False
-    return fuzz.ratio(a["company_name"], b["company_name"]) >= FUZZY_MATCH_THRESHOLD
+    return fuzz.ratio(a[name_field], b[name_field]) >= FUZZY_MATCH_THRESHOLD
 
 
-def deduplicate(leads: list[dict]) -> list[dict]:
-    """Annotate each lead with duplicate_of (canonical lead id) or None.
+def deduplicate(records: list[dict], name_field: str = "company_name") -> list[dict]:
+    """Annotate each record with duplicate_of (canonical record id) or None.
 
-    Returns all input leads, in order, unmodified except for duplicate_of.
+    Returns all input records, in order, unmodified except for duplicate_of.
+    name_field selects which field holds the entity name (company_name for
+    leads, name for reactivation records) used in fuzzy matching.
     """
     seen_exact: dict[tuple[str, str], dict] = {}
     canonical: list[dict] = []
 
-    for lead in leads:
-        lead.setdefault("duplicate_of", None)
-        key = _exact_key(lead)
+    for record in records:
+        record.setdefault("duplicate_of", None)
+        key = _exact_key(record, name_field)
         existing = seen_exact.get(key)
         if existing is not None:
-            lead["duplicate_of"] = existing["id"]
+            record["duplicate_of"] = existing["id"]
             continue
-        seen_exact[key] = lead
-        canonical.append(lead)
+        seen_exact[key] = record
+        canonical.append(record)
 
     fuzzy_canonical: list[dict] = []
-    for lead in canonical:
+    for record in canonical:
         match = next(
-            (existing for existing in fuzzy_canonical if _is_fuzzy_match(lead, existing)),
+            (existing for existing in fuzzy_canonical if _is_fuzzy_match(record, existing, name_field)),
             None,
         )
         if match:
-            lead["duplicate_of"] = match["id"]
+            record["duplicate_of"] = match["id"]
         else:
-            fuzzy_canonical.append(lead)
+            fuzzy_canonical.append(record)
 
-    return leads
+    return records
