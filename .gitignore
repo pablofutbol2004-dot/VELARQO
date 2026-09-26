@@ -6,3 +6,5 @@ __pycache__/
 data/*.db
 .env
 *.egg-info/
+docs/ghl/api/official-docs/
+docs/ghl/api/sdk/

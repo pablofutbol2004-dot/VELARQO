@@ -1,0 +1,29 @@
+updated: 2026-09-27
+official:
+  support_portal: https://help.gohighlevel.com/support/solutions
+  developer_portal: https://marketplace.gohighlevel.com/docs/
+  developer_home: https://developers.gohighlevel.com/
+  api_docs_repo: https://github.com/GoHighLevel/highlevel-api-docs
+  js_sdk_repo: https://github.com/GoHighLevel/highlevel-api-sdk
+  php_sdk_repo: https://github.com/GoHighLevel/highlevel-api-php
+  oauth: https://marketplace.gohighlevel.com/docs/Authorization/OAuth2.0/
+  scopes: https://marketplace.gohighlevel.com/docs/Authorization/Scopes/
+  webhooks: https://marketplace.gohighlevel.com/docs/category/webhook/
+  webhook_events: https://marketplace.gohighlevel.com/docs/category/webhook/
+  rate_limits: https://marketplace.gohighlevel.com/docs/other/rate-limits/
+  api_changelog: https://marketplace.gohighlevel.com/docs/Changelog/
+  product_changelog: https://ideas.gohighlevel.com/changelog
+  api_support_article: https://help.gohighlevel.com/support/solutions/articles/48001060529
+high_priority_support:
+  contacts: https://help.gohighlevel.com/support/solutions/155000000123
+  conversations: https://help.gohighlevel.com/support/solutions/48000449587
+  workflows: https://help.gohighlevel.com/support/solutions/48000455132
+  calendars: https://help.gohighlevel.com/support/solutions/48000449585
+  marketing: https://help.gohighlevel.com/support/solutions/48000449565
+  sites: https://help.gohighlevel.com/support/solutions/48000449581
+  payments: https://help.gohighlevel.com/support/solutions/155000000067
+  phone: https://help.gohighlevel.com/support/solutions/48000415161
+  email: https://help.gohighlevel.com/support/solutions/48000449563
+  reporting: https://help.gohighlevel.com/support/solutions/48000451278
+  reputation: https://help.gohighlevel.com/support/solutions/48000449583
+  conversation_ai: https://help.gohighlevel.com/support/solutions/folders/155000000929
