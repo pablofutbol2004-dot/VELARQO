@@ -50,6 +50,20 @@ def test_angle_uses_website_evidence_only_when_site_was_actually_checked():
     assert unchecked["angle_key"] == "default"
 
 
+def test_weak_category_uses_icp_label_strong_category_is_specific():
+    weak = _researched("Leeds Window and Door Repairs", osm_category="shop=doors", city="Leeds")
+    strong = _researched("Cardiff Glazing", osm_category="craft=glaziery", city="Cardiff")
+
+    assert "looking at windows and doors firms in Leeds" in weak["observation"]
+    assert "looking at glazing firms in Cardiff" in strong["observation"]
+
+
+def test_copy_does_not_claim_a_track_record():
+    body = generate_campaign_emails([_researched("Acme Windows")], ICP)[0]["body"].lower()
+    for claim in ["in our experience", "we talk to", "our clients", "we've helped"]:
+        assert claim not in body
+
+
 def test_accreditation_mentioned_in_observation():
     lead = _researched("Acme Windows", website_status="ok", website_text="We are FENSA registered installers", city="Leeds")
     assert lead["observation"] == "Came across Acme Windows while looking at windows and doors firms in Leeds and saw you're FENSA registered."

@@ -98,6 +98,30 @@ def test_does_not_overwrite_existing_email():
     assert "info@acmewindows.co.uk" in result["emails_found"]
 
 
+def test_falls_back_to_http_when_schemeless_https_fails():
+    # Found live: warmseal.co.uk / repglass.com have broken https certs.
+    provider, session = _provider({"http://acmewindows.co.uk": FakeResponse(HOME_WITH_EMAIL)})
+    result = provider.enrich({"website": "acmewindows.co.uk"})
+
+    assert result["email"] == "info@acmewindows.co.uk"
+    assert session.requested.index("https://acmewindows.co.uk") < session.requested.index("http://acmewindows.co.uk")
+
+
+def test_falls_back_to_homepage_when_deep_link_is_dead():
+    # Found live: an OSM website pointing at a /leeds-windowrepair/ page that now 404s.
+    provider, _ = _provider({"https://acmewindows.co.uk/": FakeResponse(HOME_WITH_EMAIL)})
+    result = provider.enrich({"website": "https://acmewindows.co.uk/old-landing-page/"})
+
+    assert result["website_status"] == "ok"
+    assert result["email"] == "info@acmewindows.co.uk"
+
+
+def test_bot_protected_site_is_blocked_not_dead():
+    # Found live: seal-lite.co.uk returns 403. Up, just not welcoming bots.
+    provider, _ = _provider({"https://guarded.co.uk": FakeResponse("denied", status_code=403)})
+    assert provider.enrich({"website": "https://guarded.co.uk"}) == {"website_status": "blocked"}
+
+
 def test_unreachable_site_and_no_website():
     provider, _ = _provider({})
     assert provider.enrich({"website": "https://down.co.uk"}) == {"website_status": "unreachable"}

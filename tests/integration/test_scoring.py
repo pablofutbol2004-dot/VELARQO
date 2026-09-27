@@ -74,6 +74,14 @@ def test_website_content_is_evidence():
     assert with_site["qualified"]
 
 
+def test_dead_website_is_a_warning_not_a_contact_channel():
+    live = evaluate_lead(_lead("Halewood Windows", website="halewoodwindows.com"), ICP)
+    dead = evaluate_lead(_lead("Halewood Windows", website="halewoodwindows.com", website_status="unreachable"), ICP)
+
+    assert dead["breakdown"]["contactability"] < live["breakdown"]["contactability"]
+    assert any("unreachable" in r for r in dead["reasons"])
+
+
 def test_every_score_is_explained():
     result = evaluate_lead(_lead("Premier Doors", osm_category="shop=doors", phone="+441142000000"), ICP)
     assert result["reasons"]

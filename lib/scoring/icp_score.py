@@ -124,11 +124,15 @@ def _vertical_fit(lead: dict, icp: dict, name: str, reasons: list[str]) -> float
 
 
 def _contactability(lead: dict, reasons: list[str]) -> float:
+    website_dead = lead.get("website_status") == "unreachable"
+    if website_dead:
+        reasons.append("- website unreachable (business may have closed)")
+
     if lead.get("email"):
         source = " (from website)" if lead.get("email_source") == "website" else ""
         reasons.append(f"+ email {lead['email']}{source}")
         return 1.0
-    if lead.get("website"):
+    if lead.get("website") and not website_dead:
         reasons.append("- no email yet, but a website to find one")
         return 0.6
     if lead.get("phone"):

@@ -39,13 +39,15 @@ _ACCREDITATIONS = {
     "guild of master craftsmen": "a Guild of Master Craftsmen member",
 }
 
+# No "in our experience" / "installers we talk to": Velarqo has no client
+# track record yet, and copy must not imply one. Revisit once it does.
 DEFAULT_ANGLES = {
     "quote_driven": (
-        "you're clearly getting quote requests in already, and in our experience a lot of the money "
-        "is in the ones that go quiet after the quote goes out"
+        "you're clearly getting quote requests in already, and a lot of the value usually sits "
+        "in the ones that go quiet after the quote goes out"
     ),
     "default": (
-        "most {trade} we talk to have a few hundred old quotes sitting in a CRM or spreadsheet "
+        "most {trade} have a pile of old quotes sitting in a CRM or spreadsheet "
         "that never got a proper follow-up"
     ),
 }
@@ -56,14 +58,23 @@ def display_name(lead: dict) -> str:
 
 
 def industry_label(lead: dict, icp: dict) -> str:
+    fallback = icp.get("vertical_label") or icp.get("vertical") or "local"
+    labels = {**CATEGORY_LABELS, **icp.get("category_labels", {})}
     category = str(lead.get("osm_category") or "")
     value = category.split("=", 1)[-1] if category else str(lead.get("industry") or "")
-    labels = {**CATEGORY_LABELS, **icp.get("category_labels", {})}
+
+    weights = icp.get("osm_category_weights", {})
+    weight = weights.get(category) or next((w for k, w in weights.items() if k.split("=", 1)[-1] == value), None)
+    if weight is not None:
+        # A weak category (shop=doors under a windows ICP) describes the lead
+        # worse than the ICP's own label: "door firms" for a window+door company.
+        return labels.get(value, fallback) if weight >= 0.8 else fallback
+
     if value in labels:
         return labels[value]
     if value and "_" not in value and len(value) <= 60:
         return value
-    return icp.get("vertical_label") or icp.get("vertical") or "local"
+    return fallback
 
 
 def website_signals(lead: dict) -> list[str]:

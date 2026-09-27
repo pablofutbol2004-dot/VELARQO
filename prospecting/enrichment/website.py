@@ -25,6 +25,7 @@ _JUNK_EMAIL_DOMAINS = {"example.com", "domain.com", "yourdomain.com", "email.com
 _PREFERRED_LOCAL_PARTS = ["info", "enquiries", "enquiry", "sales", "hello", "contact", "office", "admin"]
 _CONTACT_LINK_HINTS = ("contact", "get-in-touch", "getintouch", "enquir")
 _MAX_TEXT_CHARS = 6000
+_BLOCKED_STATUS_CODES = {401, 403, 429, 503}
 
 
 class _PageParser(HTMLParser):
@@ -81,13 +82,21 @@ class _PageParser(HTMLParser):
         return " ".join(self.text_parts)
 
 
-def _normalize_url(website: str) -> str | None:
+def _candidate_urls(website: str) -> list[str]:
+    """URLs to try in order. Found live: schemeless OSM websites that only
+    work over http (broken https cert), and deep links that now 404 while
+    the homepage is fine."""
     website = website.strip()
     if not website:
-        return None
-    url = website if "://" in website else f"https://{website}"
-    parsed = urlparse(url)
-    return url if parsed.hostname else None
+        return []
+    urls = [website] if "://" in website else [f"https://{website}", f"http://{website}"]
+    for url in list(urls):
+        parsed = urlparse(url)
+        if not parsed.hostname:
+            return []
+        if parsed.path not in ("", "/"):
+            urls.append(f"{parsed.scheme}://{parsed.netloc}/")
+    return list(dict.fromkeys(urls))
 
 
 def _host(url: str) -> str:
@@ -151,6 +160,7 @@ class WebsiteEnrichmentProvider:
         self.timeout = timeout
         self.fetch_contact_page = fetch_contact_page
         self._robots: dict[str, RobotFileParser | None] = {}
+        self._last_failure: str | None = None
 
     def _get(self, url: str) -> requests.Response | None:
         self.rate_limiter.acquire()
@@ -162,8 +172,15 @@ class WebsiteEnrichmentProvider:
                 allow_redirects=True,
             )
         except requests.RequestException:
+            self._last_failure = "unreachable"
+            return None
+        if response.status_code in _BLOCKED_STATUS_CODES:
+            # Bot protection/rate limiting: the site is up, we're just not
+            # welcome. Not a sign the business closed, and not something to bypass.
+            self._last_failure = "blocked"
             return None
         if response.status_code >= 400:
+            self._last_failure = "unreachable"
             return None
         return response
 
@@ -184,8 +201,12 @@ class WebsiteEnrichmentProvider:
     def _fetch_page(self, url: str) -> tuple[_PageParser, str] | None:
         if not self._allowed(url):
             return None
+        self._last_failure = None
         response = self._get(url)
-        if response is None or "html" not in response.headers.get("Content-Type", "html").lower():
+        if response is None:
+            return None
+        if "html" not in response.headers.get("Content-Type", "html").lower():
+            self._last_failure = "unreachable"
             return None
         page = _PageParser()
         try:
@@ -196,16 +217,22 @@ class WebsiteEnrichmentProvider:
 
     def enrich(self, lead: dict) -> dict:
         website = lead.get("website")
-        base_url = _normalize_url(website) if isinstance(website, str) else None
-        if not base_url:
+        candidates = _candidate_urls(website) if isinstance(website, str) else []
+        if not candidates:
             return {}
 
-        if not self._allowed(base_url):
-            return {"website_status": "robots_disallowed"}
-
-        fetched = self._fetch_page(base_url)
+        fetched = None
+        failures = set()
+        for url in candidates:
+            if not self._allowed(url):
+                failures.add("robots_disallowed")
+                continue
+            if fetched := self._fetch_page(url):
+                break
+            failures.add(self._last_failure or "unreachable")
         if fetched is None:
-            return {"website_status": "unreachable"}
+            status = next(s for s in ("robots_disallowed", "blocked", "unreachable") if s in failures)
+            return {"website_status": status}
         home, final_url = fetched
         site_domain = _host(final_url)
 
