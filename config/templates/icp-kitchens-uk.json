@@ -6,13 +6,22 @@
   "company_size_max": 300,
   "revenue_min": 300000,
   "revenue_max": 8000000,
-  "industry_keywords": [
-    "kitchen",
-    "kitchen fitting",
-    "cabinetry",
-    "worktop",
-    "kitchen design"
-  ],
+  "vertical_label": "kitchen",
+  "trade_noun": "kitchen fitters",
+  "core_terms": ["kitchen", "worktop", "cabinet", "cabinetry"],
+  "adjacent_terms": ["joinery", "carpenter", "interiors", "bespoke furniture"],
+  "negative_terms": ["appliance", "takeaway", "restaurant", "catering", "supplies", "wholesale"],
+  "known_chains": ["magnet", "howdens", "wren", "b&q", "wickes", "dream doors"],
+  "chain_penalty": 0.5,
+  "osm_category_weights": {
+    "shop=kitchen": 1.0,
+    "craft=cabinet_maker": 0.7,
+    "craft=carpenter": 0.4
+  },
+  "min_vertical_fit": 0.5,
+  "required_channel": "email",
+  "offer_line": "We run follow-up campaigns on those old quotes for {trade} and turn a share of them into booked design visits. It's performance-based, so there's nothing to pay unless it works.",
+  "sender_name": "[Your name]",
   "excluded_keywords": [
     "reseller",
     "distributor",
@@ -30,7 +39,6 @@
     "deal_value",
     "last_contacted"
   ],
-  "email_variants": 3,
   "sequence_length": 7,
   "sequence_interval_days": [
     0,

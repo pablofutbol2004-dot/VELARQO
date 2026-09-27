@@ -9,7 +9,10 @@ DEFAULT_USER_AGENT = "velarqo-lead-sourcing/0.1 (contact: set SENDER_EMAIL env v
 
 # Columns match pipelines/cold_outreach/pipeline.py's expected CSV shape,
 # so output from this CLI can be fed straight into that pipeline.
-CSV_COLUMNS = ["company_name", "website", "email", "phone", "postcode", "company_size", "revenue", "industry", "lead_source"]
+CSV_COLUMNS = [
+    "company_name", "website", "email", "phone", "postcode", "address", "city",
+    "company_size", "revenue", "industry", "osm_category", "brand", "lead_source",
+]
 
 
 def _dedupe_raw(leads: list[dict]) -> list[dict]:

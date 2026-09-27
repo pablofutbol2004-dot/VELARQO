@@ -6,18 +6,38 @@
   "company_size_max": 500,
   "revenue_min": 500000,
   "revenue_max": 10000000,
-  "industry_keywords": [
-    "windows",
-    "installation",
-    "double-glazing",
-    "UPVC",
-    "frames"
+  "vertical_label": "windows and doors",
+  "trade_noun": "window and door installers",
+  "core_terms": [
+    "window", "double glazing", "double glazed", "glazing", "glazier", "glaze",
+    "upvc", "sash", "casement", "bifold", "bi fold", "conservator"
   ],
+  "adjacent_terms": ["door", "glass", "frame", "joinery", "roofline", "fascia", "composite"],
+  "negative_terms": [
+    "blind", "window film", "tint", "mirror", "shutter", "garage door", "shopfront",
+    "windscreen", "supplies", "supplier", "wholesale", "trade"
+  ],
+  "known_chains": [
+    "anglian", "everest", "safestyle", "zenith", "coral windows", "glassolutions", "dream doors", "crittall"
+  ],
+  "chain_penalty": 0.5,
+  "osm_category_weights": {
+    "craft=window_construction": 1.0,
+    "craft=glaziery": 0.8,
+    "shop=glaziery": 0.7,
+    "shop=doors": 0.5,
+    "craft=carpenter": 0.3,
+    "shop=window_blind": 0.1
+  },
+  "min_vertical_fit": 0.5,
+  "required_channel": "email",
   "excluded_keywords": [
     "reseller",
     "distributor",
     "manufacturer"
   ],
+  "offer_line": "We run follow-up campaigns on those old quotes for {trade} and turn a share of them into booked surveys. It's performance-based, so there's nothing to pay unless it works.",
+  "sender_name": "[Your name]",
   "enrichment_priority": [
     "linkedin",
     "email",
@@ -30,7 +50,6 @@
     "deal_value",
     "last_contacted"
   ],
-  "email_variants": 3,
   "sequence_length": 7,
   "sequence_interval_days": [
     0,

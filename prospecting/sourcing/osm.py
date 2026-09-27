@@ -64,6 +64,7 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
         return None
 
     address_parts = [tags.get(k) for k in ("addr:housenumber", "addr:street", "addr:city") if tags.get(k)]
+    category_key = next((k for k in ("shop", "craft", "office") if tags.get(k)), None)
 
     return {
         "company_name": name,
@@ -72,7 +73,11 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
         "phone": tags.get("phone") or tags.get("contact:phone"),
         "postcode": tags.get("addr:postcode"),
         "address": " ".join(address_parts) or None,
-        "industry": tags.get("shop") or tags.get("craft") or tags.get("office"),
+        "city": tags.get("addr:city"),
+        "industry": tags.get(category_key) if category_key else None,
+        "osm_category": f"{category_key}={tags[category_key]}" if category_key else None,
+        # OSM marks chain branches with brand/brand:wikidata - free chain detection.
+        "brand": tags.get("brand") or (tags.get("name") if tags.get("brand:wikidata") else None),
         "lead_source": lead_source,
         "osm_id": element.get("id"),
     }

@@ -25,11 +25,14 @@ def normalize_email(email: str) -> str | None:
     return cleaned if _EMAIL_RE.match(cleaned) else None
 
 
+_MIN_PHONE_DIGITS = 9
+
+
 def normalize_phone(phone: str, default_country_code: str = "44") -> str | None:
     if not phone:
         return None
-    digits = re.sub(r"[^\d+]", "", phone)
-    if not digits:
+    digits = re.sub(r"[^\d+]", "", str(phone))
+    if sum(c.isdigit() for c in digits) < _MIN_PHONE_DIGITS:
         return None
     if digits.startswith("+"):
         return digits
@@ -51,8 +54,12 @@ def normalize_postcode(postcode: str) -> str | None:
 
 
 def normalize_lead(raw: dict) -> dict:
+    # company_name is a matching key (suffixes/punctuation stripped for
+    # dedupe); display_name keeps the real name for anything a human reads.
+    display_name = raw.get("display_name") or re.sub(r"\s+", " ", str(raw.get("company_name") or "")).strip()
     return {
         **raw,
+        "display_name": display_name,
         "company_name": normalize_company_name(raw.get("company_name", "")),
         "email": normalize_email(raw.get("email", "")),
         "phone": normalize_phone(raw.get("phone", "")),
