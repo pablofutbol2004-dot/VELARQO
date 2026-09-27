@@ -35,9 +35,13 @@ def load_leads_from_csv(csv_path: Path) -> list[dict]:
     return leads
 
 
-def run_pipeline(csv_path: Path, icp_path: Path = DEFAULT_ICP_PATH) -> list[dict]:
-    icp = load_icp(icp_path)
-    leads = load_leads_from_csv(csv_path)
+def run_pipeline_on_leads(leads: list[dict], icp: dict) -> list[dict]:
+    """Core processing, independent of where leads came from (a raw CSV,
+    or already-mapped records from client_onboarding.intake.run_intake()).
+    """
+    for lead in leads:
+        lead.setdefault("id", str(uuid.uuid4()))
+        lead.setdefault("created_at", datetime.now(timezone.utc).isoformat())
 
     leads = [normalize_lead(lead) for lead in leads]
     leads = deduplicate(leads)
@@ -54,6 +58,12 @@ def run_pipeline(csv_path: Path, icp_path: Path = DEFAULT_ICP_PATH) -> list[dict
     leads = research_leads(leads, icp)
 
     return leads
+
+
+def run_pipeline(csv_path: Path, icp_path: Path = DEFAULT_ICP_PATH) -> list[dict]:
+    icp = load_icp(icp_path)
+    leads = load_leads_from_csv(csv_path)
+    return run_pipeline_on_leads(leads, icp)
 
 
 def build_campaign(leads: list[dict], icp: dict, sender_name: str = "The Team") -> dict:

@@ -8,13 +8,14 @@ FIXTURE = Path(__file__).parents[1] / "fixtures" / "messy_client_export.csv"
 
 def test_build_column_mapping_handles_exact_and_fuzzy_aliases():
     mapping = build_column_mapping([
-        "Business Name", "Contact Email", "Tel", "Zip Code",
+        "Business Name", "Contact Email", "Tel", "Zip Code", "Industry",
         "Deal Value", "Opportunity Status", "Meeting Status", "Loss Reason",
     ])
     assert mapping["Business Name"] == "company_name"
     assert mapping["Contact Email"] == "email"
     assert mapping["Tel"] == "phone"
     assert mapping["Zip Code"] == "postcode"
+    assert mapping["Industry"] == "industry"
     assert mapping["Deal Value"] == "quote_value"
     assert mapping["Opportunity Status"] == "quote_status"
     assert mapping["Meeting Status"] == "appointment_status"

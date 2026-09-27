@@ -1,0 +1,6 @@
+company_name,website,email,phone,postcode,company_size,revenue,industry,lead_source
+Bespoke Kitchens Ltd,bespokekitchens.co.uk,info@bespokekitchens.co.uk,020 7946 2000,SW1A 3AA,40,1500000,bespoke kitchen design and fitting,csv_import
+Worktop Wizards,worktopwizards.co.uk,hello@worktopwizards.co.uk,0161 496 2001,M1 3AE,20,900000,kitchen worktop specialists,csv_import
+Acme Windows Ltd,acmewindows.co.uk,info@acmewindows.co.uk,020 7946 0958,SW1A 1AA,45,1200000,windows and double-glazing,csv_import
+Solar Solutions Co,solarsolutions.co.uk,hello@solarsolutions.co.uk,0121 496 0002,B1 1AA,25,800000,solar panels,csv_import
+Premier Roofing PLC,premierroofing.co.uk,quotes@premierroofing.co.uk,0114 496 0004,S1 1AA,120,5000000,roofing,csv_import

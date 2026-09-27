@@ -28,8 +28,14 @@ def load_records_from_csv(csv_path: Path) -> list[dict]:
     return records
 
 
-def run_pipeline(csv_path: Path) -> list[dict]:
-    records = load_records_from_csv(csv_path)
+def run_pipeline_on_records(records: list[dict]) -> list[dict]:
+    """Core processing, independent of where records came from (a raw CSV,
+    or already-mapped records from client_onboarding.intake.run_intake()).
+    """
+    for record in records:
+        record.setdefault("id", str(uuid.uuid4()))
+        record.setdefault("created_at", datetime.now(timezone.utc).isoformat())
+
     records = [normalize_record(r) for r in records]
     records = deduplicate(records, name_field="name")
     records = segment_records(records)
@@ -37,6 +43,11 @@ def run_pipeline(csv_path: Path) -> list[dict]:
     records = recommend_campaigns(records)
     records = apply_suppression(records)
     return records
+
+
+def run_pipeline(csv_path: Path) -> list[dict]:
+    records = load_records_from_csv(csv_path)
+    return run_pipeline_on_records(records)
 
 
 @click.command()

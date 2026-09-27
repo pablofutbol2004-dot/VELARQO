@@ -24,6 +24,7 @@ _CANONICAL_ALIASES: dict[str, list[str]] = {
     "lost_reason": ["lost reason", "loss reason", "reason lost"],
     "last_contact": ["last contact", "last contacted", "last activity"],
     "notes": ["notes", "comments", "remarks"],
+    "industry": ["industry", "business type", "category", "vertical", "trade"],
 }
 
 

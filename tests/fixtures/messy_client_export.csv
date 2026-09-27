@@ -1,4 +1,4 @@
-Business Name,Contact Email,Tel,Zip Code,Deal Value,Opportunity Status,Meeting Status,Loss Reason
-Windowcraft Ltd,sales@windowcraft.co.uk,020 7946 1000,SW1A 2AA,4800,lost,attended,price
-Framemasters,contact@framemasters.co.uk,0161 496 1001,M1 2AE,3600,quoted,attended,
-Bad Data Co,not-an-email,123,,,,,
+Business Name,Contact Email,Tel,Zip Code,Industry,Deal Value,Opportunity Status,Meeting Status,Loss Reason
+Windowcraft Ltd,sales@windowcraft.co.uk,020 7946 1000,SW1A 2AA,windows and double-glazing installation,4800,lost,attended,price
+Framemasters,contact@framemasters.co.uk,0161 496 1001,M1 2AE,UPVC window frames,3600,quoted,attended,
+Bad Data Co,not-an-email,123,,kitchen fitting,,,,

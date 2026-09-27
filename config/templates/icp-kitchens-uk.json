@@ -1,0 +1,52 @@
+{
+  "name": "Kitchens UK",
+  "vertical": "kitchens",
+  "country": "UK",
+  "company_size_min": 5,
+  "company_size_max": 300,
+  "revenue_min": 300000,
+  "revenue_max": 8000000,
+  "industry_keywords": [
+    "kitchen",
+    "kitchen fitting",
+    "cabinetry",
+    "worktop",
+    "kitchen design"
+  ],
+  "excluded_keywords": [
+    "reseller",
+    "distributor",
+    "manufacturer"
+  ],
+  "enrichment_priority": [
+    "linkedin",
+    "email",
+    "phone"
+  ],
+  "qualification_score_threshold": 65,
+  "personalization_fields": [
+    "recent_news",
+    "company_size",
+    "deal_value",
+    "last_contacted"
+  ],
+  "email_variants": 3,
+  "sequence_length": 7,
+  "sequence_interval_days": [
+    0,
+    3,
+    5,
+    7,
+    10,
+    14,
+    21
+  ],
+  "optimal_send_time": "09:00",
+  "optimal_send_day": "Tuesday",
+  "reply_classification_model": "domain_specific",
+  "target_metrics": {
+    "appointments_per_100_leads": 8,
+    "close_rate": 0.25,
+    "average_deal_value": 6000
+  }
+}
