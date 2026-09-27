@@ -7,6 +7,8 @@ import click
 import pandas as pd
 
 from data.db import get_connection, init_db
+from integrations.ghl.client import GHLClient
+from integrations.ghl.sync import sync_leads
 from lib.ai.research import research_leads
 from lib.normalization.normalize import normalize_lead
 from lib.scoring.icp_score import meets_threshold, score_icp
@@ -68,8 +70,8 @@ def save_leads(leads: list[dict]) -> None:
                 """
                 INSERT OR REPLACE INTO lead
                 (id, company_name, website, email, phone, postcode, lead_source,
-                 created_at, normalized, icp_score, duplicate_of)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 created_at, normalized, icp_score, duplicate_of, ghl_contact_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     lead["id"],
@@ -83,6 +85,7 @@ def save_leads(leads: list[dict]) -> None:
                     1 if lead.get("normalized") else 0,
                     lead.get("icp_score"),
                     lead.get("duplicate_of"),
+                    lead.get("ghl_contact_id"),
                 ),
             )
         conn.commit()
@@ -94,8 +97,17 @@ def save_leads(leads: list[dict]) -> None:
 @click.argument("csv_path", type=click.Path(exists=True, path_type=Path))
 @click.option("--icp", "icp_path", type=click.Path(exists=True, path_type=Path), default=DEFAULT_ICP_PATH)
 @click.option("--save/--no-save", default=True, help="Persist results to the SQLite database")
-def main(csv_path: Path, icp_path: Path, save: bool) -> None:
+@click.option("--ghl-token", envvar="GHL_API_TOKEN", default=None, help="GHL Private Integration Token (optional)")
+@click.option("--ghl-location", envvar="GHL_LOCATION_ID", default=None, help="GHL Location ID (required if --ghl-token is set)")
+def main(csv_path: Path, icp_path: Path, save: bool, ghl_token: str | None, ghl_location: str | None) -> None:
     leads = run_pipeline(csv_path, icp_path)
+
+    if ghl_token:
+        if not ghl_location:
+            raise click.UsageError("--ghl-location is required when --ghl-token is set")
+        client = GHLClient(api_token=ghl_token, location_id=ghl_location)
+        leads = sync_leads(client, leads)
+        click.echo(f"Synced {sum(1 for l in leads if l.get('ghl_contact_id'))} contacts to GHL\n")
 
     total = len(leads)
     duplicates = sum(1 for lead in leads if lead.get("duplicate_of"))

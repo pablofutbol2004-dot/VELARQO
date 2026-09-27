@@ -4,6 +4,7 @@ from pathlib import Path
 _GHL_COLUMNS = [
     "name", "email", "phone", "postcode", "segment",
     "recovery_score", "economic_priority", "recommended_offer", "angle",
+    "ghl_contact_id",
 ]
 
 

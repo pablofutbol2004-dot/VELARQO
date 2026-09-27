@@ -7,7 +7,9 @@ import pandas as pd
 
 from database_reactivation.campaign_generator.recommend import recommend_campaigns
 from database_reactivation.segmentation.suppression import apply_suppression
+from integrations.ghl.client import GHLClient
 from integrations.ghl.export import export_for_ghl
+from integrations.ghl.sync import sync_reactivation_records
 from lib.normalization.normalize_contact import normalize_record
 from lib.scoring.recovery_score import score_records
 from lib.segmentation.segment import segment_records
@@ -40,8 +42,17 @@ def run_pipeline(csv_path: Path) -> list[dict]:
 @click.command()
 @click.argument("csv_path", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", "output_path", type=click.Path(path_type=Path), default=DEFAULT_OUTPUT_PATH)
-def main(csv_path: Path, output_path: Path) -> None:
+@click.option("--ghl-token", envvar="GHL_API_TOKEN", default=None, help="GHL Private Integration Token (optional)")
+@click.option("--ghl-location", envvar="GHL_LOCATION_ID", default=None, help="GHL Location ID (required if --ghl-token is set)")
+def main(csv_path: Path, output_path: Path, ghl_token: str | None, ghl_location: str | None) -> None:
     records = run_pipeline(csv_path)
+
+    if ghl_token:
+        if not ghl_location:
+            raise click.UsageError("--ghl-location is required when --ghl-token is set")
+        client = GHLClient(api_token=ghl_token, location_id=ghl_location)
+        records = sync_reactivation_records(client, records)
+        click.echo(f"Synced {sum(1 for r in records if r.get('ghl_contact_id'))} contacts to GHL\n")
 
     total = len(records)
     duplicates = sum(1 for r in records if r.get("duplicate_of"))
