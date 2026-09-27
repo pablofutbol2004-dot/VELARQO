@@ -1,5 +1,16 @@
 # Business Platform Architecture
 
+> **Correction (2026-09-27):** this document was written before the send
+> channel was decided and shows "GHL" as the execution/send layer for
+> Velarqo's own cold outreach below. That's wrong — Velarqo's own outreach
+> sends through Google Workspace (Gmail API) or Outlook (Microsoft Graph),
+> via `integrations/email/`. GHL is reserved for a signed client's
+> fulfillment (their CRM/pipeline/communications), not for Velarqo's own
+> prospecting. See `README.md` and `docs/ghl/VELARQO_PRIORITY.md` for the
+> corrected split. Every "Sync to GHL" / "GODHIGHLEVEL (Execution)" step
+> below should be read as "send via Google Workspace/Outlook" instead,
+> wherever it refers to Velarqo's own outreach rather than a client's.
+
 ## High-Level Flow
 
 ```

@@ -10,14 +10,27 @@ Niche-agnostic intelligence engine for B2B outreach, lead management, and revenu
 
 ## Architecture
 
+Velarqo's own outreach (acquiring clients) and a signed client's execution
+layer (running their business) are two different systems using two
+different channels — don't conflate them:
+
 ```
+Velarqo's own cold outreach (acquiring clients):
 CSV Input → Prospecting Pipeline → Outreach Pipeline → Reply Tracking → Analytics
                                          ↓
-                                  GHL Integration
-                                  (CRM, communication, execution)
+                              Google Workspace / Outlook
+                              (integrations/email/ - Velarqo's own mailbox)
                                          ↓
                                     Appointments & Sales
+
+A signed client's fulfillment (running their business, later):
+                                  GHL Integration
+                          (client's CRM, communication, execution)
 ```
+
+GHL is not the send channel for Velarqo's own prospecting — it's reserved
+for client fulfillment once a client signs up. See
+`docs/ghl/VELARQO_PRIORITY.md` and `docs/ghl/GHL_FOR_VELARQO.md`.
 
 ## Modules
 
@@ -41,10 +54,10 @@ CSV Input → Prospecting Pipeline → Outreach Pipeline → Reply Tracking → 
 - `lib/tracking/` - Campaign and experiment tracking
 
 ### Integration Layer
-- `integrations/ghl/` - GoHighLevel sync
-- `integrations/email/` - Email provider (SendGrid, etc.)
+- `integrations/email/` - Velarqo's own outreach send channel: Gmail API (Google Workspace) and Outlook (Microsoft Graph)
+- `integrations/ghl/` - GoHighLevel sync, for client fulfillment (not Velarqo's own outreach)
 - `integrations/sms/` - SMS provider
-- `integrations/google-sheets/` - Data import/export
+- `integrations/google_sheets/` - Data import/export
 - `integrations/webhooks/` - Reply tracking
 
 ### Configuration
@@ -65,7 +78,7 @@ CSV Input → Prospecting Pipeline → Outreach Pipeline → Reply Tracking → 
 
 1. **Niche Agnostic** - Change ICP template, prompts, and data → runs for windows, kitchens, solar, roofing, etc.
 2. **Synthetic Data Ready** - Build and test against fake CSV before real campaigns
-3. **GHL Complementary** - We handle intelligence; GHL handles execution
+3. **Two separate execution layers** - Velarqo's own outreach sends via Google Workspace/Outlook; GHL is the client's execution layer once they sign up
 4. **Metrics First** - Every email tracked for experimentation
 5. **Proprietary Moat** - After 10 clients, dataset becomes competitive advantage
 

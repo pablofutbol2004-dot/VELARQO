@@ -7,6 +7,9 @@ import click
 import pandas as pd
 
 from data.db import get_connection, init_db
+from integrations.email.gmail import GmailProvider
+from integrations.email.outlook import OutlookProvider
+from integrations.email.sender import send_campaign
 from integrations.ghl.client import GHLClient
 from integrations.ghl.sync import sync_leads
 from lib.ai.research import research_leads
@@ -109,7 +112,19 @@ def save_leads(leads: list[dict]) -> None:
 @click.option("--save/--no-save", default=True, help="Persist results to the SQLite database")
 @click.option("--ghl-token", envvar="GHL_API_TOKEN", default=None, help="GHL Private Integration Token (optional)")
 @click.option("--ghl-location", envvar="GHL_LOCATION_ID", default=None, help="GHL Location ID (required if --ghl-token is set)")
-def main(csv_path: Path, icp_path: Path, save: bool, ghl_token: str | None, ghl_location: str | None) -> None:
+@click.option("--email-provider", type=click.Choice(["gmail", "outlook"]), default=None, help="Actually send the campaign via this provider (optional)")
+@click.option("--email-token", envvar="EMAIL_ACCESS_TOKEN", default=None, help="OAuth2 access token for --email-provider")
+@click.option("--sender-email", envvar="SENDER_EMAIL", default=None, help="Sending mailbox address (required for --email-provider gmail)")
+def main(
+    csv_path: Path,
+    icp_path: Path,
+    save: bool,
+    ghl_token: str | None,
+    ghl_location: str | None,
+    email_provider: str | None,
+    email_token: str | None,
+    sender_email: str | None,
+) -> None:
     leads = run_pipeline(csv_path, icp_path)
 
     if ghl_token:
@@ -140,6 +155,19 @@ def main(csv_path: Path, icp_path: Path, save: bool, ghl_token: str | None, ghl_
         click.echo(f"\n--- {item['company_name']} (variant {item['variant_index']}, send {item['send_time']}) ---")
         click.echo(f"Subject: {item['subject']}")
         click.echo(item["body"])
+
+    if email_provider:
+        if not email_token:
+            raise click.UsageError("--email-token is required when --email-provider is set")
+        if email_provider == "gmail":
+            if not sender_email:
+                raise click.UsageError("--sender-email is required when --email-provider gmail is set")
+            provider = GmailProvider(access_token=email_token, sender_email=sender_email)
+        else:
+            provider = OutlookProvider(access_token=email_token)
+        campaign = send_campaign(provider, campaign)
+        sent_count = sum(1 for item in campaign["queue"] if item["status"] == "sent")
+        click.echo(f"\nSent {sent_count}/{len(campaign['queue'])} emails via {email_provider}")
 
     if save:
         save_leads(leads)

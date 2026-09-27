@@ -11,7 +11,7 @@ import time
 
 import requests
 
-from integrations.ghl.rate_limiter import RateLimiter
+from lib.rate_limiter import RateLimiter
 
 BASE_URL = "https://services.leadconnectorhq.com"
 API_VERSION = "v3"
