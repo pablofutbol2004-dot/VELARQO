@@ -78,7 +78,7 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
     }
 
 
-_TRANSIENT_STATUS_CODES = {502, 503, 504}
+_TRANSIENT_STATUS_CODES = {429, 502, 503, 504}
 
 
 def find_businesses(
@@ -120,7 +120,8 @@ def find_businesses(
         if response.status_code not in _TRANSIENT_STATUS_CODES:
             break
         if attempt < max_retries:
-            sleep(2**attempt)
+            retry_after = response.headers.get("Retry-After")
+            sleep(float(retry_after) if retry_after else 2**attempt)
 
     response.raise_for_status()
 

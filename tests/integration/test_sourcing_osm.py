@@ -11,9 +11,10 @@ ICP_PATH = Path(__file__).parents[2] / "config" / "templates" / "icp-template.js
 
 
 class FakeResponse:
-    def __init__(self, json_data, status_code=200):
+    def __init__(self, json_data, status_code=200, headers=None):
         self._json = json_data
         self.status_code = status_code
+        self.headers = headers or {}
 
     def raise_for_status(self):
         if self.status_code >= 400:
@@ -120,6 +121,29 @@ def test_find_businesses_retries_on_transient_5xx_then_succeeds():
     assert len(leads) == 1
     assert sleeps == [1]
     assert len(session.post_calls) == 2
+
+
+def test_find_businesses_respects_retry_after_header_on_429():
+    sleeps = []
+    session = FakeSession(
+        get_response=FakeResponse(NOMINATIM_RESPONSE),
+        post_responses=[
+            FakeResponse({}, status_code=429, headers={"Retry-After": "5"}),
+            FakeResponse(OVERPASS_RESPONSE, status_code=200),
+        ],
+    )
+
+    leads = find_businesses(
+        "Manchester, UK",
+        tags=[("shop", "window_blind")],
+        user_agent="velarqo-test/0.1",
+        session=session,
+        rate_limiter=_no_op_rate_limiter(),
+        sleep=sleeps.append,
+    )
+
+    assert len(leads) == 1
+    assert sleeps == [5.0]
 
 
 def test_find_businesses_gives_up_after_max_retries():

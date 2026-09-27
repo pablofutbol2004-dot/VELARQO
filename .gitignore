@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 data/*.db
+data/*.csv
 .env
 *.egg-info/
 docs/ghl/api/official-docs/
