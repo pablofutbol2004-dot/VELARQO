@@ -1,4 +1,5 @@
 import csv
+import json
 from pathlib import Path
 
 import click
@@ -11,7 +12,7 @@ DEFAULT_USER_AGENT = "velarqo-lead-sourcing/0.1 (contact: set SENDER_EMAIL env v
 # so output from this CLI can be fed straight into that pipeline.
 CSV_COLUMNS = [
     "company_name", "website", "email", "phone", "postcode", "address", "city",
-    "company_size", "revenue", "industry", "osm_category", "brand", "lat", "lon", "osm_id", "lead_source",
+    "company_size", "revenue", "industry", "osm_category", "brand", "lat", "lon", "osm_id", "lead_source", "osm_tags",
 ]
 
 
@@ -80,7 +81,9 @@ def main(
             writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
             writer.writeheader()
             for lead in unique_leads:
-                writer.writerow({col: lead.get(col, "") for col in CSV_COLUMNS})
+                row = {col: lead.get(col, "") for col in CSV_COLUMNS}
+                row["osm_tags"] = json.dumps(lead.get("osm_tags") or {}, ensure_ascii=False)
+                writer.writerow(row)
         click.echo(f"\nWrote {len(unique_leads)} leads to {output_path}")
 
 

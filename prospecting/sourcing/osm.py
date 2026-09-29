@@ -122,6 +122,9 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
         "lon": element.get("lon") or center.get("lon"),
         "lead_source": lead_source,
         "osm_id": f"{element.get('type', 'node')}/{element.get('id')}",
+        # every tag as mapped (opening_hours, operator, fhrs:id, check_date...),
+        # kept so nothing is lost to the fields we happen to use today
+        "osm_tags": tags,
     }
 
 

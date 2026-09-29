@@ -9,6 +9,7 @@ host still sees at most ~2 requests/second.
 import json
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
 from pathlib import Path
 
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
@@ -44,10 +45,12 @@ def enrich_websites(
     def enrich_one(website: str) -> tuple[str, dict]:
         if not hasattr(local, "provider"):
             local.provider = WebsiteEnrichmentProvider(user_agent=user_agent)
+        fetched_at = datetime.now(timezone.utc).isoformat()
         try:
-            return website, local.provider.enrich({"website": website})
+            result = local.provider.enrich({"website": website})
         except Exception as exc:  # one malformed site must not kill a multi-hour batch
-            return website, {"website_status": "error", "website_error": type(exc).__name__}
+            result = {"website_status": "error", "website_error": type(exc).__name__}
+        return website, {**result, "website_fetched_at": fetched_at}
 
     cache_file = cache_path.open("a", encoding="utf-8") if cache_path else None
     try:

@@ -9,6 +9,7 @@ it is actually reachable.
 """
 
 import csv
+import json
 import uuid
 from collections import Counter
 from datetime import datetime, timezone
@@ -24,9 +25,20 @@ from prospecting.deduplication.merge import merge_sources
 from prospecting.enrichment.batch import enrich_websites as enrich_websites_batch
 
 
+_JSON_COLUMNS = ("osm_tags", "ch_raw")
+
+
 def load_csv(path: Path) -> list[dict]:
+    csv.field_size_limit(10_000_000)
+    rows = []
     with path.open(newline="", encoding="utf-8") as f:
-        return [{k: (v if v != "" else None) for k, v in row.items()} for row in csv.DictReader(f)]
+        for row in csv.DictReader(f):
+            row = {k: (v if v != "" else None) for k, v in row.items()}
+            for column in _JSON_COLUMNS:
+                if row.get(column):
+                    row[column] = json.loads(row[column])
+            rows.append(row)
+    return rows
 
 
 def build_universe(sources: list[list[dict]], icp: dict, enrich=None) -> list[dict]:
@@ -89,7 +101,8 @@ def coverage_report(raw_counts: dict[str, int], leads: list[dict]) -> list[str]:
 @click.option("--cache", "cache_path", type=click.Path(path_type=Path), default=Path("data/website_enrichment_cache.jsonl"), show_default=True)
 @click.option("--export", "export_path", type=click.Path(path_type=Path), default=None)
 @click.option("--report", "report_path", type=click.Path(path_type=Path), default=None)
-def main(osm_path, ch_path, icp_path, enrich_websites, user_agent, workers, cache_path, export_path, report_path) -> None:
+@click.option("--push-to-supabase", is_flag=True, help="Upsert everything into Supabase (needs DATABASE_URL in .env)")
+def main(osm_path, ch_path, icp_path, enrich_websites, user_agent, workers, cache_path, export_path, report_path, push_to_supabase) -> None:
     if not osm_path and not ch_path:
         raise click.UsageError("give --osm and/or --companies-house")
     icp = load_icp(icp_path)

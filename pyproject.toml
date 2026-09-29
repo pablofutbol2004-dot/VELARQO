@@ -10,6 +10,7 @@ dependencies = [
     "click>=8.1",
     "rapidfuzz>=3.9",
     "requests>=2.31",
+    "psycopg[binary]>=3.2",
 ]
 
 [project.optional-dependencies]

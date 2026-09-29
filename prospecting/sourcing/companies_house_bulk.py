@@ -17,6 +17,7 @@ Coverage caveats, so the numbers aren't over-read:
 
 import csv
 import io
+import json
 import re
 import zipfile
 from pathlib import Path
@@ -45,7 +46,7 @@ _EXCLUDED_ACCOUNT_CATEGORIES = {"DORMANT"}
 
 CSV_COLUMNS = [
     "company_name", "company_number", "postcode", "address", "city", "sic_codes", "industry",
-    "incorporation_date", "accounts_category", "company_category", "lead_source",
+    "incorporation_date", "accounts_category", "company_category", "lead_source", "ch_raw",
 ]
 
 
@@ -92,6 +93,9 @@ def row_to_lead(row: dict) -> dict:
         "accounts_category": row.get("Accounts.AccountCategory") or None,
         "company_category": row.get("CompanyCategory") or None,
         "lead_source": "companies_house",
+        # full original row (accounts dates, mortgages, previous names...) -
+        # empty fields dropped, everything else kept
+        "ch_raw": {k: v for k, v in row.items() if v},
     }
 
 
@@ -120,7 +124,7 @@ def main(zip_path: Path, output_path: Path) -> None:
         writer = csv.DictWriter(f, fieldnames=[*CSV_COLUMNS, "match_reason"])
         writer.writeheader()
         for lead, reason in iter_door_window_companies(zip_path):
-            writer.writerow({**lead, "match_reason": reason})
+            writer.writerow({**lead, "ch_raw": json.dumps(lead["ch_raw"], ensure_ascii=False), "match_reason": reason})
             counts[reason] = counts.get(reason, 0) + 1
 
     click.echo(f"{sum(counts.values())} active door/window candidate companies -> {output_path}")

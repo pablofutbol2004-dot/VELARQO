@@ -106,10 +106,24 @@ def _merge_cluster(records: list[dict], confidence: str) -> dict:
 
     sources = sorted({_source(r) for r in records})
     merged["lead_source"] = "+".join(sources)
+    merged["sources"] = sources
     merged["merged_count"] = len(records)
     merged["merge_confidence"] = confidence if len(records) > 1 else None
+    merged["osm_ids"] = [r["osm_id"] for r in osm if r.get("osm_id")]
+    merged["company_numbers"] = [r["company_number"] for r in ch if r.get("company_number")]
     if ch and osm:
         merged["registered_postcode"] = ch[0].get("postcode")
+
+    # Every contributing record, untouched, for the source_records table.
+    merged["raw_sources"] = [
+        {"source": "osm", "source_id": r.get("osm_id"), "payload": r.get("osm_tags") or {}}
+        for r in osm if r.get("osm_id")
+    ] + [
+        {"source": "companies_house", "source_id": r.get("company_number"), "payload": r.get("ch_raw") or {}}
+        for r in ch if r.get("company_number")
+    ]
+    merged.pop("osm_tags", None)
+    merged.pop("ch_raw", None)
     return merged
 
 
