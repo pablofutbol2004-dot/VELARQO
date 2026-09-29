@@ -50,11 +50,50 @@ def geocode_bbox(place_name: str, user_agent: str, session: requests.Session | N
     return south, west, north, east
 
 
-def _build_overpass_query(bbox: tuple[float, float, float, float], tags: list[tuple[str, str]]) -> str:
+# OSM relation 62149 (United Kingdom) as an Overpass area id.
+UK_AREA_ID = 3600062149
+UK_BBOX = (49.8, -8.7, 60.9, 1.9)
+
+
+def build_overpass_query(
+    bbox: tuple[float, float, float, float],
+    tags: list[tuple[str, str]],
+    area_id: int | None = None,
+    name_pattern: str | None = None,
+    name_keys: tuple[str, ...] = ("shop", "craft", "office"),
+    timeout: int = 90,
+) -> str:
+    """nwr, not node: many businesses are mapped as building outlines (ways),
+    which a node-only query silently misses. area_id clips a bbox tile to a
+    country so tiles along the border don't pull in Ireland/France.
+
+    name_pattern (case-insensitive regex) catches businesses whose tag is
+    generic or missing but whose name gives them away ("Smith Windows Ltd"
+    tagged craft=builder), restricted to things tagged as a business at all.
+    """
     south, west, north, east = bbox
-    bbox_str = f"{south},{west},{north},{east}"
-    clauses = "".join(f'  node["{key}"="{value}"]({bbox_str});\n' for key, value in tags)
-    return f"[out:json][timeout:25];\n(\n{clauses});\nout body;"
+    bbox_filter = f"({south},{west},{north},{east})"
+    area_decl = f"area(id:{area_id})->.region;\n" if area_id else ""
+    area_filter = "(area.region)" if area_id else ""
+
+    clauses = [f'  nwr["{key}"="{value}"]{area_filter}{bbox_filter};' for key, value in tags]
+    if name_pattern:
+        clauses += [f'  nwr["name"~"{name_pattern}",i]["{key}"]{area_filter}{bbox_filter};' for key in name_keys]
+    body = "\n".join(clauses)
+    return f"[out:json][timeout:{timeout}];\n{area_decl}(\n{body}\n);\nout center tags;"
+
+
+def tile_bbox(bbox: tuple[float, float, float, float], step: float) -> list[tuple[float, float, float, float]]:
+    south, west, north, east = bbox
+    tiles = []
+    lat = south
+    while lat < north:
+        lon = west
+        while lon < east:
+            tiles.append((round(lat, 4), round(lon, 4), round(min(lat + step, north), 4), round(min(lon + step, east), 4)))
+            lon += step
+        lat += step
+    return tiles
 
 
 def _element_to_lead(element: dict, lead_source: str) -> dict | None:
@@ -65,6 +104,7 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
 
     address_parts = [tags.get(k) for k in ("addr:housenumber", "addr:street", "addr:city") if tags.get(k)]
     category_key = next((k for k in ("shop", "craft", "office") if tags.get(k)), None)
+    center = element.get("center") or {}
 
     return {
         "company_name": name,
@@ -78,12 +118,50 @@ def _element_to_lead(element: dict, lead_source: str) -> dict | None:
         "osm_category": f"{category_key}={tags[category_key]}" if category_key else None,
         # OSM marks chain branches with brand/brand:wikidata - free chain detection.
         "brand": tags.get("brand") or (tags.get("name") if tags.get("brand:wikidata") else None),
+        "lat": element.get("lat") or center.get("lat"),
+        "lon": element.get("lon") or center.get("lon"),
         "lead_source": lead_source,
-        "osm_id": element.get("id"),
+        "osm_id": f"{element.get('type', 'node')}/{element.get('id')}",
     }
 
 
 _TRANSIENT_STATUS_CODES = {429, 502, 503, 504}
+
+
+def run_overpass(
+    query: str,
+    user_agent: str,
+    session: requests.Session,
+    rate_limiter: RateLimiter,
+    max_retries: int = 3,
+    sleep=time.sleep,
+) -> list[dict]:
+    """The public Overpass instance is shared, free infrastructure and
+    genuinely flaky under load - confirmed live (a 406, then a 504, then
+    success, on the same query seconds apart; 429s when sourcing 10 cities
+    back to back). Retries exist because of that observed behavior.
+    """
+    # Overpass's server does Apache content negotiation and returns 406 on
+    # requests with no explicit Accept header - found by testing live.
+    headers = {"Accept": "*/*", "User-Agent": user_agent}
+
+    response = None
+    for attempt in range(max_retries + 1):
+        rate_limiter.acquire()
+        response = session.post(OVERPASS_BASE, data={"data": query}, headers=headers, timeout=180)
+        if response.status_code not in _TRANSIENT_STATUS_CODES:
+            break
+        if attempt < max_retries:
+            retry_after = response.headers.get("Retry-After")
+            sleep(float(retry_after) if retry_after else 2**attempt)
+
+    response.raise_for_status()
+    return response.json().get("elements", [])
+
+
+def _elements_to_leads(elements: list[dict], lead_source: str) -> list[dict]:
+    leads = [_element_to_lead(el, lead_source) for el in elements]
+    return [lead for lead in leads if lead is not None]
 
 
 def find_businesses(
@@ -95,41 +173,56 @@ def find_businesses(
     lead_source: str = "osm_scrape",
     max_retries: int = 3,
     sleep=time.sleep,
+    name_pattern: str | None = None,
 ) -> list[dict]:
     """tags: list of (osm_key, osm_value) pairs to match, e.g.
     [("shop", "doors"), ("craft", "carpenter")]. See
     https://wiki.openstreetmap.org/wiki/Map_features for the tag vocabulary.
-
-    The public Overpass instance is shared, free infrastructure and
-    genuinely flaky under load - confirmed live while building this
-    (a 406, then a 504, then success, on the exact same query seconds
-    apart). max_retries/backoff exists because of that observed behavior,
-    not speculatively.
     """
     session = session or requests.Session()
     rate_limiter = rate_limiter or RateLimiter(max_requests=1, window_seconds=1.0)
 
     rate_limiter.acquire()
     bbox = geocode_bbox(place_name, user_agent, session)
+    query = build_overpass_query(bbox, tags, name_pattern=name_pattern)
+    elements = run_overpass(query, user_agent, session, rate_limiter, max_retries, sleep)
+    return _elements_to_leads(elements, lead_source)
 
-    query = _build_overpass_query(bbox, tags)
-    # Overpass's server does Apache content negotiation and returns 406 on
-    # requests with no explicit Accept header - not documented anywhere
-    # obvious, found by testing live.
-    headers = {"Accept": "*/*", "User-Agent": user_agent}
 
-    response = None
-    for attempt in range(max_retries + 1):
-        rate_limiter.acquire()
-        response = session.post(OVERPASS_BASE, data={"data": query}, headers=headers, timeout=60)
-        if response.status_code not in _TRANSIENT_STATUS_CODES:
-            break
-        if attempt < max_retries:
-            retry_after = response.headers.get("Retry-After")
-            sleep(float(retry_after) if retry_after else 2**attempt)
+def find_businesses_in_region(
+    tags: list[tuple[str, str]],
+    user_agent: str,
+    bbox: tuple[float, float, float, float] = UK_BBOX,
+    area_id: int | None = UK_AREA_ID,
+    name_pattern: str | None = None,
+    tile_step: float = 1.0,
+    session: requests.Session | None = None,
+    rate_limiter: RateLimiter | None = None,
+    lead_source: str = "osm_scrape",
+    max_retries: int = 4,
+    sleep=time.sleep,
+    on_tile=None,
+) -> list[dict]:
+    """Whole-country sourcing: one small query per tile instead of one huge
+    query the public server would time out on. Failed tiles are reported
+    via on_tile(tile, count_or_exception) and skipped, not fatal - re-run
+    to fill gaps. Results are deduplicated by OSM element id across tiles.
+    """
+    session = session or requests.Session()
+    rate_limiter = rate_limiter or RateLimiter(max_requests=1, window_seconds=2.0)
 
-    response.raise_for_status()
-
-    elements = response.json().get("elements", [])
-    leads = [_element_to_lead(el, lead_source) for el in elements]
-    return [lead for lead in leads if lead is not None]
+    by_osm_id: dict[str, dict] = {}
+    for tile in tile_bbox(bbox, tile_step):
+        query = build_overpass_query(tile, tags, area_id=area_id, name_pattern=name_pattern)
+        try:
+            elements = run_overpass(query, user_agent, session, rate_limiter, max_retries, sleep)
+        except requests.RequestException as exc:
+            if on_tile:
+                on_tile(tile, exc)
+            continue
+        leads = _elements_to_leads(elements, lead_source)
+        for lead in leads:
+            by_osm_id.setdefault(lead["osm_id"], lead)
+        if on_tile:
+            on_tile(tile, len(leads))
+    return list(by_osm_id.values())

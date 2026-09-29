@@ -9,16 +9,51 @@
   "vertical_label": "windows and doors",
   "trade_noun": "window and door installers",
   "core_terms": [
-    "window", "double glazing", "double glazed", "glazing", "glazier", "glaze",
-    "upvc", "sash", "casement", "bifold", "bi fold", "conservator"
+    "window",
+    "double glazing",
+    "double glazed",
+    "glazing",
+    "glazier",
+    "glaze",
+    "upvc",
+    "sash",
+    "casement",
+    "bifold",
+    "bi fold",
+    "conservator"
   ],
-  "adjacent_terms": ["door", "glass", "frame", "joinery", "roofline", "fascia", "composite"],
+  "adjacent_terms": [
+    "door",
+    "glass",
+    "frame",
+    "composite"
+  ],
   "negative_terms": [
-    "blind", "window film", "tint", "mirror", "shutter", "garage door", "shopfront",
-    "windscreen", "supplies", "supplier", "wholesale", "trade"
+    "blind",
+    "window film",
+    "tint",
+    "mirror",
+    "shutter",
+    "garage door",
+    "shopfront",
+    "windscreen",
+    "supplies",
+    "supplier",
+    "wholesale",
+    "trade",
+    "window cleaner",
+    "window cleaning",
+    "cleaning"
   ],
   "known_chains": [
-    "anglian", "everest", "safestyle", "zenith", "coral windows", "glassolutions", "dream doors", "crittall"
+    "anglian",
+    "everest",
+    "safestyle",
+    "zenith",
+    "coral windows",
+    "glassolutions",
+    "dream doors",
+    "crittall"
   ],
   "chain_penalty": 0.5,
   "osm_category_weights": {
@@ -28,6 +63,14 @@
     "shop=doors": 0.5,
     "craft=carpenter": 0.3,
     "shop=window_blind": 0.1
+  },
+  "sic_code_weights": {
+    "43342": 0.9,
+    "25120": 0.9,
+    "22230": 0.5,
+    "43320": 0.4,
+    "16230": 0.4,
+    "47520": 0.2
   },
   "min_vertical_fit": 0.5,
   "required_channel": "email",

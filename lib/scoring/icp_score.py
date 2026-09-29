@@ -49,7 +49,7 @@ def _vertical_terms(icp: dict) -> tuple[list, list, list]:
     return core, icp.get("adjacent_terms", []), icp.get("negative_terms", [])
 
 
-def _category_weight(lead: dict, icp: dict) -> tuple[float | None, str | None]:
+def _osm_category_weight(lead: dict, icp: dict) -> tuple[float | None, str | None]:
     weights = {k.lower(): v for k, v in icp.get("osm_category_weights", {}).items()}
     category = str(lead.get("osm_category") or "").strip().lower()
     if category in weights:
@@ -61,6 +61,22 @@ def _category_weight(lead: dict, icp: dict) -> tuple[float | None, str | None]:
         if key.split("=", 1)[-1] == value:
             return weight, key
     return None, None
+
+
+def _sic_weight(lead: dict, icp: dict) -> tuple[float | None, str | None]:
+    weights = icp.get("sic_code_weights", {})
+    codes = str(lead.get("sic_codes") or "").split()
+    scored = [(weights[c], c) for c in codes if c in weights]
+    return max(scored) if scored else (None, None)
+
+
+def _category_weight(lead: dict, icp: dict) -> tuple[float | None, str | None]:
+    """Structured industry evidence: OSM category and/or Companies House SIC."""
+    candidates = [c for c in (_osm_category_weight(lead, icp), _sic_weight(lead, icp)) if c[0] is not None]
+    if not candidates:
+        return None, None
+    weight, label = max(candidates)
+    return weight, (f"SIC {label}" if label and label.isdigit() else label)
 
 
 def _vertical_fit(lead: dict, icp: dict, name: str, reasons: list[str]) -> float:
