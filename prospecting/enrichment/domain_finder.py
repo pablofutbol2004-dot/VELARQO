@@ -15,6 +15,7 @@ Free and slow-ish: nothing is fetched until DNS says the domain exists.
 import json
 import socket
 import threading
+from datetime import datetime, timezone
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
@@ -112,6 +113,7 @@ class DomainFinder:
                     **site,
                     "website": f"https://{domain}",
                     "website_source": "domain_guess",
+                    "website_fetched_at": datetime.now(timezone.utc).isoformat(),
                     "website_confidence": confidence,
                     "domains_tried": tried,
                 }
