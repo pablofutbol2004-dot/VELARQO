@@ -11,3 +11,4 @@ docs/ghl/api/official-docs/
 docs/ghl/api/sdk/
 data/*.zip
 data/*.jsonl
+data/*.log
