@@ -56,7 +56,8 @@ def main(
                 click.echo(f"  tile {tile}: {result}")
 
         all_leads = find_businesses_in_region(
-            parsed_tags, user_agent, bbox=UK_BBOX, area_id=UK_AREA_ID, name_pattern=name_pattern, on_tile=report
+            parsed_tags, user_agent, bbox=UK_BBOX, area_id=UK_AREA_ID, name_pattern=name_pattern, on_tile=report,
+            cache_dir=Path("data/osm_tile_cache"),
         )
     for place in places:
         click.echo(f"Sourcing {place!r} for {parsed_tags}...")

@@ -18,7 +18,11 @@ https://operations.osmfoundation.org/policies/nominatim/
 https://wiki.openstreetmap.org/wiki/Overpass_API#Rate_limiting
 """
 
+import json
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 
 import requests
 
@@ -198,34 +202,56 @@ def find_businesses_in_region(
     bbox: tuple[float, float, float, float] = UK_BBOX,
     area_id: int | None = UK_AREA_ID,
     name_pattern: str | None = None,
-    tile_step: float = 1.0,
-    session: requests.Session | None = None,
-    rate_limiter: RateLimiter | None = None,
+    tile_step: float = 0.5,
     lead_source: str = "osm_scrape",
     max_retries: int = 4,
     sleep=time.sleep,
     on_tile=None,
+    workers: int = 2,
+    cache_dir: Path | None = None,
+    session_factory=requests.Session,
 ) -> list[dict]:
-    """Whole-country sourcing: one small query per tile instead of one huge
-    query the public server would time out on. Failed tiles are reported
-    via on_tile(tile, count_or_exception) and skipped, not fatal - re-run
-    to fill gaps. Results are deduplicated by OSM element id across tiles.
+    """Whole-country sourcing in small tiles. Learned live: 1-degree tiles
+    with the name regex timed out on the public server (London never came
+    back); 0.5-degree tiles are ~4x lighter. Overpass allows 2 concurrent
+    slots per client, hence 2 workers. Each finished tile is cached to
+    cache_dir, so a re-run only retries the tiles that failed.
     """
-    session = session or requests.Session()
-    rate_limiter = rate_limiter or RateLimiter(max_requests=1, window_seconds=2.0)
+    tiles = tile_bbox(bbox, tile_step)
+    local = threading.local()
 
-    by_osm_id: dict[str, dict] = {}
-    for tile in tile_bbox(bbox, tile_step):
+    def cache_file(tile) -> Path | None:
+        return cache_dir / ("tile_" + "_".join(f"{v:.4f}" for v in tile) + ".json") if cache_dir else None
+
+    def fetch(tile):
+        path = cache_file(tile)
+        if path and path.exists():
+            return tile, json.loads(path.read_text(encoding="utf-8"))
+        if not hasattr(local, "session"):
+            local.session = session_factory()
+            local.limiter = RateLimiter(max_requests=1, window_seconds=2.0)
         query = build_overpass_query(tile, tags, area_id=area_id, name_pattern=name_pattern)
         try:
-            elements = run_overpass(query, user_agent, session, rate_limiter, max_retries, sleep)
+            elements = run_overpass(query, user_agent, local.session, local.limiter, max_retries, sleep)
         except requests.RequestException as exc:
+            return tile, exc
+        if path:
+            path.write_text(json.dumps(elements), encoding="utf-8")
+        return tile, elements
+
+    if cache_dir:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+
+    by_osm_id: dict[str, dict] = {}
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        for tile, result in pool.map(fetch, tiles):
+            if isinstance(result, Exception):
+                if on_tile:
+                    on_tile(tile, result)
+                continue
+            leads = _elements_to_leads(result, lead_source)
+            for lead in leads:
+                by_osm_id.setdefault(lead["osm_id"], lead)
             if on_tile:
-                on_tile(tile, exc)
-            continue
-        leads = _elements_to_leads(elements, lead_source)
-        for lead in leads:
-            by_osm_id.setdefault(lead["osm_id"], lead)
-        if on_tile:
-            on_tile(tile, len(leads))
+                on_tile(tile, len(leads))
     return list(by_osm_id.values())

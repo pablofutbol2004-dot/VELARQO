@@ -185,3 +185,26 @@ def test_osm_sourced_leads_flow_into_cold_outreach_pipeline():
     assert processed[0]["company_name"] == "Acme Windows"
     assert processed[0]["id"]
     assert processed[0]["created_at"]
+
+
+def test_region_sourcing_caches_tiles_and_retries_only_failures(tmp_path):
+    from prospecting.sourcing.osm import find_businesses_in_region
+
+    calls = {"n": 0}
+
+    class Session:
+        def post(self, url, data=None, headers=None, timeout=None):
+            calls["n"] += 1
+            if "(0.0,0.5,0.5,1.0)" in data["data"] and calls["n"] <= 2:
+                return FakeResponse({}, status_code=504)
+            return FakeResponse(OVERPASS_RESPONSE)
+
+    kwargs = dict(bbox=(0.0, 0.0, 0.5, 1.0), area_id=None, tile_step=0.5, max_retries=0,
+                  sleep=lambda _: None, cache_dir=tmp_path, session_factory=Session, workers=1)
+    first = find_businesses_in_region([("shop", "doors")], "ua", **kwargs)
+    assert len(first) == 1  # both tiles return the same element id -> deduped
+    assert len(list(tmp_path.glob("tile_*.json"))) == 1  # failed tile not cached
+
+    calls_before = calls["n"]
+    find_businesses_in_region([("shop", "doors")], "ua", **kwargs)
+    assert calls["n"] == calls_before + 1  # only the failed tile was fetched again
