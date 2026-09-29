@@ -86,3 +86,12 @@ def test_every_score_is_explained():
     result = evaluate_lead(_lead("Premier Doors", osm_category="shop=doors", phone="+441142000000"), ICP)
     assert result["reasons"]
     assert set(result["breakdown"]) >= {"vertical_fit", "contactability", "data_quality"}
+
+
+def test_vehicle_glaziers_and_window_cleaners_rejected():
+    assert evaluate_lead(_lead("Apac Vehicle Glazing", email="info@apac.com"), ICP)["tier"] == "reject"
+    cleaner_site = evaluate_lead(_lead(
+        "Razor Shine Windows", email="info@razorshine.com",
+        website_text="Professional window cleaning and gutter cleaning across St Neots",
+    ), ICP)
+    assert cleaner_site["tier"] == "reject"

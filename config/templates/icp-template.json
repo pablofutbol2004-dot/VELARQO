@@ -43,7 +43,19 @@
     "trade",
     "window cleaner",
     "window cleaning",
-    "cleaning"
+    "cleaning",
+    "vehicle",
+    "auto glass",
+    "car glass"
+  ],
+  "strong_negative_terms": [
+    "window cleaning",
+    "window cleaner",
+    "vehicle glazing",
+    "vehicle glass",
+    "windscreen",
+    "car glass",
+    "auto glass"
   ],
   "known_chains": [
     "anglian",

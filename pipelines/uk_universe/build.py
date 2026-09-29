@@ -26,6 +26,9 @@ from prospecting.enrichment.batch import enrich_websites as enrich_websites_batc
 
 
 _JSON_COLUMNS = ("osm_tags", "ch_raw")
+# Supabase Free goes read-only at 500 MB; the plan is to move to our own
+# Postgres (Docker, then the VPS) before that, not after.
+SIZE_WARNING_MB = 400
 
 
 def load_csv(path: Path) -> list[dict]:
@@ -41,10 +44,17 @@ def load_csv(path: Path) -> list[dict]:
     return rows
 
 
-def build_universe(sources: list[list[dict]], icp: dict, enrich=None) -> list[dict]:
+def build_universe(sources: list[list[dict]], icp: dict, enrich=None, find_sites=None) -> list[dict]:
     leads = merge_sources([lead for source in sources for lead in source])
     now = datetime.now(timezone.utc).isoformat()
     leads = [normalize_lead({**lead, "id": str(uuid.uuid4()), "created_at": now}) for lead in leads]
+    if find_sites:
+        # Only hunt websites for businesses that already look in-trade;
+        # guessing domains for 30k rejected joiners/DIY shops is wasted effort.
+        targets = [i for i, lead in enumerate(leads) if evaluate_lead(lead, icp)["tier"] != "reject"]
+        found = find_sites([leads[i] for i in targets])
+        for i, lead in zip(targets, found):
+            leads[i] = lead
     if enrich:
         leads = enrich(leads)
     for lead in leads:
@@ -102,7 +112,11 @@ def coverage_report(raw_counts: dict[str, int], leads: list[dict]) -> list[str]:
 @click.option("--export", "export_path", type=click.Path(path_type=Path), default=None)
 @click.option("--report", "report_path", type=click.Path(path_type=Path), default=None)
 @click.option("--push-to-supabase", is_flag=True, help="Upsert everything into Supabase (needs DATABASE_URL in .env)")
-def main(osm_path, ch_path, icp_path, enrich_websites, user_agent, workers, cache_path, export_path, report_path, push_to_supabase) -> None:
+@click.option("--find-websites", is_flag=True, help="Guess + verify domains for in-trade leads with no website (cached, resumable)")
+@click.option("--finder-workers", default=24, show_default=True)
+@click.option("--finder-cache", type=click.Path(path_type=Path), default=Path("data/domain_finder_cache.jsonl"), show_default=True)
+def main(osm_path, ch_path, icp_path, enrich_websites, user_agent, workers, cache_path, export_path, report_path,
+         push_to_supabase, find_websites, finder_workers, finder_cache) -> None:
     if not osm_path and not ch_path:
         raise click.UsageError("give --osm and/or --companies-house")
     icp = load_icp(icp_path)
@@ -124,12 +138,36 @@ def main(osm_path, ch_path, icp_path, enrich_websites, user_agent, workers, cach
         def enrich(leads):
             return enrich_websites_batch(leads, user_agent, workers=workers, cache_path=cache_path, on_progress=progress)
 
-    leads = build_universe(sources, icp, enrich)
+    find_sites = None
+    if find_websites:
+        from prospecting.enrichment.domain_finder import find_websites as find_websites_batch
+
+        vertical_terms = [*(icp.get("core_terms") or []), *(icp.get("adjacent_terms") or [])]
+
+        def finder_progress(done, total):
+            click.echo(f"  domain finder {done}/{total}", err=True)
+
+        def find_sites(leads):
+            return find_websites_batch(leads, user_agent, vertical_terms, workers=finder_workers,
+                                       cache_path=finder_cache, on_progress=finder_progress)
+
+    leads = build_universe(sources, icp, enrich, find_sites)
     report = coverage_report(raw_counts, leads)
     click.echo("\n".join(report))
 
     if report_path:
         report_path.write_text("\n".join(report) + "\n", encoding="utf-8")
+    if push_to_supabase:
+        from data.supabase_store import connect, push_universe
+
+        click.echo("\nPushing to Supabase...")
+        with connect() as conn:
+            stats = push_universe(conn, leads, icp.get("vertical", "unknown"), icp)
+            size_mb = conn.execute("select pg_database_size(current_database()) / 1048576").fetchone()[0]
+        click.echo(f"Supabase: {stats}")
+        click.echo(f"Database size: {size_mb} MB of the 500 MB free-plan limit")
+        if size_mb >= SIZE_WARNING_MB:
+            click.echo("WARNING: approaching the free-plan limit - time to move to self-hosted Postgres.", err=True)
     if export_path:
         in_vertical = [l for l in leads if l.get("tier") in TIER_ORDER and l.get("tier") != "duplicate"]
         campaign = build_campaign(in_vertical, icp)

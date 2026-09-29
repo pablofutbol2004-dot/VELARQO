@@ -35,7 +35,8 @@ def enrich_websites(
     cache = _load_cache(cache_path)
     websites = sorted({
         lead["website"].strip() for lead in leads
-        if isinstance(lead.get("website"), str) and lead["website"].strip() and not lead.get("duplicate_of")
+        if isinstance(lead.get("website"), str) and lead["website"].strip()
+        and not lead.get("duplicate_of") and not lead.get("website_status")
     })
     todo = [w for w in websites if w not in cache]
 
@@ -71,6 +72,9 @@ def enrich_websites(
 
     enriched = []
     for lead in leads:
+        if lead.get("website_status"):  # already fetched (e.g. by the domain finder)
+            enriched.append(lead)
+            continue
         website = lead.get("website").strip() if isinstance(lead.get("website"), str) else None
         result = dict(cache.get(website) or {})
         if lead.get("email"):

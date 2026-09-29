@@ -127,6 +127,12 @@ def _vertical_fit(lead: dict, icp: dict, name: str, reasons: list[str]) -> float
     elif (hits := find_terms(category_text, negative)) and not find_terms(name, core):
         fit *= 0.7
         reasons.append(f"- categorised as off-target '{hits[0]}' (x0.7)")
+    elif hits := find_terms(website_text, icp.get("strong_negative_terms", [])):
+        # Only terms a genuine installer's site would essentially never lead
+        # with ("window cleaning", "vehicle glazing") - softer negatives like
+        # "blinds" are often a side-service and don't count from website text.
+        fit *= 0.4
+        reasons.append(f"- website is about '{hits[0]}' (x0.4)")
 
     chain = lead.get("brand") or next(iter(find_terms(name, icp.get("known_chains", []))), None)
     if chain:
