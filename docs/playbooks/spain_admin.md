@@ -78,6 +78,28 @@ Sede AEAT → Censos → Modelo 036 (alta). Key choices:
   vendor charges you Spanish VAT anyway, that VAT isn't deductible: fix
   the billing profile.
 
+### 1.5 Getting invoices without VAT from each tool
+Only works once the ROI gives you a valid **ES + NIF** VAT number (check it
+in VIES). Until then vendors charge 21% VAT: a few euros, not worth waiting
+for. Updates apply to **future** invoices only.
+
+| Vendor | Where |
+|---|---|
+| **Anthropic (Claude)** | claude.ai → Settings → Billing → *Update* (payment method) → Tax/VAT ID field; tick *Use a different name on invoices* and put your full name / "Velarqo" |
+| **Google Workspace** | Enter the VAT ID when creating the billing profile (choose a **business** account). If the account already exists, ask Google Workspace support to add it; they may credit VAT already charged |
+| **Smartlead** | Billing settings; if there's no tax ID field, email support asking for invoices with your name, address and NIF-IVA *(not verified)* |
+| **Domain registrar** | Account → billing/profile details |
+
+Every month, download each invoice PDF, check it shows your name, address
+and NIF-IVA, and save it to `Velarqo/Facturas/<year>-Q<n>/`.
+
+### 1.6 Revolut data for the books
+- Start: monthly **CSV statement export** from Revolut Business (free plan).
+- Later (paid **Grow** plan or above): the **Business API**, read-only. It
+  needs a certificate key pair uploaded to Revolut + OAuth consent; the
+  private key goes in the environment's secrets, never in chat or git.
+  Then Claude pulls transactions directly and matches them to invoices.
+
 ---
 
 ## 2. Invoicing (from the first client)
