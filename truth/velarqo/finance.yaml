@@ -1,0 +1,41 @@
+# How Velarqo is set up to invoice, get paid and pay tax. Playbook:
+# docs/playbooks/spain_admin.md. Owner decision 2026-09-30: no gestor;
+# Claude prepares, owner files.
+side: velarqo
+
+entity:
+  type: autonomo                  # planned; switch to SL around €40-60k net profit/year
+  registered_on: TODO             # Modelo 036 + RETA date (target: before launch, ~2026-10-20)
+  nif: TODO
+  nif_iva_roi: TODO               # ES + NIF once ROI registration is granted
+  iae_epigrafe: "844"
+  cnae: "7311"
+  irpf_regime: estimacion_directa_simplificada
+  tarifa_plana: true              # ~€88.64/month for 12 months from registration
+
+banking:
+  business_account: revolut_business   # every business payment in and out; nothing personal
+  receive_gbp_via: uk_local_details    # sort code + account number (Faster Payments)
+  tax_reserve_pocket: hacienda
+  tax_reserve_share: 0.30         # of every payment received, until real numbers say otherwise
+
+payments:
+  primary: uk_bank_transfer
+  secondary: stripe_card_link     # payment only; never the legal invoice
+  bacs_direct_debit: unavailable  # Stripe offers Bacs to UK Stripe accounts only
+  terms_days: 7
+  per_survey_billing: monthly_in_arrears
+
+invoicing:
+  tool: aeat_verifactu_free_app   # compliant before VeriFactu becomes mandatory (autónomos: 2027-07-01)
+  series: "YYYY-NNN"
+  currency_uk_clients: GBP
+  vat_note: >-
+    Operación no sujeta a IVA por reglas de localización (art. 69.Uno.1º
+    Ley 37/1992). Reverse charge: the customer accounts for any UK VAT.
+  irpf_retention: none            # foreign clients don't withhold
+
+filings:
+  quarterly: ["303", "130", "349 (only if EU services bought that quarter)"]
+  annual: ["390 (by 30 Jan)", "Renta 100 (Apr-Jun)"]
+  first_due: 2027-01-30           # Q4 2026 303/130/349 + 390, if registered in October 2026
