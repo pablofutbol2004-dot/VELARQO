@@ -86,8 +86,21 @@ rules:
       Raises maximum PECR fines to UK GDPR levels (up to £17.5m or 4% of
       global turnover).
     sides: [velarqo, client]
+    in_force: 2026-02-05          # SI 2026/82 (Commencement No. 6 Regulations)
     source: https://www.legislation.gov.uk/ukpga/2025/18/contents
-    verify: true                  # confirm the commencement date of the PECR changes
+    last_checked: 2026-09-30
+
+  - id: ukgdpr-art27-representative
+    law: UK GDPR Art 3(2) and Art 27
+    summary: >
+      A controller or processor with no UK establishment whose processing is
+      caught by UK GDPR must appoint a UK representative in writing, unless
+      the processing is occasional and low-risk. Velarqo is run from Spain,
+      so if it processes UK individuals' data (named prospects, a client's
+      customers) it probably needs one.
+    sides: [velarqo, client]
+    source: https://www.legislation.gov.uk/eur/2016/679/article/27
+    verify: true                  # whether B2B prospecting of UK firms is "offering services to data subjects in the UK"
     last_checked: TODO
 
   - id: dmcc-2024-unfair-practices

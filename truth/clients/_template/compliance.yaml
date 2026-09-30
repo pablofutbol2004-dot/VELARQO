@@ -8,6 +8,9 @@ applies:                          # rule ids from truth/compliance/uk.yaml
   - pecr-soft-opt-in
   - ukgdpr-art28-processor
   - dmcc-2024-unfair-practices
+  - ukgdpr-art27-representative   # we process their UK customers' data from Spain
+  - eu-gdpr-establishment         # our processing happens in Spain
+  - eu-uk-adequacy                # lets their data come to Spain
 
 # Homeowners are individual subscribers: every contact needs consent or the
 # soft opt-in. The client must confirm which, and we record it per contact.

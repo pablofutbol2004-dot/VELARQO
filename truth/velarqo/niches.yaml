@@ -9,10 +9,11 @@ niches:
     offer: old-quote-reactivation
     result_noun: booked surveys   # fills {result} in the offer pitch
     country: UK
-    notes: Main niche; UK-wide lead universe built from OSM + Companies House.
+    notes: First and only live niche (owner decision 2026-09-30). UK-wide lead
+      universe built from OSM + Companies House, stored in Supabase.
 
   - id: kitchens-uk
-    status: TODO                  # live or test? (owner to confirm)
+    status: paused                # windows & doors first (owner decision 2026-09-30)
     icp_template: config/templates/icp-kitchens-uk.json
     offer: old-quote-reactivation
     result_noun: booked design visits

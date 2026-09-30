@@ -1,29 +1,52 @@
-# How the law in truth/compliance/uk.yaml applies to Velarqo's OWN outreach.
+# How the law in truth/compliance/ applies to Velarqo's OWN outreach.
+# Velarqo is run from Spain and emails UK businesses, so BOTH Spanish/EU
+# and UK rules apply, and the stricter one wins.
 side: velarqo
 
 our_role: controller              # we chose to collect and use prospect data
-applies:                          # rule ids from truth/compliance/uk.yaml
+applies:                          # rule ids from truth/compliance/*.yaml
+  # UK: where the recipients are
   - pecr-reg23-identity-optout
   - pecr-reg22-individual-subscribers
   - ukgdpr-legitimate-interests
   - ukgdpr-art14-notice
   - ukgdpr-art21-objection
+  - ukgdpr-art27-representative
   - ico-data-protection-fee
   - duaa-2025-pecr-fines
+  # Spain / EU: where we are
+  - lssi-art21-no-unsolicited-email
+  - lssi-art20-identify-sender
+  - lssi-art22-opt-out
+  - lssi-sanctions
+  - eu-gdpr-establishment
+  - lopdgdd-art19-business-contacts
+  - eu-uk-adequacy
+  - es-vat-services-to-uk
+  - es-verifactu
+
+# BLOCKER. UK PECR lets us cold email limited companies, but Spain's LSSI
+# art 21 bans unsolicited commercial email to companies too, and applies
+# because we are established in Spain. Until a lawyer signs off on a
+# route, cold email must not be sent.
+cold_email_status: blocked_pending_legal_advice
+cold_email_blocker: lssi-art21-no-unsolicited-email
+legal_advice: TODO                # who advised, when, and what they concluded
 
 requirements:
   every_email_must_include:
     - sender legal name and address (truth/velarqo/company.yaml)
-    - a working opt-out (reply "stop")
+    - clear identification as a commercial communication (LSSI art 20)
+    - a working opt-out email address (PECR reg 23, LSSI art 22)
     - link to our privacy notice
-  may_email_without_consent:
+  may_email_without_consent_under_uk_law:   # PECR only; LSSI still blocks
     - limited companies
     - LLPs
     - Scottish partnerships
   must_not_email_without_consent:
     - sole traders
-    - partnerships other than LLPs and Scottish partnerships
-  unknown_entity_type: do_not_send   # can't prove it's a company -> treat as individual
+    - partnerships other than LLPs and Scottish partnerships (incl. limited partnerships)
+  unknown_entity_type: do_not_send
   opt_out:
     list: velarqo                    # our own suppression list, never a client's
     honour_within: immediately

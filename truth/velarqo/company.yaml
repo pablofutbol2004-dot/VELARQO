@@ -5,10 +5,12 @@ side: velarqo
 
 legal_name: TODO            # e.g. "Velarqo Ltd"
 trading_name: Velarqo
+established_in: ES                # run from Spain: Spanish LSSI + EU GDPR apply on top of UK law
 entity_type: TODO           # limited_company | sole_trader | partnership
-company_number: TODO        # Companies House number, if a limited company
+company_number: TODO        # NIF / CIF (Spain), or Companies House number if a UK company
 registered_address: TODO
-ico_registration_number: TODO   # data protection fee: required as a controller
+ico_registration_number: TODO   # UK data protection fee: check if required for a non-UK controller
+uk_representative: TODO         # UK GDPR Art 27, see truth/compliance/uk.yaml
 privacy_notice_url: TODO        # UK GDPR Art 13/14 notice for prospects
 
 sender:

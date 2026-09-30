@@ -38,8 +38,14 @@ def client_ids() -> list[str]:
     return sorted(p.name for p in (TRUTH / "clients").iterdir() if p.is_dir() and not p.name.startswith("_"))
 
 
-def laws(jurisdiction: str = "uk") -> dict:
-    return {rule["id"]: rule for rule in _load(TRUTH / "compliance" / f"{jurisdiction}.yaml")["rules"]}
+def laws() -> dict:
+    """Every rule from every jurisdiction file in truth/compliance/, by id."""
+    rules = {}
+    for path in sorted((TRUTH / "compliance").glob("*.yaml")):
+        doc = _load(path)
+        for rule in doc["rules"]:
+            rules[rule["id"]] = {**rule, "jurisdiction": doc["jurisdiction"]}
+    return rules
 
 
 def offer(offer_id: str) -> dict:

@@ -1,0 +1,100 @@
+# Spanish (and EU) rules that apply because Velarqo is run from Spain.
+# Working summary, NOT legal advice. Same format as uk.yaml.
+jurisdiction: ES
+
+rules:
+  - id: lssi-art21-no-unsolicited-email
+    law: Ley 34/2002 (LSSI-CE), art 21
+    summary: >
+      Bans commercial emails (and equivalent electronic messages) that the
+      recipient did not request or expressly authorise beforehand. Unlike
+      PECR, there is NO exemption for companies: it protects legal persons
+      too. The only exception is a prior contractual relationship (similar
+      products, lawfully obtained details, opt-out offered). Applies to
+      service providers established in Spain (art 2), i.e. where the business
+      is actually managed from. THIS CONFLICTS WITH COLD EMAIL: see
+      truth/velarqo/compliance.yaml.
+    sides: [velarqo]
+    source: https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758
+    last_checked: 2026-09-30
+
+  - id: lssi-art20-identify-sender
+    law: LSSI art 20.1
+    summary: >
+      Commercial communications must be clearly identifiable as such and
+      identify the person on whose behalf they are sent.
+    sides: [velarqo]
+    source: https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758
+    last_checked: 2026-09-30
+
+  - id: lssi-art22-opt-out
+    law: LSSI art 22.1
+    summary: >
+      Consent can be withdrawn at any time by a simple, free procedure; every
+      commercial email must include a valid email address for doing so.
+    sides: [velarqo]
+    source: https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758
+    last_checked: 2026-09-30
+
+  - id: lssi-sanctions
+    law: LSSI arts 38-39
+    summary: >
+      Sending commercial email without meeting art 21 is a minor offence
+      (fine up to €30,000). Mass sending, or repeated/systematic sending to
+      the same recipient, is serious (€30,001 to €150,000). Enforced by the
+      AEPD, which actively fines for this.
+    sides: [velarqo]
+    source: https://www.aepd.es/es/documento/e-01071-2021.pdf
+    last_checked: 2026-09-30
+
+  - id: eu-gdpr-establishment
+    law: EU GDPR art 3(1) + Ley Orgánica 3/2018 (LOPDGDD)
+    summary: >
+      Being established in Spain puts all of Velarqo's processing under the
+      EU GDPR and LOPDGDD, supervised by the AEPD, in addition to UK GDPR for
+      UK data. Needs: lawful basis, privacy notice, records of processing,
+      processor contracts with suppliers (Supabase, Google/Microsoft, GHL).
+    sides: [velarqo, client]
+    source: https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673
+    last_checked: TODO
+
+  - id: lopdgdd-art19-business-contacts
+    law: LOPDGDD art 19
+    summary: >
+      Presumes legitimate interest for processing professional contact
+      details only to maintain relations with the company the person works
+      for. The AEPD's view: it does NOT cover marketing or commercial emails.
+    sides: [velarqo]
+    source: https://www.fieldfisher.com/es-es/locations/spain/insights/bases-datos-empresariales
+    last_checked: 2026-09-30
+
+  - id: eu-uk-adequacy
+    law: Commission adequacy decisions for the UK (renewed 19 Dec 2025)
+    summary: >
+      Personal data can flow freely between the EU and the UK until
+      27 Dec 2031, so moving a UK client's customer data to Velarqo in Spain
+      (and back) needs no extra transfer mechanism.
+    sides: [velarqo, client]
+    source: https://eucrim.eu/news/commission-renewed-adequacy-decisions-for-data-transfers-to-the-uk/
+    last_checked: 2026-09-30
+
+  - id: es-vat-services-to-uk
+    law: Ley 37/1992 del IVA, art 69
+    summary: >
+      Services to UK business clients are not subject to Spanish VAT
+      (place of supply is the client's country). Invoice without VAT, noting
+      "Operación no sujeta a IVA por reglas de localización (art. 69 LIVA)".
+      Declare the base in Modelo 303. Modelo 349 does NOT apply (UK is not EU).
+    sides: [velarqo]
+    source: https://www.billeo.es/blog/iva-facturas-clientes-extranjeros-autonomo-espana
+    last_checked: 2026-09-30
+
+  - id: es-verifactu
+    law: Real Decreto 1007/2023 (VeriFactu), dates per Real Decreto-ley 15/2025
+    summary: >
+      Invoicing software must meet VeriFactu: from 1 Jan 2027 for companies
+      paying corporation tax, from 1 Jul 2027 for autónomos.
+    sides: [velarqo]
+    in_force: 2027-07-01
+    source: https://www.infoautonomos.com/blog/verifactu-cuando-es-obligatorio-a-quien-afecta/
+    last_checked: 2026-09-30

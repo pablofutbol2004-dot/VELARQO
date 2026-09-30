@@ -20,7 +20,8 @@ truth/
       segments.yaml     the client's customer segments
       compliance.yaml   consent basis for the client's customer list
   compliance/
-    uk.yaml           the law itself: each rule, its source, when last checked
+    uk.yaml           UK law (where recipients are): each rule, source, last checked
+    es.yaml           Spanish/EU law (where Velarqo is run from)
 ```
 
 ## Rules

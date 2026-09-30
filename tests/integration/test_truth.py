@@ -58,6 +58,17 @@ def test_compliance_references_real_rules_for_the_right_side():
             assert side in laws[rule_id]["sides"], f"{rule_id} doesn't apply to side {side}"
 
 
+def test_rule_ids_are_unique_across_jurisdictions():
+    ids = [r["id"] for p in sorted((truth.TRUTH / "compliance").glob("*.yaml")) for r in yaml.safe_load(p.read_text())["rules"]]
+    assert len(ids) == len(set(ids))
+
+
+def test_a_blocked_cold_email_names_the_rule_that_blocks_it():
+    c = truth.velarqo()["compliance"]
+    if c.get("cold_email_status") != "allowed":
+        assert c["cold_email_blocker"] in truth.laws()
+
+
 def test_suppression_lists_are_never_shared_between_sides():
     assert truth.velarqo()["compliance"]["requirements"]["opt_out"]["list"] == "velarqo"
     for cid in ["_template", *truth.client_ids()]:
