@@ -80,5 +80,8 @@ def enrich_websites(
         if lead.get("email"):
             result.pop("email", None)
             result.pop("email_source", None)
+        if lead.get("phone"):
+            result.pop("phone", None)
+            result.pop("phone_source", None)
         enriched.append({**lead, **result, "enriched": bool(result)})
     return enriched

@@ -1,6 +1,6 @@
-"""Free enrichment from a lead's own website: emails, page title, visible
-text (fed into scoring and copy). Fetches the homepage, plus the contact
-page if the homepage has no same-domain email.
+"""Free enrichment from a lead's own website: emails, UK phone numbers, page
+title, visible text (fed into scoring and copy). Fetches the homepage, plus
+the contact page if the homepage has no same-domain email or no phone.
 
 Only fetches what robots.txt allows for our User-Agent, identifies itself
 honestly, and rate-limits. This is reading a business's own public
@@ -19,6 +19,9 @@ from lib.normalization.normalize import normalize_email
 from lib.rate_limiter import RateLimiter
 from lib.scoring.matching import FREEMAIL_DOMAINS
 
+# UK numbers only: "+44 (0)1234 567890", "01234 567890", "07700 900123",
+# "0800 123 4567". Must start with 0 or +44, so company/VAT numbers don't match.
+_UK_PHONE_RE = re.compile(r"(?:\+44\s?(?:\(0\)\s?)?|\b0)[1-37-9][\d\s-]{7,12}\d")
 _EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 _JUNK_EMAIL_SUFFIXES = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".css", ".js")
 _JUNK_EMAIL_DOMAINS = {"example.com", "domain.com", "yourdomain.com", "email.com", "sentry.io", "wixpress.com"}
@@ -36,6 +39,7 @@ class _PageParser(HTMLParser):
         self.text_parts: list[str] = []
         self.links: list[tuple[str, str]] = []
         self.mailtos: set[str] = set()
+        self.tels: set[str] = set()
         self._skip_depth = 0
         self._in_title = False
         self._anchor_href: str | None = None
@@ -53,6 +57,8 @@ class _PageParser(HTMLParser):
             href = attrs["href"].strip()
             if href.lower().startswith("mailto:"):
                 self.mailtos.add(href[7:].split("?")[0])
+            elif href.lower().startswith("tel:"):
+                self.tels.add(href[4:])
             else:
                 self._anchor_href, self._anchor_text = href, []
 
@@ -90,6 +96,10 @@ def _candidate_urls(website: str) -> list[str]:
     if not website:
         return []
     urls = [website] if "://" in website else [f"https://{website}", f"http://{website}"]
+    if website.startswith("https://"):
+        # Stored as https (e.g. by the domain finder) but the TLS handshake
+        # can still fail from some networks; the same site over http is fine.
+        urls.append("http://" + website[len("https://"):])
     for url in list(urls):
         parsed = urlparse(url)
         if not parsed.hostname:
@@ -114,6 +124,37 @@ def _extract_emails(page: _PageParser) -> set[str]:
             continue
         emails.add(email)
     return emails
+
+
+def _uk_phone(raw: str) -> str | None:
+    """E.164 (+44...) for a plausible UK number, else None."""
+    digits = re.sub(r"\D", "", raw.replace("(0)", ""))
+    if digits.startswith("44"):
+        digits = digits[2:]
+    elif digits.startswith("0"):
+        digits = digits[1:]
+    else:
+        return None
+    if len(digits) not in (9, 10) or digits[0] not in "123789":
+        return None
+    return f"+44{digits}"
+
+
+def _extract_phones(page: _PageParser) -> tuple[set[str], set[str]]:
+    """(numbers from tel: links, numbers from visible text). tel: links are
+    what the business chose to make clickable, so they're the better pick."""
+    linked = {p for p in map(_uk_phone, page.tels) if p}
+    in_text = {p for p in map(_uk_phone, _UK_PHONE_RE.findall(page.text)) if p}
+    return linked, in_text
+
+
+def pick_best_phone(linked: set[str], in_text: set[str]) -> str | None:
+    """Landline/freephone before mobile: a business line, not someone's own phone."""
+    def rank(phone: str) -> tuple[int, int, str]:
+        return (0 if phone in linked else 1), (1 if phone.startswith("+447") else 0), phone
+
+    candidates = linked | in_text
+    return min(candidates, key=rank) if candidates else None
 
 
 def _is_same_domain(email: str, site_domain: str) -> bool:
@@ -237,13 +278,19 @@ class WebsiteEnrichmentProvider:
         site_domain = _host(final_url)
 
         emails = _extract_emails(home)
+        linked_phones, text_phones = _extract_phones(home)
         texts = [home.meta_description, home.text]
 
-        if self.fetch_contact_page and not any(_is_same_domain(e, site_domain) for e in emails):
+        missing_email = not any(_is_same_domain(e, site_domain) for e in emails)
+        missing_phone = not (linked_phones or text_phones)
+        if self.fetch_contact_page and (missing_email or missing_phone):
             contact_url = _find_contact_url(home.links, final_url)
             if contact_url and (contact := self._fetch_page(contact_url)):
                 contact_page, _ = contact
                 emails |= _extract_emails(contact_page)
+                more_linked, more_text = _extract_phones(contact_page)
+                linked_phones |= more_linked
+                text_phones |= more_text
                 texts.append(contact_page.text)
 
         result = {
@@ -251,9 +298,14 @@ class WebsiteEnrichmentProvider:
             "website_title": re.sub(r"\s+", " ", home.title).strip() or None,
             "website_text": " ".join(t for t in texts if t)[:_MAX_TEXT_CHARS],
             "emails_found": sorted(emails),
+            "phones_found": sorted(linked_phones | text_phones),
         }
         best = pick_best_email(emails, site_domain)
         if best and not lead.get("email"):
             result["email"] = best
             result["email_source"] = "website"
+        phone = pick_best_phone(linked_phones, text_phones)
+        if phone and not lead.get("phone"):
+            result["phone"] = phone
+            result["phone_source"] = "website"
         return result

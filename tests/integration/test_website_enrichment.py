@@ -107,6 +107,15 @@ def test_falls_back_to_http_when_schemeless_https_fails():
     assert session.requested.index("https://acmewindows.co.uk") < session.requested.index("http://acmewindows.co.uk")
 
 
+def test_falls_back_to_http_when_stored_https_fails():
+    # Found live: merseywindows.co.uk fails the TLS handshake but serves over http.
+    provider, session = _provider({"http://acmewindows.co.uk": FakeResponse(HOME_WITH_EMAIL)})
+    result = provider.enrich({"website": "https://acmewindows.co.uk"})
+
+    assert result["email"] == "info@acmewindows.co.uk"
+    assert session.requested.index("https://acmewindows.co.uk") < session.requested.index("http://acmewindows.co.uk")
+
+
 def test_falls_back_to_homepage_when_deep_link_is_dead():
     # Found live: an OSM website pointing at a /leeds-windowrepair/ page that now 404s.
     provider, _ = _provider({"https://acmewindows.co.uk/": FakeResponse(HOME_WITH_EMAIL)})
@@ -126,3 +135,39 @@ def test_unreachable_site_and_no_website():
     provider, _ = _provider({})
     assert provider.enrich({"website": "https://down.co.uk"}) == {"website_status": "unreachable"}
     assert provider.enrich({"website": None}) == {}
+
+
+HOME_WITH_PHONES = """
+<html><head><title>Cee Windows</title></head><body>
+<p>Call 07700 900123 or our office on +44 (0)161 496 0000.</p>
+<a href="tel:0800 123 4567">Freephone</a>
+<p>Company No. 10216247. VAT GB 123 4567 89.</p>
+<p>Email info@ceewindows.co.uk</p>
+</body></html>
+"""
+
+
+def test_extracts_uk_phones_preferring_tel_link_then_landline():
+    provider, _ = _provider({"https://ceewindows.co.uk": FakeResponse(HOME_WITH_PHONES)})
+    result = provider.enrich({"website": "ceewindows.co.uk"})
+
+    assert result["phones_found"] == ["+441614960000", "+447700900123", "+448001234567"]
+    assert result["phone"] == "+448001234567"
+    assert result["phone_source"] == "website"
+
+
+def test_landline_beats_mobile_when_nothing_is_linked():
+    from prospecting.enrichment.website import pick_best_phone
+    assert pick_best_phone(set(), {"+447700900123", "+441614960000"}) == "+441614960000"
+
+
+def test_follows_contact_page_for_phone_and_keeps_existing_phone():
+    provider, session = _provider({
+        "https://acmewindows.co.uk": FakeResponse(HOME_WITH_EMAIL.replace("</footer>", '</footer><a href="/contact">Contact</a>')),
+        "https://acmewindows.co.uk/contact": FakeResponse("<p>Tel: 01234 567890</p>"),
+    })
+    result = provider.enrich({"website": "acmewindows.co.uk", "phone": "+441111111111"})
+
+    assert "https://acmewindows.co.uk/contact" in session.requested
+    assert result["phones_found"] == ["+441234567890"]
+    assert "phone" not in result
