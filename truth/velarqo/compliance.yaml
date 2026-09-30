@@ -25,13 +25,20 @@ applies:                          # rule ids from truth/compliance/*.yaml
   - es-vat-services-to-uk
   - es-verifactu
 
-# BLOCKER. UK PECR lets us cold email limited companies, but Spain's LSSI
-# art 21 bans unsolicited commercial email to companies too, and applies
-# because we are established in Spain. Until a lawyer signs off on a
-# route, cold email must not be sent.
-cold_email_status: blocked_pending_legal_advice
-cold_email_blocker: lssi-art21-no-unsolicited-email
-legal_advice: TODO                # who advised, when, and what they concluded
+# OWNER DECISION 2026-09-30: cold email UK companies to the UK (PECR)
+# standard. Spain's LSSI art 21 technically bans unsolicited commercial
+# email to companies too; the owner accepts that risk as a low-volume solo
+# operator. Enforcement there is complaint-driven, so the controls that
+# keep complaints near zero (identify ourselves, one-click opt-out honoured
+# immediately, relevant targeting, sane volume) are non-negotiable.
+cold_email_status: allowed
+cold_email_standard: uk-pecr
+accepted_risks:
+  - rule: lssi-art21-no-unsolicited-email
+    decided: 2026-09-30
+    by: owner
+    mitigation: low volume, UK PECR compliance, immediate opt-out, suppression list
+legal_advice: none                # revisit if volume grows or a complaint arrives
 
 requirements:
   every_email_must_include:

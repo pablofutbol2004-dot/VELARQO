@@ -63,9 +63,14 @@ def test_rule_ids_are_unique_across_jurisdictions():
     assert len(ids) == len(set(ids))
 
 
-def test_a_blocked_cold_email_names_the_rule_that_blocks_it():
+def test_cold_email_decision_is_explicit_and_traceable():
     c = truth.velarqo()["compliance"]
-    if c.get("cold_email_status") != "allowed":
+    assert c["cold_email_status"] in ("allowed", "blocked_pending_legal_advice")
+    if c["cold_email_status"] == "allowed":
+        # Any law we knowingly don't follow must be a real rule, with who decided and when.
+        for risk in c.get("accepted_risks", []):
+            assert risk["rule"] in truth.laws() and risk["decided"] and risk["by"]
+    else:
         assert c["cold_email_blocker"] in truth.laws()
 
 
