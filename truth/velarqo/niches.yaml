@@ -1,0 +1,20 @@
+# Which trades Velarqo targets. NOT a client's customer segments (those live
+# in truth/clients/<client-id>/segments.yaml).
+side: velarqo
+
+niches:
+  - id: windows-doors-uk
+    status: live                  # live | test | paused | retired
+    icp_template: config/templates/icp-template.json
+    offer: old-quote-reactivation
+    result_noun: booked surveys   # fills {result} in the offer pitch
+    country: UK
+    notes: Main niche; UK-wide lead universe built from OSM + Companies House.
+
+  - id: kitchens-uk
+    status: TODO                  # live or test? (owner to confirm)
+    icp_template: config/templates/icp-kitchens-uk.json
+    offer: old-quote-reactivation
+    result_noun: booked design visits
+    country: UK
+    notes: Second vertical; proves the pipeline is niche-agnostic.

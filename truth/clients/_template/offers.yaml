@@ -1,0 +1,31 @@
+# What THIS CLIENT offers its own customers. Not Velarqo's offer.
+# Defaults mirror database_reactivation/campaign_generator/recommend.py;
+# the client must confirm each one is real and that they'll honour it.
+side: client
+
+offers:
+  - id: free-re-quote
+    status: TODO                  # live | test | retired
+    text: Free re-quote
+    segments: [lost]
+  - id: updated-pricing
+    status: TODO
+    text: Updated pricing
+    segments: [lost]
+    terms: TODO                   # the actual new price or discount; must be real (DMCC Act 2024)
+  - id: feature-comparison
+    status: TODO
+    text: Feature comparison
+    segments: [lost]
+  - id: easy-reschedule
+    status: TODO
+    text: Easy reschedule
+    segments: [no_show]
+  - id: still-interested
+    status: TODO
+    text: Still interested?
+    segments: [expired]
+  - id: decision-support
+    status: TODO
+    text: Decision support
+    segments: [quoted]

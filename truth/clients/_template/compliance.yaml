@@ -1,0 +1,25 @@
+# How the law applies to messaging THIS CLIENT's customers.
+side: client
+
+our_role: processor               # the client is the controller of its customer data
+applies:                          # rule ids from truth/compliance/uk.yaml
+  - pecr-reg22-individual-subscribers
+  - pecr-reg23-identity-optout
+  - pecr-soft-opt-in
+  - ukgdpr-art28-processor
+  - dmcc-2024-unfair-practices
+
+# Homeowners are individual subscribers: every contact needs consent or the
+# soft opt-in. The client must confirm which, and we record it per contact.
+consent_basis: TODO               # consent | soft_opt_in | mixed
+consent_evidence: TODO            # how/where the client captured it
+soft_opt_in_checks:               # all must be true for soft opt-in
+  details_collected_during_sale_or_negotiation: TODO
+  marketing_similar_products_only: TODO
+  opt_out_offered_at_collection: TODO
+  opt_out_offered_in_every_message: true
+contacts_without_basis: do_not_send
+
+opt_out:
+  list: client                    # this client's own list; never Velarqo's or another client's
+  honour_within: immediately

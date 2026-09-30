@@ -33,8 +33,17 @@ the two must never be mixed in one dataset.
 - When something is ambiguous (for example "the offer", "our niches",
   "compliance"), ask which side is meant, or answer for both sides separately.
 
+## Sources of truth
+
+Offers, niches, identity and the law live in `truth/`, split by side
+(`truth/velarqo/`, `truth/clients/<client-id>/`, `truth/compliance/`).
+Read them via `lib/truth.py`. Don't hard-code an offer, niche or legal
+rule anywhere else; `tests/integration/test_truth.py` catches drift. A
+`TODO` value is a fact the owner hasn't supplied: never send on one.
+
 ## Status notes
 
+- Python 3.12+ is required (the code uses nested f-string quotes).
 - `ARCHITECTURE.md` predates the send-channel decision: its GHL-as-sender
   flow is wrong for Velarqo's own outreach (see the correction at its top).
 - `docs/ghl/VELARQO_PRIORITY.md` is referenced in README but does not exist.

@@ -1,0 +1,100 @@
+# UK rules we operate under. This is a working summary, NOT legal advice.
+# Each rule: what it says, who it binds, source, last_checked.
+# Re-check any entry older than 6 months; entries marked verify: true have a
+# detail (usually a date) that must be confirmed against the source first.
+jurisdiction: UK
+
+rules:
+  - id: pecr-reg22-individual-subscribers
+    law: Privacy and Electronic Communications Regulations 2003, reg 22
+    summary: >
+      No unsolicited marketing email or SMS to individual subscribers without
+      prior consent, unless the soft opt-in applies. Individual subscribers
+      include consumers, sole traders and partnerships other than LLPs and
+      Scottish partnerships.
+    sides: [velarqo, client]
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
+    last_checked: TODO
+
+  - id: pecr-reg23-identity-optout
+    law: PECR 2003, reg 23
+    summary: >
+      Every marketing email, to anyone including companies, must say who it
+      is from and give a valid address to opt out.
+    sides: [velarqo, client]
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/business-to-business-marketing/
+    last_checked: TODO
+
+  - id: pecr-soft-opt-in
+    law: PECR 2003, reg 22(3)
+    summary: >
+      A business may email its own customers without consent if it got their
+      details during a sale or negotiation of a sale, markets only its own
+      similar products, and offered an opt-out when collecting the details
+      and in every message.
+    sides: [client]
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
+    last_checked: TODO
+
+  - id: ukgdpr-legitimate-interests
+    law: UK GDPR Art 6(1)(f)
+    summary: >
+      Emailing a named person at a company is processing personal data. The
+      lawful basis for B2B prospecting is normally legitimate interests,
+      backed by a written legitimate interests assessment.
+    sides: [velarqo]
+    source: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/lawful-basis/legitimate-interests/
+    last_checked: TODO
+
+  - id: ukgdpr-art14-notice
+    law: UK GDPR Art 14
+    summary: >
+      When personal data wasn't collected from the person (e.g. sourced from
+      Companies House or a website), tell them who we are and how we use it,
+      at the latest at first contact. A privacy-notice link in the first
+      email covers this.
+    sides: [velarqo]
+    source: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/the-right-to-be-informed/
+    last_checked: TODO
+
+  - id: ukgdpr-art21-objection
+    law: UK GDPR Art 21(2)-(3)
+    summary: Objection to direct marketing is absolute; stop immediately.
+    sides: [velarqo, client]
+    source: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/individual-rights/individual-rights/right-to-object/
+    last_checked: TODO
+
+  - id: ukgdpr-art28-processor
+    law: UK GDPR Art 28
+    summary: >
+      Processing a client's customer data on their behalf requires a written
+      processor contract (DPA) with the client before any processing.
+    sides: [client]
+    source: https://ico.org.uk/for-organisations/uk-gdpr-guidance-and-resources/accountability-and-governance/contracts-and-liabilities-between-controllers-and-processors-multi/
+    last_checked: TODO
+
+  - id: ico-data-protection-fee
+    law: Data Protection (Charges and Information) Regulations 2018
+    summary: Controllers processing personal data must pay the ICO data protection fee.
+    sides: [velarqo]
+    source: https://ico.org.uk/for-organisations/data-protection-fee/
+    last_checked: TODO
+
+  - id: duaa-2025-pecr-fines
+    law: Data (Use and Access) Act 2025
+    summary: >
+      Raises maximum PECR fines to UK GDPR levels (up to £17.5m or 4% of
+      global turnover).
+    sides: [velarqo, client]
+    source: https://www.legislation.gov.uk/ukpga/2025/18/contents
+    verify: true                  # confirm the commencement date of the PECR changes
+    last_checked: TODO
+
+  - id: dmcc-2024-unfair-practices
+    law: Digital Markets, Competition and Consumers Act 2024, Part 4 Ch 1
+    summary: >
+      Consumer-facing offers must not mislead: prices, discounts and
+      deadlines in a client's campaign must be real.
+    sides: [client]
+    source: https://www.legislation.gov.uk/ukpga/2024/13/part/4/chapter/1
+    last_checked: TODO

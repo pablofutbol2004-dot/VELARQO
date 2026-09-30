@@ -1,0 +1,29 @@
+# One signed client. Copy truth/clients/_template/ to truth/clients/<client-id>/
+# at onboarding and fill in every TODO before any campaign runs.
+side: client
+client_id: TODO                   # lowercase-hyphenated, matches the folder name
+
+legal_name: TODO
+trading_name: TODO
+entity_type: TODO                 # limited_company | sole_trader | partnership
+company_number: TODO
+registered_address: TODO
+niche: TODO                       # a niche id from truth/velarqo/niches.yaml
+velarqo_offer: TODO               # the Velarqo offer id they signed up to
+
+# The CLIENT is the sender to its customers; campaigns go out in its name,
+# from its GHL account, never from Velarqo's mailbox.
+sender:
+  name: TODO
+  email: TODO
+  phone: TODO
+  opt_out_instruction: TODO
+
+ghl:
+  location_id: TODO
+
+agreements:
+  contract_signed: TODO           # date
+  dpa_signed: TODO                # date: UK GDPR Art 28 processor agreement; required before we touch their data
+  data_received: TODO             # date the customer list was handed over
+  data_retention_until: TODO      # when we delete their data

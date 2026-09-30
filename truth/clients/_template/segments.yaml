@@ -1,0 +1,13 @@
+# This client's customer segments. Not Velarqo's niches.
+# Ids match lib/segmentation/segment.py and campaign_generator/recommend.py.
+side: client
+
+segments:
+  - id: lost
+    description: Quoted, then lost (price, timing, competitor).
+  - id: no_show
+    description: Booked an appointment and didn't turn up.
+  - id: expired
+    description: Quote issued and expired without a decision.
+  - id: quoted
+    description: Quote open, customer still deciding.

@@ -1,0 +1,30 @@
+# How the law in truth/compliance/uk.yaml applies to Velarqo's OWN outreach.
+side: velarqo
+
+our_role: controller              # we chose to collect and use prospect data
+applies:                          # rule ids from truth/compliance/uk.yaml
+  - pecr-reg23-identity-optout
+  - pecr-reg22-individual-subscribers
+  - ukgdpr-legitimate-interests
+  - ukgdpr-art14-notice
+  - ukgdpr-art21-objection
+  - ico-data-protection-fee
+  - duaa-2025-pecr-fines
+
+requirements:
+  every_email_must_include:
+    - sender legal name and address (truth/velarqo/company.yaml)
+    - a working opt-out (reply "stop")
+    - link to our privacy notice
+  may_email_without_consent:
+    - limited companies
+    - LLPs
+    - Scottish partnerships
+  must_not_email_without_consent:
+    - sole traders
+    - partnerships other than LLPs and Scottish partnerships
+  unknown_entity_type: do_not_send   # can't prove it's a company -> treat as individual
+  opt_out:
+    list: velarqo                    # our own suppression list, never a client's
+    honour_within: immediately
+  legitimate_interests_assessment: TODO   # link to our written LIA

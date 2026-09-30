@@ -2,7 +2,7 @@
 name = "velarqo"
 version = "0.1.0"
 description = "Niche-agnostic intelligence platform for B2B outreach, lead management, and revenue recovery"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "pandas>=2.2",
     "python-dotenv>=1.0",
@@ -11,6 +11,7 @@ dependencies = [
     "rapidfuzz>=3.9",
     "requests>=2.31",
     "psycopg[binary]>=3.2",
+    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]

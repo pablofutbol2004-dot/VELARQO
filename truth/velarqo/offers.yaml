@@ -1,0 +1,25 @@
+# What Velarqo sells to trade businesses. NOT what a client offers its own
+# customers (that lives in truth/clients/<client-id>/offers.yaml).
+side: velarqo
+
+offers:
+  - id: old-quote-reactivation
+    status: live                  # live | test | retired
+    name: Old-quote reactivation
+    promise: >
+      We run follow-up campaigns on a trade business's old, unconverted
+      quotes and turn a share of them into booked appointments.
+    pricing:
+      model: performance          # as stated in current copy: "nothing to pay unless it works"
+      setup_fee: TODO             # 0 if none
+      price_per_result: TODO
+      result_definition: TODO     # booked survey? attended appointment? sale?
+      minimum_term: TODO
+    guarantee: "Nothing to pay unless it works."
+    deliverables: TODO            # what the client actually gets
+    # Approved one-line pitch used in cold emails; {trade} and {result}
+    # come from the niche. Each niche's ICP offer_line must match this.
+    pitch: >-
+      We run follow-up campaigns on those old quotes for {trade} and turn a
+      share of them into {result}. It's performance-based, so there's nothing
+      to pay unless it works.
