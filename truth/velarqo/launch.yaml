@@ -1,0 +1,31 @@
+# Velarqo's own outreach launch. Owner decision 2026-09-30: the day the
+# inboxes finish warming up is launch day. No postponing.
+side: velarqo
+
+warmup_started: TODO              # date the inboxes were connected and warm-up turned on
+warmup_days: 21
+launch_date: 2026-10-22           # warm-up start + 21 days; recompute if setup slips past 2026-10-01
+
+sending:
+  tool: smartlead-basic
+  domains: [getvelarqo.com, velarqohq.com]   # sending only; never the main brand domain
+  inboxes_per_domain: 3
+  per_inbox_per_day:
+    launch_week: 15
+    week_2: 25
+    steady: 30                    # ~180/day total incl. follow-ups
+  warmup_share_after_launch: 0.2  # keep warm-up running at ~20% of volume
+
+first_wave:
+  source: public.outreach_queue   # Supabase view
+  leads: 792                      # homeowner-facing, priority >= 70
+  test_batches: 3 variants x 100 leads before rolling out the winner
+
+must_be_ready_by_launch:          # everything else can wait
+  - sender identity + opt-out footer (truth/velarqo/company.yaml)
+  - privacy notice page (URL in company.yaml)
+  - offer terms: result definition + price (truth/velarqo/offers.yaml)
+  - 3 opener variants + 3-email sequence
+  - reply handling: templates for price / info / not interested / stop
+  - suppression list flow: every "stop" and bounce recorded same day
+  - calendar link for calls
