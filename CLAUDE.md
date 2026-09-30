@@ -51,6 +51,11 @@ rule anywhere else; `tests/integration/test_truth.py` catches drift. A
 
 ## Status notes
 
+- Velarqo's own outreach list is the Supabase view `public.outreach_queue`
+  (migration 20260930000100): UK residential window/door installers with an
+  email, ranked by old-quote backlog. Email from it in `priority` order;
+  don't email straight from `companies`.
+
 - Python 3.12+ is required (the code uses nested f-string quotes).
 - `ARCHITECTURE.md` predates the send-channel decision: its GHL-as-sender
   flow is wrong for Velarqo's own outreach (see the correction at its top).
