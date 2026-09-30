@@ -3,25 +3,29 @@
 Side: **Velarqo** (our own cold email). Launch = warm-up start + 21 days
 (`truth/velarqo/launch.yaml`).
 
-## 1. Domains (10 min, ~€30/year)
+## 1. Domains (10 min, ~€33/year)
 
-Buy at Porkbun, Cloudflare Registrar or Namecheap (cheap, simple DNS):
+Main brand domain: `velarqo.com` (owned). Never send cold email from it.
+Buy three neutral `.com` sending domains at Porkbun, Cloudflare Registrar
+or Namecheap:
 
 | Domain | Use |
 |---|---|
 | `getvelarqo.com` | sending |
 | `velarqohq.com` | sending |
-| `velarqo.co.uk` | **main brand** (website, real replies later), only if `velarqo.com` isn't yours. Never send cold email from it. |
+| `tryvelarqo.com` | sending |
 
-Checked 2026-09-30 by DNS: all three had no DNS records (very likely free).
+Backups: `usevelarqo.com`, `joinvelarqo.com`, `hellovelarqo.com`.
+Checked 2026-09-30 by DNS: all had no DNS records (very likely free).
 
 ## 2. Google Workspace (20 min, ~€7-8 per inbox per month)
 
 1. Sign up for **Business Starter** with `getvelarqo.com` as the primary domain.
-2. Admin console → Domains → add `velarqohq.com` as a **secondary domain** (not an alias).
-3. Create 6 users, all your real name, e.g.:
-   - `pablo@getvelarqo.com`, `pablo.v@getvelarqo.com`, `p.v@getvelarqo.com`
-   - the same three on `velarqohq.com`
+2. Admin console → Domains → add `velarqohq.com` and `tryvelarqo.com` as
+   **secondary domains** (not aliases).
+3. Create 6 users (2 per domain), all your real name, e.g.:
+   - `pablo@getvelarqo.com`, `p.v@getvelarqo.com`
+   - the same two on `velarqohq.com` and on `tryvelarqo.com`
 4. Give each a profile photo (the same real photo). It helps trust and deliverability.
 
 ## 3. DNS records for EACH sending domain (15 min)
@@ -32,7 +36,7 @@ Checked 2026-09-30 by DNS: all three had no DNS records (very likely free).
 | TXT (SPF) | @ | `v=spf1 include:_spf.google.com ~all` |
 | TXT (DKIM) | `google._domainkey` | generate in Admin console → Apps → Google Workspace → Gmail → Authenticate email → Generate new record (2048-bit), paste it, then click **Start authentication** |
 | TXT (DMARC) | `_dmarc` | `v=DMARC1; p=none; rua=mailto:pablo@getvelarqo.com` |
-| Redirect | @ and www | forward to the main site (velarqo.co.uk or velarqo.com) |
+| Redirect | @ and www | forward to `https://velarqo.com` |
 
 Tell Claude when done: it checks every record from its side.
 

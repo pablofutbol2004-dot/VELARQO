@@ -8,8 +8,9 @@ launch_date: 2026-10-22           # warm-up start + 21 days; recompute if setup 
 
 sending:
   tool: smartlead-basic
-  domains: [getvelarqo.com, velarqohq.com]   # sending only; never the main brand domain
-  inboxes_per_domain: 3
+  main_domain: velarqo.com        # owner's; brand + real replies, never cold email
+  domains: [getvelarqo.com, velarqohq.com, tryvelarqo.com]   # sending only, neutral .com
+  inboxes_per_domain: 2
   per_inbox_per_day:
     launch_week: 15
     week_2: 25
