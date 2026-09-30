@@ -18,6 +18,8 @@ this is the working list.
 - Anything we can measure ourselves beats anything we can read. Where a
   question can be answered by an experiment, the experiment is listed.
 
+**First research pass:** `docs/research/2026-09-30-first-pass.md`.
+
 **What we already know (2026-09-30)**
 - Niche: UK window & door installers, homeowner-facing. 1,918 in
   `outreach_queue`, 792 wave-1 (homeowner-facing, priority 70+).

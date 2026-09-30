@@ -28,13 +28,38 @@ rules:
   - id: pecr-soft-opt-in
     law: PECR 2003, reg 22(3)
     summary: >
-      A business may email its own customers without consent if it got their
-      details during a sale or negotiation of a sale, markets only its own
-      similar products, and offered an opt-out when collecting the details
-      and in every message.
+      A business may email/text its own customers without consent if it got
+      their details during a sale or negotiation of a sale, markets only its
+      own similar products, and offered an opt-out when collecting the
+      details and in every message. A quote request counts as negotiations
+      for a sale. If no opt-out was offered at collection, soft opt-in is NOT
+      available for that contact. No stated expiry.
     sides: [client]
-    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/electronic-mail-marketing/
-    last_checked: TODO
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-direct-marketing-using-electronic-mail/how-do-we-comply-with-the-pecr-electronic-mail-marketing-rules/
+    last_checked: 2026-09-30
+
+  - id: pecr-service-messages
+    law: PECR 2003 / ICO direct marketing guidance
+    summary: >
+      Genuine service or administrative messages aren't direct marketing and
+      don't need consent. Adding promotional content makes them marketing.
+      Treat any message aimed at winning the sale as marketing unless advised
+      otherwise.
+    sides: [client]
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/direct-marketing-and-regulatory-communications/
+    last_checked: 2026-09-30
+
+  - id: pecr-tps-calls
+    law: PECR 2003, regs 21 and 21B
+    summary: >
+      Live marketing calls to individuals are allowed unless the number is on
+      the TPS (companies: CTPS) or the person told the caller not to call.
+      Screen every list against TPS/CTPS before calling (~22m numbers
+      registered). Someone on TPS can still be called if they told this
+      business they don't object to its calls.
+    sides: [velarqo, client]
+    source: https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guide-to-pecr/electronic-and-telephone-marketing/telephone-marketing/
+    last_checked: 2026-09-30
 
   - id: ukgdpr-legitimate-interests
     law: UK GDPR Art 6(1)(f)

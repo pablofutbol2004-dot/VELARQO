@@ -11,6 +11,8 @@ applies:                          # rule ids from truth/compliance/uk.yaml
   - ukgdpr-art27-representative   # we process their UK customers' data from Spain
   - eu-gdpr-establishment         # our processing happens in Spain
   - eu-uk-adequacy                # lets their data come to Spain
+  - pecr-service-messages
+  - pecr-tps-calls                # phone is the fallback channel for contacts without an email/SMS basis
 
 # Homeowners are individual subscribers: every contact needs consent or the
 # soft opt-in. The client must confirm which, and we record it per contact.
@@ -21,7 +23,9 @@ soft_opt_in_checks:               # all must be true for soft opt-in
   marketing_similar_products_only: TODO
   opt_out_offered_at_collection: TODO
   opt_out_offered_in_every_message: true
-contacts_without_basis: do_not_send
+contacts_without_basis: no_email_or_sms   # phone (TPS-screened) or post only
+# Check the client's real quote form/process for an opt-out at collection;
+# don't just take their word for it.
 
 opt_out:
   list: client                    # this client's own list; never Velarqo's or another client's
