@@ -18,7 +18,7 @@ class FakeProvider:
 
 def test_send_campaign_email_skips_when_no_email():
     provider = FakeProvider()
-    result = send_campaign_email(provider, {"email": None, "subject": "x", "body": "y"})
+    result = send_campaign_email(provider, {"email": None, "subject": "x", "body": "y"}, gate=None)
 
     assert result["status"] == "skipped_no_email"
     assert provider.sent == []
@@ -28,7 +28,7 @@ def test_send_campaign_email_sends_and_annotates_result():
     provider = FakeProvider()
     item = {"email": "lead@acme.com", "subject": "Quick idea", "body": "Hi there"}
 
-    result = send_campaign_email(provider, item)
+    result = send_campaign_email(provider, item, gate=None)
 
     assert result["status"] == "sent"
     assert result["provider_message_id"] == "msg-1"
@@ -42,7 +42,7 @@ def test_send_campaign_sends_full_queue_from_real_pipeline_output():
     campaign = build_campaign(leads, icp)
 
     provider = FakeProvider()
-    sent_campaign = send_campaign(provider, campaign)
+    sent_campaign = send_campaign(provider, campaign, gate=None)
 
     assert len(provider.sent) == len(campaign["queue"])
     for item in sent_campaign["queue"]:

@@ -227,6 +227,9 @@ def main(
         campaign = send_campaign(provider, campaign)
         sent_count = sum(1 for item in campaign["queue"] if item["status"] == "sent")
         click.echo(f"\nSent {sent_count}/{len(campaign['queue'])} emails via {email_provider}")
+        blocked = Counter(r for item in campaign["queue"] for r in item.get("blocked_reasons", []))
+        for reason, count in blocked.most_common():
+            click.echo(f"  blocked {count}: {reason}")
 
     if save:
         save_leads(leads)
