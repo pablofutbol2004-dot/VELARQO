@@ -1,6 +1,7 @@
 # Velarqo business map: idea to £100k/month, solo
 
-Every area we need to be good at, as the questions we must answer. Mark
+Every area we need to be good at, as the questions we must answer. The
+detailed, prioritised version is `docs/research_agenda.md`. Mark
 each one as we answer it, with where the answer lives (usually `truth/`).
 Two sides throughout (see CLAUDE.md): **V** = Velarqo winning clients,
 **C** = delivering for clients.
