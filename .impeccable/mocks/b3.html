@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B3 · The drawer of old quotes</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Reenie+Beanie&family=Courier+Prime:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--desk:#1f2723;--pnk:#f4c1cd;--wht:#fbfaf4;--yel:#f6e58d;--blue:#1b3c8f;--red:#d23a2c}
+*{box-sizing:border-box}body{margin:0;background:var(--desk);color:#fff;font-family:Archivo,sans-serif;overflow-x:hidden}
+.top{display:flex;justify-content:space-between;padding:20px 28px;font-weight:900;font-size:22px}.top a{color:#fff;font-weight:600;font-size:15px}
+.hero{display:grid;grid-template-columns:1fr 1.1fr;gap:30px;align-items:center;padding:30px 28px 60px;min-height:80vh}
+h1{font-weight:900;font-size:clamp(42px,6vw,84px);line-height:.94;letter-spacing:-.03em;margin:0 0 20px}
+h1 em{font-style:normal;color:var(--pnk)}
+p{font-size:19px;line-height:1.5;max-width:42ch;color:#dfe5e1;margin:0 0 26px}
+.btn{display:inline-block;background:var(--pnk);color:#1f2723;text-decoration:none;font-weight:800;font-size:18px;padding:16px 26px}
+.pile{position:relative;height:520px}
+.slip{position:absolute;width:260px;height:170px;padding:14px 16px;box-shadow:0 8px 20px rgba(0,0,0,.4);color:#222;font-size:10px;letter-spacing:.1em;text-transform:uppercase;opacity:.9;filter:saturate(.8)}
+.slip .h{font-family:"Reenie Beanie";text-transform:none;letter-spacing:0;font-size:24px;color:var(--blue);margin-top:10px}
+.slip.hero-slip{opacity:1;width:320px;height:210px;z-index:5;left:30%;top:30%;transform:rotate(-4deg)}
+.stamp{position:absolute;right:14px;bottom:18px;font-family:"Courier Prime";font-weight:700;font-size:22px;color:var(--red);border:3px solid var(--red);padding:2px 10px;transform:rotate(-10deg)}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.pile{height:360px}.slip{width:200px;height:130px}.slip.hero-slip{left:10%;width:280px}}
+</style></head><body>
+<div class="top">VELARQO<a href="#">hello@velarqo.com</a></div>
+<div class="hero">
+<div><h1>You've got a drawer full of <em>jobs you already quoted.</em></h1>
+<p>Most homeowners never said no. They went quiet. We follow up your old quotes and book the ones still interested back into your diary. Nothing to pay unless it works.</p>
+<a class="btn" href="#">Talk to Pablo →</a></div>
+<div class="pile" id="p">
+<div class="slip hero-slip" style="background:var(--pnk)">Quotation 004817 · 14/03/25<div class="h">Mrs Hale · bay window + back door</div><div class="h" style="font-size:20px">"we'll think about it"</div><span class="stamp">Rebooked</span></div>
+</div></div>
+<script>
+const p=document.getElementById('p'),bg=['--pnk','--wht','--yel'],names=['Patel · 3 doors','Okafor · sash x4','Reed · bifold','Grant · porch','Evans · 6 windows','Hughes · french doors','Moss · conservatory roof','Kaur · front door'];
+for(let i=0;i<11;i++){const s=document.createElement('div');s.className='slip';s.style.background=`var(${bg[i%3]})`;s.style.left=(Math.sin(i*2.1)*30+35)+'%';s.style.top=(Math.cos(i*1.7)*34+36)+'%';s.style.transform=`translate(-50%,-50%) rotate(${(i*37%40)-20}deg)`;s.innerHTML=`Quotation 00${4700+i*13}<div class="h">${names[i%8]}</div>`;p.prepend(s)}
+</script>
+</body></html>

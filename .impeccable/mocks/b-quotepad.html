@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample B · Quote pad</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Reenie+Beanie&family=Courier+Prime&display=swap" rel="stylesheet">
+<style>
+:root{--desk:#2f3a34;--wht:#fdfcf7;--yel:#f7e892;--pnk:#f6c3cf;--blue:#1a3a8a;--ink:#222}
+*{box-sizing:border-box}body{margin:0;background:var(--desk);font-family:Archivo,sans-serif;color:var(--ink);min-height:100vh;overflow:hidden}
+.stage{position:relative;height:100vh;min-height:640px}
+.sheet{position:absolute;width:min(760px,92vw);height:560px;left:50%;top:50%;padding:26px 30px;box-shadow:0 20px 40px rgba(0,0,0,.35)}
+.s1{background:var(--wht);transform:translate(-40%,-54%) rotate(6deg)}
+.s2{background:var(--yel);transform:translate(-45%,-52%) rotate(2.5deg)}
+.s3{background:var(--pnk);transform:translate(-52%,-50%) rotate(-2deg)}
+.head{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.brand{font-weight:900;font-size:28px;letter-spacing:-.02em}.brand small{display:block;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.no{font-family:"Courier Prime";font-size:14px;text-align:right}.no b{color:#c0392b;font-size:20px;display:block}
+.copy{position:absolute;top:10px;right:-8px;transform:rotate(90deg);transform-origin:right top;font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.6}
+.row{display:grid;grid-template-columns:130px 1fr;border-bottom:1px solid rgba(0,0,0,.35);min-height:40px;align-items:end}
+.row label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding-bottom:6px}
+.hand{font-family:"Reenie Beanie";color:var(--blue);font-size:30px;line-height:1}
+h1{font-weight:900;font-size:clamp(34px,5vw,58px);line-height:.95;letter-spacing:-.03em;margin:18px 0 10px}
+p{font-size:17px;line-height:1.45;max-width:52ch;margin:0 0 14px}
+.sig{display:flex;gap:16px;align-items:center;margin-top:14px}
+.btn{background:var(--ink);color:#fff;text-decoration:none;font-weight:800;padding:14px 22px;font-size:17px}
+.stamp{font-family:"Courier Prime";font-weight:700;color:#c0392b;border:3px solid #c0392b;padding:4px 10px;transform:rotate(-6deg);font-size:15px;text-transform:uppercase;opacity:.85}
+.status{position:absolute;right:30px;bottom:24px;font-family:"Reenie Beanie";font-size:30px;color:var(--blue)}
+@media(max-width:700px){.sheet{height:auto;min-height:600px;padding:18px}.row{grid-template-columns:90px 1fr}.s1,.s2{display:none}.s3{transform:translate(-50%,-50%) rotate(-1deg)}.status{position:static}}
+</style></head><body>
+<div class="stage">
+<div class="sheet s1"></div><div class="sheet s2"></div>
+<div class="sheet s3">
+<div class="copy">Customer copy · pink</div>
+<div class="head"><div class="brand">VELARQO<small>Old quote follow-up</small></div><div class="no">Quotation No.<b>004817</b>Date: 14/03/25</div></div>
+<div class="row"><label>Customer</label><span class="hand">Mr &amp; Mrs Hale, 12 Orchard Rd</span></div>
+<div class="row"><label>Work</label><span class="hand">Bay window + back door, anthracite</span></div>
+<h1>This quote went quiet. It isn't dead.</h1>
+<p>Most homeowners you quoted never said no. We follow up your old quotes and book the ones still interested back into your diary.</p>
+<div class="sig"><a class="btn" href="#">Talk to Pablo →</a><span class="stamp">Pay only if it works</span></div>
+<div class="status">follow up? ✓</div>
+</div>
+</div>
+</body></html>

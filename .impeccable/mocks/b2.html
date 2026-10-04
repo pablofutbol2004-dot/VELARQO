@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B2 · The whole page is the quote</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=Reenie+Beanie&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--yel:#f8ec9c;--ink:#1d1d1b;--blue:#1b3c8f;--red:#c0392b;--line:rgba(0,0,0,.45)}
+*{box-sizing:border-box}body{margin:0;background:var(--yel);color:var(--ink);font-family:Archivo,sans-serif;background-image:linear-gradient(90deg,rgba(0,0,0,.04) 1px,transparent 1px);background-size:6px 100%}
+.page{max-width:1100px;margin:0 auto;padding:26px 24px 40px}
+.head{display:grid;grid-template-columns:1fr auto;border:2px solid var(--ink)}
+.head .l{padding:14px 18px;border-right:2px solid var(--ink)}
+.brand{font-weight:900;font-size:34px;letter-spacing:-.02em}.brand small{display:block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.head .r{padding:14px 18px;font-family:"Courier Prime";font-size:14px;line-height:1.6}
+.head .r b{color:var(--red);font-size:22px}
+table{width:100%;border-collapse:collapse;margin-top:-2px}
+td{border:2px solid var(--ink);padding:10px 14px;vertical-align:top}
+td.k{width:170px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.hand{font-family:"Reenie Beanie";color:var(--blue);font-size:34px;line-height:1}
+h1{font-weight:900;font-size:clamp(36px,5.4vw,70px);line-height:.96;letter-spacing:-.03em;margin:4px 0}
+.desc{font-size:18px;line-height:1.45;max-width:58ch;margin:0}
+.total{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.price{font-family:"Courier Prime";font-weight:700;font-size:28px}
+.price s{color:#777;font-weight:400}
+.btn{background:var(--ink);color:var(--yel);text-decoration:none;font-weight:800;font-size:18px;padding:16px 26px}
+.foot{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+@media(max-width:700px){td.k{width:90px}.head{grid-template-columns:1fr}.head .l{border-right:0;border-bottom:2px solid var(--ink)}}
+</style></head><body>
+<div class="page">
+<div class="head"><div class="l"><div class="brand">VELARQO<small>Old quote follow-up · for window &amp; door firms</small></div></div>
+<div class="r">Quotation No. <b>000001</b><br>Valid: until it works</div></div>
+<table>
+<tr><td class="k">Customer</td><td><span class="hand">You, and every quote that went quiet</span></td></tr>
+<tr><td class="k">Description of work</td><td><h1>We turn your old quotes into booked appointments.</h1><p class="desc">Most homeowners you quoted never said no. We follow them up in your name and book the ones still interested into your diary.</p></td></tr>
+<tr><td class="k">Total</td><td><div class="total"><span class="price">£0 <s>upfront</s> · pay only if it works</span><a class="btn" href="#">Accept: talk to Pablo →</a></div></td></tr>
+</table>
+<div class="foot"><span>Yellow copy · office</span><span>velarqo.com</span></div>
+</div>
+</body></html>

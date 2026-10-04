@@ -1,0 +1,14 @@
+// Deploys the static site in website/ to velarqo.com via Cloudflare Workers static assets.
+// Deploy: npx wrangler deploy
+{
+  "name": "velarqo-site",
+  "compatibility_date": "2026-09-30",
+  "assets": {
+    "directory": "./website",
+    "not_found_handling": "404-page"
+  },
+  "routes": [
+    { "pattern": "velarqo.com", "custom_domain": true },
+    { "pattern": "www.velarqo.com", "custom_domain": true }
+  ]
+}

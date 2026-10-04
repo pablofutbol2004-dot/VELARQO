@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample A · Year planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;800&family=Barlow:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{--lam:#f8f6ef;--ink:#1d2b4f;--red:#e2342b;--yel:#f4b400;--grn:#2e8b57;--blu:#2459c9;--rule:#c9cfdd}
+*{box-sizing:border-box}body{margin:0;background:var(--ink);font-family:Barlow,sans-serif;color:var(--ink)}
+.board{margin:18px;background:var(--lam);border-radius:4px;box-shadow:0 30px 60px rgba(0,0,0,.35),inset 0 0 0 1px #fff;overflow:hidden;position:relative}
+.board:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.55) 48%,transparent 56%);pointer-events:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--ink);color:#fff;font-family:"Barlow Condensed";font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.top b{font-size:22px;letter-spacing:.02em}.top span{font-size:14px;opacity:.8}
+.months{display:grid;grid-template-columns:repeat(6,1fr);font-family:"Barlow Condensed";font-weight:800;font-size:15px;text-transform:uppercase;color:#fff}
+.months div{padding:6px 10px}.months div:nth-child(1){background:var(--red)}.months div:nth-child(2){background:var(--yel);color:var(--ink)}.months div:nth-child(3){background:var(--grn)}.months div:nth-child(4){background:var(--blu)}.months div:nth-child(5){background:var(--red)}.months div:nth-child(6){background:var(--yel);color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);position:relative}
+.col{border-right:1px solid var(--rule)}
+.day{height:34px;border-bottom:1px solid var(--rule);display:flex;align-items:center;gap:6px;padding:0 8px;font-family:"Barlow Condensed";font-size:12px;color:#8a93aa}
+.day.we{background:#eceef4}
+.dot{width:18px;height:18px;border-radius:50%;display:inline-block;box-shadow:0 1px 1px rgba(0,0,0,.25)}
+.note{font-family:"Permanent Marker";font-size:12px;color:var(--ink)}
+.hero{z-index:2;position:absolute;left:5%;top:14%;width:min(620px,70%);background:var(--lam);padding:28px 32px 30px;box-shadow:0 0 0 1px var(--rule),8px 8px 0 var(--ink)}
+h1{font-family:"Barlow Condensed";font-weight:800;text-transform:uppercase;font-size:clamp(40px,6vw,76px);line-height:.92;margin:0 0 14px;letter-spacing:-.005em}
+h1 em{font-style:normal;color:var(--red)}
+p{font-size:19px;line-height:1.45;margin:0 0 20px;max-width:46ch}
+.cta{display:inline-flex;align-items:center;gap:12px;background:var(--red);color:#fff;font-family:"Barlow Condensed";font-weight:700;font-size:22px;text-transform:uppercase;padding:14px 22px 14px 14px;border-radius:40px;text-decoration:none}
+.cta i{width:30px;height:30px;border-radius:50%;background:#fff;display:inline-block}
+.small{font-family:"Permanent Marker";font-size:16px;margin-left:14px;color:var(--grn)}
+.key{position:absolute;right:3%;bottom:6%;background:#fff;padding:12px 16px;font-family:"Barlow Condensed";font-size:14px;text-transform:uppercase;box-shadow:0 0 0 1px var(--rule)}
+.key div{display:flex;gap:8px;align-items:center;margin:4px 0}
+@media(max-width:700px){.months,.grid{grid-template-columns:repeat(3,1fr)}.months div:nth-child(n+4),.col:nth-child(n+4){display:none}.hero{position:relative;left:auto;top:auto;width:auto;margin:-420px 12px 0;box-shadow:0 0 0 1px var(--rule),5px 5px 0 var(--ink)}.key{display:none}.board{margin:8px}}
+</style></head><body>
+<div class="board">
+<div class="top"><b>Velarqo</b><span>Wall planner · 2027</span></div>
+<div class="months"><div>Jan</div><div>Feb</div><div>Mar</div><div>Apr</div><div>May</div><div>Jun</div></div>
+<div class="grid" id="g"></div>
+<div class="hero">
+<h1>Your old quotes are <em>next month's jobs.</em></h1>
+<p>Most quotes don't get a no. They go quiet. We follow them up for you and put the homeowners who still want the work back in your diary.</p>
+<a class="cta" href="#"><i></i>Talk to Pablo</a><span class="small">nothing to pay unless it works</span>
+</div>
+<div class="key"><div><span class="dot" style="background:var(--red)"></span>Booked from an old quote</div><div><span class="dot" style="background:var(--yel)"></span>Survey</div><div><span class="dot" style="background:var(--grn)"></span>Fitting</div><div style="opacity:.6">Illustrative</div></div>
+</div>
+<script>
+const g=document.getElementById('g'),c=['--red','--yel','--grn','--red','--blu','--red'],n=['Mrs Hale - bay','Patel - 3 doors','Okafor - sash','Reed - bifold','Grant - porch','Evans - 6 win'];
+for(let m=0;m<6;m++){const col=document.createElement('div');col.className='col';for(let d=1;d<=18;d++){const e=document.createElement('div');e.className='day'+(d%7==6||d%7==0?' we':'');e.textContent=d;if((d*7+m*3)%5==0&&d>3){e.innerHTML+=` <span class="dot" style="background:var(${c[(d+m)%6]})"></span><span class="note">${n[(d+m)%6]}</span>`}col.appendChild(e)}g.appendChild(col)}
+</script>
+</body></html>

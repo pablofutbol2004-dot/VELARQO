@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A2 · Planner, written on</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;800&family=Barlow:wght@400;600&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+:root{--lam:#fbfaf5;--ink:#15213f;--red:#e2342b;--yel:#f4b400;--grn:#2e8b57;--blu:#2459c9;--rule:#d3d8e3}
+*{box-sizing:border-box}body{margin:0;background:var(--lam);color:var(--ink);font-family:Barlow,sans-serif}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-bottom:3px solid var(--ink);font-family:"Barlow Condensed";font-weight:800;text-transform:uppercase}
+.bar b{font-size:24px}.bar a{color:var(--ink);font-size:16px}
+.wrap{position:relative;overflow:hidden}
+.grid{display:grid;grid-template-columns:70px repeat(7,1fr)}
+.grid div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);height:64px;font-family:"Barlow Condensed";font-size:13px;color:#98a0b3;padding:6px 8px}
+.grid .h{height:auto;background:var(--ink);color:#fff;font-weight:800;text-transform:uppercase;font-size:14px;padding:8px}
+.grid .wk{background:#eef0f5;color:var(--ink);font-weight:800}
+.msg{position:absolute;inset:0;padding:70px 6% 0 calc(70px + 4%);pointer-events:none}
+.msg h1{font-family:"Permanent Marker";font-weight:400;font-size:clamp(32px,5vw,76px);line-height:1.02;margin:0;color:var(--ink);transform:rotate(-2deg);max-width:15ch}
+.msg h1 u{text-decoration:none;color:var(--red);position:relative}
+.msg h1 u:after{content:"";position:absolute;left:-4%;right:-4%;bottom:6%;height:10px;background:var(--red);opacity:.25;border-radius:6px}
+.msg p{font-size:20px;line-height:1.45;max-width:40ch;margin:26px 0 22px;background:var(--lam);padding:4px 0}
+.cta{pointer-events:auto;display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:#fff;text-decoration:none;font-family:"Barlow Condensed";font-weight:800;font-size:22px;text-transform:uppercase;padding:14px 22px}
+.cta .d{width:22px;height:22px;border-radius:50%;background:var(--red)}
+.dot{position:absolute;width:46px;height:46px;border-radius:50%;box-shadow:0 2px 2px rgba(0,0,0,.25);animation:stick .5s cubic-bezier(.2,1.6,.4,1) both}
+.dot:after{content:"";position:absolute;inset:6px 18px 24px 8px;border-radius:50%;background:rgba(255,255,255,.35)}
+@keyframes stick{from{transform:scale(1.6) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+.tag{position:absolute;right:20px;bottom:16px;font-family:"Barlow Condensed";font-size:13px;text-transform:uppercase;color:#8a93a8}
+@media(max-width:700px){.grid{grid-template-columns:40px repeat(4,1fr)}.grid div:nth-child(8n+6),.grid div:nth-child(8n+7),.grid div:nth-child(8n+8){display:none}.msg{padding:40px 16px 0 56px}.msg p{font-size:18px}}
+</style></head><body>
+<div class="bar"><b>Velarqo</b><a href="#">hello@velarqo.com</a></div>
+<div class="wrap"><div class="grid" id="g"></div>
+<div class="msg">
+<h1>Fill next month's diary from <u>last year's quotes.</u></h1>
+<p>Homeowners you quoted rarely said no. They went quiet. We follow them up and book the ones still keen straight into your diary. Nothing to pay unless it works.</p>
+<a class="cta" href="#"><span class="d"></span>Talk to Pablo</a>
+</div>
+<div class="tag">Illustrative diary</div></div>
+<script>
+const g=document.getElementById('g'),days=['Wk','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+days.forEach(d=>{const e=document.createElement('div');e.className='h';e.textContent=d;g.appendChild(e)});
+for(let w=0;w<9;w++)for(let d=0;d<8;d++){const e=document.createElement('div');if(d==0){e.className='wk';e.textContent=w+14}else e.textContent=((w*7+d)%31)+1;g.appendChild(e)}
+const cols=['--red','--red','--yel','--grn','--red','--blu'],wrap=document.querySelector('.wrap');
+[[.62,.12],[.78,.3],[.9,.52],[.7,.66],[.84,.82],[.56,.9],[.95,.2],[.66,.44]].forEach(([x,y],i)=>{const s=document.createElement('span');s.className='dot';s.style.left=x*100+'%';s.style.top=y*100+'%';s.style.background=`var(${cols[i%6]})`;s.style.animationDelay=(.3+i*.18)+'s';wrap.appendChild(s)});
+</script>
+</body></html>

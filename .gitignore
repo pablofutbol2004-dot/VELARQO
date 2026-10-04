@@ -12,3 +12,7 @@ docs/ghl/api/sdk/
 data/*.zip
 data/*.jsonl
 data/*.log
+.wrangler/
+data/cloudflare_backups/
+data/osm_tile_cache/
+data/*.txt

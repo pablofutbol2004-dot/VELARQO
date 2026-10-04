@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sample D · Clean standard</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--ink:#14181f;--muted:#5a6270;--acc:#1f5f4a;--line:#e6e8ec}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:"Public Sans",sans-serif;color:var(--ink)}
+header{display:flex;justify-content:space-between;align-items:center;max-width:1120px;margin:0 auto;padding:22px 24px}
+.logo{font-weight:800;font-size:20px}.nav a{color:var(--ink);text-decoration:none;margin-left:24px;font-weight:600}
+.hero{max-width:1120px;margin:0 auto;padding:70px 24px 90px;display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
+h1{font-size:clamp(38px,5vw,62px);line-height:1.04;letter-spacing:-.03em;margin:0 0 20px}
+p{font-size:19px;line-height:1.55;color:var(--muted);margin:0 0 30px;max-width:48ch}
+.btn{background:var(--acc);color:#fff;padding:15px 24px;border-radius:8px;text-decoration:none;font-weight:600}
+.card{border:1px solid var(--line);border-radius:14px;padding:28px}
+.card h3{margin:0 0 16px;font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.li{display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)}
+.li b{font-weight:600}.li span{color:var(--acc);font-weight:600}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:30px}.nav{display:none}}
+</style></head><body>
+<header><div class="logo">Velarqo</div><div class="nav"><a href="#">How it works</a><a href="#">FAQ</a><a href="#">Contact</a></div></header>
+<section class="hero"><div>
+<h1>Turn your old quotes into booked appointments.</h1>
+<p>We run follow-up campaigns on the quotes you sent that never converted, for UK window and door installers. Nothing to pay unless it works.</p>
+<a class="btn" href="#">Talk to Pablo</a></div>
+<div class="card"><h3>Example campaign (illustrative)</h3>
+<div class="li"><b>Old quotes shared</b><span>640</span></div>
+<div class="li"><b>Still interested</b><span>—</span></div>
+<div class="li"><b>Appointments booked</b><span>—</span></div></div>
+</section>
+</body></html>

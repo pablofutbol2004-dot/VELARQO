@@ -1,0 +1,87 @@
+{
+  "title": "Choose the look for velarqo.com",
+  "question": "Pick the visual world for the site. The first card is the one I'd build.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "The Office Year Planner",
+      "kicker": "THE ROLL",
+      "lineage": "the laminated wall year-planner in every installer's office, fitting jobs marked with coloured dot stickers",
+      "thesis": "Your diary, filling up: old quotes turn into dots on next month's planner.",
+      "palette": ["#f7f4ec", "#1d2b4f", "#e2342b", "#f4b400", "#2e8b57"],
+      "materials": ["laminated wall chart", "coloured dot stickers", "marker handwriting on a ruled day grid"],
+      "viewport": "A full-width month grid of the planner with the headline over it; red 'booked' dots stuck into the day cells, the email button pinned like a sticker.",
+      "risk": "Could look like a calendar app if the planner's print details (ruled grid, month bands, stickers) are drawn timidly.",
+      "raised": [
+        {"from": "OSPAAAL silkscreen", "raise": "Sticker colours run at full saturation as page-scale bands, not timid accents."},
+        {"from": "Seed packet rack", "raise": "Each step leads with its promise in big type and flips to the plain detail underneath."},
+        {"from": "Darkroom exposure record", "raise": "All numbers set in tabular figures, like a job sheet."}
+      ]
+    },
+    {
+      "id": "model-pick",
+      "label": "The Triplicate Quote Pad",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "the carbonless white/yellow/pink quote pad surveyors fill in at the kitchen table",
+      "thesis": "The site is the pink copy of a quote that never came back, and what we do with it.",
+      "palette": ["#fdfcf7", "#f6e27a", "#f2b8c6", "#1a3a8a", "#222222"],
+      "materials": ["NCR carbonless paper", "blue biro handwriting", "printed ruled boxes and a firm's letterhead"],
+      "viewport": "A stack of three quote copies fanned at an angle, a big headline set in the letterhead box, the email button in the 'Customer signature' field.",
+      "risk": "The most obvious reading of 'old quotes', so it's also where most designers would land."
+    },
+    {
+      "id": "challenger-silkscreen",
+      "label": "Solidarity Silkscreen Poster",
+      "verdict": "declined",
+      "lineage": "OSPAAAL screen-printed posters",
+      "thesis": "One bold emblem in flat hot colour fields.",
+      "palette": ["#e23a24", "#f5c518", "#f2ead6", "#111111"],
+      "materials": ["silkscreen ink", "flat colour fields"],
+      "viewport": "One emblem centred, slogan wrapped round the edges.",
+      "risk": "Political-poster energy confuses a sceptical trades owner.",
+      "case": "Loses on both: installers don't recognise it and the offer gets lost.",
+      "kept": "Total colour commitment, now used in the planner's bands.",
+      "hero": "https://impeccable.style/worlds/cards/posters-covers-sleeves-ospaaal-poster-hero.webp"
+    },
+    {
+      "id": "challenger-seedpacket",
+      "label": "Seed Packet Rack",
+      "verdict": "declined",
+      "lineage": "hardware-store seed packets",
+      "thesis": "Promise on the front, instructions on the back.",
+      "palette": ["#d8392b", "#6a9a3a", "#e9dcc0", "#8a8f94"],
+      "materials": ["gouache illustration", "ruled almanac type"],
+      "viewport": "A rack of packets, each flipping to its instructions.",
+      "risk": "Garden imagery has nothing to do with windows.",
+      "case": "Loses on both: wrong world for installers, and the offer isn't clearer.",
+      "kept": "Promise-first then detail, now used in the steps.",
+      "hero": "https://impeccable.style/worlds/cards/vernacular-ephemera-seed-packet-rack-hero.webp"
+    },
+    {
+      "id": "challenger-exposure",
+      "label": "Darkroom Exposure Record",
+      "verdict": "declined",
+      "lineage": "printer's exposure record cards",
+      "thesis": "Ruled boxes of numbers under an enlarger glow.",
+      "palette": ["#e8e6e1", "#2a2a2a", "#c2186b"],
+      "materials": ["tracing paper", "tabular figures"],
+      "viewport": "Overlapping translucent sheets with numeric hatching.",
+      "risk": "Far too abstract for this audience.",
+      "case": "Loses on both.",
+      "kept": "Tabular figures for every number.",
+      "hero": "https://impeccable.style/worlds/cards/operate-b-exposure-record-zone-sheets-hero.webp"
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "label": "The category standard",
+    "thesis": "A clean, conventional B2B service landing page, done properly.",
+    "palette": ["#ffffff", "#111827", "#1f5f4a"],
+    "materials": ["clean grid", "plain type"],
+    "viewport": "Headline, subline and button on the left, three steps, FAQ, contact.",
+    "risk": "Looks like every other agency site, which is what we're trying to avoid."
+  },
+  "steer": true
+}
