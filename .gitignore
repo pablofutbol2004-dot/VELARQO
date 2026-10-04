@@ -18,3 +18,4 @@ data/osm_tile_cache/
 data/*.txt
 # Client homeowner data never goes in git
 clients/
+data/agent_tasks/
