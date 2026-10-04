@@ -1,0 +1,5 @@
+company_id,contact_id,company_type,source_type,source_url,suppressed,opt_out_ready,suppression_checked
+c1,e1,ltd,company_website,https://example.com/team,false,true,true
+c2,e2,sole-trader,directory,https://example.com,false,true,true
+c3,e3,ltd,company_website,https://example.com,true,true,true
+c4,e4,unknown,company_website,https://example.com,false,true,true

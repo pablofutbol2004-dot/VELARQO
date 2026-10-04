@@ -1,0 +1,23 @@
+{
+  "name": "pricing_p1",
+  "stage": "sales_call",
+  "hypothesis": "Per qualified booked survey is an acceptable billing unit for installers, and the highest of the three test prices still gets at least half of qualified prospects to send a sample of old quotes.",
+  "variable": "price per qualified booked survey quoted on the call (model held constant)",
+  "primary_metric": "sample_sent_rate after the price was quoted",
+  "guardrails": ["price named as the main objection", "prospect asks for a different billing model"],
+  "min_calls_per_arm": 8,
+  "decision_rule": "Directional only (small numbers). Choose the highest price where at least half of qualified prospects send a sample and price is not the most common objection. Re-test once 3 pilots give real cost and conversion data.",
+  "assignment": "fixed per company (hash of company id), so a prospect always hears the same price",
+  "arms": [
+    {"key": "low", "model": "per_booked_survey", "price_gbp": 60},
+    {"key": "mid", "model": "per_booked_survey", "price_gbp": 110},
+    {"key": "high", "model": "per_booked_survey", "price_gbp": 175}
+  ],
+  "terms_for_every_arm": [
+    "No setup fee",
+    "Billable only when a homeowner confirms interest and agrees a survey date",
+    "Genuine no-shows credited",
+    "First batch capped (e.g. max 20 billable surveys) so the bill can't run away",
+    "Invoiced weekly"
+  ]
+}

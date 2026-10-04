@@ -1,0 +1,70 @@
+{
+  "client_id": "CLIENT001",
+  "pilot_name": "client1_old_quote_reactivation_v1",
+  "primary_outcome": "attended_survey",
+  "billable_outcome": "qualified_booked_survey",
+  "price_per_billable_result_gbp": 75,
+  "pilot_contacts_target": 200,
+  "holdout_fraction": 0.15,
+  "quote_age_cohorts_days": [
+    [
+      0,
+      90
+    ],
+    [
+      91,
+      180
+    ],
+    [
+      181,
+      365
+    ],
+    [
+      366,
+      730
+    ],
+    [
+      731,
+      99999
+    ]
+  ],
+  "message_variants": [
+    "A",
+    "B"
+  ],
+  "max_touches": 3,
+  "prediction_ranges": {
+    "delivery_rate": [
+      null,
+      null
+    ],
+    "positive_interest_rate": [
+      null,
+      null
+    ],
+    "booking_rate": [
+      null,
+      null
+    ],
+    "attendance_rate": [
+      null,
+      null
+    ],
+    "sale_rate_per_delivered": [
+      null,
+      null
+    ],
+    "manual_minutes_per_100": [
+      null,
+      null
+    ]
+  },
+  "stop_thresholds": {
+    "max_delivery_failure_rate": null,
+    "max_complaint_rate": null,
+    "max_manual_minutes_per_100": null,
+    "min_client_response_sla_hours": null,
+    "max_unresolved_attribution_cases": null
+  },
+  "frozen_at": ""
+}

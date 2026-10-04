@@ -7,6 +7,7 @@
   "revenue_min": 500000,
   "revenue_max": 10000000,
   "vertical_label": "windows and doors",
+  "observation_label": "window and door",
   "trade_noun": "window and door installers",
   "core_terms": [
     "window",

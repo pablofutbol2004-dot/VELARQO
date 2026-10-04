@@ -1,0 +1,6 @@
+prospect_id,company,variant,attempted,delivered,bounced,reply_class,call_booked,call_held,qualified,export_requested,export_received,pilot_interest,pilot_agreed
+P001,North Glass Ltd,A,1,1,0,positive,1,1,1,1,1,1,0
+P002,Vale Windows Ltd,B,1,1,0,negative,0,0,0,0,0,0,0
+P003,City Doors Ltd,A,1,1,0,none,0,0,0,0,0,0,0
+P004,Homeview Ltd,B,1,0,1,none,0,0,0,0,0,0,0
+P005,Oak Frames Ltd,A,1,1,0,positive,1,1,1,1,0,1,0

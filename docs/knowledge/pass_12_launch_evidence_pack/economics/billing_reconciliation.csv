@@ -1,0 +1,1 @@
+billing_item_id,contact_id,quote_id,billable_event,event_date,amount_gbp,evidence_ref,client_confirmed,duplicate,credited,disputed,dispute_reason,invoice_id,paid,paid_date,notes

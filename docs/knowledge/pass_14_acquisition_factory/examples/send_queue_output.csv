@@ -1,0 +1,2 @@
+queue_id,campaign_id,cohort_id,company_id,contact_id,sequence_step,scheduled_at,sender_mailbox,template_version,idempotency_key,state
+dbd2872d-5927-4e2a-a657-96884433ac85,launch01,A,c1,e1,1,,pablo@send.example,v1,c1|e1|launch01|1,READY_TO_SEND

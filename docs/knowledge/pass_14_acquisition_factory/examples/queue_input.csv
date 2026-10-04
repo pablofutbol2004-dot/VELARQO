@@ -1,0 +1,5 @@
+company_id,contact_id,icp_pass,send_allowed,suppressed,verification_status,cohort_id,template_version,sender_mailbox
+c1,e1,true,true,false,valid,A,v1,pablo@send.example
+c2,e2,true,false,false,valid,A,v1,pablo@send.example
+c3,e3,true,true,true,valid,B,v1,pablo@send.example
+c4,e4,true,true,false,accept_all,B,v1,pablo@send.example

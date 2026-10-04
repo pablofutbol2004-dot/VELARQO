@@ -13,8 +13,10 @@ a fake HTTP session, never exercised against a real Gmail account.
 """
 
 import base64
+import re
 import time
 from email.message import EmailMessage as MimeEmailMessage
+from email.utils import parseaddr
 
 import requests
 
@@ -91,3 +93,84 @@ class GmailProvider:
             return {"message_id": data.get("id"), "thread_id": data.get("threadId")}
 
         raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
+
+    # --- Reading the mailbox (replies, bounces) ---------------------------
+
+    def _get(self, path: str, params: dict | list | None = None) -> dict:
+        for attempt in range(self.max_retries + 1):
+            self.rate_limiter.acquire()
+            response = self.session.request(
+                "GET", f"{GMAIL_API_BASE}/gmail/v1/users/me/{path}", headers=self._headers(), params=params, timeout=30
+            )
+            if response.status_code == 429 and attempt < self.max_retries:
+                self._sleep(float(response.headers.get("Retry-After", 2**attempt)))
+                continue
+            if response.status_code == 429:
+                raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
+            response.raise_for_status()
+            return response.json()
+        raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
+
+    def rfc_message_id(self, message_id: str) -> str | None:
+        """The RFC 5322 Message-ID header Gmail assigned to a sent message -
+        follow-ups need it in In-Reply-To to thread in the recipient's inbox."""
+        data = self._get(f"messages/{message_id}", [("format", "metadata"), ("metadataHeaders", "Message-ID")])
+        return _header(data.get("payload", {}), "Message-ID")
+
+    def list_inbox(self, query: str = "in:inbox newer_than:3d", max_results: int = 200) -> list[str]:
+        ids, page_token = [], None
+        while len(ids) < max_results:
+            params = {"q": query, "maxResults": min(100, max_results - len(ids))}
+            if page_token:
+                params["pageToken"] = page_token
+            data = self._get("messages", params)
+            ids += [m["id"] for m in data.get("messages", [])]
+            page_token = data.get("nextPageToken")
+            if not page_token:
+                break
+        return ids
+
+    def get_message(self, message_id: str) -> dict:
+        data = self._get(f"messages/{message_id}", {"format": "full"})
+        payload = data.get("payload", {})
+        return {
+            "provider_message_id": data["id"],
+            "thread_id": data.get("threadId"),
+            "from_email": _address(_header(payload, "From")),
+            "subject": _header(payload, "Subject") or "",
+            "body": _plain_text(payload) or data.get("snippet", ""),
+            "internal_date_ms": int(data.get("internalDate", 0)),
+        }
+
+
+def _header(payload: dict, name: str) -> str | None:
+    for header in payload.get("headers", []):
+        if header.get("name", "").lower() == name.lower():
+            return header.get("value")
+    return None
+
+
+def _address(value: str | None) -> str:
+    return parseaddr(value or "")[1].lower()
+
+
+def _plain_text(payload: dict) -> str:
+    """First text/plain part, falling back to tag-stripped text/html."""
+    parts = [payload]
+    html = None
+    while parts:
+        part = parts.pop(0)
+        parts.extend(part.get("parts", []))
+        data = part.get("body", {}).get("data")
+        if not data:
+            continue
+        text = base64.urlsafe_b64decode(data + "=" * (-len(data) % 4)).decode("utf-8", errors="replace")
+        if part.get("mimeType") == "text/plain":
+            return text
+        if part.get("mimeType") == "text/html" and html is None:
+            html = text
+    if html is None:
+        return ""
+    html = re.sub(r"(?is)<(blockquote|style|script).*?</\1>", "", html)
+    html = re.sub(r"(?i)<br\s*/?>|</p>|</div>", "\n", html)
+    return re.sub(r"<[^>]+>", "", html)

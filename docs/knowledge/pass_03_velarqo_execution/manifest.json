@@ -1,0 +1,24 @@
+{
+  "pass": "03",
+  "date": "2026-09-30",
+  "type": "Velarqo execution layer v0",
+  "test_price_gbp_per_qualified_booked_survey": 75,
+  "files": [
+    "README.md",
+    "commercial/terms_checklist.md",
+    "data/canonical_contact_schema.csv",
+    "delivery/homeowner_reply_handling.md",
+    "delivery/reactivation_sequence_v0.md",
+    "experiments/experiment_log_template.csv",
+    "experiments/first_30_days.md",
+    "offer/pilot_offer_v0.md",
+    "onboarding/client_intake_v0.md",
+    "outbound/cold_email_experiment_v0.md",
+    "outbound/reply_routing.md",
+    "reporting/attribution_schema.md",
+    "reporting/founder_kpi_board.md",
+    "reporting/weekly_client_report.md",
+    "sales/discovery_call_v0.md",
+    "sales/objection_library_v0.md"
+  ]
+}

@@ -16,7 +16,7 @@ DEFAULT_TEMPLATES = [
         "subject": "old quotes at {company}",
         "body": (
             "{greeting}\n\n{observation}\n\n{angle_sentence}\n\n{offer_line}\n\n"
-            "Worth a quick 10-minute call to see if it'd work for {company}?\n\n{sender_name}"
+            "Worth a quick chat?\n\n{sender_name}"
         ),
     },
     {
@@ -27,11 +27,11 @@ DEFAULT_TEMPLATES = [
         ),
     },
     {
-        "subject": "question about your follow-ups",
+        "subject": "question about your old quotes",
         "body": (
-            "{greeting}\n\nQuick question: when a quote goes out and the customer goes quiet, "
-            "what happens next at {company}?\n\n{angle_sentence}\n\n{offer_line}\n\n"
-            "If that's something you'd want a hand with, reply and I'll send over how it works.\n\n{sender_name}"
+            "{greeting}\n\nQuick question: when a quote goes out and the homeowner goes quiet, "
+            "what happens next at {company}?\n\n{offer_line}\n\n"
+            "If you'd want a hand with that, reply and I'll send over how it works.\n\n{sender_name}"
         ),
     },
 ]

@@ -1,0 +1,4 @@
+company_id,company_number,legal_name,trading_name,company_type,website_url,current_state,canonical_domain,normalized_name,duplicate_of,merge_reason
+19c3a3c9-1058-43d6-bcbf-ceefdfa8c893,01234567,Example Windows Ltd,Example Windows,ltd,https://www.examplewindows.co.uk,DISCOVERED,examplewindows.co.uk,example windows,,
+,01234567,EXAMPLE WINDOWS LIMITED,,ltd,http://examplewindows.co.uk,DUPLICATE,,,19c3a3c9-1058-43d6-bcbf-ceefdfa8c893,company_number
+f4057456-c019-4025-8336-615bf0c4e422,,Solo Glazing,Solo Glazing,sole-trader,https://sologlazing.example,DISCOVERED,sologlazing.example,solo glazing,,

@@ -1,0 +1,23 @@
+field,type,priority,purpose
+client_id,string,required,client tenant
+source_record_id,string,required,ID from source system
+campaign_contact_id,string,required,Velarqo unique
+first_name,string,preferred,personalisation/booking
+last_name,string,optional,
+phone,string,channel-dependent,E.164 preferred
+email,string,channel-dependent,
+postcode,string,preferred,service area
+address,string,optional,booking context
+original_enquiry_date,date,preferred,age analysis
+original_quote_date,date,preferred,age analysis
+quote_value,decimal,optional,segmentation/economics
+product,string,preferred,similar-service/context
+status,string,preferred,open/lost/won/etc
+lost_reason,string,optional,segmentation
+source_system,string,required,provenance
+source_method,string,required,web/phone/showroom/etc
+collection_optout_evidence,string,required for soft opt-in route,reference to evidence
+marketing_flag,string,optional,source system flag
+suppressed,boolean,required,must be false to campaign
+current_customer,boolean,preferred,avoid accidental targeting
+notes,string,optional,sensitive-data minimisation required

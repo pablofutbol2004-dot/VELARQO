@@ -1,0 +1,4 @@
+company_id,company_number,legal_name,trading_name,company_type,website_url,current_state
+,01234567,Example Windows Ltd,Example Windows,ltd,https://www.examplewindows.co.uk,DISCOVERED
+,01234567,EXAMPLE WINDOWS LIMITED,,ltd,http://examplewindows.co.uk,DISTCOVERED
+,,Solo Glazing,Solo Glazing,sole-trader,https://sologlazing.example,DISCOVERED

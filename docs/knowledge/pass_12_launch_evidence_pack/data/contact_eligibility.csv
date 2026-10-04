@@ -1,0 +1,1 @@
+contact_id,client_contact_id,quote_id,quote_date,quote_age_days,product,quote_value,status_original,source_original,phone,email,suppressed,existing_customer,active_opportunity,similar_product_ok,provenance_ok,pecr_basis_ok,privacy_route_ok,eligible,ineligible_reason,cohort,pilot_assignment,variant,notes

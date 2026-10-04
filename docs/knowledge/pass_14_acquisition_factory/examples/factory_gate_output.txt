@@ -1,0 +1,31 @@
+checks=30 passed=0 blockers=30 critical_blockers=16
+BLOCK AF01: [critical] company IDs stable/open duplicate rules
+BLOCK AF02: [high] Companies House matching tested on sample
+BLOCK AF03: [high] domain normalization tested
+BLOCK AF04: [critical] source provenance captured
+BLOCK AF05: [high] ICP rule version frozen for cohort
+BLOCK AF06: [high] manual spot-check sample completed
+BLOCK AF07: [medium] role-confidence rules defined
+BLOCK AF08: [critical] contact provenance captured
+BLOCK AF09: [high] email verification adapter tested
+BLOCK AF10: [high] accept-all/unknown policy defined
+BLOCK AF11: [critical] entity/subscriber classification implemented
+BLOCK AF12: [critical] lawful-basis/transparency route documented
+BLOCK AF13: [critical] opt-out mechanism operational
+BLOCK AF14: [critical] global suppression table operational
+BLOCK AF15: [critical] suppression recheck occurs immediately before send
+BLOCK AF16: [critical] idempotency keys enforced
+BLOCK AF17: [critical] active-conversation duplicate-send guard
+BLOCK AF18: [critical] campaign pause/kill switch tested
+BLOCK AF19: [critical] SPF DKIM DMARC reviewed for each sender domain
+BLOCK AF20: [high] bounce/reputation monitoring available
+BLOCK AF21: [critical] inbound reply ingestion tested
+BLOCK AF22: [critical] unsubscribe/object causes immediate suppression
+BLOCK AF23: [high] manual review queue exists
+BLOCK AF24: [high] cohort assignment frozen before sends
+BLOCK AF25: [high] template/offer version recorded per send
+BLOCK AF26: [high] company→conversation→export/pilot funnel joins work
+BLOCK AF27: [critical] provider API keys kept outside database/logs
+BLOCK AF28: [critical] admin access least privilege/MFA
+BLOCK AF29: [high] retry policies bounded and observable
+BLOCK AF30: [high] backup/export of canonical prospect evidence tested

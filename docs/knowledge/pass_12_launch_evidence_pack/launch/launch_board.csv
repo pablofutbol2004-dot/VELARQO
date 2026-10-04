@@ -1,0 +1,12 @@
+stage,required_output,status,evidence_ref,owner,notes
+0_precommit,pilot config + predicted ranges,OPEN,,founder,
+1_interviews,10 substantive installer conversations,OPEN,,founder,
+2_exports,3 export audits,OPEN,,founder,
+3_p0_gate,all non-waivable P0 rows pass,OPEN,,founder,
+4_test_freeze,cohort + holdout + variants frozen,OPEN,,founder,
+5_canary,canary reviewed with no safety/technical blocker,OPEN,,founder,
+6_micro_pilot,frozen test completed,OPEN,,founder,
+7_reconciliation,attendance→cash reconciled,OPEN,,founder/client,
+8_economics,both-side economics calculated,OPEN,,founder,
+9_learning_update,claims/assumptions updated,OPEN,,founder,
+10_decision,one explicit next decision recorded,OPEN,,founder,

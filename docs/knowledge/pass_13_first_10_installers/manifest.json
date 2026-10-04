@@ -1,0 +1,11 @@
+{
+  "pass": 13,
+  "name": "First 10 Installers Launch Pack",
+  "created": "2026-10-01",
+  "depends_on": [
+    "business_knowledge_pass_03_velarqo_execution",
+    "business_knowledge_pass_12_launch_evidence_pack"
+  ],
+  "objective": "10 installer conversations, 3 concrete export samples, 1 Client-1 candidate",
+  "status": "execution-ready templates; real evidence not yet populated"
+}

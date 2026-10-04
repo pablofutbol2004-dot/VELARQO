@@ -1,0 +1,21 @@
+Prospects: 5
+attempted: 5
+delivered: 4
+bounced: 1
+call_booked: 2
+call_held: 2
+qualified: 2
+export_requested: 2
+export_received: 1
+pilot_interest: 2
+pilot_agreed: 0
+reply_classes: {'positive': 2, 'negative': 1, 'none': 2}
+delivery_rate: 80.0%
+positive_reply_rate_delivered: 50.0%
+held_call_rate_delivered: 50.0%
+export_rate_held: 50.0%
+pilot_agreement_rate_held: 0.0%
+
+By variant:
+A: n=3 delivered=3 positive=2 held=2 exports=1
+B: n=2 delivered=1 positive=0 held=0 exports=0

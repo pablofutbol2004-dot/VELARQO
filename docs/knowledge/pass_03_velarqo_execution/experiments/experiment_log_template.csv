@@ -1,0 +1,1 @@
+experiment_id,date_start,date_end,stage,hypothesis,variant_a,variant_b,population_rule,primary_metric,guardrail_metrics,sample_a,sample_b,result_a,result_b,decision,notes
