@@ -5,8 +5,8 @@ first, with the improved email extraction (Cloudflare-protected and
     python -m prospecting.enrichment.website_refresh --limit 800
 
 Order: companies with a website but no email first (where a new find turns
-a tier C into a sendable lead), then everything else older than
-REFRESH_DAYS. Each fetch is stored in website_snapshots. A newly found
+a tier C into a sendable lead), then sendable companies not yet checked for
+ad tags, then everything else older than REFRESH_DAYS. Each fetch is stored in website_snapshots. A newly found
 email is written to companies and, if the stored score already passes the
 ICP threshold, the company moves from tier C to A/B (adding an email can
 only raise the score, so this never promotes a weak lead).
@@ -26,6 +26,9 @@ from data.supabase_store import connect
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 
 REFRESH_DAYS = 30
+# Snapshots before this date never looked for ad tags; re-read those once
+# (a failed fetch after it is not retried daily).
+AD_TAGS_SINCE = datetime(2026, 10, 5, tzinfo=timezone.utc)
 USER_AGENT = "velarqo-enrichment/0.2 (+https://velarqo.com; hello@velarqo.com)"
 ICP_PATH = Path(__file__).parents[2] / "config" / "templates" / "icp-template.json"
 
@@ -37,14 +40,16 @@ def _todo(conn, limit: int):
         select c.id, c.website, c.email, c.tier, c.icp_score
         from companies c
         left join lateral (
-          select max(fetched_at) as last from website_snapshots s where s.company_id = c.id
+          select max(fetched_at) as last, bool_or(ad_tags is not null) as ads_checked
+          from website_snapshots s where s.company_id = c.id
         ) w on true
         where c.tier in ('A', 'B', 'C') and c.website is not null
-          and (w.last is null or w.last < %s or (c.email is null and w.last < now() - interval '1 day'))
-        order by (c.email is null) desc, w.last nulls first, c.icp_score desc nulls last
+          and (w.last is null or w.last < %s or (c.email is null and w.last < now() - interval '1 day')
+               or (c.tier in ('A', 'B') and not coalesce(w.ads_checked, false) and w.last < %s))
+        order by (c.email is null) desc, coalesce(w.ads_checked, false), w.last nulls first, c.icp_score desc nulls last
         limit %s
         """,
-        (cutoff, limit),
+        (cutoff, AD_TAGS_SINCE, limit),
     ).fetchall()
 
 
@@ -80,9 +85,10 @@ def main(limit, workers):
             status = result.get("website_status") or "unknown"
             with conn.transaction():
                 conn.execute(
-                    "insert into website_snapshots (company_id, url, status, title, text, emails_found) values (%s, %s, %s, %s, %s, %s)",
+                    "insert into website_snapshots (company_id, url, status, title, text, emails_found, ad_tags) "
+                    "values (%s, %s, %s, %s, %s, %s, %s)",
                     (company_id, website, status, result.get("website_title"), result.get("website_text"),
-                     result.get("emails_found") or []),
+                     result.get("emails_found") or [], result.get("ad_tags")),
                 )
                 conn.execute(
                     "update companies set website_status = %s, enriched_at = now(), "

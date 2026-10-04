@@ -1,5 +1,9 @@
--- Adds home_survey: the installer's own site says they visit to survey or
--- measure before quoting. Segment for the 'trip out to measure' copy test.
+-- Ad tags: does the installer's own homepage carry a Meta pixel / Google Ads
+-- tag, or link to paid lead sites (Checkatrade, MyBuilder, Rated People,
+-- TrustATrader, Bark)? Firms paying for enquiries have the most quotes to
+-- lose. Null = not checked yet. Used to split results, not in copy.
+
+alter table public.website_snapshots add column if not exists ad_tags text[];
 
 create or replace view public.outreach_queue with (security_invoker = true) as
 with latest as (
@@ -8,13 +12,20 @@ with latest as (
   from public.website_snapshots
   order by company_id, fetched_at desc
 ),
+ads as (
+  select distinct on (company_id) company_id, ad_tags
+  from public.website_snapshots
+  where ad_tags is not null
+  order by company_id, fetched_at desc
+),
 base as (
-  select c.*,
+  select c.*, a.ad_tags,
     coalesce(l.page, lower(coalesce(c.website_title, ''))) as page,
     lower(split_part(c.email, '@', 2)) as email_domain,
     date_part('year', age(current_date, c.incorporation_date))::int as years_trading
   from public.companies c
   left join latest l on l.company_id = c.id
+  left join ads a on a.company_id = c.id
   where c.vertical = 'windows' and c.tier in ('A', 'B') and c.email is not null
 ),
 signals as (
@@ -57,7 +68,10 @@ select
     'residential', p_residential, 'named_inbox', p_named_inbox
   ) as priority_breakdown,
   no_pressure_sales,
-  home_survey
+  home_survey,
+  ad_tags,
+  ad_tags && array['meta_pixel', 'google_ads'] as runs_ads,
+  ad_tags && array['checkatrade', 'mybuilder', 'ratedpeople', 'trustatrader', 'bark'] as lead_sites
 from scored q
 where not parked
   and trade

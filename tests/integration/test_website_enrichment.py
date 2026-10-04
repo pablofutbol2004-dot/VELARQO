@@ -151,3 +151,23 @@ def test_parser_picks_up_cloudflare_spans_and_links():
     page.feed(f'<p>Email: <span class="__cf_email__" data-cfemail="{_cf_encode("sales@acme.co.uk")}">[email&#160;protected]</span>'
               f' <a href="/cdn-cgi/l/email-protection#{_cf_encode("info@acme.co.uk", 0x17)}">mail us</a></p>')
     assert _extract_emails(page) == {"sales@acme.co.uk", "info@acme.co.uk"}
+
+
+def test_parser_spots_ad_tags_and_lead_sites():
+    from prospecting.enrichment.website import _PageParser
+    page = _PageParser()
+    page.feed("<script>!function(f,b,e,v,n,t,s){}(window,document,'script',"
+              "'https://connect.facebook.net/en_US/fbevents.js');fbq('init', '123');</script>"
+              "<script>gtag('config', 'AW-987654321');</script>"
+              '<a href="https://www.checkatrade.com/trades/acmewindows">Checkatrade</a>'
+              "<p>We advertise on Facebook and Google.</p>")
+    assert page.ad_tags == {"meta_pixel", "google_ads", "checkatrade"}
+    assert "fbq" not in page.text
+
+
+def test_parser_finds_no_ad_tags_on_a_plain_site():
+    from prospecting.enrichment.website import _PageParser
+    page = _PageParser()
+    page.feed("<script src='/js/main.js'></script><script>gtag('config', 'G-ABC123');</script>"
+              "<p>Find us on Facebook. Rated on Checkatrade soon.</p>")
+    assert page.ad_tags == set()

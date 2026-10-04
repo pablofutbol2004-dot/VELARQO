@@ -27,6 +27,19 @@ _CONTACT_LINK_HINTS = ("contact", "get-in-touch", "getintouch", "enquir")
 # Tried in order, at most _MAX_EXTRA_PAGES, only while no same-domain email is found.
 _FALLBACK_PATHS = ("/contact", "/contact-us", "/about", "/about-us")
 _MAX_EXTRA_PAGES = 2
+# Signs the installer pays for enquiries: ad tracking tags in the page code,
+# or links to paid lead/directory sites. A tag means the advertiser set up
+# tracking, not that an ad is live today; tags hidden inside Google Tag
+# Manager are not visible, so a missing tag proves nothing.
+_AD_TAG_PATTERNS = {
+    "meta_pixel": re.compile(r"connect\.facebook\.net/[^\"']*fbevents|fbq\(\s*['\"]init|facebook\.com/tr\?", re.I),
+    "google_ads": re.compile(r"googleadservices\.com|googleads\.g\.doubleclick\.net|['\"]AW-\d{6,}", re.I),
+    "checkatrade": re.compile(r"checkatrade\.com", re.I),
+    "mybuilder": re.compile(r"mybuilder\.com", re.I),
+    "ratedpeople": re.compile(r"ratedpeople\.com", re.I),
+    "trustatrader": re.compile(r"trustatrader\.com", re.I),
+    "bark": re.compile(r"\bbark\.com", re.I),
+}
 _MAX_TEXT_CHARS = 6000
 _BLOCKED_STATUS_CODES = {401, 403, 429, 503}
 
@@ -40,7 +53,9 @@ class _PageParser(HTMLParser):
         self.links: list[tuple[str, str]] = []
         self.mailtos: set[str] = set()
         self.cf_encoded: set[str] = set()
+        self.ad_tags: set[str] = set()
         self._skip_depth = 0
+        self._in_script = False
         self._in_title = False
         self._anchor_href: str | None = None
         self._anchor_text: list[str] = []
@@ -52,8 +67,10 @@ class _PageParser(HTMLParser):
         href = (attrs.get("href") or "") if tag == "a" else ""
         if "/cdn-cgi/l/email-protection#" in href:
             self.cf_encoded.add(href.rsplit("#", 1)[1])
+        self._scan_ad_tags(" ".join(v for k, v in attrs.items() if k in ("src", "href") and v))
         if tag in ("script", "style", "noscript", "svg"):
             self._skip_depth += 1
+            self._in_script = tag == "script"
         elif tag == "title":
             self._in_title = True
         elif tag == "meta" and (attrs.get("name") or "").lower() == "description":
@@ -68,13 +85,20 @@ class _PageParser(HTMLParser):
     def handle_endtag(self, tag):
         if tag in ("script", "style", "noscript", "svg") and self._skip_depth:
             self._skip_depth -= 1
+            self._in_script = False
         elif tag == "title":
             self._in_title = False
         elif tag == "a" and self._anchor_href:
             self.links.append((self._anchor_href, " ".join(self._anchor_text)))
             self._anchor_href = None
 
+    def _scan_ad_tags(self, code: str):
+        if code:
+            self.ad_tags |= {name for name, pattern in _AD_TAG_PATTERNS.items() if pattern.search(code)}
+
     def handle_data(self, data):
+        if self._in_script:
+            self._scan_ad_tags(data)
         if self._skip_depth:
             return
         if self._in_title:
@@ -304,6 +328,7 @@ class WebsiteEnrichmentProvider:
             "website_title": re.sub(r"\s+", " ", home.title).strip() or None,
             "website_text": " ".join(t for t in texts if t)[:_MAX_TEXT_CHARS],
             "emails_found": sorted(emails),
+            "ad_tags": sorted(home.ad_tags),
         }
         best = pick_best_email(emails, site_domain)
         if best and not lead.get("email"):
