@@ -52,11 +52,17 @@ def _finish(body: str) -> str:
 def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
     index = variant_index % len(experiment["arms"])
     arm = experiment["arms"][index]
+    company = _company(row)
+    body = _finish(arm["body"].format(company=company))
+    if word_count(body) > MAX_WORDS:
+        # A long trading name can push an otherwise-fine email over the cap.
+        company = "your company"
+        body = _finish(arm["body"].format(company=company))
     return {
         "variant_index": index,
         "arm": arm["key"],
-        "subject": arm["subject"].format(company=_company(row)),
-        "body": _finish(arm["body"].format(company=_company(row))),
+        "subject": arm["subject"].format(company=company),
+        "body": body,
     }
 
 

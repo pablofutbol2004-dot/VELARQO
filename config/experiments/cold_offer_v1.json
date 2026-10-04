@@ -22,5 +22,8 @@
       "subject": "last year's quotes",
       "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nThe ones who don't ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the drive out, the evening pricing it up.\n\nI'll chase your first 50 for free, in your name, and put anyone still keen in your diary. Costs you nothing either way.\n\nWorth a go?"
     }
+  ],
+  "exclude_segments": [
+    "no_pressure_sales"
   ]
 }

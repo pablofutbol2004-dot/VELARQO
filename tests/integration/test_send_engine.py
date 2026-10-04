@@ -177,3 +177,21 @@ def test_waiting_angle_test_cannot_be_sent_as_is():
     exp = experiments.load("cold_angle_v1")
     assert exp["status"] == "waiting"
     assert "unfilled placeholder" in compose.problems(compose.first_touch(ROW, exp, 0))
+
+
+def test_segment_filters_are_whitelisted_and_reserved():
+    from outreach.send_engine.engine import _segment_filter
+    assert _segment_filter({"segment": ["no_pressure_sales"]}) == "and q.no_pressure_sales"
+    assert "not coalesce(q.no_pressure_sales" in _segment_filter(experiments.load("cold_offer_v1"))
+    with pytest.raises(ValueError):
+        _segment_filter({"segment": ["1=1; drop table companies"]})
+
+
+@pytest.mark.parametrize("name", sorted(p.stem for p in experiments.EXPERIMENTS_DIR.glob("*.json")
+                                        if experiments.load(p.stem)["stage"] == "cold_email"
+                                        and experiments.load(p.stem).get("status") != "waiting"))
+def test_long_company_names_never_break_the_word_cap(name):
+    exp = experiments.load(name)
+    row = {"display_name": "Premier Double Glazing Windows Doors And Conservatories Of Greater Manchester"}
+    for arm in range(len(exp["arms"])):
+        assert compose.problems(compose.first_touch(row, exp, arm)) == []

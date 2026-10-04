@@ -81,17 +81,37 @@ def set_campaign_status(conn, campaign_id: str, status: str) -> None:
 
 # --- Cohort creation ----------------------------------------------------
 
+# Boolean outreach_queue columns an experiment may target ("segment") or
+# reserve for another test ("exclude_segments"). Whitelisted: they go into SQL.
+SEGMENT_COLUMNS = {"no_pressure_sales", "generic_inbox", "accredited", "residential"}
+
+
+def _segment_filter(experiment: dict) -> str:
+    clauses = []
+    for column in experiment.get("segment") or []:
+        if column not in SEGMENT_COLUMNS:
+            raise ValueError(f"unknown segment {column!r}")
+        clauses.append(f"and q.{column}")
+    for column in experiment.get("exclude_segments") or []:
+        if column not in SEGMENT_COLUMNS:
+            raise ValueError(f"unknown segment {column!r}")
+        clauses.append(f"and not coalesce(q.{column}, false)")
+    return "\n              ".join(clauses)
+
+
 def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_version: str) -> dict:
     """Draft campaign with the top `size` unsent companies from outreach_queue,
     split across the experiment's arms."""
+    segment_sql = _segment_filter(experiment)
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         rows = cur.execute(
-            """
+            f"""
             select c.id, c.display_name, c.email, c.city, c.extra, c.company_category, q.priority
             from outreach_queue q
             join companies c on c.id = q.id
             where c.company_category = any(%s)
               and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
+              {segment_sql}
             order by q.priority desc, c.id
             limit %s
             """,

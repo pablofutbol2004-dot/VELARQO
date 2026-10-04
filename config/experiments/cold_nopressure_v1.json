@@ -1,0 +1,29 @@
+{
+  "name": "cold_nopressure_v1",
+  "stage": "cold_email",
+  "segment": [
+    "no_pressure_sales"
+  ],
+  "hypothesis": "For installers whose own website promises no pressure selling (~223), an opener that names that promise and answers it ('one polite check-in, no pressure') gets more positive replies than the standard opener, because it removes their first objection: chasing homeowners clashes with how they sell.",
+  "variable": "opening paragraphs only (subject, offer line and ask identical to cold_offer_v1 arm A)",
+  "primary_metric": "positive_reply_rate",
+  "guardrails": [
+    "bounce_rate < 3%",
+    "unsubscribe_or_complaint_rate < 2%",
+    "zero complaints"
+  ],
+  "min_sent_per_arm": 100,
+  "decision_rule": "Directional only: the whole segment is ~223, so ~110 per arm. Keep the tailored opener if it has >= 80% probability of the higher positive-reply rate AND no more opt-outs than control; then reuse the 'name their stated objection' pattern for other segments.",
+  "arms": [
+    {
+      "key": "A_tailored_no_pressure",
+      "subject": "last year's quotes",
+      "body": "Hi,\n\nYour site promises no pressure selling. Good.\n\nBut if nobody follows up after the quote, the homeowners who'd still say yes never get asked.\n\nI send them one polite check-in in your name, no pressure, and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?"
+    },
+    {
+      "key": "B_standard_opener",
+      "subject": "last year's quotes",
+      "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nThe ones who don't ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the drive out, the evening pricing it up.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?"
+    }
+  ]
+}
