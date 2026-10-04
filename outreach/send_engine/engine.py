@@ -83,7 +83,7 @@ def set_campaign_status(conn, campaign_id: str, status: str) -> None:
 
 # Boolean outreach_queue columns an experiment may target ("segment") or
 # reserve for another test ("exclude_segments"). Whitelisted: they go into SQL.
-SEGMENT_COLUMNS = {"no_pressure_sales", "generic_inbox", "accredited", "residential"}
+SEGMENT_COLUMNS = {"no_pressure_sales", "home_survey", "generic_inbox", "accredited", "residential"}
 
 
 def _segment_filter(experiment: dict) -> str:

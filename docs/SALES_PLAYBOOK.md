@@ -96,6 +96,7 @@ Three rules, because the risk is your time, not money:
 | They say | You say |
 |---|---|
 | "They're my leads, I'd have got them anyway." (the biggest objection, per the YouTube research) | "Only if someone was still chasing them. We only touch quotes that have had no contact for 3-6 months, the ones you've written off. And we keep a slice of them uncontacted, so you can see what we added compared with doing nothing." |
+| "We're booked up for months." (good installers often run 8-12 week lead times) | "Good problem. This isn't about this week: it fills next season and the gaps when a job falls through, from people who already know your prices. We can pace it to your diary." |
 | "How do I know it works?" | "You don't yet, and neither do I on your data. That's why it's a small pilot and you only pay for booked surveys." |
 | "Why not call them ourselves?" | "You can. If your team already works every old quote, you don't need me. This is for the quotes nobody gets round to." |
 | "I don't want to annoy old customers." | "Neither do I. Short messages from your business, anyone who says no is never contacted again, and you approve the wording." |

@@ -24,6 +24,7 @@
     }
   ],
   "exclude_segments": [
-    "no_pressure_sales"
+    "no_pressure_sales",
+    "home_survey"
   ]
 }

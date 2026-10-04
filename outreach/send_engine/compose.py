@@ -45,6 +45,15 @@ def _company(row: dict) -> str:
     return (row.get("display_name") or "your company").strip()
 
 
+def _fill(template: str, company: str) -> str:
+    """Insert the company name, with a correct possessive for names ending
+    in s ("Leeds Windows And Doors' inbox", not "Doors's")."""
+    text = template.format(company=company)
+    if company.endswith(("s", "S")):
+        text = text.replace(f"{company}'s", f"{company}'")
+    return text
+
+
 def _finish(body: str) -> str:
     return f"{body.rstrip()}\n\n{SIGNATURE}\n\n{OPT_OUT_LINE}\n"
 
@@ -57,15 +66,15 @@ def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
         "variant_index": index,
         "arm": arm["key"],
         "company": company,
-        "subject": arm["subject"].format(company=company),
-        "body": _finish(arm["body"].format(company=company)),
+        "subject": _fill(arm["subject"], company),
+        "body": _finish(_fill(arm["body"], company)),
     }
 
 
 def follow_up(step: int, row: dict, first_subject: str, arm: dict | None = None) -> dict:
     subject = first_subject if first_subject.lower().startswith("re:") else f"Re: {first_subject}"
     template = ((arm or {}).get("follow_ups") or {}).get(str(step)) or FOLLOW_UP_TEMPLATES[step]
-    return {"subject": subject, "body": _finish(template.format(company=_company(row)))}
+    return {"subject": subject, "body": _finish(_fill(template, _company(row)))}
 
 
 def problems(email: dict) -> list[str]:

@@ -105,7 +105,7 @@ def test_every_cold_email_arm_is_clean_short_and_identifies_us(name, arm):
     assert compose.problems(email) == []
     assert body.rstrip().endswith(compose.OPT_OUT_LINE)
     assert "Pablo" in body and "velarqo.com" in body
-    assert compose.word_count(body) <= compose.MAX_WORDS
+    assert compose.word_count(body, email["company"]) <= compose.MAX_WORDS
     assert not [w for w in BANNED if w in body], "agency talk, unbacked claim, or a price (pricing is undecided)"
     assert body.count("Urg Windows & Doors") <= 1
 
@@ -201,3 +201,8 @@ def test_free_mail_addresses_are_never_company_mailboxes():
     assert not guards.is_company_mailbox("philipadamsglazing@gmail.com")
     assert not guards.is_company_mailbox("a1glassmedway@yahoo.co.uk")
     assert guards.is_company_mailbox("info@acornupvc.co.uk")
+
+
+def test_possessive_for_names_ending_in_s():
+    email = compose.first_touch({"display_name": "Leeds Windows And Doors"}, experiments.load("cold_offer_v1"), 0)
+    assert "Leeds Windows And Doors' inbox" in email["body"] and "Doors's" not in email["body"]
