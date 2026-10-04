@@ -1,17 +1,27 @@
 {
   "name": "pricing_p1",
   "stage": "sales_call",
-  "hypothesis": "Per qualified booked survey is an acceptable billing unit for installers, and the highest of the three test prices still gets at least half of qualified prospects to send a sample of old quotes.",
+  "hypothesis": "Per qualified booked survey is an acceptable billing unit for installers, and £150 still gets at least half of qualified prospects to send a sample of old quotes.",
   "variable": "price per qualified booked survey quoted on the call (model held constant)",
   "primary_metric": "sample_sent_rate after the price was quoted",
-  "guardrails": ["price named as the main objection", "prospect asks for a different billing model"],
-  "min_calls_per_arm": 8,
-  "decision_rule": "Directional only (small numbers). Choose the highest price where at least half of qualified prospects send a sample and price is not the most common objection. Re-test once 3 pilots give real cost and conversion data.",
+  "guardrails": [
+    "price named as the main objection",
+    "prospect asks for a different billing model"
+  ],
+  "min_calls_per_arm": 6,
+  "decision_rule": "Directional only: expect 5-20 calls in the first 6 weeks. Choose the higher price if at least half of qualified prospects send a sample and price is not the most common objection. Never put a price in writing; quote it on the call. Re-test once 3 pilots give real cost and conversion data.",
   "assignment": "fixed per company (hash of company id), so a prospect always hears the same price",
   "arms": [
-    {"key": "low", "model": "per_booked_survey", "price_gbp": 60},
-    {"key": "mid", "model": "per_booked_survey", "price_gbp": 110},
-    {"key": "high", "model": "per_booked_survey", "price_gbp": 175}
+    {
+      "key": "low",
+      "model": "per_booked_survey",
+      "price_gbp": 75
+    },
+    {
+      "key": "high",
+      "model": "per_booked_survey",
+      "price_gbp": 150
+    }
   ],
   "terms_for_every_arm": [
     "No setup fee",

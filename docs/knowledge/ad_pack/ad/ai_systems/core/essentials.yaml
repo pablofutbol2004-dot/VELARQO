@@ -1,0 +1,200 @@
+schema_version: '1'
+pack: ai_systems
+kind: ai_systems
+title: AI Systems
+categories:
+  task_decomposition:
+  - rule: Use deterministic code for steps whose inputs, rules, and outputs can be specified reliably; use an LLM where semantic judgment or unstructured interpretation is genuinely required.
+    why: The cheapest and most reliable component is often not an LLM.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Prefer a single model call with tools/retrieval before introducing multi-step or multi-agent orchestration.
+    why: Every extra step adds latency, cost, state, and failure modes.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Decompose work when a complex task can be turned into easier independently verifiable subtasks.
+    why: Narrow subtasks improve focus and make validation local.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Use autonomous agents only when the required steps cannot be predicted well enough to hard-code and the environment can provide feedback.
+    why: Open-ended autonomy is valuable mainly when a fixed workflow would be brittle.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  model_routing:
+  - rule: Establish a quality baseline with a capable model, then replace individual steps with smaller/faster models only when evals show the target quality still holds.
+    why: Premature cost optimization can hide which step actually needs intelligence.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Route by task characteristics such as complexity, modality, context size, latency requirement, risk, and structured-output reliability.
+    why: One global model choice wastes cost or quality across heterogeneous work.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: 'Make escalation explicit: a cheap model may classify or attempt first, while uncertain or failed cases move to a stronger model.'
+    why: Selective escalation preserves quality without paying maximum cost on every request.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Do not route solely from self-reported model confidence; use observable task signals, validators, and historical eval results.
+    why: Model confidence can be poorly calibrated.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://platform.openai.com/docs/api-reference/evals
+  workflow_orchestration:
+  - rule: Represent known workflows as explicit state machines or DAGs with named inputs, outputs, dependencies, and exit conditions.
+    why: Explicit structure makes execution inspectable and resumable.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Run independent subtasks concurrently and aggregate only when their dependencies join.
+    why: Serial execution of independent I/O or model calls wastes latency.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Use routing for distinct task classes, prompt chaining for sequential dependency, parallelization for independent work, and orchestrator-workers only when subtasks must be discovered dynamically.
+    why: Architecture should match the uncertainty structure of the task.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Bound every loop with completion criteria, maximum iterations/actions, or a budget.
+    why: Unbounded agent loops can compound cost and errors.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  reliability_resilience:
+  - rule: Classify failures as transient, permanent/validation, dependency, model-quality, or policy failures before deciding to retry.
+    why: Retrying non-transient errors wastes time and can magnify incidents.
+    source: WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html; WEB:https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+  - rule: Use timeouts, bounded retries, exponential backoff, and jitter for transient dependency failures.
+    why: Coordinated immediate retries can overload an already unhealthy service.
+    source: WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html; WEB:https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+  - rule: Make side-effecting operations idempotent or protected by idempotency keys before automatic retry.
+    why: A retry must not duplicate charges, messages, records, or other effects.
+    source: WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html; WEB:https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+  - rule: Persist checkpoints around expensive or externally visible steps so long workflows can resume rather than restart from zero.
+    why: Resumability reduces wasted cost and limits duplicate side effects.
+    source: WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html; WEB:https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/
+  cost_latency_optimization:
+  - rule: 'Optimize the critical path first: parallelize independent calls, remove redundant calls, and avoid model work that deterministic code can perform.'
+    why: Architecture usually creates larger latency wins than micro-optimizing prompts.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/batch
+  - rule: Batch asynchronous high-volume workloads when completion latency is flexible and the provider offers batch economics or separate rate limits.
+    why: Interactive infrastructure is unnecessary for work that does not need immediate results.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/batch
+  - rule: Cache stable expensive results at the right semantic key while defining freshness and invalidation rules.
+    why: Caching saves cost only if stale reuse is controlled.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/batch
+  - rule: Track latency and cost by workflow step, model, provider, and outcome so optimization targets the real bottleneck.
+    why: Aggregate spend cannot reveal which call is wasteful.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/batch
+  evals_quality_control:
+  - rule: Define acceptance criteria and representative eval cases before aggressively optimizing prompts, models, or routing.
+    why: A quality baseline is necessary to know whether a cheaper/faster change is safe.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Use deterministic validators for objective constraints, reference-based tests where ground truth exists, model graders for judgment-heavy dimensions, and human review for high-stakes ambiguity.
+    why: Different quality dimensions require different evaluators.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Maintain regression suites containing normal cases, edge cases, historical failures, and adversarial cases.
+    why: Production reliability improves when known failures cannot silently return.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Evaluate end-to-end task success as well as component quality; a locally excellent step can still hurt the full workflow.
+    why: Users experience the system outcome, not isolated model scores.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  retrieval_context:
+  - rule: Retrieve only context likely to change the answer; more context is not automatically better.
+    why: Irrelevant context increases cost and can distract the model.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Separate stable instructions, task data, retrieved evidence, and conversation state so each can be versioned and refreshed independently.
+    why: Mixed context is hard to debug and easy to pollute.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Preserve provenance from retrieved claims to source chunks and timestamps/versions.
+    why: Grounded systems need to explain where evidence came from.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Use retrieval evaluation—recall of needed evidence, precision/relevance, freshness, and answer impact—rather than judging only final prose.
+    why: Poor retrieval can be hidden by fluent generation.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://platform.openai.com/docs/api-reference/evals
+  data_pipelines:
+  - rule: Normalize incoming data into explicit schemas before it becomes shared system state.
+    why: Loose heterogeneous payloads create downstream branching and hidden assumptions.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Use stable entity identifiers, deduplication, and merge rules when the same real-world object can arrive from multiple sources.
+    why: Entity duplication corrupts state and automation.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Store source timestamps and freshness so incremental updates can replace stale facts without rebuilding everything.
+    why: Data pipelines should support change, not only initial ingestion.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Quarantine malformed or low-confidence records instead of silently coercing them into valid-looking data.
+    why: Bad normalization creates confident downstream errors.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  observability:
+  - rule: Trace each workflow run with step timing, inputs/outputs or safe references, model/tool choice, retries, tokens/cost, errors, and final status.
+    why: Without step-level traces, latency and quality failures are difficult to diagnose.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Use structured error categories and stable event names instead of free-text logs as the primary operational signal.
+    why: Structured telemetry enables aggregation and automated alerting.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Record business-level success metrics alongside technical telemetry.
+    why: A fast error-free workflow can still fail the user’s goal.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals
+  - rule: Preserve privacy by logging the minimum data needed for diagnosis and applying retention/access controls.
+    why: Observability should not become an uncontrolled sensitive-data store.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals
+  tool_orchestration:
+  - rule: Expose tools with narrow responsibilities, explicit parameter schemas, clear descriptions, and unambiguous boundaries from similar tools.
+    why: Tool interfaces are part of the agent prompt and strongly affect reliability.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Constrain the available tool set to those relevant to the current task and state.
+    why: Large overlapping tool menus increase selection errors and context cost.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Validate tool arguments and outputs programmatically before side effects or downstream use.
+    why: Structured validation catches failures cheaper than another reasoning loop.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Assign tool risk levels based on write access, reversibility, permissions, financial impact, and external visibility, then gate accordingly.
+    why: Not every tool call deserves the same autonomy.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  human_in_the_loop:
+  - rule: Escalate when the system exceeds retry/action thresholds, lacks required information, encounters policy ambiguity, or faces high-impact irreversible actions.
+    why: Human intervention should be triggered by risk and uncertainty, not only total failure.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Keep human approval checkpoints as close as practical to the consequential action they authorize.
+    why: Early blanket approval can become meaningless after the plan changes.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Show reviewers the decision-relevant context, proposed action, evidence, and uncertainty rather than raw internal traces alone.
+    why: Good oversight depends on usable information.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Use human corrections as labeled feedback for evals and system improvement rather than treating every intervention as an isolated exception.
+    why: Escalations are high-value failure data.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  security_permissions:
+  - rule: Use least-privilege credentials and task-scoped tool permissions; do not give every workflow the broadest account access.
+    why: Compromise or model error has smaller blast radius when permissions are constrained.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework
+  - rule: Treat external retrieved content and tool outputs as untrusted data that can contain prompt injection or malicious instructions.
+    why: Agents can confuse data with instructions unless boundaries are enforced.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework
+  - rule: Require explicit authorization for destructive, financial, externally published, or otherwise high-risk actions.
+    why: Autonomy should decrease as consequence rises.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework
+  - rule: Layer deterministic checks, model-based guardrails, authentication/authorization, and standard application security rather than relying on a single safety prompt.
+    why: Defense in depth is more robust than one guardrail.
+    source: WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://www.nist.gov/itl/ai-risk-management-framework
+  versioning_provenance:
+  - rule: Version prompts/instructions, models, tool schemas, retrieval indexes, routing rules, and evaluators that can materially change output.
+    why: Reproducibility requires knowing which system configuration produced a result.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: 'Attach artifact lineage to important outputs: source inputs, transformations, model/tool versions, and timestamps.'
+    why: Lineage makes audits, debugging, and refresh possible.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Separate mutable aliases such as “best model” from pinned versions used for reproducible production or eval runs.
+    why: Silent dependency changes can create unexplained regressions.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  - rule: Record migration notes when behavior changes intentionally so downstream consumers can adapt.
+    why: Version changes are operational contracts, not only code changes.
+    source: WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/
+  automation_design:
+  - rule: Choose event-driven execution when an external state change should trigger work, scheduled execution for time-based work, batch for delay-tolerant volume, and polling only when no event mechanism is available.
+    why: Trigger design affects latency, load, and wasted calls.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html
+  - rule: Keep deterministic recurring automation separate from open-ended agent reasoning unless the task truly requires dynamic planning.
+    why: Agentic complexity is not a prerequisite for automation.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html
+  - rule: Automate only after inputs, outputs, success criteria, and failure handling are sufficiently understood.
+    why: Automating an unstable process scales its ambiguity.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html
+  - rule: Design an explicit manual fallback for workflows whose failure would block important business operations.
+    why: Automation should reduce dependence on humans without making recovery impossible.
+    source: WEB:https://www.anthropic.com/engineering/building-effective-agents; WEB:https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/; WEB:https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/retry-backoff.html
+  feedback_and_self_improvement:
+  - rule: Improve systems from measured failures and eval deltas, not from unrestricted self-modification in production.
+    why: Controlled iteration is easier to validate and roll back.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Promote successful changes through test → shadow/canary → monitored rollout when the workflow is consequential.
+    why: Staged deployment limits blast radius.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Let agents propose prompt, routing, or workflow changes as artifacts for evaluation rather than applying them directly to their own production control plane.
+    why: The evaluator and the thing being changed should not share unchecked authority.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents
+  - rule: Retain historical failure cases so optimization does not overfit the newest incidents and regress older capabilities.
+    why: A growing regression set turns experience into durable reliability.
+    source: WEB:https://platform.openai.com/docs/api-reference/evals; WEB:https://www.nist.gov/itl/ai-risk-management-framework; WEB:https://www.anthropic.com/engineering/building-effective-agents

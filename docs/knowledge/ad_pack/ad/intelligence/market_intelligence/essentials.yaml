@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: market_intelligence
+kind: intelligence
+title: Market Intelligence
+categories:
+  market_definition_and_map:
+  - rule: Define the market around a customer problem, spending pool, or substitutable set of solutions before estimating its size.
+    why: Market numbers are meaningless when the boundary changes silently between sources.
+    source: C12K:zPxf0Hnxxkc@00:14:39; C12K:ciogxooQelQ@00:00:55
+  - rule: Map customers, competitors, substitutes, suppliers, channels, regulators, and adjacent players when they materially affect value flow.
+    why: A market is an ecosystem, not merely a list of direct competitors.
+    source: C12K:ciogxooQelQ@00:00:55; C12K:RUKEMb93T3k@02:03:46
+  - rule: Separate total theoretical demand from the segment that can actually be reached and served with the current offer and capabilities.
+    why: Large TAM figures can hide a tiny practical opportunity.
+    source: C12K:RUKEMb93T3k@02:03:46; C12K:GfFIghMz9PQ@00:05:14
+  - rule: Maintain explicit inclusion and exclusion rules for market maps so comparisons remain consistent over time.
+    why: Without stable definitions, trend and share analyses become internally inconsistent.
+    source: C12K:GfFIghMz9PQ@00:05:14; C12K:hKqLceTPLWM@00:02:23
+  demand_and_signal_collection:
+  - rule: Combine search behavior, customer language, purchase behavior, hiring, ad spend, product launches, communities, reviews, and sales activity as demand signals.
+    why: No single public signal measures demand cleanly; convergence is more informative.
+    source: C12K:zPxf0Hnxxkc@00:14:39; C12K:ciogxooQelQ@00:00:55
+  - rule: Distinguish expressed attention from willingness to pay and from actual retained usage.
+    why: Interest can be large while the monetizable problem is weak.
+    source: C12K:ciogxooQelQ@00:00:55; C12K:RUKEMb93T3k@02:03:46
+  - rule: 'Weight signals by proximity to economic action: signed contracts and repeat purchases generally outrank likes or survey enthusiasm.'
+    why: Signals closer to cost-bearing behavior contain more information about market viability.
+    source: C12K:RUKEMb93T3k@02:03:46; C12K:GfFIghMz9PQ@00:05:14
+  - rule: Treat rapid signal growth as a prompt for investigation, not proof that a durable market exists.
+    why: Temporary hype, seasonality, or platform effects can mimic structural demand.
+    source: C12K:GfFIghMz9PQ@00:05:14; C12K:hKqLceTPLWM@00:02:23
+  competitive_intelligence:
+  - rule: Analyze competitor offers, positioning, pricing, distribution, proof, customer reviews, and observable changes rather than only their public feature lists.
+    why: Competitive advantage is created by the whole system buyers experience.
+    source: C12K:zPxf0Hnxxkc@00:14:39; C12K:ciogxooQelQ@00:00:55
+  - rule: Use long-running ads, recurring messages, repeated product emphasis, hiring, and other sustained behavior as clues—not certainty—about what competitors believe works.
+    why: Observed behavior reveals strategic bets but not private economics.
+    source: C12K:ciogxooQelQ@00:00:55; C12K:RUKEMb93T3k@02:03:46
+  - rule: Track competitor strengths and customer praise as seriously as complaints.
+    why: Only studying weaknesses leads to strategies that underestimate why buyers choose incumbents.
+    source: C12K:RUKEMb93T3k@02:03:46; C12K:GfFIghMz9PQ@00:05:14
+  - rule: Separate facts about competitors from inferred strategy and confidence-label the inference.
+    why: Market intelligence becomes dangerous when guesses are stored as observations.
+    source: C12K:GfFIghMz9PQ@00:05:14; C12K:hKqLceTPLWM@00:02:23
+  opportunity_evaluation:
+  - rule: Evaluate opportunities on problem severity, frequency, willingness to pay, reachable buyer count, competitive intensity, distribution access, delivery feasibility, and strategic fit.
+    why: A large painful market is still unattractive if it cannot be reached or served economically.
+    source: C12K:zPxf0Hnxxkc@00:14:39; C12K:ciogxooQelQ@00:00:55
+  - rule: Prefer opportunities where existing behavior already demonstrates spending, workarounds, or repeated effort to solve the problem.
+    why: Evidence of current cost reduces the need to manufacture demand from zero.
+    source: C12K:ciogxooQelQ@00:00:55; C12K:RUKEMb93T3k@02:03:46
+  - rule: Look for structural asymmetries—better data, faster feedback, underserved segments, distribution access, workflow integration, or new cost curves—rather than merely “a growing market.”
+    why: Growth attracts competitors; asymmetry explains why this operator can win.
+    source: C12K:RUKEMb93T3k@02:03:46; C12K:GfFIghMz9PQ@00:05:14
+  - rule: Compare opportunities on expected value and opportunity cost rather than evaluating each in isolation.
+    why: Choosing a good market can still be a bad decision when a materially better one is available.
+    source: C12K:GfFIghMz9PQ@00:05:14; C12K:hKqLceTPLWM@00:02:23
+  freshness_and_uncertainty:
+  - rule: Attach dates and source quality to market facts and re-check volatile claims before consequential decisions.
+    why: Market size, prices, platform behavior, regulations, and competitors change.
+    source: C12K:zPxf0Hnxxkc@00:14:39; C12K:ciogxooQelQ@00:00:55
+  - rule: Use ranges and scenarios when market size or conversion assumptions are uncertain instead of forcing a precise point estimate.
+    why: False precision hides uncertainty that should affect decisions.
+    source: C12K:ciogxooQelQ@00:00:55; C12K:RUKEMb93T3k@02:03:46
+  - rule: Create explicit watch signals for assumptions that could invalidate the market thesis.
+    why: A living intelligence system should detect when the environment changes.
+    source: C12K:RUKEMb93T3k@02:03:46; C12K:GfFIghMz9PQ@00:05:14
+  - rule: Record when evidence is missing rather than filling gaps with confident narrative.
+    why: Unknowns are decision inputs; hiding them prevents targeted research.
+    source: C12K:GfFIghMz9PQ@00:05:14; C12K:hKqLceTPLWM@00:02:23

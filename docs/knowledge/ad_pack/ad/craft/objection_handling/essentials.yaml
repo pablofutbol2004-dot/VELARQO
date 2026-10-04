@@ -1,0 +1,63 @@
+schema_version: '1'
+pack: objection_handling
+kind: general
+title: Objection Handling Craft
+categories:
+  objection_map:
+  - rule: Treat an objection as a material unresolved reason the prospect may not proceed, then identify whether
+      it concerns the problem, mechanism, proof, fit, risk, timing, effort, price, or another decision condition.
+    why: Specific classification makes the response address the actual doubt instead of producing generic reassurance.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:_5RQAjOyG10@00:14:02
+  - rule: Preserve the prospect's own language when recording recurring objections before translating them into
+      internal categories.
+    why: Customer wording reveals how the doubt is experienced and helps future content address it recognizably
+      rather than in marketer language.
+    source: C12K:_5RQAjOyG10@00:11:40
+  - rule: Prioritize objections that are both common and consequential instead of answering every conceivable hesitation.
+    why: Non-interactive content has limited attention, so low-frequency hypothetical doubts can crowd out the blockers
+      that materially affect decisions.
+    source: C12K:_5RQAjOyG10@00:11:05; C12K:_5RQAjOyG10@00:11:40
+  preemption_and_placement:
+  - rule: Resolve predictable high-impact objections before asking for a commitment when the audience will not have
+      an immediate chance to ask questions.
+    why: In asynchronous content, an unresolved material doubt can end the journey because no live seller is present
+      to clarify it.
+    source: C12K:_5RQAjOyG10@00:11:05
+  - rule: Place an objection response near the claim, mechanism, term, or decision that creates the doubt whenever
+      doing so preserves flow.
+    why: The audience can connect the resolution to the active uncertainty instead of remembering a detached FAQ
+      answer later.
+    source: C12K:pr5ZPbCDyK0@00:08:28; C12K:pr5ZPbCDyK0@00:25:43
+  - rule: Use earlier educational content to pre-sell against predictable objections so the final commercial ask
+      does not have to reopen every doubt at once.
+    why: Objection resolution can happen through diagnosis, teaching, and proof before the offer appears rather
+      than being saved for a hard-sell ending.
+    source: C12K:pr5ZPbCDyK0@00:08:28
+  resolution_methods:
+  - rule: 'Match the response method to the objection: clarify logic for misunderstanding, show proof for evidentiary
+      doubt, explain mechanism for causal doubt, and state fit or terms for practical constraints.'
+    why: Different objections fail for different reasons, so repeating benefits is not a universal resolution method.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:cXBJSYL5_2E@00:36:28
+  - rule: When an objection is caused by a mistaken assumption, expose the assumption and supply a better model
+      instead of arguing against the surface wording alone.
+    why: The stated objection can be downstream of a belief that must change before the answer becomes credible.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:zrpWNzEoaLU@00:09:01
+  - rule: Use relevant cases or demonstrations when the objection is 'will this work in a situation like mine?'
+      rather than answering transferability with confidence alone.
+    why: Applicability doubts need evidence that the mechanism survives comparable conditions.
+    source: C12K:cXBJSYL5_2E@00:40:12; C12K:cXBJSYL5_2E@00:40:36
+  limits_and_feedback:
+  - rule: Do not try to erase a real constraint or poor-fit condition with rhetoric; acknowledge it and route or
+      disqualify appropriately.
+    why: A true inability, incompatibility, or unacceptable risk is not merely an objection to overcome.
+    source: C12K:_5RQAjOyG10@00:11:05
+  - rule: Treat repeated objections as feedback about upstream messaging, proof, offer design, or delivery—not only
+      as copy problems.
+    why: If the same doubt persists, the underlying issue may be an unclear mechanism, weak evidence, bad fit, or
+      an offer condition that content cannot repair.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:pr5ZPbCDyK0@00:08:28
+  - rule: Keep live objection diagnosis and negotiation in `sales_conversations`; use this pack for reusable objection
+      discovery and non-interactive resolution in content.
+    why: Interactive dialogue can ask follow-up questions and distinguish hidden concerns in ways a fixed asset
+      cannot.
+    source: C12K:_5RQAjOyG10@00:11:05

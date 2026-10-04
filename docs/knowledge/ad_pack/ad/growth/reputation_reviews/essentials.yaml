@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: reputation_reviews
+kind: growth
+title: Reputation & Reviews
+categories:
+  reputation_system_and_sources:
+  - rule: Treat reputation as the accumulated public evidence and conversation about the business across reviews, directories, communities, press, social platforms, and word of mouth.
+    why: A star rating is only one visible component of trust.
+    source: C12K:LE2n7Aajsfg@00:00:17; C12K:-h0G1RCDQMo@00:00:00
+  - rule: Prioritize reputation sources that prospective customers actually consult in the buying journey.
+    why: Effort on irrelevant platforms has little decision impact.
+    source: C12K:-h0G1RCDQMo@00:00:00; C12K:xl5Jgp8SJHY@00:00:00
+  - rule: Monitor rating, volume, recency, themes, response quality, and competitor context rather than one average score.
+    why: The same average can represent very different trust profiles.
+    source: C12K:xl5Jgp8SJHY@00:00:00; C12K:rMf09Nex6qc@00:02:07
+  - rule: Separate owned testimonials from independent public reviews in reporting and proof.
+    why: Buyers assign different credibility to controlled and third-party evidence.
+    source: C12K:rMf09Nex6qc@00:02:07; C12K:1awWMG1e5kY@00:00:15
+  review_generation:
+  - rule: Ask for reviews after a real value moment or completed experience rather than at arbitrary calendar intervals.
+    why: Timing affects both response rate and informativeness.
+    source: C12K:LE2n7Aajsfg@00:00:17; C12K:-h0G1RCDQMo@00:00:00
+  - rule: Make the path to leave a review simple and channel-appropriate without scripting dishonest praise.
+    why: Friction reduction is useful; manufactured sentiment undermines trust.
+    source: C12K:-h0G1RCDQMo@00:00:00; C12K:xl5Jgp8SJHY@00:00:00
+  - rule: Request feedback broadly according to applicable platform rules rather than selectively suppressing likely negative reviewers.
+    why: Review gating biases the public record and can violate platform policies.
+    source: C12K:xl5Jgp8SJHY@00:00:00; C12K:rMf09Nex6qc@00:02:07
+  - rule: Build review requests into the operational workflow so generation is systematic rather than dependent on staff memory.
+    why: Consistent systems outperform occasional campaigns.
+    source: C12K:rMf09Nex6qc@00:02:07; C12K:1awWMG1e5kY@00:00:15
+  response_and_recovery:
+  - rule: Respond to negative reviews by acknowledging the issue, clarifying only what can be stated safely, offering a concrete recovery path, and moving sensitive detail offline.
+    why: A response is written for future readers as well as the reviewer.
+    source: C12K:LE2n7Aajsfg@00:00:17; C12K:-h0G1RCDQMo@00:00:00
+  - rule: Do not argue publicly over subjective experience or reveal private customer information to “win” the review.
+    why: Defensive responses can create more reputational harm than the original complaint.
+    source: C12K:-h0G1RCDQMo@00:00:00; C12K:xl5Jgp8SJHY@00:00:00
+  - rule: Use recurring complaint themes as operational defect signals and route them to the owning process.
+    why: Reputation data is valuable when it changes delivery.
+    source: C12K:xl5Jgp8SJHY@00:00:00; C12K:rMf09Nex6qc@00:02:07
+  - rule: After resolving a real issue, allow the customer to update their view voluntarily; do not condition service on review removal.
+    why: Recovery should repair the relationship, not coerce the record.
+    source: C12K:rMf09Nex6qc@00:02:07; C12K:1awWMG1e5kY@00:00:15
+  local_and_directory_consistency:
+  - rule: Keep core business identity, location, hours, contact details, and service information accurate across important local profiles.
+    why: Inconsistent information creates customer friction and weakens trust.
+    source: C12K:LE2n7Aajsfg@00:00:17; C12K:-h0G1RCDQMo@00:00:00
+  - rule: Use location-specific reputation when buyers choose at the location level rather than aggregating all sites into one corporate score.
+    why: Service quality and decision context can vary by branch.
+    source: C12K:-h0G1RCDQMo@00:00:00; C12K:xl5Jgp8SJHY@00:00:00
+  - rule: Monitor unauthorized, duplicate, or outdated profiles that fragment reputation or confuse customers.
+    why: Duplicate surfaces split evidence and can show stale information.
+    source: C12K:xl5Jgp8SJHY@00:00:00; C12K:rMf09Nex6qc@00:02:07
+  - rule: Treat local ranking tactics and platform features as volatile channel operations that require current verification.
+    why: Directory and search platform rules change.
+    source: C12K:rMf09Nex6qc@00:02:07; C12K:1awWMG1e5kY@00:00:15
+  measurement_and_governance:
+  - rule: Track review acquisition rate, response time, negative-theme recurrence, resolution, rating distribution, and conversion impact rather than chasing review count alone.
+    why: A growing pile of reviews can coexist with worsening service.
+    source: C12K:LE2n7Aajsfg@00:00:17; C12K:-h0G1RCDQMo@00:00:00
+  - rule: Flag suspicious bursts, duplicate language, incentives, or provenance problems before using reviews as proof.
+    why: Low-integrity evidence creates platform and trust risk.
+    source: C12K:-h0G1RCDQMo@00:00:00; C12K:xl5Jgp8SJHY@00:00:00
+  - rule: Preserve review text and metadata as voice-of-customer input while respecting privacy and terms of service.
+    why: Public feedback can improve research, messaging, and operations.
+    source: C12K:xl5Jgp8SJHY@00:00:00; C12K:rMf09Nex6qc@00:02:07
+  - rule: Give high-severity reputation incidents a defined escalation path and owner.
+    why: Fast coordinated handling matters when an issue can spread beyond one review.
+    source: C12K:rMf09Nex6qc@00:02:07; C12K:1awWMG1e5kY@00:00:15

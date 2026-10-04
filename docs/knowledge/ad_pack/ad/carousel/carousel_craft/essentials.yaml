@@ -1,0 +1,101 @@
+schema_version: "1"
+pack: carousel_craft
+kind: carousel
+title: Carousel craft system
+categories:
+  what_a_carousel_is:
+  - rule: "Treat a carousel as a progressive information experience with three jobs: acquire attention, sustain progression, and leave a residue."
+    why: "A carousel is a sequence, not a set of independent designed panels."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#1"
+  - rule: "Shape every carousel around the spine: cover promise, validation, progression, payoff, residue or action."
+    why: "Weak carousels usually fail because one stage is missing."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#1"
+  local_completeness_global_incompleteness:
+  - rule: "Make each slide locally complete (one dominant idea, quick to read, clear order, valuable alone) while the whole keeps something unresolved (increasing specificity, an unfinished transformation, escalating stakes, a promised payoff)."
+    why: "Resolves 'every slide stands alone' against 'every slide must make the next swipe necessary'."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#2"
+  - rule: "Test every slide twice: if shared alone does it still make sense, and if the carousel stopped here would the viewer still want one more slide."
+    why: "Both should usually be yes."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#2"
+  one_dominant_job_per_slide:
+  - rule: "Give each slide one dominant communicative job from a fixed set such as stop, orient, validate, raise stakes, reframe, explain a mechanism, show an example, compare, prove, provide a step, or invite action."
+    why: "A slide weakens when multiple jobs compete at equal priority."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#3"
+  - rule: "Never let headline, paragraph, diagram, quote, screenshot, CTA, and decoration fight for attention on one slide; keep one message dominant with everything else subordinate."
+    why: "Competing elements destroy hierarchy."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#3"
+  cover_as_acquisition:
+  - rule: "Design the cover as the acquisition layer, not as slide one of the explanation."
+    why: "The cover earns the first swipe."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#4"
+  - rule: "Make the cover readable and understandable at feed size before any larger-screen polish."
+    why: "A cover that needs close reading fails in the feed."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#4"
+  slide2_validation:
+  - rule: "Use slide two to confirm the cover was not bait: restate the promise with specificity, establish the problem, create stakes, show the result, or present the framework map."
+    why: "Cover earns curiosity; slide two earns trust."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#5"
+  progression_not_repetition:
+  - rule: "Let the sequence change state (vague to specific, problem to cause to solution, claim to mechanism to evidence) instead of adding slides that restate one idea."
+    why: "Repetition is padded; state change is progression."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#6"
+  - rule: "Remove any slide whose deletion does not damage meaning, rhythm, proof, or payoff."
+    why: "A slide earns its place or it is gone."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#6"
+  compression:
+  - rule: "Compress with hierarchy, chunking, diagrams, labels, examples, contrast, grouping, and named components rather than by deleting nuance until content is generic."
+    why: "The goal is high information value per unit of attention, not few words."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#7"
+  saveability:
+  - rule: "Earn saves through reference value, reuse value, memorability, quotability, decision support, or implementation value, not through density alone."
+    why: "A sparse quotable principle saves as well as a dense chart."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#8"
+  evidence_over_decoration:
+  - rule: "First ask what visual would prove, clarify, demonstrate, or embody the idea; decorate only afterwards."
+    why: "Visual evidence is stronger than decorative imagery that masquerades as explanation."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#9"
+  rhythm:
+  - rule: "Vary scale, image-text balance, background tone, density, and framing across the sequence, but inside one coherent system."
+    why: "Consistency is one language; mechanical repetition is the same composition again and again."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#10"
+  coherence_invariants:
+  - rule: "Choose three to six invariants before designing slides: type family, accent color, margins, texture, numbering, icon style, headline voice, or a framing device."
+    why: "Invariants keep changing layouts recognizably one system."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#11"
+  production_modes:
+  - rule: "Identify the production mode before writing: content-first (idea clarified by design), image-first (the visual material is the content), or experience-first (built around the sensation of progressing)."
+    why: "Each mode has different rules for how much text and structure belongs."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#12"
+  - rule: "Do not force a lesson or copy onto every slide of an image-first carousel."
+    why: "Text belongs only when it changes interpretation, guides attention, or advances the sequence."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#13"
+  narrative_state_change:
+  - rule: "For narrative carousels, define before state, trigger, after state, and meaning before writing; the shift is the story, not the event."
+    why: "Nothing changed reads as no story."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#15"
+  cta:
+  - rule: "Make the CTA the next logical step of the content just consumed and aligned to it, never an unrelated offer taxed at the end."
+    why: "A mismatched CTA breaks the residue the carousel built."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#16"
+  - rule: "Allow carousels to end on a strong concluding line with no hard CTA when the job is identity, leadership, or resonance."
+    why: "Lead-generation mechanics are not mandatory in every carousel."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#17"
+  reading_order:
+  - rule: "Control reading order by size, weight, contrast, position, proximity, whitespace, numbered steps, and color emphasis so the viewer never asks where to start."
+    why: "Evenly weighted elements make a slide beautiful but unreadable."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#18"
+  - rule: "Design so the slide answers visually: where do I start, what is the main point, what belongs together, what changed, and where do I go next."
+    why: "Good design reduces the viewer's search cost."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#19"
+  sequence_planning:
+  - rule: "Plan the whole slide-role graph before rendering any slide: role, core idea, link to prior slide, reason to continue, visual function, dominant element, density, continuity device, and independent-viability for each."
+    why: "A sequence plan prevents ten pretty posters with no logic."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#20"
+  production_loop:
+  - rule: "Run the production loop in order: viewer change, thesis, content mode, archetype, cover promise, slide-two validation, sequence of state changes, saveable slides, visual function per slide, invariants, controlled rhythm, proof, natural CTA, then QC and render."
+    why: "Fixed order keeps generation deterministic enough to review."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#21"
+  what_not_to_absolutize:
+  - rule: "Do not encode style heuristics as hard laws: never-center, exact pixel rules, every-slide-independent, mandatory CTA, word-count caps, carousels-beat-reels, or minimal-is-always-better."
+    why: "Encode the underlying mechanisms (reading order, feed legibility, relevance, continuation, coherence, progression, density, hierarchy) instead."
+    source: "CP:CAROUSEL_CRAFT_SYSTEM.md#22"

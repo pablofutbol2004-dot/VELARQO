@@ -2,21 +2,31 @@
   "name": "cold_offer_v1",
   "stage": "cold_email",
   "hypothesis": "Offering a free look at their old quotes gets more positive replies from UK window/door installers than offering to chase the quotes on a no-win-no-fee basis, because it asks for less trust up front.",
-  "variable": "offer in the first email (opener, sign-off and follow-ups identical)",
+  "variable": "offer in the first email and its matching follow-up 2 (subject, opener, follow-up 3 identical)",
   "primary_metric": "positive_reply_rate",
-  "guardrails": ["bounce_rate < 3%", "unsubscribe_or_complaint_rate < 2%", "zero complaints"],
+  "guardrails": [
+    "bounce_rate < 3%",
+    "unsubscribe_or_complaint_rate < 2%",
+    "zero complaints"
+  ],
   "min_sent_per_arm": 300,
   "decision_rule": "After min_sent_per_arm first emails per arm: keep the arm with >= 90% probability of the higher positive-reply rate. If neither reaches 90%, keep the arm that produced more booked calls and move on - the difference is too small to matter at our volume.",
   "arms": [
     {
       "key": "A_chase_no_win_no_fee",
       "subject": "quotes that went quiet",
-      "body": "Hi,\n\nHow many quotes has {company} sent out in the last year where the homeowner just went quiet?\n\nI chase those people up for you, in your name, and book anyone who's still interested back in for a survey. Nothing to pay unless it works.\n\nWorth me sending over how it works?"
+      "body": "Hi,\n\nHow many quotes has {company} sent in the last year where the homeowner just went quiet?\n\nI chase those people up for you, in your company's name, and book anyone still interested back in for a survey. Nothing to pay unless surveys get booked.\n\nWorth me explaining how it works?",
+      "follow_ups": {
+        "2": "Hi,\n\nTo put it simply: I'd message homeowners you quoted in the last year or two, in your company's name, and ask if they're still thinking about it. Anyone who says yes gets a survey in your diary. Anyone who says no is left alone.\n\nRoughly how many old quotes are we talking: tens, hundreds?"
+      }
     },
     {
       "key": "B_free_quote_audit",
       "subject": "quotes that went quiet",
-      "body": "Hi,\n\nHow many quotes has {company} sent out in the last year where the homeowner just went quiet?\n\nIf you send me a list of them (names blanked out is fine), I'll go through it for free and tell you how many look worth chasing and how I'd do it.\n\nWant me to take a look?"
+      "body": "Hi,\n\nHow many quotes has {company} sent in the last year where the homeowner just went quiet?\n\nI'll look over your old quotes for free and tell you honestly whether any are worth chasing. No cost, no commitment.\n\nWant me to take a look?",
+      "follow_ups": {
+        "2": "Hi,\n\nTo be clear what the free look is: you tell me roughly how many old quotes you've got and where they sit (spreadsheet, quoting system, inbox). I tell you whether they're worth chasing. You don't send any customer details at this stage.\n\nRoughly how many are we talking: tens, hundreds?"
+      }
     }
   ]
 }

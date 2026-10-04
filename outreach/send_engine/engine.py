@@ -335,7 +335,8 @@ def schedule_followups(conn, now=_now, campaign_statuses=("active",)) -> int:
         candidates = cur.execute(
             """
             select m.id, m.campaign_id, m.company_id, m.to_email, m.mailbox, m.variant_index,
-                   m.sequence_step, m.sent_at, first.subject as first_subject, c.display_name
+                   m.sequence_step, m.sent_at, first.subject as first_subject, c.display_name,
+                   cp.settings->'experiment' as experiment
             from messages m
             join campaigns cp on cp.id = m.campaign_id
             join companies c on c.id = m.company_id
@@ -356,7 +357,9 @@ def schedule_followups(conn, now=_now, campaign_statuses=("active",)) -> int:
         with conn.transaction(), conn.cursor() as cur:
             if _is_suppressed(cur, prev["to_email"]) or _company_has_replied(cur, prev["company_id"]):
                 continue
-            email = compose.follow_up(step, prev, prev["first_subject"])
+            arms = (prev["experiment"] or {}).get("arms") or []
+            arm = arms[prev["variant_index"] % len(arms)] if arms and prev["variant_index"] is not None else None
+            email = compose.follow_up(step, prev, prev["first_subject"], arm)
             cur.execute(
                 """
                 insert into messages (campaign_id, company_id, to_email, variant_index, subject, body, sequence_step,

@@ -1,0 +1,44 @@
+schema_version: '1'
+pack: packaging
+kind: general
+title: Packaging Craft
+categories:
+  promise_definition:
+  - rule: Define the core idea and audience promise before drafting the body.
+    why: Packaging and substance drift when the content does not know what it is promising.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Make the title, thumbnail or first-frame concept create one clear expectation rather than several competing promises.
+    why: A single legible promise improves self-selection and reduces mismatch.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Frame the idea around the audience’s recognizable problem, desired state, or consequential question when the underlying
+      mechanism is unfamiliar.
+    why: People can evaluate relevance faster through an outcome they understand.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: Use broad, instantly understandable wording instead of a technical label when the label would create avoidable confusion,
+      then introduce precision inside the content.
+    why: Packaging should win correct comprehension before specialist terminology is required.
+    source: B:kallaway/02_hooks-and-initial-retention
+  promise_integrity:
+  - rule: Make the opening content immediately confirm that the packaged promise is the content actually being delivered.
+    why: Fast confirmation reduces the feeling of bait-and-switch.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Do not make the packaging more extraordinary than the available evidence and payoff can support.
+    why: Expectation that exceeds reality damages attention and trust.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Aim for the delivered reality to meet or exceed the expectation created before consumption.
+    why: Positive surprise strengthens satisfaction, memory, and willingness to consume again.
+    source: B:kallaway/01_psychology-and-viewer-behavior
+  validated_frames:
+  - rule: Study proven title, thumbnail, and first-frame structures as packaging references, then adapt them to the actual
+      idea and promise.
+    why: Validated packaging grammar can reduce presentation risk without deciding the substance or angle for you.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:round_4/02_idea-generation-problem-narrowing-and-content-research
+  recognizability:
+  - rule: Use consistent visual or verbal packaging codes when recognizability is strategically useful, but keep individual
+      ideas distinct.
+    why: Recognition can compound across content without forcing every piece to look identical.
+    source: B:round_3/01_brand-strategy-positioning-and-world-building; B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  - rule: Adapt packaging to the consumption context rather than assuming one title, caption, or cover treatment is optimal
+      everywhere.
+    why: The same substance can require different framing across surfaces and audience states.
+    source: B:round_3/07_distribution-networks-clipping-and-audience-growth

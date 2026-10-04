@@ -1,0 +1,224 @@
+schema_version: '1'
+pack: sales_conversations
+kind: business_mechanics
+title: Sales Conversations
+categories:
+  conversation_role_and_frame:
+  - rule: 'Make the purpose of the conversation explicit early: explain that you will understand the situation,
+      determine whether there is a fit, and discuss a next step only if it makes sense.'
+    why: A transparent frame lowers ambiguity without disguising a commercial conversation as free consulting or
+      forcing a premature decision.
+    source: C12K:MPhvqxVGzkw@00:19:39; C12K:MPhvqxVGzkw@00:22:02
+  - rule: Treat the seller's role as decision support and diagnosis rather than persuasion at any cost.
+    why: The conversation is more useful when the seller is trying to reach the right decision—including no sale—rather
+      than interpreting every interaction as a contest to win.
+    source: C12K:StVqS0jD7Ls@02:07:01; C12K:gPJZagViKBs@01:02:12
+  - rule: Adjust warmth, directness, pace, and depth to the buyer and context instead of performing one fixed 'sales
+      persona.'
+    why: Different buyers arrive with different expectations, experience, and emotional stakes; rigid delivery can
+      create distrust or unnecessary pressure.
+    source: C12K:MPhvqxVGzkw@00:21:32; C12K:MPhvqxVGzkw@00:22:25
+  - rule: Use scripts as scaffolding for sequence and intent, then rewrite the language into phrases you can say
+      naturally.
+    why: A script can protect structure, but unnatural wording weakens listening and makes the conversation sound
+      performed rather than responsive.
+    source: C12K:wOIZv2Eef3Q@01:19:02; C12K:wOIZv2Eef3Q@01:10:52
+  - rule: Match the number and length of conversations to decision complexity, risk, stakeholder count, and information
+      needs rather than forcing every sale into a one-call close.
+    why: More consequential or committee-based decisions often require a longer runway; a one-call structure is
+      a context-specific tactic, not a universal law.
+    source: C12K:wOIZv2Eef3Q@00:12:20; C12K:StVqS0jD7Ls@02:05:05
+  discovery_and_diagnosis:
+  - rule: Begin discovery with a broad question about what prompted the prospect to engage, then narrow from the
+      answer.
+    why: A broad opener lets the buyer reveal what is most salient before the seller constrains the conversation
+      with assumptions.
+    source: C12K:MPhvqxVGzkw@00:20:09; C12K:wOIZv2Eef3Q@00:15:11
+  - rule: Understand the buyer's current state, desired state, and the meaningful gap between them before recommending
+      a solution.
+    why: Without a clear before/after model, the seller cannot tell whether the offer addresses the actual problem
+      or merely a surface request.
+    source: C12K:bYloxYqBLGg@00:10:37; C12K:iN4R7y37_kw@00:09:31
+  - rule: 'Probe beyond the stated goal to the reason underneath it: ask why the goal matters and what problem the
+      prospect is actually trying to solve.'
+    why: Surface goals can be generic; the underlying motive determines urgency, relevance, and what a useful recommendation
+      must change.
+    source: C12K:gPJZagViKBs@00:20:07; C12K:wOIZv2Eef3Q@01:35:40
+  - rule: Ask what the prospect has already tried and what happened before assuming the current problem is caused
+      by the mechanism you sell.
+    why: Past attempts reveal constraints, beliefs, failure modes, and missing pieces that can change both diagnosis
+      and recommendation.
+    source: C12K:ZnaM4SdCmLk@00:16:09; C12K:wOIZv2Eef3Q@04:51:23
+  - rule: Ask 'why now?' or an equivalent timing question when the trigger for action is unclear.
+    why: A problem can exist for years without becoming a current priority; the change that made it matter now often
+      explains the real decision context.
+    source: C12K:MPhvqxVGzkw@00:34:26; C12K:iN4R7y37_kw@00:13:52
+  - rule: Quantify business problems when a meaningful operational or economic measure exists, but do not force
+      false precision onto subjective outcomes.
+    why: Numbers can clarify scale and consequence in B2B settings, while invented precision can distort personal
+      or qualitative problems.
+    source: C12K:MPhvqxVGzkw@00:30:08; C12K:MPhvqxVGzkw@00:25:06
+  - rule: Do not rush from the first sign of interest into the pitch; continue discovery until the problem and decision
+      context are sufficiently understood.
+    why: Premature pitching creates generic recommendations and leaves hidden concerns to surface after price or
+      commitment is introduced.
+    source: C12K:MPhvqxVGzkw@00:27:01; C12K:gPJZagViKBs@00:12:25
+  listening_and_question_design:
+  - rule: Listen for information that changes the diagnosis or next question; do not use the prospect's speaking
+      time merely to wait for your next scripted line.
+    why: Active listening lets the conversation branch from what the buyer actually says rather than from a memorized
+      checklist.
+    source: C12K:wOIZv2Eef3Q@01:08:19; C12K:ZnaM4SdCmLk@00:15:32
+  - rule: Ask one clear question at a time and let the prospect complete the answer before stacking another question.
+    why: Multi-part questions produce partial answers, increase cognitive load, and make it harder to know which
+      premise the response addressed.
+    source: C12K:ZnaM4SdCmLk@00:16:48; C12K:wOIZv2Eef3Q@00:28:12
+  - rule: Prefer open-ended questions when exploring the situation, then use narrower questions to clarify specific
+      facts or ambiguities.
+    why: Open questions surface unexpected context; narrow questions are useful once the branch that matters is
+      known.
+    source: C12K:MPhvqxVGzkw@00:20:09; C12K:ZnaM4SdCmLk@00:15:37
+  - rule: Follow important answers one or two layers deeper instead of moving on as soon as the prospect gives a
+      plausible surface response.
+    why: The first answer often names the category of problem, while useful diagnosis requires the mechanism, consequence,
+      or motivation beneath it.
+    source: C12K:wOIZv2Eef3Q@01:34:16; C12K:wOIZv2Eef3Q@01:35:40
+  - rule: Avoid leading hypothetical questions such as whether the prospect would use a product or which imagined
+      features they would want when past behavior and concrete constraints can be discussed instead.
+    why: People are poor predictors of hypothetical buying behavior and often give agreeable answers that do not
+      reflect real decisions.
+    source: C12K:ZnaM4SdCmLk@00:16:09; C12K:ZnaM4SdCmLk@00:16:28
+  recommendation_and_pitch:
+  - rule: Do not present the offer until you can connect it to problems, goals, or constraints the prospect actually
+      described.
+    why: A diagnosis-led recommendation feels relevant because the seller can explain why each important element
+      exists for this buyer.
+    source: C12K:wOIZv2Eef3Q@00:38:36; C12K:wOIZv2Eef3Q@01:19:31
+  - rule: Translate features into the specific problem they address and the changed state they are intended to create.
+    why: Feature lists require the buyer to infer relevance; problem-to-mechanism-to-outcome explanation makes the
+      causal link explicit.
+    source: C12K:wOIZv2Eef3Q@00:38:36; C12K:wOIZv2Eef3Q@05:10:41
+  - rule: Use the prospect's own accurate language for their problem and desired outcome when explaining the recommendation;
+      do not manufacture stronger pain than they expressed.
+    why: Reusing their language improves continuity and comprehension without turning discovery into a manipulation
+      exercise.
+    source: C12K:wOIZv2Eef3Q@04:51:50; C12K:wOIZv2Eef3Q@05:11:10
+  - rule: 'Keep the recommendation selective: emphasize the few offer components that matter to the diagnosed situation
+      instead of narrating the entire feature inventory.'
+    why: More information can obscure the buying reason and create new questions unrelated to the prospect's actual
+      problem.
+    source: C12K:wOIZv2Eef3Q@01:19:31; C12K:MPhvqxVGzkw@00:24:55
+  - rule: Pause during the explanation to verify understanding and relevance before continuing.
+    why: Small comprehension checks expose confusion while it is still local instead of discovering at the end that
+      the prospect misunderstood the recommendation.
+    source: C12K:wOIZv2Eef3Q@00:39:29; C12K:wOIZv2Eef3Q@05:15:20
+  - rule: After explaining the recommendation, invite questions and answer them directly before asking for a decision.
+    why: Unresolved informational gaps often masquerade as objections later; clearing them first makes the decision
+      stage cleaner.
+    source: C12K:wOIZv2Eef3Q@00:43:18; C12K:wOIZv2Eef3Q@05:11:38
+  objections_and_uncertainty:
+  - rule: Treat an objection first as information to classify, not an automatic instruction to counter.
+    why: A comment such as 'that's expensive' may be an observation, question, constraint, fear, or rejection; responding
+      before knowing which one can create resistance that was not there.
+    source: C12K:StVqS0jD7Ls@02:28:44; C12K:StVqS0jD7Ls@02:29:13
+  - rule: Clarify what the prospect means before answering a vague objection such as 'I need to think about it'
+      or 'I'm not sure.'
+    why: The visible phrase can hide different concerns, and each concern requires different information or a different
+      next action.
+    source: C12K:StVqS0jD7Ls@02:02:16; C12K:gPJZagViKBs@01:00:53
+  - rule: Separate a real constraint from decision avoidance or missing confidence instead of pretending every hesitation
+      can be persuaded away.
+    why: A genuine budget, timing, authority, or implementation constraint may require routing or stopping, while
+      uncertainty may be resolvable through information or proof.
+    source: C12K:iN4R7y37_kw@00:19:16; C12K:StVqS0jD7Ls@02:02:16
+  - rule: Surface likely concerns during discovery when they are naturally relevant rather than saving every difficult
+      question for after the pitch.
+    why: Early clarification reduces late surprises and gives the recommendation a chance to address real decision
+      conditions.
+    source: C12K:MPhvqxVGzkw@00:24:38; C12K:StVqS0jD7Ls@02:33:06
+  - rule: Answer the concern that was actually raised; do not dump multiple rebuttals, features, or proof assets
+      onto one objection.
+    why: Over-answering can introduce new doubts and signals that the seller is defending a script rather than resolving
+      the buyer's specific uncertainty.
+    source: C12K:StVqS0jD7Ls@02:29:45; C12K:wOIZv2Eef3Q@00:42:00
+  - rule: After answering an objection, check whether that concern is resolved before trying to advance.
+    why: A response that sounds persuasive to the seller may not have changed the prospect's uncertainty; confirmation
+      prevents false progress.
+    source: C12K:wOIZv2Eef3Q@00:39:29; C12K:gPJZagViKBs@01:00:53
+  - rule: Do not use pressure to convert a prospect whose concern reveals that the offer is not appropriate for
+      them.
+    why: A correct no protects customer outcomes, trust, and seller judgment; closing everybody is not the objective.
+    source: C12K:StVqS0jD7Ls@02:07:01; C12K:StVqS0jD7Ls@02:07:29
+  proof_in_dialogue:
+  - rule: When a prospect asks for evidence, identify the exact doubt they need resolved before choosing what proof
+      to show.
+    why: Proof is most persuasive when it answers the active uncertainty rather than arriving as a generic testimonial
+      dump.
+    source: C12K:MPhvqxVGzkw@00:58:16; C12K:MPhvqxVGzkw@01:01:55
+  - rule: Use a case or example that is relevant to the prospect's situation, problem, or objection, then explicitly
+      connect why that example is comparable.
+    why: Similarity makes evidence easier to transfer from 'it worked for someone' to 'this is informative for my
+      situation.'
+    source: C12K:MPhvqxVGzkw@00:58:16; C12K:MPhvqxVGzkw@01:03:37
+  - rule: Use demonstrations, visuals, or concrete artifacts when the buyer cannot form a reliable mental model
+      from verbal explanation alone.
+    why: Seeing what is actually delivered can remove a different kind of uncertainty than hearing more claims about
+      it.
+    source: C12K:wOIZv2Eef3Q@00:20:30; C12K:wOIZv2Eef3Q@04:35:43
+  - rule: Do not turn proof into a promise that the prospect will reproduce the same result; state the relevant
+      limits or dependencies when outcomes vary.
+    why: Evidence increases credibility but does not erase variation in implementation, context, or buyer behavior.
+    source: C12K:StVqS0jD7Ls@02:03:43; C12K:wOIZv2Eef3Q@01:31:07
+  decision_and_close:
+  - rule: Treat the close as a transition from resolved understanding to a clear decision, not as a separate performance
+      that begins after the pitch.
+    why: When discovery, recommendation, and concerns are coherent, the next step should feel like a continuation
+      of the same decision process.
+    source: C12K:gPJZagViKBs@00:22:24; C12K:yelzJpfmCaU@00:08:28
+  - rule: Ask a direct decision question once the buyer understands the recommendation and material concerns are
+      resolved.
+    why: Ambiguous endings create unnecessary limbo; a clear ask lets both sides know whether the next state is
+      yes, no, or a specific unresolved issue.
+    source: C12K:gPJZagViKBs@01:00:53; C12K:wOIZv2Eef3Q@05:18:39
+  - rule: Use silence after a clear question or price instead of immediately filling the space with more persuasion.
+    why: The buyer needs room to process; talking through the pause can introduce new uncertainty or communicate
+      seller anxiety.
+    source: C12K:gPJZagViKBs@01:04:43; C12K:wOIZv2Eef3Q@00:49:25
+  - rule: If the prospect says yes, move into the agreed operational next step without reopening the decision with
+      unnecessary new selling points.
+    why: Additional persuasion after commitment creates fresh opportunities for doubt without adding decision value.
+    source: C12K:StVqS0jD7Ls@01:14:43; C12K:wOIZv2Eef3Q@00:49:25
+  - rule: Release the prospect from artificial pressure when they need to make a legitimate decision; urgency should
+      come from real consequences or constraints, not from the seller's discomfort with uncertainty.
+    why: People are more able to evaluate the decision when they do not feel trapped, and fake pressure conflicts
+      with truthful offer framing.
+    source: C12K:gPJZagViKBs@01:02:12; C12K:gPJZagViKBs@00:45:27
+  follow_up_and_continuity:
+  - rule: When a conversation ends without a decision, record the unresolved issue and agreed next step so follow-up
+      resumes from the actual decision state instead of restarting the sale.
+    why: Context-preserving follow-up is more relevant and easier to act on than generic 'checking in' messages.
+    source: C12K:LE2n7Aajsfg@06:27:26; C12K:LE2n7Aajsfg@06:28:56
+  - rule: Make follow-up messages useful or decision-relevant when possible—new evidence, a clarified answer, a
+      relevant resource, or a concrete next step—rather than sending empty bumps repeatedly.
+    why: A follow-up that contributes something can move the decision forward; a pure reminder only consumes attention.
+    source: C12K:B-joObtg6cA@00:18:32; C12K:LE2n7Aajsfg@06:28:56
+  - rule: Stop or reroute follow-up when the prospect gives a clear no, becomes a known non-fit, or the agreed timing
+      places the opportunity in a future state.
+    why: Persistence is useful only while an open decision remains; ignoring explicit state changes wastes attention
+      and damages trust.
+    source: C12K:StVqS0jD7Ls@02:07:29; C12K:MPhvqxVGzkw@00:19:39
+  review_and_skill_calibration:
+  - rule: Review recorded conversations against a known-good baseline rather than judging performance only from
+      whether the deal closed.
+    why: Outcomes contain luck and lead-quality variance; comparing the process reveals repeatable strengths and
+      weaknesses.
+    source: C12K:wOIZv2Eef3Q@01:01:03; C12K:wOIZv2Eef3Q@01:02:34
+  - rule: Use call reviews, role-play, and observation of stronger sellers as complementary practice methods.
+    why: Review diagnoses past behavior, role-play rehearses alternatives, and strong examples expand the seller's
+      library of viable patterns.
+    source: C12K:wOIZv2Eef3Q@01:04:55; C12K:wOIZv2Eef3Q@01:08:59
+  - rule: Have a more skilled reviewer inspect important lost calls when self-review cannot identify what went wrong,
+      then rehearse the corrected behavior.
+    why: The seller who missed the issue live may also miss it on replay; external feedback can expose blind spots
+      and turn them into a testable adjustment.
+    source: C12K:wOIZv2Eef3Q@01:09:26; C12K:wOIZv2Eef3Q@01:09:52

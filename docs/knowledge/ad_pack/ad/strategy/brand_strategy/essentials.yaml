@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: brand_strategy
+kind: strategy
+title: Brand Strategy
+categories:
+  brand_role_and_memory:
+  - rule: Treat brand as the set of expectations and associations people can reliably retrieve about the company, not as a logo or aesthetic system alone.
+    why: Brand affects choice when it changes what people remember, expect, and trust.
+    source: C12K:woE-5gO6alM@00:00:17; C12K:aj6x7KLSywc@00:00:00
+  - rule: Choose a small set of associations worth owning in memory and reinforce them across repeated experiences.
+    why: Trying to stand for everything produces weak retrieval.
+    source: C12K:aj6x7KLSywc@00:00:00; C12K:wrIPapQ1ggo@00:00:15
+  - rule: Build brand strategy around the market position and customer promise rather than designing a visual identity first and inventing meaning afterward.
+    why: Identity should encode strategy, not replace it.
+    source: C12K:wrIPapQ1ggo@00:00:15; C12K:O1Bn5CNnGIs@00:02:18
+  - rule: Distinguish brand recognition from preference and from proof; being memorable is useful but insufficient if the remembered meaning is weak.
+    why: Different brand problems require different interventions.
+    source: C12K:O1Bn5CNnGIs@00:02:18; C12K:wfUKO883VMU@00:22:18
+  distinctive_assets_and_system:
+  - rule: Develop distinctive verbal, visual, sonic, character, or structural assets that can recur without making every execution identical.
+    why: Recognition compounds when repeated cues survive creative variation.
+    source: C12K:woE-5gO6alM@00:00:17; C12K:aj6x7KLSywc@00:00:00
+  - rule: Give brand colors, typography, motifs, characters, and layout rules defined roles instead of treating a palette as the whole identity.
+    why: A system creates consistency while preserving creative freedom.
+    source: C12K:aj6x7KLSywc@00:00:00; C12K:wrIPapQ1ggo@00:00:15
+  - rule: Test important assets at realistic small sizes, fast exposures, and without explanatory text when recognition is the goal.
+    why: Brand assets often operate under low-attention conditions.
+    source: C12K:wrIPapQ1ggo@00:00:15; C12K:O1Bn5CNnGIs@00:02:18
+  - rule: Avoid copying the dominant aesthetic conventions of the category so closely that the brand becomes interchangeable.
+    why: Category fit helps comprehension, but excessive sameness destroys distinctiveness.
+    source: C12K:O1Bn5CNnGIs@00:02:18; C12K:wfUKO883VMU@00:22:18
+  world_voice_and_story:
+  - rule: Align positioning, voice, visual world, and recurring story so they reinforce one recognizable identity.
+    why: Contradictory layers make the brand feel assembled rather than coherent.
+    source: C12K:woE-5gO6alM@00:00:17; C12K:aj6x7KLSywc@00:00:00
+  - rule: Define voice through repeatable linguistic choices and exclusions, not vague adjectives such as “authentic” or “bold.”
+    why: Operational rules are easier to reproduce across writers and AI systems.
+    source: C12K:aj6x7KLSywc@00:00:00; C12K:wrIPapQ1ggo@00:00:15
+  - rule: Use recurring themes, symbols, characters, conflicts, or points of view when they create a world the audience can recognize and enter.
+    why: A coherent world gives content more memory structure than isolated posts.
+    source: C12K:wrIPapQ1ggo@00:00:15; C12K:O1Bn5CNnGIs@00:02:18
+  - rule: Preserve enough variation to prevent recognition from turning into monotony.
+    why: Consistency is useful until every execution becomes predictable and ignorable.
+    source: C12K:O1Bn5CNnGIs@00:02:18; C12K:wfUKO883VMU@00:22:18
+  portfolio_and_touchpoints:
+  - rule: Apply the brand system across product, sales, support, onboarding, content, and partnerships—not only marketing surfaces.
+    why: A promise loses credibility when the customer experience contradicts it.
+    source: C12K:woE-5gO6alM@00:00:17; C12K:aj6x7KLSywc@00:00:00
+  - rule: Define which elements are global and which can adapt by channel, market, product, or campaign.
+    why: Rigid uniformity can reduce local effectiveness while uncontrolled adaptation fragments the brand.
+    source: C12K:aj6x7KLSywc@00:00:00; C12K:wrIPapQ1ggo@00:00:15
+  - rule: Use pinned, profile, homepage, packaging, and other high-traffic surfaces to teach the brand quickly to unfamiliar people.
+    why: Repeated entry points should make orientation easier.
+    source: C12K:wrIPapQ1ggo@00:00:15; C12K:O1Bn5CNnGIs@00:02:18
+  - rule: Treat partner and creator collaborations as extensions of brand meaning and set compatibility boundaries accordingly.
+    why: Borrowed distribution can also import unwanted associations.
+    source: C12K:O1Bn5CNnGIs@00:02:18; C12K:wfUKO883VMU@00:22:18
+  measurement_and_governance:
+  - rule: Measure brand health with a mix of recognition, association, direct demand, preference, organic mention, and business outcomes rather than follower count alone.
+    why: Brand value appears across several behaviors and cannot be reduced to one vanity metric.
+    source: C12K:woE-5gO6alM@00:00:17; C12K:aj6x7KLSywc@00:00:00
+  - rule: Track which distinctive assets people actually recognize before redesigning them for novelty.
+    why: Changing a functioning asset destroys accumulated memory.
+    source: C12K:aj6x7KLSywc@00:00:00; C12K:wrIPapQ1ggo@00:00:15
+  - rule: Update brand rules when strategy changes or repeated execution reveals a real limitation; avoid redesign cycles driven by internal boredom.
+    why: The team sees the brand far more often than customers do.
+    source: C12K:wrIPapQ1ggo@00:00:15; C12K:O1Bn5CNnGIs@00:02:18
+  - rule: Maintain a versioned brand system that AI, humans, and vendors can reference consistently.
+    why: Operational brand consistency requires a shared source of truth.
+    source: C12K:O1Bn5CNnGIs@00:02:18; C12K:wfUKO883VMU@00:22:18

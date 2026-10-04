@@ -63,7 +63,7 @@ It's the "clean billing trigger, low dispute surface" rule from Pass 02.
 ### P1: price level (running from the first call)
 
 Config: `config/experiments/pricing_p1.json`. The model stays fixed at
-per-booked-survey. The price on each call is **£60, £110 or £175**,
+per-booked-survey. The price on each call is **£75 or £150** (two prices, because only about 5-20 calls are expected in the first 6 weeks),
 assigned per company by `call-sheet` (stable, so a prospect always hears
 the same price).
 
@@ -76,7 +76,7 @@ write the answers in the `outcome ... --note`:
 Then quote the arm's price and log the reaction:
 `python -m pipelines.outbound outcome <email> call_held --reaction ok|hesitant|objected --note "..."`
 
-Decision (directional, about 8+ calls per price): take the highest price where at least half
+Decision (directional, about 6+ calls per price): take the highest price where at least half
 of qualified prospects send a sample and price isn't the most common objection.
 `python -m pipelines.outbound results pricing_p1`.
 

@@ -1,0 +1,64 @@
+schema_version: '1'
+pack: editing
+kind: general
+title: Editing Craft
+categories:
+  editing_purpose:
+  - rule: Edit to control comprehension, attention, emotion, and continuity before considering decorative polish.
+    why: Effects are only useful when they serve the audience’s experience of the message.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_4/08_content-operations-editing-and-outsourcing
+  - rule: Build a coherent primary narrative or A-roll foundation before layering effects, B-roll, motion graphics, or sound design.
+    why: A weak core cannot be reliably rescued by post-production density.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity
+  - rule: Before each edit choice, identify what the audience should understand or feel next.
+    why: A clear intention makes cuts, holds, visuals, and sound easier to justify.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity
+  cuts_and_pacing:
+  - rule: Cut when thought, emphasis, perspective, or useful visual information changes rather than following a fixed cadence.
+    why: The corpus contains no universal cut interval; pacing must follow content and emotion.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_2/02_retention-hooks-pacing-and-story
+  - rule: Use holds and silence when weight, anticipation, comprehension, or emotional contrast benefits from less editing.
+    why: Removal can be more powerful than constant stimulation.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_2/04_sound-design-music-and-silence
+  - rule: Use J-cuts, L-cuts, or other continuity devices when they make transitions feel like thought flow rather than hard mechanical breaks.
+    why: Audio continuity can hide edit seams and preserve momentum.
+    source: B:round_2/05_software-workflows-premiere-pro-davinci-resolve-and-capcut
+  - rule: Increase edit density only when the information or emotion justifies it.
+    why: More edits do not automatically create more retention and can reduce clarity.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_2/02_retention-hooks-pacing-and-story
+  sound:
+  - rule: Keep voice intelligibility above music and sound effects whenever speech carries the core information.
+    why: Masking the message defeats the purpose of supporting audio.
+    source: B:round_2/04_sound-design-music-and-silence
+  - rule: Use motion sounds for movement, texture sounds for material or interface actions, and emotional sounds for tension or release.
+    why: Functional sound layers are easier to control than indiscriminate sound-effect stacking.
+    source: B:round_2/04_sound-design-music-and-silence
+  - rule: Align the perceptual peak of a hit or whoosh with the peak of the corresponding visual movement or emphasis.
+    why: Synchronization makes sound feel motivated rather than pasted on.
+    source: B:round_2/04_sound-design-music-and-silence
+  - rule: Choose music for the emotional context it creates and let its structure inform rhythm only when that supports the message.
+    why: Music can guide pacing but should not force inappropriate cuts.
+    source: B:round_2/04_sound-design-music-and-silence
+  - rule: Use silence as an intentional sound choice instead of treating every empty moment as a defect.
+    why: Silence can create gravity, contrast, and release.
+    source: B:round_2/04_sound-design-music-and-silence
+  effects_and_motion:
+  - rule: Add an effect only when it clarifies, intensifies, explains, or renews; remove it when it competes, delays, or advertises the editor.
+    why: Motivated effects feel integrated while performative effects pull attention away from the idea.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity
+  - rule: Reserve the strongest animation or full-screen treatment for the most important information.
+    why: Visual intensity should correspond to narrative importance.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Ease and shape motion so it communicates intentional acceleration and deceleration rather than robotic linear movement.
+    why: Natural motion improves perceived polish without requiring more elements.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  workflow_and_review:
+  - rule: Prototype expensive or complex sequences with rough stand-ins before final production when reshoots would be costly.
+    why: A cheap mockup validates timing, coverage, and shot requirements early.
+    source: B:round_2/08_systems-presets-learning-and-production-efficiency
+  - rule: Define a minimum viable polish standard and a stopping rule.
+    why: Editing can expand indefinitely without a threshold for “good enough to publish.”
+    source: B:round_2/08_systems-presets-learning-and-production-efficiency
+  - rule: Save reusable editing components after they prove useful, but keep the underlying communicative decision editable.
+    why: Templates compound speed while rigid presets can fossilize bad choices.
+    source: B:round_2/08_systems-presets-learning-and-production-efficiency; B:round_4/08_content-operations-editing-and-outsourcing

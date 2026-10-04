@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: customer_onboarding
+kind: delivery
+title: Customer Onboarding
+categories:
+  contract_to_activation:
+  - rule: Treat onboarding as the transition from commercial promise to a customer reaching the first meaningful value state.
+    why: Paperwork completion is not successful onboarding if value has not begun.
+    source: C12K:LE2n7Aajsfg@00:02:46; C12K:rMf09Nex6qc@00:00:42
+  - rule: Translate the sold scope, outcomes, responsibilities, assumptions, and constraints into an operational onboarding record.
+    why: Sales ambiguity becomes delivery conflict unless the handoff is explicit.
+    source: C12K:rMf09Nex6qc@00:00:42; C12K:wdiYykjNrLM@00:07:22
+  - rule: Assign a clear owner for each required action on both provider and customer sides.
+    why: Unowned dependencies are a common source of onboarding delay.
+    source: C12K:wdiYykjNrLM@00:07:22; C12K:xl5Jgp8SJHY@00:00:16
+  - rule: Define the activation event or first-value milestone before designing the onboarding checklist.
+    why: The process should optimize for progress toward value, not administrative completeness.
+    source: C12K:xl5Jgp8SJHY@00:00:16; C12K:0pvVnhoPyq4@00:00:14
+  information_access_and_setup:
+  - rule: Request only the access, data, approvals, and assets required for the next value-producing steps, then stage later requests when possible.
+    why: Large up-front homework increases delay and abandonment.
+    source: C12K:LE2n7Aajsfg@00:02:46; C12K:rMf09Nex6qc@00:00:42
+  - rule: Validate credentials, integrations, data quality, permissions, and environment assumptions before downstream work depends on them.
+    why: Silent setup failures create rework later.
+    source: C12K:rMf09Nex6qc@00:00:42; C12K:wdiYykjNrLM@00:07:22
+  - rule: Use secure, least-privilege access and avoid collecting credentials in informal channels.
+    why: Onboarding convenience should not create persistent security risk.
+    source: C12K:wdiYykjNrLM@00:07:22; C12K:xl5Jgp8SJHY@00:00:16
+  - rule: Automate repeatable setup while retaining visible exception paths for unusual customer environments.
+    why: Automation creates leverage only when failures can be diagnosed and recovered.
+    source: C12K:xl5Jgp8SJHY@00:00:16; C12K:0pvVnhoPyq4@00:00:14
+  expectations_and_communication:
+  - rule: Set expectations for timeline, communication cadence, what the customer must do, what success looks like, and what is outside scope.
+    why: Explicit expectations reduce preventable disappointment and scope drift.
+    source: C12K:LE2n7Aajsfg@00:02:46; C12K:rMf09Nex6qc@00:00:42
+  - rule: Surface likely delays and dependencies before they occur rather than presenting the happy path as guaranteed.
+    why: Credible expectations preserve trust when external dependencies move.
+    source: C12K:rMf09Nex6qc@00:00:42; C12K:wdiYykjNrLM@00:07:22
+  - rule: Use one source of truth for onboarding status, blockers, owners, and next actions.
+    why: Scattered chat and email create invisible work and duplicated requests.
+    source: C12K:wdiYykjNrLM@00:07:22; C12K:xl5Jgp8SJHY@00:00:16
+  - rule: Confirm mutual understanding of the plan rather than assuming a signed contract implies operational alignment.
+    why: Commercial agreement does not ensure both sides interpreted execution the same way.
+    source: C12K:xl5Jgp8SJHY@00:00:16; C12K:0pvVnhoPyq4@00:00:14
+  time_to_value_and_adoption:
+  - rule: Sequence onboarding to create an early credible win before lower-value configuration when feasible.
+    why: Early evidence that the system works increases cooperation and reduces buyer remorse.
+    source: C12K:LE2n7Aajsfg@00:02:46; C12K:rMf09Nex6qc@00:00:42
+  - rule: Minimize time spent waiting on internal handoffs, approvals, or provider queues because idle time counts against perceived time-to-value.
+    why: Customers experience calendar time, not just work hours.
+    source: C12K:rMf09Nex6qc@00:00:42; C12K:wdiYykjNrLM@00:07:22
+  - rule: Teach only the behaviors or decisions needed for the next stage instead of overwhelming users with the full system on day one.
+    why: Progressive enablement improves adoption and recall.
+    source: C12K:wdiYykjNrLM@00:07:22; C12K:xl5Jgp8SJHY@00:00:16
+  - rule: Monitor whether the customer actually uses or experiences the activated capability after setup.
+    why: Technical completion can hide failed adoption.
+    source: C12K:xl5Jgp8SJHY@00:00:16; C12K:0pvVnhoPyq4@00:00:14
+  completion_and_handoff:
+  - rule: Define explicit completion criteria and the destination state after onboarding.
+    why: Without a boundary, onboarding can become permanent support or ambiguous delivery.
+    source: C12K:LE2n7Aajsfg@00:02:46; C12K:rMf09Nex6qc@00:00:42
+  - rule: Transfer unresolved risks, commitments, customer preferences, and context into the ongoing service/customer-success record.
+    why: Context loss forces customers to repeat themselves and creates preventable mistakes.
+    source: C12K:rMf09Nex6qc@00:00:42; C12K:wdiYykjNrLM@00:07:22
+  - rule: Review onboarding failures and delays by cause so the process improves with volume.
+    why: A checklist that repeats the same failure is not a system.
+    source: C12K:wdiYykjNrLM@00:07:22; C12K:xl5Jgp8SJHY@00:00:16
+  - rule: Measure activation rate, time-to-first-value, setup failure, customer effort, and early churn alongside completion rate.
+    why: Fast checklist completion can coexist with poor customer outcomes.
+    source: C12K:xl5Jgp8SJHY@00:00:16; C12K:0pvVnhoPyq4@00:00:14

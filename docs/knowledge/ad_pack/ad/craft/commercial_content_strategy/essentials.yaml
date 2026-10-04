@@ -1,0 +1,108 @@
+schema_version: '1'
+pack: commercial_content_strategy
+kind: general
+title: Commercial Content Strategy Craft
+categories:
+  commercial_role_and_portfolio:
+  - rule: Give each content pillar or recurring series an explicit commercial or relationship job instead of treating
+      publishing volume as the strategy.
+    why: A portfolio becomes steerable when each stream exists for a reason such as reach, education, trust, lead
+      capture, conversion, or retention rather than because the format is available.
+    source: C12K:eXFp3cWkce4@00:09:58; C12K:eXFp3cWkce4@00:10:52
+  - rule: Let different content streams perform different jobs; do not force every piece to maximize reach, teach
+      deeply, build trust, and sell at the same time.
+    why: Reach, affinity, expertise, lead capture, and direct action can coexist in one system, but combining every
+      objective in every asset creates conflicting design pressures.
+    source: C12K:eXFp3cWkce4@00:10:23; C12K:eXFp3cWkce4@00:11:21
+  - rule: Allocate content volume according to the current business bottleneck or strategic objective rather than
+      maintaining equal output across every content job.
+    why: A portfolio optimized for audience expansion should not have the same mix as one optimized for conversion,
+      trust, or retention.
+    source: C12K:eXFp3cWkce4@00:11:41
+  - rule: Define what the content system is trying to accomplish before choosing recurring topics, series, or production
+      volume.
+    why: Without an intended outcome, creators can produce consistently while wandering between incompatible goals.
+    source: C12K:Ch4Sl0POBhU@00:05:31; C12K:x8kSE70o_qE@00:04:57
+  reach_and_qualified_attention:
+  - rule: Treat broad-reach content as an entry point, not proof that the commercial content system is working.
+    why: A broad piece can inject new people into the audience while narrower content performs the later work of
+      filtering, educating, building authority, and converting.
+    source: C12K:cXBJSYL5_2E@00:12:40; C12K:cXBJSYL5_2E@00:14:01
+  - rule: Prefer qualified attention over raw attention when the objective is commercial, even if the qualified
+      audience is smaller.
+    why: Views from people who are unlikely to need, influence, or buy the offer can inflate reach without improving
+      the business outcome.
+    source: C12K:cXBJSYL5_2E@00:44:17; C12K:F0-yC1gVElA@00:54:32
+  - rule: Use broader topics only when they still overlap the intended buyer and there is a credible downstream
+      path that narrows toward the commercial problem.
+    why: Broadness can expand discovery, but unrelated virality fills the system with attention that later content
+      cannot convert coherently.
+    source: C12K:cXBJSYL5_2E@00:12:40; C12K:cXBJSYL5_2E@00:15:20
+  - rule: Meet prospects with a problem or desired improvement that is salient now, then bridge that immediate concern
+      toward the larger problem the offer solves.
+    why: A stepping-stone problem can earn attention from the right market before the buyer is ready to engage with
+      the full commercial outcome.
+    source: C12K:cXBJSYL5_2E@00:17:56
+  sequence_and_progression:
+  - rule: Design the content portfolio so successive pieces can perform complementary commercial jobs rather than
+      expecting one asset to complete the entire sale.
+    why: Commercial decisions often require multiple exposures in which awareness, belief, authority, proof, objection
+      resolution, and action can accumulate.
+    source: C12K:cXBJSYL5_2E@00:14:01; C12K:cXBJSYL5_2E@00:35:59
+  - rule: After a broad attention event, deliberately publish the deeper content needed to convert that new attention
+      into understanding, trust, and intent.
+    why: A reach spike creates an audience opportunity, not a completed sales process; follow-on content determines
+      whether the new attention becomes commercially useful.
+    source: C12K:cXBJSYL5_2E@00:35:59; C12K:cXBJSYL5_2E@00:36:28
+  - rule: Use content before the offer to reduce uncertainty and prepare decisions instead of reserving all persuasion
+      for the final pitch.
+    why: Teaching, proof, belief work, and objection resolution can pre-sell the logic of the decision so the commercial
+      ask does not carry the full burden alone.
+    source: C12K:pr5ZPbCDyK0@00:08:28; C12K:pr5ZPbCDyK0@00:24:41
+  message_and_offer_continuity:
+  - rule: Keep social content, deeper owned content, and the paid offer conceptually congruent so each step feels
+      like a deeper continuation of the same problem and solution space.
+    why: A prospect progresses more easily when the next asset expands the same promise and reasoning instead of
+      abruptly switching topics.
+    source: C12K:sfABlt-pTd0@00:35:55; C12K:sfABlt-pTd0@00:36:58
+  - rule: Make the public content reveal the kind of thinking, mechanism, or capability the offer actually delivers
+      rather than building an audience around unrelated entertainment.
+    why: Content that previews the real commercial value creates a more informed and better-matched audience for
+      the offer.
+    source: C12K:cXBJSYL5_2E@00:36:28; C12K:cXBJSYL5_2E@00:40:12
+  - rule: Do not manufacture a content promise that the offer or delivery cannot continue.
+    why: Commercial continuity breaks when the content creates expectations that the product, service, or customer
+      experience cannot satisfy.
+    source: C12K:sfABlt-pTd0@00:35:55; C12K:sfABlt-pTd0@00:36:58
+  market_feedback_loop:
+  - rule: Feed recurring audience questions, objections, sales conversations, and customer results back into the
+      commercial content roadmap.
+    why: The market continuously reveals the misunderstandings, doubts, language, and proof that future content
+      should address.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:cXBJSYL5_2E@00:40:12
+  - rule: Rebalance the content portfolio when downstream audience quality or commercial response shows that a high-performing
+      content stream is attracting the wrong people.
+    why: A content stream can win on reach while weakening the business if its audience does not progress into relevant
+      interest or fit.
+    source: C12K:cXBJSYL5_2E@00:44:17; C12K:F0-yC1gVElA@00:54:32
+  decision_oriented_education:
+  - rule: Use educational content to improve a buyer decision, not merely to maximize the amount of information
+      delivered.
+    why: A larger information dump can increase cognitive load without changing what the prospect understands, believes,
+      or does.
+    source: C12K:pr5ZPbCDyK0@00:24:41; C12K:pr5ZPbCDyK0@00:28:10
+  - rule: When content has a commercial job, choose teaching points that clarify the problem, mechanism, tradeoff,
+      proof, or decision relevant to that job.
+    why: Interesting but commercially unrelated teaching can provide value while leaving the purchase logic unchanged.
+    source: C12K:pr5ZPbCDyK0@00:25:43
+  demand_creation_and_capture:
+  - rule: Distinguish content that captures already-active demand from content that must create problem or solution
+      awareness before a buyer is ready to evaluate an offer.
+    why: Someone already seeking a solution can receive direct comparison and action content, while latent demand
+      requires diagnosis, education, or opportunity framing first.
+    source: C12K:Qmu8t2fh_zM@00:02:00; C12K:Qmu8t2fh_zM@00:03:15; C12K:ZqQaILCfYVI@00:32:36
+  - rule: Do not assume content can manufacture demand for every offer; when purchase depends on an external event
+      or pre-existing operational condition, prioritize finding the people who already exhibit that need.
+    why: Some purchases are contingent on a trigger or prerequisite, so broad persuasion of people without the condition
+      wastes attention compared with demand capture or tighter targeting.
+    source: C12K:Qmu8t2fh_zM@00:03:38; C12K:e4jTkcdDwVI@00:17:09

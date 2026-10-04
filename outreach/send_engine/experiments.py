@@ -36,7 +36,8 @@ def validate(experiment: dict) -> None:
         raise ValueError("an experiment needs at least two arms")
     if experiment["stage"] == "cold_email":
         for arm in experiment["arms"]:
-            unknown = set(_FIELDS.findall(arm["subject"] + arm["body"])) - ALLOWED_FIELDS
+            text = arm["subject"] + arm["body"] + "".join((arm.get("follow_ups") or {}).values())
+            unknown = set(_FIELDS.findall(text)) - ALLOWED_FIELDS
             if unknown:
                 raise ValueError(f"arm {arm['key']} uses unknown fields: {sorted(unknown)}")
 

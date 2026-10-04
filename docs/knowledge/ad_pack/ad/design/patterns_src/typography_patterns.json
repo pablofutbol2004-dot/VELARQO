@@ -1,0 +1,10 @@
+{
+  "patterns": [
+    "expressive_display_neutral_body",
+    "serif_plus_grotesk",
+    "single_variable_family",
+    "oversized_headline_microcopy",
+    "condensed_display_editorial",
+    "large_numeric_anchor"
+  ]
+}

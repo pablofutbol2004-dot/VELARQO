@@ -1,0 +1,65 @@
+schema_version: '1'
+pack: hooks
+kind: general
+title: Hook Craft
+categories:
+  hook_objective:
+  - rule: Make a hook communicate the subject, the reason to care, and the reason this treatment is worth continuing.
+    why: A dramatic line without orientation can attract the wrong attention or create confusion.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: Let irrelevant people self-select out rather than hiding the topic to maximize raw curiosity.
+    why: On-target attention is more useful than undifferentiated pauses.
+    source: B:kallaway/02_hooks-and-initial-retention; B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  context_contrast:
+  - rule: Start with a clear topic plus an interesting known fact, pain, benefit, or common ground, then introduce a connected
+      reversal.
+    why: Clarity creates orientation and contrast creates a reason to continue.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: Use a contrast turn such as a contradiction, limitation, or hidden cause only when the turn remains connected to
+      the original subject.
+    why: Random surprise breaks continuity; meaningful reversal deepens curiosity.
+    source: B:kallaway/02_hooks-and-initial-retention; B:round_4/01_hooks-attention-and-open-loops
+  - rule: Make the non-obvious claim genuinely useful or interesting enough to repay the setup.
+    why: Contrarian framing without substance damages trust.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: Challenge the common approach rather than the audience’s intelligence or worth.
+    why: Mistake framing can create stakes without humiliating the viewer.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/09_round-4-action-playbooks-and-tensions
+  promise_and_stakes:
+  - rule: Lead with a familiar desired outcome, pain, or consequence before naming an unfamiliar mechanism when the mechanism
+      itself is not yet meaningful.
+    why: People can opt into a result they understand before learning the technical label behind it.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: State the problem or outcome clearly while withholding the method, causal explanation, or resolution when curiosity
+      is needed.
+    why: This balances clarity with an honest information gap.
+    source: B:round_4/01_hooks-attention-and-open-loops
+  - rule: Use specific stakes, constraints, or consequences instead of generic intensity words.
+    why: Concrete stakes make the promise easier to evaluate and believe.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Do not insert precise numbers, percentages, deadlines, or scientific language unless they are supported.
+    why: False precision may increase initial interest while weakening credibility.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  familiarity_and_novelty:
+  - rule: Bridge an unfamiliar idea through a genuinely relevant familiar reference when it improves comprehension.
+    why: Familiar anchors can reduce orientation cost without requiring the idea itself to be familiar.
+    source: B:kallaway/02_hooks-and-initial-retention
+  hook_sequence:
+  - rule: 'Treat the opening as a sequence rather than a single sentence: hook, confirmation, credibility or specificity,
+      then progression.'
+    why: A strong first line can still fail if the following lines do not validate it.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/09_round-4-action-playbooks-and-tensions
+  - rule: Use the line immediately after the hook to confirm relevance, add proof or specificity, or begin the promised explanation.
+    why: Unrelated biography or setup in the lock-in zone wastes the attention just earned.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: When useful, establish a common belief before presenting the different mechanism or interpretation.
+    why: The contrast is easier to perceive when the audience first recognizes the baseline model.
+    source: B:kallaway/02_hooks-and-initial-retention
+  multichannel_alignment:
+  - rule: Make the headline text, spoken opening, and first visual imply the same subject and promise when several channels
+      are present.
+    why: Conflicting signals increase confusion at the point where orientation matters most.
+    source: B:kallaway/02_hooks-and-initial-retention
+  - rule: Use the first visual to confirm, demonstrate, or add information to the hook rather than merely decorate it.
+    why: A meaningful visual can establish context faster than words alone.
+    source: B:kallaway/02_hooks-and-initial-retention

@@ -1,0 +1,128 @@
+schema_version: '1'
+pack: offer_framing
+kind: business_mechanics
+title: Offer Framing
+categories:
+  offer_definition_and_focus:
+  - rule: Define the offer around a specific buyer, a specific problem or desired result, and a specific way of getting there instead of presenting a generic service label.
+    why: Specificity increases relevance and makes the commercial proposition easier to understand, compare, and believe.
+    source: C12K:gFafnaLGNss@00:06:28; C12K:WowtRQNbexY@00:20:36
+  - rule: Make the offer legible enough that a qualified buyer can tell what outcome is being pursued, what they receive, and what commitment is required.
+    why: Ambiguity about the result, scope, or commitment creates avoidable uncertainty before the buyer can judge value.
+    source: C12K:Xu6kY9RMPkE@00:02:21; C12K:8_XCilpdP7I@00:21:25
+  - rule: Narrow the offer until most qualified buyers can be served through a repeatable delivery path; broaden only when the variation creates real customer value.
+    why: Serving radically different buyers with radically different work under one vague promise creates scope creep, longer sales cycles, and operational drag.
+    source: C12K:8_XCilpdP7I@00:21:43; C12K:8_XCilpdP7I@00:24:09
+  - rule: Do not create a new offer for every minor buyer variation; split or tier only when the required process, scope, access, risk, or economics materially change.
+    why: Cosmetic offer proliferation divides attention and delivery resources without creating a genuinely different commercial proposition.
+    source: C12K:WowtRQNbexY@00:15:28; C12K:WowtRQNbexY@00:16:26
+  outcome_and_value:
+  - rule: Frame the offer around the customer outcome or changed state rather than leading with implementation details, tools, or hours.
+    why: Buyers usually value what the work changes for them more than the internal mechanics used to produce that change.
+    source: C12K:i9ogic8dlX4@00:06:20; C12K:QTWBgFLuNvY@00:00:36
+  - rule: Increase real offer value by improving the buyer’s likelihood of success, reducing time to value, or reducing unnecessary effort and sacrifice rather than merely enlarging the promise.
+    why: The same desired outcome can become more valuable when it is easier, faster, or more reliable, while claim inflation creates credibility and fulfillment problems.
+    source: C12K:i9ogic8dlX4@00:06:36; C12K:WowtRQNbexY@00:05:57
+  - rule: Make success criteria specific and observable, and use a timeframe only when the delivery process and evidence can support it.
+    why: A concrete result is easier to evaluate than vague improvement, but false precision turns clarity into overpromising.
+    source: C12K:nGumOYISiv0@00:05:43; C12K:LzGJ3MQParY@01:27:01
+  - rule: List the major failure scenarios that could prevent the buyer from reaching the result and design the offer to remove, reduce, or explicitly manage the important ones.
+    why: An offer becomes more credible and useful when it anticipates the obstacles that would otherwise break the path to the promised outcome.
+    source: C12K:nGumOYISiv0@00:07:24; C12K:nGumOYISiv0@00:07:32
+  mechanism_and_differentiation:
+  - rule: Use the mechanism to explain how the offer produces the result and why that path is relevant; do not rely on a novel-sounding name without a meaningful process difference.
+    why: A mechanism is useful when it increases understanding or credibility, not when it is merely decorative differentiation.
+    source: C12K:WowtRQNbexY@00:09:46; C12K:WowtRQNbexY@00:10:38
+  - rule: Seek meaningful differentiation in the buyer, problem, method, scope, evidence, access, or economics before trying to differentiate by adding more components.
+    why: Extra deliverables and bonuses can make two fundamentally identical offers noisier without making the buying reason stronger.
+    source: C12K:gFafnaLGNss@00:06:28; C12K:6AqF4iHcB14@00:00:21
+  - rule: Use “without X” or similar effort-removal language only when that constraint is genuinely achievable and important to the buyer.
+    why: Removing a real obstacle can increase value; pretending necessary work disappears turns the offer into an unbelievable or undeliverable promise.
+    source: C12K:i9ogic8dlX4@00:06:36; C12K:WowtRQNbexY@00:06:25
+  scope_packaging_and_delivery:
+  - rule: Define inclusions, exclusions, responsibilities, handoffs, and completion boundaries before selling a fixed scope.
+    why: Unclear boundaries invite scope creep and make both price and delivery expectations unstable.
+    source: C12K:8_XCilpdP7I@00:21:17; C12K:8_XCilpdP7I@00:21:22
+  - rule: Standardize repeatable components of delivery where possible and reserve custom work for variables that materially affect the result.
+    why: Repeatability shortens sales and delivery complexity while still allowing useful customization where it matters.
+    source: C12K:8_XCilpdP7I@00:21:43; C12K:8_XCilpdP7I@00:24:09
+  - rule: Package deliverables as supports for the core result instead of presenting a feature inventory as if quantity alone were value.
+    why: A longer list can increase cognitive load without increasing confidence that the desired outcome will happen.
+    source: C12K:QTWBgFLuNvY@00:00:36; C12K:i9ogic8dlX4@00:06:20
+  - rule: Add done-for-you work, implementation help, or support when it materially increases success probability or reduces meaningful buyer effort enough to justify the delivery cost.
+    why: More service can raise value, but indiscriminate done-for-you work creates operational drag that can make the offer worse for the business.
+    source: C12K:nGumOYISiv0@00:08:35; C12K:nGumOYISiv0@00:08:48
+  - rule: Use access or support tiers only when the additional access changes the experience, speed, certainty, or cost to serve.
+    why: A higher tier should represent a real difference rather than a cosmetic repackaging of the same delivery.
+    source: C12K:WowtRQNbexY@00:16:55; C12K:WowtRQNbexY@00:17:22
+  - rule: Do not scale acquisition ahead of fulfillment understanding; validate the delivery path and its bottlenecks before pushing volume aggressively.
+    why: A strong front-end offer can amplify complaints, refunds, and operational failure when fulfillment is not ready for the volume it creates.
+    source: C12K:8_XCilpdP7I@00:21:35; C12K:lIuk83y6q3U@01:40:38
+  risk_reversal_and_guarantees:
+  - rule: Use risk reversal to reduce a specific buyer uncertainty instead of adding a generic guarantee badge to every offer.
+    why: Risk reversal is strongest when it addresses the concrete reason a qualified buyer fears being wrong.
+    source: C12K:i9ogic8dlX4@00:09:09; C12K:i9ogic8dlX4@00:09:33
+  - rule: Guarantee only outcomes, milestones, service standards, or remedies that the business can meaningfully influence and verify.
+    why: A guarantee becomes unstable when success depends mainly on variables outside the seller’s control.
+    source: C12K:unshZobTt6Q@00:14:25; C12K:OsktcdNDATU@00:01:19
+  - rule: Use conditional guarantees when buyer actions materially affect success, but make the required actions relevant, understandable, and realistically achievable.
+    why: Conditions can align responsibility without turning the guarantee into a technicality designed to disqualify almost everyone.
+    source: C12K:OsktcdNDATU@00:01:19; C12K:OsktcdNDATU@00:02:04
+  - rule: Put meaningful stakes behind the remedy; extended access or extra service is weak risk reversal when it costs little and does not address what the buyer feared losing.
+    why: The strength of a guarantee comes from what happens if the promise fails, not from the word “guarantee” itself.
+    source: C12K:unshZobTt6Q@00:14:02; C12K:unshZobTt6Q@00:14:25
+  - rule: Model expected refunds, service extensions, misuse, and adverse selection before strengthening a guarantee.
+    why: A guarantee should improve expected economics and buyer confidence without attracting behavior that makes fulfillment unsustainable.
+    source: C12K:OsktcdNDATU@00:01:38; C12K:nGumOYISiv0@00:18:10
+  - rule: State the guarantee period, eligibility conditions, required buyer actions, and exact remedy in writing before purchase.
+    why: Clear terms let both sides understand the risk transfer and reduce disputes about what was actually promised.
+    source: C12K:OsktcdNDATU@00:01:19; C12K:OsktcdNDATU@00:01:24
+  - rule: Do not use a stronger guarantee to compensate for an unbelievable or impossible core promise.
+    why: When the outcome itself lacks credibility, extreme guarantees can make the offer look more suspicious rather than safer.
+    source: C12K:WowtRQNbexY@00:05:57; C12K:WowtRQNbexY@00:06:25
+  bonuses_and_additions:
+  - rule: Add a bonus only when it removes a real obstacle, saves meaningful time or effort, raises success probability, or solves a predictable next problem.
+    why: Relevant additions can strengthen the path to the result; unrelated extras merely inflate the stack.
+    source: C12K:nGumOYISiv0@00:13:46; C12K:nGumOYISiv0@00:14:40
+  - rule: Prefer tools, templates, checklists, access, or implementation aids over more training when the buyer’s bottleneck is execution rather than missing information.
+    why: An actionable resource can reduce time and effort more directly than another module the buyer must consume.
+    source: C12K:nGumOYISiv0@00:14:04; C12K:nGumOYISiv0@00:14:21
+  - rule: Use obstacle-specific bonuses instead of generic sweeteners when a buyer segment repeatedly encounters the same implementation barrier.
+    why: A bonus is most persuasive when it closes a concrete gap between purchase and successful use.
+    source: C12K:unshZobTt6Q@00:27:27; C12K:nGumOYISiv0@00:14:40
+  - rule: Do not let stacked bonus values or a long list of extras overshadow the core offer; explain the practical function of each addition instead of relying on inflated nominal valuations.
+    why: Buyers can discount the entire stack when the extra items look arbitrary or implausibly priced.
+    source: C12K:zRIRk9wVKPo@00:39:04; C12K:zRIRk9wVKPo@00:39:29
+  scarcity_and_urgency:
+  - rule: Use scarcity or urgency only when it corresponds to a real constraint such as capacity, inventory, cohort timing, an actual deadline, or a genuine change in terms.
+    why: A real constraint helps the buyer understand why delaying changes the decision; a fabricated one spends trust for short-term pressure.
+    source: C12K:c20277fDlIs@00:22:42; C12K:noE1MQPMvAc@00:20:51
+  - rule: When capacity is genuinely limited, let scarcity protect delivery quality instead of inventing arbitrary spot counts unrelated to fulfillment.
+    why: Capacity-based limits can align demand with the number of customers the business can actually serve well.
+    source: C12K:noE1MQPMvAc@00:20:51; C12K:OuE71HfrWwo@00:22:02
+  - rule: Avoid running the same promotion or deadline so frequently that buyers learn to wait for it.
+    why: Repeated discounts and perpetual urgency reset the reference price downward and make future deadlines less credible.
+    source: C12K:Grk2ayGFjX4@00:43:12; C12K:Grk2ayGFjX4@00:43:20
+  validation_and_iteration:
+  - rule: Validate an offer with real buying behavior and qualified sales conversations, not compliments, survey enthusiasm, or internal confidence alone.
+    why: A commercial proposition is only partially validated until people who fit the target actually commit money or equivalent meaningful action.
+    source: C12K:nGumOYISiv0@00:21:58; C12K:lIuk83y6q3U@01:39:39
+  - rule: 'Evaluate offer changes using the whole economic and delivery picture: conversion, price, margin, refunds, retention, fulfillment load, and customer results.'
+    why: An offer can close more often while making the business less profitable or creating worse outcomes.
+    source: C12K:noE1MQPMvAc@00:17:19; C12K:8_XCilpdP7I@00:21:35
+  - rule: When performance is weak, diagnose market, targeting, message, proof, sales process, price, and fulfillment separately before assuming the core offer must change.
+    why: The offer is one part of the acquisition system, so rebuilding it reflexively can hide the real constraint.
+    source: C12K:6AqF4iHcB14@00:02:08; C12K:py9cbnJ3z8U@00:11:12
+  - rule: Prefer iterations that remove confusion, unnecessary scope, or delivery friction before reflexively adding more deliverables, bonuses, or promises.
+    why: Complexity often makes the offer harder to sell and fulfill even when the stack looks larger on paper.
+    source: C12K:8_XCilpdP7I@00:21:25; C12K:8_XCilpdP7I@00:24:03
+  price_and_term_communication:
+  - rule: Limit payment choices enough to avoid decision fatigue; use a small set of materially different options rather than presenting every possible financing configuration at once.
+    why: More ways to pay can reduce friction until the choice itself becomes another problem the buyer must solve.
+    source: C12K:MPhvqxVGzkw@01:11:26; C12K:MPhvqxVGzkw@01:11:33
+  - rule: Use price anchors only against a real reference price, alternative, or set of terms; do not invent a “usual” price or deadline solely to make the current price look cheaper.
+    why: Anchoring can clarify relative value, but fabricated reference points convert framing into deception.
+    source: C12K:sc1Rz1P0X18@01:02:56; C12K:c20277fDlIs@00:22:48
+  - rule: State the chosen price, payment timing, renewal or duration, and any material conditions clearly enough that the buyer can understand the total commitment without reconstructing it from several places.
+    why: Clear commercial terms reduce surprise and let the buyer evaluate the offer rather than decode it.
+    source: C12K:MPhvqxVGzkw@01:08:38; C12K:TeT9Fi9CKiY@00:31:10

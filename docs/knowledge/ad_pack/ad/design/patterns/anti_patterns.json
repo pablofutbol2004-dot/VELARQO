@@ -1,0 +1,16 @@
+{
+  "anti_patterns": [
+    "medium_everything",
+    "center_everything",
+    "glassmorphism_everywhere",
+    "generic_purple_blue_gradient",
+    "random_3d_blobs",
+    "floating_cards_without_reason",
+    "meaningless_arrows",
+    "excessive_rounded_rectangles",
+    "too_many_type_styles",
+    "too_many_colors",
+    "shadow_on_everything",
+    "same_layout_every_slide"
+  ]
+}

@@ -1,0 +1,163 @@
+schema_version: '1'
+pack: channel_ops
+kind: distribution_ops
+title: Channel Operations
+volatility: high
+requires_current_verification: true
+verification_note: Re-check platform-specific mechanics, limits, pricing, eligibility, policies, and UI/API behavior close to execution.
+categories:
+  volatility_and_verification:
+  - rule: Treat platform algorithms, quotas, pricing, eligibility, API behavior, and moderation rules as versioned operating conditions rather than durable craft principles.
+    why: The corpus repeatedly documents major platform changes within months or a year; hard-coding them as timeless rules makes the library decay.
+    source: C12K:xKfScRoMtz8@00:00:48; C12K:5kYG8ErAYfE@00:00:16; C12K:ySbOMgZFb74@00:32:25
+  - rule: Re-check a platform-specific operational claim close to execution whenever the decision could affect account safety, cost, reach, deliverability, or customer messaging.
+    why: 'The cost of stale information is asymmetric: an outdated tactic may merely underperform, while an outdated API or policy assumption can break production or damage an account.'
+    source: C12K:ySbOMgZFb74@00:00:59; C12K:ySbOMgZFb74@00:44:34; C12K:xKfScRoMtz8@00:00:48
+  - rule: Record the relevant account type, market or country, and date when storing a platform-specific operating fact.
+    why: Pricing, messaging allowances, commerce features, and eligibility can differ by geography and account configuration, so context is part of the fact itself.
+    source: C12K:ySbOMgZFb74@00:01:28; C12K:ySbOMgZFb74@00:32:25
+  - rule: Prefer official platform documentation or live account-state evidence over creator tutorials when resolving current limits, permissions, or compliance requirements.
+    why: Tutorials are useful for discovery and workflows but can become stale or simplify rules that determine production behavior.
+    source: C12K:ySbOMgZFb74@00:31:57; C12K:xKfScRoMtz8@00:00:48
+  - rule: Separate the underlying objective from the platform tactic so the system can survive a feature change.
+    why: If the objective is lead capture, discovery, nurture, or support, the workflow can be rerouted when a specific CTA, automation feature, or distribution mechanic changes.
+    source: C12K:mVd6PIKY-P0@00:06:04; C12K:ySbOMgZFb74@00:03:52
+  publishing_and_profile_operations:
+  - rule: Choose publishing cadence from sustainable output quality and observed channel response rather than copying a universal posts-per-day number.
+    why: Creator examples in the corpus use very different cadences and explicitly note that an unsustainable volume target collapses consistency.
+    source: C12K:zYcNI-BVnDQ@00:05:24; C12K:mu_GdEyEBDY@00:06:12
+  - rule: Increase publishing volume gradually when testing a higher cadence instead of changing several output variables at once.
+    why: Gradual changes are easier to sustain and make it easier to interpret whether added volume improves useful outcomes.
+    source: C12K:zYcNI-BVnDQ@00:06:20
+  - rule: Use the audience-activity data available inside the account before relying on generic “best time to post” charts.
+    why: Account-specific active-time data is more directly tied to the people the channel is actually trying to reach.
+    source: C12K:mu_GdEyEBDY@00:06:52
+  - rule: Treat the profile, bio, pinned surfaces, and persistent account metadata as part of channel distribution rather than as decoration.
+    why: Posts can generate profile visits without converting them into followers, leads, or the intended next step if the destination surface is unclear.
+    source: C12K:mu_GdEyEBDY@00:02:02; C12K:zYcNI-BVnDQ@00:08:33; C12K:5kYG8ErAYfE@00:11:50
+  - rule: Keep account topic and audience signals coherent enough that the platform and the visitor can both infer what the account is about.
+    why: Multiple sources describe platform distribution as audience matching; inconsistent positioning makes both recommendation and profile conversion harder to interpret.
+    source: C12K:mu_GdEyEBDY@00:01:45; C12K:5kYG8ErAYfE@00:01:26
+  instagram_meta_and_dm_operations:
+  - rule: Use public comments or keyword triggers as an entry point into private messaging only when the private step delivers a clear next value or action.
+    why: Comment-to-DM workflows work because they convert public intent into a private path; the DM should not exist merely to inflate automation activity.
+    source: C12K:mVd6PIKY-P0@00:00:40; C12K:mVd6PIKY-P0@00:04:25
+  - rule: Ask for only the follow, contact detail, or qualification step that is actually required by the downstream flow.
+    why: DM automations can stack asks, but every extra requirement adds friction and should justify its place in the conversion path.
+    source: C12K:mVd6PIKY-P0@00:05:51
+  - rule: Maintain a source of truth for automation triggers, destination assets, and live flows instead of editing many automations independently.
+    why: Bulk or table-driven management reduces drift when several keywords, posts, or accounts route to different assets.
+    source: C12K:mVd6PIKY-P0@00:07:07
+  - rule: 'Measure DM automations beyond trigger volume: inspect delivery, follow or contact capture, downstream clicks, replies, and useful conversions.'
+    why: A high-comment post can look successful while the private automation fails to move people into the intended next state.
+    source: C12K:mVd6PIKY-P0@00:08:46; C12K:mVd6PIKY-P0@00:00:40
+  - rule: Use genuine interaction with relevant accounts as relationship and discovery work, not as copy-pasted engagement spam.
+    why: The corpus distinguishes real comments and conversations from generic repeated replies that audiences can recognize as low-value behavior.
+    source: C12K:mu_GdEyEBDY@00:08:47
+  - rule: Treat captions, keywords, hashtags, link behaviors, polls, and similar discovery features as re-checkable platform metadata rather than fixed ranking formulas.
+    why: Their availability and weighting change; their durable role is to add context, search/discovery signals, interaction, or routing.
+    source: C12K:mu_GdEyEBDY@00:09:40; C12K:mu_GdEyEBDY@00:11:07
+  linkedin_x_and_tiktok_operations:
+  - rule: On LinkedIn, evaluate whether the right buyers are seeing the content rather than treating total impressions as the primary success metric.
+    why: The corpus shows examples where lower reach still produced buyers and argues that distribution can become more targeted even when impressions fall.
+    source: C12K:5kYG8ErAYfE@00:05:22; C12K:5kYG8ErAYfE@00:08:01
+  - rule: Treat LinkedIn profile positioning and recurring content themes as distribution signals that should agree with each other.
+    why: The source describes the platform evaluating the profile, activity, and post content together to infer audience relevance.
+    source: C12K:5kYG8ErAYfE@00:01:26; C12K:5kYG8ErAYfE@00:11:50
+  - rule: Do not assume lack of likes or comments means business buyers did not consume the content.
+    why: Passive readers can still be commercially valuable; visible engagement and buyer attention are not the same behavior.
+    source: C12K:5kYG8ErAYfE@00:10:28
+  - rule: On X or similar open-network feeds, use replies and conversations to create relevant profile discovery, then judge whether the profile converts that attention.
+    why: The cited workflow treats replies as an early traffic source and explicitly separates profile visits from follower conversion.
+    source: C12K:zYcNI-BVnDQ@00:04:32; C12K:zYcNI-BVnDQ@00:08:33
+  - rule: On X, test a posting volume you can sustain and increase it only when the additional output continues to create useful reach or leads.
+    why: The source explicitly favors a sustainable personal cadence and gradual ramp over forcing a large number immediately.
+    source: C12K:zYcNI-BVnDQ@00:05:24; C12K:zYcNI-BVnDQ@00:06:20
+  - rule: For TikTok Shop or similar commerce feeds, let product and creative tests reveal demand rather than assuming the apparent “best” product will sell.
+    why: The case study shows multiple plausible products failing while an unexpected culturally relevant product won; it recommends following observed sales data.
+    source: C12K:qlCL0GReab4@00:03:07; C12K:qlCL0GReab4@00:03:34
+  - rule: Separate organic reach behavior from commerce conversion behavior when operating a social-commerce channel.
+    why: The corpus distinguishes broad viral content, middle-funnel content, and highly aware conversion content because they solve different jobs inside the platform.
+    source: C12K:ero8uxsNI6A@00:01:36; C12K:ero8uxsNI6A@00:03:18
+  youtube_operations:
+  - rule: Model YouTube as an audience-matching system rather than as a mystical “algorithm blessing.”
+    why: The source reduces recommendation behavior to finding videos people are likely to click, continue watching, and enjoy, which gives a more actionable diagnosis than blaming the algorithm.
+    source: C12K:xnCJnFqs7Ng@00:05:00; C12K:xnCJnFqs7Ng@00:09:50
+  - rule: 'Diagnose packaging and viewing separately: impressions-to-click behavior and post-click viewing behavior answer different questions.'
+    why: A video can fail because people do not choose it or because the people who choose it do not continue; combining both hides the actual problem.
+    source: C12K:xnCJnFqs7Ng@00:11:01; C12K:xnCJnFqs7Ng@00:12:02
+  - rule: Do not treat a universal CTR or retention benchmark as a law; interpret those metrics in the context of traffic source, audience expansion, and video length.
+    why: As a video reaches broader audiences, the same raw percentages can change without implying the same creative problem.
+    source: C12K:xnCJnFqs7Ng@00:15:06; C12K:xnCJnFqs7Ng@00:23:59
+  - rule: Distinguish search-intent videos from browse or recommendation-led videos because the discovery context changes what the viewer needs from packaging and structure.
+    why: Search content begins with an explicit query and can use literal query alignment; browse content competes against many unrelated alternatives.
+    source: C12K:4KfFB-dh71Y@00:04:14; C12K:4KfFB-dh71Y@00:08:49
+  - rule: For search-led YouTube content, align the title and opening content with the query while keeping the wording useful to a human rather than stuffing metadata mechanically.
+    why: The corpus describes keyword alignment as useful but also warns that overly literal SEO execution can damage packaging quality.
+    source: C12K:4KfFB-dh71Y@00:08:49; C12K:4KfFB-dh71Y@00:09:04
+  - rule: Treat descriptions, tags, chapters, and other metadata as secondary operational levers whose exact ranking value must be re-checked.
+    why: The source recommends specific metadata tactics, but these are precisely the kind of platform implementation details that can decay over time.
+    source: C12K:4KfFB-dh71Y@00:10:13; C12K:4KfFB-dh71Y@00:10:47
+  - rule: Use channel analytics to decide whether a weak result is an audience-selection, packaging, or consumption problem before changing the entire content strategy.
+    why: Different stages of YouTube distribution expose different failure modes; changing everything at once destroys the diagnostic value of the data.
+    source: C12K:xnCJnFqs7Ng@00:21:20; C12K:xnCJnFqs7Ng@00:25:20
+  whatsapp_and_messaging_infrastructure:
+  - rule: Choose between a mobile business app, a business service provider, and a direct official API from the actual scale, integration, inbox, customization, and maintenance needs.
+    why: The source presents each path as a tradeoff; the most technically direct option is not automatically the best operating choice for every business.
+    source: C12K:ySbOMgZFb74@00:03:52; C12K:ySbOMgZFb74@00:04:50; C12K:ySbOMgZFb74@00:05:19
+  - rule: Treat unofficial reverse-engineered messaging integrations as a materially different risk class from an official API.
+    why: The source explicitly flags ban/account-loss risk for unofficial WhatsApp-Web-style integrations, which matters when the number is business-critical.
+    source: C12K:ySbOMgZFb74@00:03:24
+  - rule: Before migrating a production WhatsApp number, decide whether the business still needs the mobile app, existing history, or simultaneous human operation.
+    why: Migration and coexistence choices can change how the number behaves and whether human operators retain their normal workflow.
+    source: C12K:ySbOMgZFb74@00:19:39; C12K:ySbOMgZFb74@00:20:33
+  - rule: Treat messaging windows, template categories, initiation limits, pricing, and throughput limits as current Meta policy—not as permanent business logic.
+    why: The corpus itself notes that message pricing and platform rules change and describes different constraints for API and coexistence modes.
+    source: C12K:ySbOMgZFb74@00:29:10; C12K:ySbOMgZFb74@00:32:25; C12K:ySbOMgZFb74@00:38:57
+  - rule: Preserve a human handoff and visible conversation state when automated messaging is used in a live service workflow.
+    why: Multi-agent inboxes and coexistence are valuable specifically because businesses often need automation and human support to share the same customer conversation.
+    source: C12K:ySbOMgZFb74@00:04:50; C12K:ySbOMgZFb74@00:38:00
+  - rule: Design outbound messaging around explicit permission and platform anti-spam requirements rather than assuming an official API grants unrestricted outreach rights.
+    why: The source warns that official access does not remove outbound-spam restrictions and describes increasing opt-in and unsubscribe expectations.
+    source: C12K:ySbOMgZFb74@00:44:34; C12K:ySbOMgZFb74@00:45:03
+  email_deliverability_operations:
+  - rule: Diagnose inbox placement before assuming weak email performance is caused by copy, design, or offer strategy.
+    why: Even strong emails cannot perform if a material share never reaches the intended inbox surface.
+    source: C12K:xKfScRoMtz8@00:00:12; C12K:xKfScRoMtz8@00:04:36
+  - rule: Treat sender authentication, sending behavior, engagement, and complaint behavior as separate deliverability inputs.
+    why: The source describes domain authentication, consistency/reputation, engagement, and spam complaints as distinct contributors rather than one single “deliverability score.”
+    source: C12K:xKfScRoMtz8@00:08:23; C12K:xKfScRoMtz8@00:10:28
+  - rule: Verify the required email authentication records for the sending domain instead of assuming the email platform configured them correctly.
+    why: Authentication is an infrastructure dependency and must exist at the domain/DNS layer for providers to validate the sender.
+    source: C12K:xKfScRoMtz8@00:09:20
+  - rule: Ramp a new or damaged sending reputation through controlled volume and highly engaged recipients rather than blasting the full list immediately.
+    why: The warming examples build volume progressively while seeking positive engagement signals before broader sends.
+    source: C12K:xKfScRoMtz8@00:11:17; C12K:xKfScRoMtz8@00:13:02
+  - rule: Use engagement segmentation to reduce unnecessary sends to people who repeatedly ignore the channel.
+    why: Sending indiscriminately to stale recipients can lower engagement and increase negative signals; active segments are operationally safer.
+    source: C12K:xKfScRoMtz8@00:17:57
+  - rule: Monitor complaints, unsubscribes, bounces, and inbox placement alongside opens, clicks, and revenue.
+    why: A campaign can produce revenue while degrading the sender reputation that future campaigns depend on.
+    source: C12K:xKfScRoMtz8@00:17:01; C12K:xKfScRoMtz8@00:19:43
+  - rule: Do not fossilize provider-specific “safe” thresholds for opens, complaints, or spam placement; use them as current diagnostics and re-check them.
+    why: Mailbox providers change filtering behavior, interface features, and enforcement thresholds, so numeric cutoffs decay faster than the underlying principle.
+    source: C12K:xKfScRoMtz8@00:00:48; C12K:xKfScRoMtz8@00:19:43
+  - rule: Treat relevance and recipient value as deliverability operations, not only as copy quality.
+    why: Better targeting and useful emails reduce disengagement and complaint behavior that can damage future inbox placement.
+    source: C12K:xKfScRoMtz8@00:17:01; C12K:xKfScRoMtz8@00:17:57
+  account_safety_measurement_and_fallbacks:
+  - rule: Do not automate a channel faster than you can observe failures, revoke a workflow, and hand control back to a human.
+    why: Automation multiplies both throughput and mistakes; production messaging and social workflows need a practical stop/recovery path.
+    source: C12K:mVd6PIKY-P0@00:08:46; C12K:ySbOMgZFb74@00:38:00
+  - rule: Instrument each channel from platform action to an owned or business outcome rather than optimizing only platform-native vanity metrics.
+    why: Comments, views, impressions, or followers are useful intermediate signals, but their value depends on whether they produce qualified attention, leads, sales, retention, or another intended outcome.
+    source: C12K:mVd6PIKY-P0@00:00:40; C12K:5kYG8ErAYfE@00:07:28; C12K:qlCL0GReab4@00:00:29
+  - rule: When a platform result changes sharply, separate content quality, audience fit, account state, distribution mechanics, and policy changes before choosing a fix.
+    why: The same symptom—lower reach or lower revenue—can come from several different layers, so a single “algorithm changed” explanation is insufficient.
+    source: C12K:5kYG8ErAYfE@00:00:02; C12K:xKfScRoMtz8@00:00:34
+  - rule: Keep exportable audience data, assets, analytics, and workflow configuration where possible so a platform loss does not erase the operating system.
+    why: Channel dependence becomes less fragile when the business can reconstruct routing, content, and customer relationships outside one platform interface.
+    source: C12K:mVd6PIKY-P0@00:07:07; C12K:ySbOMgZFb74@00:05:19
+  - rule: Avoid concentrating critical acquisition, support, or revenue in one platform feature without a tested fallback path.
+    why: Algorithms, permissions, account status, and API access can change; operational resilience requires an alternate way to reach or serve the audience.
+    source: C12K:ySbOMgZFb74@00:03:24; C12K:5kYG8ErAYfE@00:00:16

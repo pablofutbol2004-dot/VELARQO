@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: unit_economics
+kind: economics
+title: Unit Economics
+categories:
+  economic_unit_and_margin:
+  - rule: Define the economic unit—customer, account, order, location, project, cohort, or another repeated unit—before calculating unit economics.
+    why: Metrics are only comparable when the denominator represents the same business object.
+    source: C12K:hC00Qdhfjww@00:00:00; C12K:ImP9ulzOmOM@00:09:00
+  - rule: Separate revenue, gross profit, contribution profit, and cash when evaluating a unit.
+    why: Top-line value can hide variable costs and working-capital burden.
+    source: C12K:ImP9ulzOmOM@00:09:00; C12K:A8TdvIBNZWY@00:01:08
+  - rule: Classify costs by whether they scale with the unit, are step-fixed with capacity, or are truly fixed for the decision horizon.
+    why: Bad cost classification produces misleading margins and scale assumptions.
+    source: C12K:A8TdvIBNZWY@00:01:08; C12K:vIVj_l2svrU@00:06:56
+  - rule: Use contribution margin for decisions about incremental acquisition or volume when fixed overhead is not changed by the next unit.
+    why: Incremental economics answer whether additional business creates value.
+    source: C12K:vIVj_l2svrU@00:06:56; C12K:3cjBI3xtr4Y@00:01:53
+  acquisition_and_payback:
+  - rule: Calculate CAC from all incremental acquisition costs required to create customers in the channel, not only media spend.
+    why: Sales labor, tools, data, commissions, and agency costs can materially change acquisition economics.
+    source: C12K:hC00Qdhfjww@00:00:00; C12K:ImP9ulzOmOM@00:09:00
+  - rule: Measure CAC by channel, segment, cohort, and motion where costs and conversion differ.
+    why: Blended CAC can hide a structurally unprofitable segment.
+    source: C12K:ImP9ulzOmOM@00:09:00; C12K:A8TdvIBNZWY@00:01:08
+  - rule: Use CAC payback to understand how long cash is exposed before acquisition spend is recovered through gross/contribution profit.
+    why: Fast growth can create a cash crisis even when lifetime economics look positive.
+    source: C12K:A8TdvIBNZWY@00:01:08; C12K:vIVj_l2svrU@00:06:56
+  - rule: Do not compare CAC to revenue LTV when costs to serve are material; compare on a profit-consistent basis.
+    why: Mixing revenue and profit denominators overstates acquisition capacity.
+    source: C12K:vIVj_l2svrU@00:06:56; C12K:3cjBI3xtr4Y@00:01:53
+  ltv_and_retention:
+  - rule: Estimate LTV from observed retention and margin behavior whenever enough cohort history exists instead of relying only on a simple ARPU/churn formula.
+    why: Real retention curves are often non-linear and segment-dependent.
+    source: C12K:hC00Qdhfjww@00:00:00; C12K:ImP9ulzOmOM@00:09:00
+  - rule: Treat early-stage LTV as an uncertain range with sensitivity to churn, margin, expansion, and discount rate.
+    why: Long-horizon precision is weak when the business has little history.
+    source: C12K:ImP9ulzOmOM@00:09:00; C12K:A8TdvIBNZWY@00:01:08
+  - rule: Separate contractual value from realized collected value when cancellations, defaults, refunds, or usage variability exist.
+    why: Booked revenue is not the same as economic value received.
+    source: C12K:A8TdvIBNZWY@00:01:08; C12K:vIVj_l2svrU@00:06:56
+  - rule: Track expansion and contraction explicitly because they materially change customer value after acquisition.
+    why: Static ARPU assumptions miss growth or decay within accounts.
+    source: C12K:vIVj_l2svrU@00:06:56; C12K:3cjBI3xtr4Y@00:01:53
+  capacity_and_service_economics:
+  - rule: Include marginal delivery labor, infrastructure, support, refunds, payment fees, and partner costs when judging customer profitability.
+    why: High gross revenue can be consumed by variable fulfillment cost.
+    source: C12K:hC00Qdhfjww@00:00:00; C12K:ImP9ulzOmOM@00:09:00
+  - rule: Model step costs when growth requires another hire, GPU, vehicle, location, or other capacity block.
+    why: Marginal economics change when the system crosses a capacity threshold.
+    source: C12K:ImP9ulzOmOM@00:09:00; C12K:A8TdvIBNZWY@00:01:08
+  - rule: Track profitability by customer or segment when complexity and service burden vary materially.
+    why: Averages can hide customers that consume disproportionate capacity.
+    source: C12K:A8TdvIBNZWY@00:01:08; C12K:vIVj_l2svrU@00:06:56
+  - rule: Use unit economics to set allowable acquisition cost and price floors, not as a retrospective finance report only.
+    why: The metrics should constrain operating decisions.
+    source: C12K:vIVj_l2svrU@00:06:56; C12K:3cjBI3xtr4Y@00:01:53
+  decision_and_sensitivity:
+  - rule: Stress-test unit economics under worse retention, higher acquisition cost, lower conversion, and higher delivery cost.
+    why: A model that works only at optimistic assumptions is fragile.
+    source: C12K:hC00Qdhfjww@00:00:00; C12K:ImP9ulzOmOM@00:09:00
+  - rule: Compare growth opportunities on incremental contribution and cash requirement, not just revenue potential.
+    why: Revenue-maximizing choices can destroy cash or margin.
+    source: C12K:ImP9ulzOmOM@00:09:00; C12K:A8TdvIBNZWY@00:01:08
+  - rule: Distinguish cohort deterioration from temporary acquisition spikes before changing strategy.
+    why: A short-term metric shock may have a different cause than structural economics.
+    source: C12K:A8TdvIBNZWY@00:01:08; C12K:vIVj_l2svrU@00:06:56
+  - rule: Refresh the model when pricing, channel mix, product, delivery method, or retention materially changes.
+    why: Unit economics are properties of the current system, not permanent constants.
+    source: C12K:vIVj_l2svrU@00:06:56; C12K:3cjBI3xtr4Y@00:01:53

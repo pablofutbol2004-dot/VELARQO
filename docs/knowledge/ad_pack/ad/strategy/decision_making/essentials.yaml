@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: decision_making
+kind: strategy
+title: Decision Making
+categories:
+  decision_type_and_stakes:
+  - rule: Classify decisions by impact, reversibility, uncertainty, time sensitivity, and cost of delay before deciding how much analysis they deserve.
+    why: Not every decision should receive the same process.
+    source: C12K:cp2X0ihF4Zg@00:02:33; C12K:iz9d4AV7WvA@01:39:02
+  - rule: Move quickly on low-cost reversible decisions and invest more thought in high-impact hard-to-reverse commitments.
+    why: Deliberation has a cost and should scale with downside.
+    source: C12K:iz9d4AV7WvA@01:39:02; C12K:2crhrbqCLzU@00:11:06
+  - rule: Separate a decision from an implementation plan; first choose what should happen, then optimize how to execute it.
+    why: Mixing the two can make a good option look bad because its implementation is not yet solved.
+    source: C12K:2crhrbqCLzU@00:11:06; C12K:FdJuDZ6OVOY@00:10:22
+  - rule: Identify who has decision authority, who supplies evidence, and who is affected when coordination matters.
+    why: Ambiguous decision rights produce delay and hidden vetoes.
+    source: C12K:FdJuDZ6OVOY@00:10:22; C12K:7NNsC3yVr04@00:00:57
+  options_and_opportunity_cost:
+  - rule: Compare the leading options against the status quo and the best realistic alternative, not against an imaginary perfect solution.
+    why: Decision quality depends on the actual choice set.
+    source: C12K:cp2X0ihF4Zg@00:02:33; C12K:iz9d4AV7WvA@01:39:02
+  - rule: Make opportunity cost explicit when choosing projects, tools, markets, hires, or features.
+    why: The cost of an option includes the valuable work it displaces.
+    source: C12K:iz9d4AV7WvA@01:39:02; C12K:2crhrbqCLzU@00:11:06
+  - rule: Eliminate dominated options early when another option is at least as good on every important dimension and better on one.
+    why: Removing obviously inferior options preserves attention for real tradeoffs.
+    source: C12K:2crhrbqCLzU@00:11:06; C12K:FdJuDZ6OVOY@00:10:22
+  - rule: Prefer fewer decision criteria with clear importance over giant scorecards that manufacture precision.
+    why: Overweighted matrices can hide the real strategic tradeoff.
+    source: C12K:FdJuDZ6OVOY@00:10:22; C12K:7NNsC3yVr04@00:00:57
+  uncertainty_and_expected_value:
+  - rule: Represent important unknowns as ranges, probabilities, or scenarios when exact values are unavailable.
+    why: Explicit uncertainty is more useful than false certainty.
+    source: C12K:cp2X0ihF4Zg@00:02:33; C12K:iz9d4AV7WvA@01:39:02
+  - rule: Use expected value for repeatable or portfolio decisions when probabilities and payoffs can be estimated, while also respecting ruin or irreversible downside.
+    why: Average payoff alone can recommend risks the system cannot survive.
+    source: C12K:iz9d4AV7WvA@01:39:02; C12K:2crhrbqCLzU@00:11:06
+  - rule: Seek information when its expected decision value exceeds the cost and delay of obtaining it.
+    why: More research is not automatically better.
+    source: C12K:2crhrbqCLzU@00:11:06; C12K:FdJuDZ6OVOY@00:10:22
+  - rule: Distinguish uncertainty that can be reduced with evidence from uncertainty that is inherent and must be managed through optionality or risk limits.
+    why: Different uncertainty requires different action.
+    source: C12K:FdJuDZ6OVOY@00:10:22; C12K:7NNsC3yVr04@00:00:57
+  bias_and_perspective:
+  - rule: Record the decision thesis before outcomes are known to reduce hindsight rewriting.
+    why: Without a contemporaneous record, teams judge decisions by luck rather than process.
+    source: C12K:cp2X0ihF4Zg@00:02:33; C12K:iz9d4AV7WvA@01:39:02
+  - rule: Seek disconfirming evidence and ask what would have to be true for the leading option to fail.
+    why: Confirmation bias makes supportive evidence easier to notice.
+    source: C12K:iz9d4AV7WvA@01:39:02; C12K:2crhrbqCLzU@00:11:06
+  - rule: Gather perspectives from people with different incentives and expertise, then discount advice that is tightly coupled to the adviser’s self-interest.
+    why: Diversity of perspective helps only when incentive context is understood.
+    source: C12K:2crhrbqCLzU@00:11:06; C12K:FdJuDZ6OVOY@00:10:22
+  - rule: Separate identity and ego from the option being evaluated; sunk effort is not evidence that continuing is best.
+    why: Escalation of commitment can preserve failing projects.
+    source: C12K:FdJuDZ6OVOY@00:10:22; C12K:7NNsC3yVr04@00:00:57
+  execution_and_review:
+  - rule: Set a decision deadline appropriate to the cost of delay so analysis does not become avoidance.
+    why: Indefinite deliberation is itself a decision to preserve the status quo.
+    source: C12K:cp2X0ihF4Zg@00:02:33; C12K:iz9d4AV7WvA@01:39:02
+  - rule: Define what evidence would trigger reversal or re-evaluation when the decision is intentionally revisitable.
+    why: Predefined tripwires reduce emotional attachment later.
+    source: C12K:iz9d4AV7WvA@01:39:02; C12K:2crhrbqCLzU@00:11:06
+  - rule: Review major decisions on both process quality and outcome after enough time has passed.
+    why: Good decisions can have bad outcomes and vice versa.
+    source: C12K:2crhrbqCLzU@00:11:06; C12K:FdJuDZ6OVOY@00:10:22
+  - rule: Convert repeated decision classes into rules or automation only after the governing pattern is stable.
+    why: Systematization should remove repeated judgment, not hardcode unresolved ambiguity.
+    source: C12K:FdJuDZ6OVOY@00:10:22; C12K:7NNsC3yVr04@00:00:57

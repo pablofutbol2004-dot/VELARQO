@@ -1,0 +1,81 @@
+schema_version: '1'
+pack: buyer_awareness
+kind: general
+title: Buyer Awareness Craft
+categories:
+  awareness_model:
+  - rule: Define buyer awareness by what the prospect currently understands about the problem, solution category,
+      specific offer, and decision—not by the platform or content format they are consuming.
+    why: Awareness is a knowledge and decision state; the same channel can contain people at very different stages.
+    source: C12K:Sxn1ji7vYzU@00:04:39; C12K:Sxn1ji7vYzU@00:07:09
+  - rule: Treat an unaware prospect as someone who does not yet recognize the relevant problem or improved state
+      strongly enough to seek a solution.
+    why: Messaging that assumes an active problem can fail when the audience has not yet named or valued the issue.
+    source: C12K:Sxn1ji7vYzU@00:04:39; C12K:zrpWNzEoaLU@00:03:23
+  - rule: Treat a problem-aware prospect as someone who recognizes the problem but has not yet formed a clear view
+      of the available solution paths.
+    why: At this stage the buyer needs diagnosis, causes, consequences, and orientation more than detailed comparison
+      of specific offers.
+    source: C12K:Sxn1ji7vYzU@00:05:47
+  - rule: Treat a solution-aware prospect as someone who knows that solution categories or approaches exist and
+      now needs help evaluating mechanisms and alternatives.
+    why: The central question has shifted from whether a solution exists to which way of solving the problem makes
+      sense.
+    source: C12K:Sxn1ji7vYzU@00:06:33; C12K:zrpWNzEoaLU@00:04:40
+  - rule: Treat a product-aware prospect as someone who knows the specific offer and is evaluating relevance, fit,
+      proof, tradeoffs, or terms.
+    why: More category education may be redundant once the buyer is comparing a known option against alternatives
+      or inaction.
+    source: C12K:Sxn1ji7vYzU@00:06:50
+  - rule: Treat the most-aware prospect as someone who already understands the problem, solution, and offer well
+      enough that the remaining task is usually a direct decision or action.
+    why: High-awareness prospects often need clarity on the final decision rather than another long educational
+      detour.
+    source: C12K:Sxn1ji7vYzU@00:07:09
+  diagnosing_state:
+  - rule: Diagnose awareness from the question currently active in the buyer's mind rather than from a generic funnel
+      label.
+    why: A useful message answers the uncertainty the prospect actually has; stage labels are only shorthand for
+      that question.
+    source: C12K:zrpWNzEoaLU@00:06:14; C12K:zrpWNzEoaLU@00:06:49
+  - rule: Expect one market to contain multiple awareness cohorts at the same time and create content for the important
+      cohorts rather than assuming a single market-wide stage.
+    why: Prospects can enter with different prior knowledge, experiences, and exposure even when they share the
+      same underlying problem.
+    source: C12K:vUbLw80KTpo@00:06:34; C12K:vUbLw80KTpo@00:19:34
+  message_stage_match:
+  - rule: Do not agitate a problem as though it is already felt when the audience has not yet recognized it; first
+      make the diagnosis or consequence legible.
+    why: Problem-agitation language resonates mainly after the prospect accepts the problem, while unaware audiences
+      need a reason to see it.
+    source: C12K:vUbLw80KTpo@00:33:25; C12K:vUbLw80KTpo@00:54:32
+  - rule: For problem-aware buyers, explain why the current state persists and why the current approach may be failing
+      before jumping to a specific product.
+    why: Diagnosis answers the stage-appropriate question and creates a bridge from problem recognition to solution
+      evaluation.
+    source: C12K:zrpWNzEoaLU@00:06:49; C12K:zrpWNzEoaLU@00:09:01
+  - rule: For solution-aware buyers, compare mechanisms, tradeoffs, and reasons to prefer one approach before relying
+      on product-specific persuasion.
+    why: Once the buyer accepts that solutions exist, the next uncertainty is usually how the approaches differ
+      and which causal model is credible.
+    source: C12K:Sxn1ji7vYzU@00:06:33; C12K:zrpWNzEoaLU@00:09:13
+  - rule: As awareness rises, reduce redundant education and make the message progressively more specific to the
+      offer, proof, fit, and next decision.
+    why: Higher-awareness prospects already possess context that lower-awareness prospects still need.
+    source: C12K:pFzSQX7fo6M@00:08:52; C12K:pFzSQX7fo6M@00:09:16
+  progression_and_limits:
+  - rule: Use content to move prospects into a more informed adjacent state rather than assuming every piece must
+      jump an unaware person directly to purchase readiness.
+    why: Large state jumps ask one asset to establish the problem, category, mechanism, product, proof, and decision
+      simultaneously.
+    source: C12K:zrpWNzEoaLU@00:05:53; C12K:zrpWNzEoaLU@00:08:31
+  - rule: When much of the target market is unaware, budget for category education and demand development before
+      expecting late-stage conversion messaging to scale.
+    why: A market that does not yet recognize the problem or solution needs context before direct product comparison
+      can work broadly.
+    source: C12K:Sxn1ji7vYzU@00:04:49; C12K:pFzSQX7fo6M@00:09:42
+  - rule: Do not infer exact awareness from a single proxy such as source, watch time, follower status, or number
+      of prior touches; use those signals as hints, not definitions.
+    why: Exposure can raise awareness, but different people can consume the same amount of content while retaining
+      different beliefs and knowledge.
+    source: C12K:pFzSQX7fo6M@00:07:17; C12K:pFzSQX7fo6M@00:08:24

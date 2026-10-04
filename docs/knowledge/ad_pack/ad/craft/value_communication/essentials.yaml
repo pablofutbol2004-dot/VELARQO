@@ -1,0 +1,58 @@
+schema_version: '1'
+pack: value_communication
+kind: general
+title: Value Communication Craft
+categories:
+  problem_to_solution:
+  - rule: Define the audience’s current state, desired state, and the exact bridge between them before explaining details.
+    why: Value is clearer when the audience can see what changes and how.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value; B:kallaway/01_psychology-and-viewer-behavior
+  - rule: Narrow the problem until the available format can solve it completely enough to act on.
+    why: Broad topics often collapse into generic advice or missing steps.
+    source: B:round_4/02_idea-generation-problem-narrowing-and-content-research; B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Include the exact action, enough mechanism to understand why it works, and any critical step needed for execution.
+    why: A list of principles is not automatically a usable solution.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Do not confuse breadth with value; prefer one complete bridge over many shallow tips when depth is required for
+      action.
+    why: Completeness improves practical usefulness and trust.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value; B:round_4/09_round-4-action-playbooks-and-tensions
+  differentiation:
+  - rule: When teaching a familiar answer, improve its usefulness through a clearer mechanism, sharper explanation, stronger
+      example, or more actionable application.
+    why: Value communication can make familiar knowledge more usable without pretending the underlying subject is novel.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value; B:kallaway/05_ideas-research-validation-and-substance
+  - rule: Explain what is different about the proposed path and why that difference matters.
+    why: A point of difference without causal justification feels like opinion rather than useful guidance.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/03_storytelling-and-scriptwriting
+  explanation_modes:
+  - rule: Use procedural structure when the audience needs steps, settings, scripts, templates, or checklists.
+    why: Procedural value reduces implementation ambiguity.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Use diagnostic structure when the audience needs to identify a symptom, cause, mistake, or decision rule.
+    why: Diagnosis helps people choose the right action before applying a solution.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Use comparative structure when the distinction between two approaches is itself the useful lesson.
+    why: Contrast makes trade-offs and decision criteria legible.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Use insight structure only when the reframe changes judgment, behavior, or a future decision.
+    why: A surprising statement is not useful merely because it is surprising.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  explanation_flow:
+  - rule: For each major point, cover what it is, why it matters, and how to use it when all three are needed.
+    why: Definition without mechanism or application often leaves the audience unable to act.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Alternate high-level framing with concrete application instead of staying entirely abstract or entirely tactical.
+    why: The audience needs both the mental model and the executable detail.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Minimize the distance between advice and first useful action when the content is intended to be practical.
+    why: Low-friction application increases the chance that perceived value becomes real value.
+    source: B:kallaway/06_content-strategy-growth-algorithms-and-monetization; B:round_4/03_educational-value-and-the-trinity-of-value
+  examples_and_comparison:
+  - rule: Choose examples that resemble the intended audience’s situation closely enough that they can imagine applying the
+      lesson.
+    why: Viewer-depictable examples reduce the gap between understanding and action.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Use visual or concrete comparison when it can simultaneously show the problem, mechanism, and outcome.
+    why: Demonstration compresses explanation and makes abstract claims easier to verify.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems; B:round_2/03_visual-layout-typography-motion-and-b-roll

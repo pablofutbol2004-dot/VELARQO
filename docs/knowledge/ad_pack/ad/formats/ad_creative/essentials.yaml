@@ -1,0 +1,195 @@
+schema_version: '1'
+pack: ad_creative
+kind: format
+title: Ad Creative
+categories:
+  format_role_and_unit:
+  - rule: Treat an ad creative as a paid interruption unit whose job is to earn and justify one next step, not as a compressed
+      version of the entire funnel.
+    why: Trying to explain every feature, objection, proof point, and sales argument inside one ad usually weakens the primary
+      message and ignores the work that the landing page, VSL, or sales process can do later.
+    source: C12K:eEiyrvM1nB8@00:09:19; C12K:eEiyrvM1nB8@00:23:35
+  - rule: Make a cold-audience ad understandable without assuming the viewer has seen previous brand content.
+    why: Paid distribution often reaches people with little or no prior context, so the asset must establish enough orientation
+      for the viewer to judge relevance before asking them to continue.
+    source: C12K:eEiyrvM1nB8@00:09:19; C12K:vUbLw80KTpo@00:19:34
+  - rule: Give each creative one dominant proposition even when the ad contains several supporting beats.
+    why: A paid asset becomes hard to diagnose and easy to ignore when multiple unrelated promises compete for the same brief
+      attention window.
+    source: C12K:eEiyrvM1nB8@00:19:35; C12K:eEiyrvM1nB8@00:21:19
+  - rule: Separate the strategic concept from its execution before producing the asset.
+    why: A strong ad can fail in execution and a weak concept can look polished; keeping those layers distinct makes both
+      production and testing more informative.
+    source: C12K:eEiyrvM1nB8@00:29:46; C12K:vUbLw80KTpo@02:15:58
+  concept_angle_and_audience:
+  - rule: Define an ad angle as a distinct way of positioning the same offer around a different desire, problem, persona,
+      belief, or buying reason.
+    why: Different people can buy the same offer for materially different reasons, and those reasons require more than cosmetic
+      changes to the creative.
+    source: C12K:eEiyrvM1nB8@00:29:58; C12K:eEiyrvM1nB8@00:30:48
+  - rule: Define an ad variation as a different execution of the same core angle, such as a new hook, visual, example, phrasing,
+      or format treatment.
+    why: Without this distinction, a team can mistake dozens of minor rewrites for genuine concept diversity.
+    source: C12K:eEiyrvM1nB8@00:31:22; C12K:eEiyrvM1nB8@00:32:14
+  - rule: Validate major angles before producing large families of minor variants around them.
+    why: If the underlying desire or positioning is wrong, multiplying executions of that idea mainly scales the wrong hypothesis.
+    source: C12K:eEiyrvM1nB8@00:32:21; C12K:eEiyrvM1nB8@00:33:26
+  - rule: Build audience relevance from concrete behaviors, pains, contexts, identities, or language the buyer recognizes
+      rather than relying only on broad demographic labels.
+    why: Recognizable lived context can make the viewer self-identify with the ad without requiring a generic “attention business
+      owners” style callout.
+    source: C12K:eEiyrvM1nB8@00:20:00; C12K:NTmWqnPIb2s@00:03:12
+  - rule: Use market and customer language to shape angles before inventing clever phrasing in isolation.
+    why: Ads are more likely to feel relevant when they express problems and desired outcomes in terms buyers already use
+      and understand.
+    source: C12K:eEiyrvM1nB8@00:27:27; C12K:eEiyrvM1nB8@00:29:58
+  - rule: Use competitor ads and long-running references as research signals, not as proof of causality or permission to copy
+      the asset.
+    why: External ads can reveal recurring formats, angles, and market conventions, but longevity and visibility do not expose
+      economics, attribution, or the exact reason an ad remains active.
+    source: C12K:iDPreslY2Os@00:04:26; C12K:eEiyrvM1nB8@00:11:49; C12K:eEiyrvM1nB8@00:13:22
+  native_attention_and_opening:
+  - rule: 'Design the opening for an interruption context: the first visible or audible beat must establish enough relevance
+      to earn continued attention.'
+    why: Paid placements compete with the surrounding feed, so the ad has to create orientation before the viewer has volunteered
+      sustained attention.
+    source: C12K:72CkB38EfRM@00:34:36; C12K:eEiyrvM1nB8@00:24:38
+  - rule: Match the production language of the placement when native familiarity reduces resistance, but do not imitate organic
+      content so closely that the message becomes deceptive or unclear.
+    why: A familiar feed-native presentation can be easier to consume than an obvious commercial, while authenticity still
+      depends on truthful framing.
+    source: C12K:NTmWqnPIb2s@00:07:12; C12K:vUbLw80KTpo@01:08:51
+  - rule: Treat polish as a production choice rather than a quality proxy; a clear, credible native-looking asset can outperform
+      an expensive commercial treatment.
+    why: Production value only matters when it improves communication, trust, demonstration, or brand fit; extra polish can
+      add cost without improving the ad’s job.
+    source: C12K:NTmWqnPIb2s@00:02:07; C12K:NTmWqnPIb2s@00:07:45
+  - rule: When the ad has visual, spoken, and written opening channels, make them reinforce the same core idea rather than
+      competing for interpretation.
+    why: Paid attention is scarce, so conflicting first-frame text, voiceover, and imagery create unnecessary orientation
+      cost.
+    source: C12K:vUbLw80KTpo@02:15:58; C12K:eEiyrvM1nB8@00:24:38
+  - rule: Use behavior or situation callouts when they identify the intended viewer more naturally than a blunt demographic
+      label.
+    why: A viewer can recognize “this is me” from a specific problem or behavior while the ad still reads like ordinary communication
+      rather than a generic commercial.
+    source: C12K:eEiyrvM1nB8@00:19:50; C12K:eEiyrvM1nB8@00:20:00
+  format_and_production_choice:
+  - rule: Choose static, video, UGC-style, creator-led, carousel, or other ad formats from the communication job and production
+      economics rather than a universal format hierarchy.
+    why: Some ideas need motion or demonstration; others can be tested and communicated cheaply in a static asset, and different
+      audiences can respond to different surfaces.
+    source: C12K:NTmWqnPIb2s@00:00:56; C12K:QJ5YeT_yURU@00:38:52
+  - rule: Use lower-cost formats to test new concepts when they can express the hypothesis adequately, then invest in more
+      expensive execution after the concept earns evidence.
+    why: Concept learning is cheaper when production cost does not consume most of the testing budget before the underlying
+      idea is validated.
+    source: C12K:NTmWqnPIb2s@00:00:56; C12K:vUbLw80KTpo@02:16:28
+  - rule: Do not assume a static is inherently bottom-of-funnel or a video inherently top-of-funnel; design each format for
+      the awareness job it needs to perform.
+    why: 'Format and funnel stage are separate variables: a static can educate and a video can close when the concept and
+      execution support that role.'
+    source: C12K:vUbLw80KTpo@01:07:54; C12K:vUbLw80KTpo@01:08:22
+  - rule: Maintain meaningful format diversity when the audience and offer support it instead of scaling only the locally
+      best-looking format.
+    why: Different formats can contribute at different touchpoints or appeal to different consumption preferences, so one
+      format’s apparent last-click strength may not justify eliminating the rest.
+    source: C12K:QJ5YeT_yURU@00:38:27; C12K:QJ5YeT_yURU@00:39:55
+  - rule: For UGC-style or creator-led ads, preserve believable speech, setting, demonstration, and perspective rather than
+      reproducing the visual clichés of UGC without the credibility.
+    why: The value of creator-style advertising comes from relatable evidence and native communication, not simply vertical
+      framing, handheld footage, or scripted slang.
+    source: C12K:vUbLw80KTpo@01:17:09; C12K:vUbLw80KTpo@01:21:34
+  compressed_persuasion_and_handoff:
+  - rule: Show enough of the mechanism or process in the ad that the promised outcome has a plausible path, then let deeper
+      explanation continue downstream when needed.
+    why: A large promise without a visible “how” can feel unbelievable, while over-explaining every detail inside the ad wastes
+      the role of the next asset.
+    source: C12K:eEiyrvM1nB8@00:21:45; C12K:eEiyrvM1nB8@00:23:15
+  - rule: Use compact, specific proof inside the ad when trust is a gating doubt and reserve the full case-study stack for
+      the page, VSL, or conversation.
+    why: A small amount of relevant evidence can establish credibility without turning the ad into a proof archive.
+    source: C12K:eEiyrvM1nB8@00:23:26; C12K:eEiyrvM1nB8@00:23:35
+  - rule: When demonstration is the strongest evidence, let the creative show the product, process, transformation, or output
+      instead of relying only on claims about it.
+    why: Paid creative can compress proof by making the result or mechanism visible before the viewer commits to another page.
+    source: C12K:72CkB38EfRM@00:37:56; C12K:iDPreslY2Os@00:06:26
+  - rule: Keep the promise and subject of the ad congruent with the destination it hands off to.
+    why: A click should deepen the same decision the ad started; a mismatch forces the prospect to re-orient and can make
+      the experience feel deceptive.
+    source: C12K:eEiyrvM1nB8@00:51:51
+  - rule: Let the ad qualify attention through specificity instead of maximizing cheap clicks from people who are unlikely
+      to become useful downstream outcomes.
+    why: An ad can improve local click or lead metrics while lowering lead quality, sales conversion, or economic value.
+    source: C12K:xrrG8HBB58o@00:01:13; C12K:xrrG8HBB58o@00:02:30
+  testing_and_iteration:
+  - rule: Label every ad experiment as a concept test or a variation test before production begins.
+    why: The distinction clarifies whether the team is learning about a market proposition or merely improving the execution
+      of an already validated proposition.
+    source: C12K:eEiyrvM1nB8@00:29:46; C12K:eEiyrvM1nB8@00:31:22
+  - rule: When a concept wins, iterate it across meaningful execution dimensions such as hooks, examples, visual treatments,
+      contexts, proof, or format without accidentally changing the core hypothesis.
+    why: Controlled iteration extracts more value from a validated angle while preserving the ability to understand what the
+      next change contributed.
+    source: C12K:eEiyrvM1nB8@00:32:14; C12K:NTmWqnPIb2s@00:05:28
+  - rule: Do not let winner iteration eliminate exploration; keep a smaller stream of genuinely new concepts capable of replacing
+      today’s winners.
+    why: Only cloning proven ads creates short-term efficiency but leaves the portfolio vulnerable when the current angle
+      or creative decays.
+    source: C12K:vUbLw80KTpo@02:06:58; C12K:vUbLw80KTpo@02:07:23
+  - rule: Do not confuse production volume with learning velocity; a large batch of strategically identical ads is still one
+      narrow hypothesis.
+    why: More assets only improve the system when they add useful diversity or controlled iteration rather than cosmetic churn.
+    source: C12K:vUbLw80KTpo@00:05:27; C12K:vUbLw80KTpo@00:05:52
+  - rule: Build a reusable ad library that stores the concept, angle, format, hook, important assets, and observed outcome
+      of each test.
+    why: Without creative metadata, future briefs repeat old experiments and winning mechanisms cannot be decomposed reliably.
+    source: C12K:72CkB38EfRM@00:32:47; C12K:iDPreslY2Os@00:06:04
+  - rule: Use organic performance or existing market examples as pre-test evidence when available, but treat paid performance
+      as a separate validation step.
+    why: Organic resonance can reduce blind experimentation, yet paid distribution changes audience composition, intent, frequency,
+      and economics.
+    source: C12K:eEiyrvM1nB8@00:09:43; C12K:eEiyrvM1nB8@00:10:25
+  fatigue_and_portfolio:
+  - rule: Avoid building the paid acquisition system around one irreplaceable winning creative.
+    why: 'A single winner creates concentration risk: when its effectiveness decays or its reachable audience is exhausted,
+      there is no proven asset ready to absorb demand.'
+    source: C12K:NTmWqnPIb2s@00:05:08; C12K:vUbLw80KTpo@00:03:36
+  - rule: Refresh a winner with meaningful novelty before abandoning the underlying angle solely because one execution has
+      weakened.
+    why: Creative decay can belong to the execution, exposure, or audience saturation rather than the strategic proposition
+      itself.
+    source: C12K:NTmWqnPIb2s@00:05:28; C12K:eEiyrvM1nB8@00:32:14
+  - rule: Set creative production cadence from spend, asset lifespan, testing capacity, and observed decay rather than an
+      arbitrary weekly creative quota.
+    why: Higher spend can consume creative faster, while small accounts can waste resources generating far more assets than
+      they can meaningfully test.
+    source: C12K:NTmWqnPIb2s@00:02:34; C12K:vUbLw80KTpo@00:05:27
+  - rule: Treat the creative portfolio as a balance of proven winners, winner iterations, and net-new concepts rather than
+      an endless stream of only one type.
+    why: The portfolio needs current efficiency, redundancy, and future discovery at the same time.
+    source: C12K:vUbLw80KTpo@00:04:43; C12K:vUbLw80KTpo@02:06:58
+  measurement_and_learning:
+  - rule: Use attention metrics such as hook rate or hold rate as local diagnostics for video creative, not as the definition
+      of a successful ad.
+    why: An opening can retain viewers while failing to create qualified clicks, purchases, or revenue, and the reverse can
+      also occur.
+    source: C12K:CCsty8R0UaA@00:06:56; C12K:QJ5YeT_yURU@00:07:05
+  - rule: Do not optimize click-through rate in isolation when downstream conversion economics are already healthy.
+    why: Improving an intermediate metric can select for more clicks without improving the actual business outcome the campaign
+      exists to produce.
+    source: C12K:QJ5YeT_yURU@00:07:34; C12K:QJ5YeT_yURU@00:08:26
+  - rule: Diagnose ad performance by locating the weak stage—attention, comprehension, click intent, destination conversion,
+      lead quality, or sale—before rewriting the creative.
+    why: A poor business result can be caused by the ad, the page, the offer, qualification, or follow-up; changing creative
+      without locating the failure destroys useful evidence.
+    source: C12K:xrrG8HBB58o@00:02:30; C12K:QJ5YeT_yURU@00:07:05
+  - rule: Compare concepts and formats on downstream outcomes while using local creative metrics to explain why they differ.
+    why: This preserves the business objective while still allowing hook, hold, click, and engagement data to guide the next
+      creative brief.
+    source: C12K:QJ5YeT_yURU@00:07:05; C12K:CCsty8R0UaA@00:07:25
+  - rule: Feed the result of each paid test back into the next creative brief instead of treating production and media performance
+      as separate workflows.
+    why: The compounding advantage comes from a closed loop in which observed audience response changes the next concept,
+      hook, format, and execution decision.
+    source: C12K:vUbLw80KTpo@00:00:00; C12K:vUbLw80KTpo@02:19:37

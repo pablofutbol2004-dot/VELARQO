@@ -29,7 +29,7 @@ about 6 positive replies per arm. So:
 | Deliverability | Do we land in the inbox? | Test sends to Gmail/Outlook seed inboxes; bounce tracking | Inbox placement, bounce rate under 3% | Before the first batch, then weekly |
 | Targeting | Which installers reply? | Pre-chosen splits on every send: priority score, generic vs named inbox, accredited vs not, years trading | Positive replies per segment | Read after about 600 sends |
 | **Offer** | Free look at their quotes vs no-win-no-fee chasing? | `cold_offer_v1` (2 arms, same opener) | Positive reply rate, then calls | **First: about the first 600 emails** |
-| Angle | Question opener vs "money already spent"? | `cold_angle_v1` (uses the winning offer) | Positive reply rate | Second |
+| Angle | Question opener vs "money already spent"? | `cold_angle_v1` (status waiting; uses the winning offer, ~30% of the list left after the offer test) | Positive reply rate | Second, about week 5-6 |
 | Ask / CTA | "Want me to take a look?" vs "Reply with a rough number" | `cold_cta_v1` (to write) | Positive reply rate | Third |
 | Follow-ups | Do follow-ups 2 and 3 earn their keep? | Count replies by the step they came after | Replies per step, opt-outs per step | Ongoing, free |
 | Reply speed | Does answering within an hour book more calls? | Log reply times (not randomised; a habit, not a test) | Positive reply to call | Ongoing |

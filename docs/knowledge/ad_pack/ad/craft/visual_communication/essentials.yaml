@@ -1,0 +1,55 @@
+schema_version: '1'
+pack: visual_communication
+kind: general
+title: Visual Communication Craft
+categories:
+  hierarchy_and_focus:
+  - rule: Give every visual moment one obvious primary focal point.
+    why: Competing face, text, graphics, and motion force the audience to choose what to ignore.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll; B:round_4/06_recording-delivery-and-visual-trust
+  - rule: Keep successive focal elements in a coherent viewing region when possible.
+    why: Stable eye travel reduces search cost after cuts or graphic changes.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Use size, contrast, placement, and whitespace to establish information priority rather than styling every element
+      equally.
+    why: Hierarchy tells the audience what to read or inspect first.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll; B:round_4/06_recording-delivery-and-visual-trust
+  - rule: Remove or subordinate visual elements that ask for attention without helping the current idea.
+    why: Decorative competition weakens comprehension and perceived control.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_4/06_recording-delivery-and-visual-trust
+  visual_semantics:
+  - rule: Match supporting imagery to the specific noun, action, mechanism, or consequence being discussed.
+    why: Relevant imagery reduces verbal explanation and confirms meaning.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Select B-roll for the story statement it proves or illustrates, not for beauty alone.
+    why: A beautiful but irrelevant shot consumes attention without advancing understanding.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Trim supporting footage to the exact action or moment that carries the intended meaning.
+    why: Precise in/out points keep the visual aligned with the spoken or written claim.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Use a relevant environment, object, or demonstration as a credibility cue only when it genuinely relates to the
+      subject.
+    why: Context can communicate competence quickly, but staged symbolism cannot replace evidence.
+    source: B:round_4/06_recording-delivery-and-visual-trust; B:kallaway/01_psychology-and-viewer-behavior
+  text_and_image:
+  - rule: Keep typography readable, restrained, and hierarchically consistent; reserve stronger styling for genuinely important
+      words or moments.
+    why: Uniform emphasis destroys hierarchy while excessive styling increases decoding effort.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Keep text placement stable enough that the audience does not need to hunt for every new line.
+    why: Predictable placement lowers eye movement and supports continuity.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Let text and image complement rather than redundantly repeat each other when one channel can add useful information.
+    why: Complementary channels increase information density without adding extra concepts.
+    source: B:kallaway/02_hooks-and-initial-retention; B:round_2/03_visual-layout-typography-motion-and-b-roll
+  motion_and_review:
+  - rule: Place stronger movement at meaningful thought or state changes rather than scattering it uniformly.
+    why: Motion gains communicative value when it marks a transition the audience should notice.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Review the finished visual on the actual consumption device or size before approval.
+    why: Hierarchy that works on a large editing monitor can fail at real viewing scale.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll
+  comparison_and_demonstration:
+  - rule: Use a contrast demonstration when one frame can make the difference between current and desired states obvious.
+    why: A single comparison can function as explanation and proof at once.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems

@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: experimentation
+kind: intelligence
+title: Experimentation
+categories:
+  hypothesis_and_priority:
+  - rule: Write experiments as falsifiable claims linking a change to a defined outcome for a defined population.
+    why: A test without a clear causal hypothesis is difficult to interpret.
+    source: C12K:OkPEPXn3f4E@00:05:26; C12K:o_t8IRhrxQU@00:35:19
+  - rule: Prioritize experiments by expected impact, uncertainty reduced, implementation cost, reversibility, and strategic importance.
+    why: Testing everything wastes traffic and engineering capacity on low-value uncertainty.
+    source: C12K:o_t8IRhrxQU@00:35:19; C12K:ZnaM4SdCmLk@00:05:28
+  - rule: Test the riskiest assumption early when its failure would invalidate the broader initiative.
+    why: Learning that a foundation is wrong late is expensive.
+    source: C12K:ZnaM4SdCmLk@00:05:28; C12K:WaS2F9dSxpE@00:10:27
+  - rule: Do not use experiments to postpone obvious low-cost reversible actions when direct execution will reveal the answer faster.
+    why: Experimentation itself has opportunity cost.
+    source: C12K:WaS2F9dSxpE@00:10:27; C12K:QKK4UCNx-iw@00:19:58
+  design_and_controls:
+  - rule: Change as few causal variables as practical when the goal is attribution; use bundled tests only when the bundle itself is the decision unit.
+    why: Multi-variable changes make it difficult to know what caused the effect.
+    source: C12K:OkPEPXn3f4E@00:05:26; C12K:o_t8IRhrxQU@00:35:19
+  - rule: Define eligibility, assignment, exposure, start/end conditions, and contamination risks before reading outcomes.
+    why: Post-hoc definitions invite biased interpretation.
+    source: C12K:o_t8IRhrxQU@00:35:19; C12K:ZnaM4SdCmLk@00:05:28
+  - rule: Choose a comparison or baseline that represents the decision alternative, not merely whatever data is easiest to obtain.
+    why: The relevant question is whether the new action beats what would otherwise happen.
+    source: C12K:ZnaM4SdCmLk@00:05:28; C12K:WaS2F9dSxpE@00:10:27
+  - rule: Avoid overlapping tests that materially affect the same outcome unless interactions are designed and interpretable.
+    why: Concurrent changes can invalidate causal attribution.
+    source: C12K:WaS2F9dSxpE@00:10:27; C12K:QKK4UCNx-iw@00:19:58
+  metrics_and_guardrails:
+  - rule: Choose one primary decision metric and a small set of guardrail metrics before launch.
+    why: A large metric menu makes it easy to cherry-pick a winner.
+    source: C12K:OkPEPXn3f4E@00:05:26; C12K:o_t8IRhrxQU@00:35:19
+  - rule: Prefer downstream business or user outcomes over local proxy metrics when the two can diverge.
+    why: A higher click rate can coexist with worse retention, margin, or qualified conversion.
+    source: C12K:o_t8IRhrxQU@00:35:19; C12K:ZnaM4SdCmLk@00:05:28
+  - rule: Define the minimum effect worth acting on, not merely whether any detectable difference exists.
+    why: Statistical detectability and business relevance are different questions.
+    source: C12K:ZnaM4SdCmLk@00:05:28; C12K:WaS2F9dSxpE@00:10:27
+  - rule: Monitor harm, quality, cost, latency, complaints, and other guardrails when optimizing a narrow target.
+    why: Single-metric optimization can move the system in the wrong direction.
+    source: C12K:WaS2F9dSxpE@00:10:27; C12K:QKK4UCNx-iw@00:19:58
+  inference_and_uncertainty:
+  - rule: Do not stop a noisy test the moment the preferred variant looks ahead; use pre-defined decision rules or sufficiently stable evidence.
+    why: Repeated peeking inflates false-positive risk.
+    source: C12K:OkPEPXn3f4E@00:05:26; C12K:o_t8IRhrxQU@00:35:19
+  - rule: Treat tiny samples and highly variable outcomes as weak evidence even when dashboards display precise percentages.
+    why: Numerical precision does not create statistical information.
+    source: C12K:o_t8IRhrxQU@00:35:19; C12K:ZnaM4SdCmLk@00:05:28
+  - rule: Separate “no detected effect” from “proved equivalent.”
+    why: An underpowered test can fail to detect a meaningful difference.
+    source: C12K:ZnaM4SdCmLk@00:05:28; C12K:WaS2F9dSxpE@00:10:27
+  - rule: Investigate heterogeneous effects by important segments only when the segmentation is pre-specified or the finding is treated as exploratory.
+    why: Post-hoc slicing creates spurious narratives.
+    source: C12K:WaS2F9dSxpE@00:10:27; C12K:QKK4UCNx-iw@00:19:58
+  iteration_and_learning:
+  - rule: Store hypothesis, implementation, result, decision, and follow-up in an experiment log.
+    why: Institutional learning compounds only when past tests remain discoverable.
+    source: C12K:OkPEPXn3f4E@00:05:26; C12K:o_t8IRhrxQU@00:35:19
+  - rule: Use failed experiments to update beliefs and remove dead paths rather than judging them only by immediate revenue.
+    why: Reducing uncertainty can be a valuable experiment outcome.
+    source: C12K:o_t8IRhrxQU@00:35:19; C12K:ZnaM4SdCmLk@00:05:28
+  - rule: Replicate surprising or high-stakes results before making costly irreversible changes.
+    why: Unexpected effects are more likely to include hidden confounds or noise.
+    source: C12K:ZnaM4SdCmLk@00:05:28; C12K:WaS2F9dSxpE@00:10:27
+  - rule: After a winner ships, monitor whether the effect persists at full scale and over time.
+    why: Novelty, capacity constraints, and selection effects can make test-period gains decay.
+    source: C12K:WaS2F9dSxpE@00:10:27; C12K:QKK4UCNx-iw@00:19:58

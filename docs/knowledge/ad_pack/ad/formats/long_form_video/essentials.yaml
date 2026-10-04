@@ -1,0 +1,175 @@
+schema_version: '1'
+pack: long_form_video
+kind: format
+title: Long-form Video
+categories:
+  format_fit_and_runtime:
+  - rule: Use long-form video when the audience benefits from cumulative explanation, extended demonstration, sustained conversation,
+      or narrative development that would be damaged by aggressive compression.
+    why: Long-form earns its extra commitment when time itself enables deeper understanding, proof, relationship, or progression
+      rather than merely making the asset longer.
+    source: C12K:75tkthAzZog@00:20:36; C12K:75tkthAzZog@00:21:15
+  - rule: Choose the video's dominant long-form mode before structuring it—such as tutorial, analysis, interview/conversation,
+      case study, documentary/narrative, or extended demonstration—because the useful pacing and navigation constraints differ.
+    why: A modular tutorial and a suspenseful narrative should not be forced through the same section logic merely because
+      both are long videos.
+    source: C12K:dAR3d6xnG0o@01:01:47; C12K:dAR3d6xnG0o@01:04:43
+  - rule: Set runtime from the amount of distinct useful work the video must perform, then remove padding; do not stretch
+      or compress the piece to hit a conventional duration.
+    why: The extra minutes of long-form have value only when they add explanation, evidence, experience, or progression the
+      viewer needs.
+    source: C12K:NR_GMq2lDCE@00:32:03; C12K:NR_GMq2lDCE@00:34:03
+  - rule: Give one long-form video one coherent primary viewer outcome even when it contains many sections, examples, or questions.
+    why: Long runtime makes it easy to accumulate adjacent ideas until the asset feels like several unrelated videos stitched
+      together.
+    source: C12K:dAR3d6xnG0o@01:02:06; C12K:dAR3d6xnG0o@01:03:49
+  architecture_and_sectioning:
+  - rule: Build a one-page skeleton of the major sections before recording long-form so the whole argument, lesson, or conversation
+      can be inspected at once.
+    why: A long asset has enough moving parts that local good moments can still produce a directionless whole; a macro skeleton
+      exposes missing, redundant, or badly ordered sections.
+    source: C12K:dAR3d6xnG0o@01:03:47; C12K:dAR3d6xnG0o@01:04:02
+  - rule: Give each major section a distinct job in the overall video and remove or merge sections that do not materially
+      advance that job.
+    why: Long-form becomes bloated when sections survive because they were recorded rather than because they change the viewer's
+      understanding or state.
+    source: C12K:NR_GMq2lDCE@00:33:56; C12K:NR_GMq2lDCE@00:34:16
+  - rule: 'Order long-form sections around dependency and usefulness: give viewers the context or mechanism needed for later
+      material before asking them to interpret it.'
+    why: A long sequence compounds confusion when later sections assume ideas the viewer never received clearly enough earlier.
+    source: C12K:qapgPaT6zn4@00:02:59; C12K:qapgPaT6zn4@00:03:28
+  - rule: For modular educational long-form, design sections so each can deliver a meaningful unit of value while still contributing
+      to the complete outcome.
+    why: Viewers may consume only part of a long tutorial or list, so useful sections reduce the cost of selective viewing
+      without destroying the whole.
+    source: C12K:dAR3d6xnG0o@01:02:06; C12K:dAR3d6xnG0o@01:04:43
+  - rule: For conversational long-form, plan the important questions, themes, and transitions while leaving room for follow-up
+      paths that become valuable during the exchange.
+    why: Over-scripting a conversation can suppress the discovery that makes the format worth watching, while no macro plan
+      can produce aimless drift.
+    source: C12K:NR_GMq2lDCE@00:34:22; C12K:dAR3d6xnG0o@01:03:31
+  long_runtime_retention:
+  - rule: 'Plan retention at the section level, not only in the opening: decide where a long viewer will need a renewed reason
+      to continue as the video progresses.'
+    why: Long-form requires repeated recommitment; a strong first minute cannot carry twenty or sixty minutes of unrelated
+      or stagnant material by itself.
+    source: C12K:dAR3d6xnG0o@01:00:30; C12K:dAR3d6xnG0o@01:04:02
+  - rule: Use specific future-value cues across long-form only when the current section is already paying off; do not make
+      the entire runtime depend on one distant tease.
+    why: A long viewer needs continuing proof that the video is worth the time, not repeated promises that all value arrives
+      later.
+    source: C12K:dAR3d6xnG0o@01:02:23; C12K:dAR3d6xnG0o@01:03:20
+  - rule: Distribute several meaningful payoffs across a long video and let the final payoff be completion, synthesis, or
+      the largest resolution when the format supports it.
+    why: Multiple local rewards make long viewing feel productive while preserving a reason to finish the complete argument
+      or journey.
+    source: C12K:75tkthAzZog@00:27:50; C12K:dAR3d6xnG0o@01:02:06
+  - rule: Let macro pacing vary by section complexity and emotional job rather than forcing equal section lengths, identical
+      cut density, or constant escalation.
+    why: A dense explanation, demonstration, story beat, and reflective conversation require different amounts of time; uniform
+      intensity can reduce clarity and naturalness.
+    source: C12K:qapgPaT6zn4@00:03:15; C12K:NR_GMq2lDCE@00:35:18
+  navigation_and_chapters:
+  - rule: Use chapters or equivalent visible navigation when a long educational, tutorial, list, or interview video contains
+      modular sections that viewers may reasonably want to access selectively.
+    why: Navigation can turn a long asset from an all-or-nothing commitment into a useful reference without requiring viewers
+      to hunt through the timeline.
+    source: C12K:dAR3d6xnG0o@01:04:24; C12K:dAR3d6xnG0o@01:05:47
+  - rule: Name long-form chapters by the actual question, decision, task, or outcome in that section rather than generic labels
+      that do not help navigation.
+    why: Chapter labels create value only when the viewer can infer what each destination contains before choosing it.
+    source: C12K:dAR3d6xnG0o@01:04:25; C12K:dAR3d6xnG0o@01:04:45
+  - rule: Avoid chaptering or labels that reveal the decisive payoff of a narrative or story-driven long-form video when discovery
+      is part of the experience.
+    why: A navigation aid can undermine the causal build or suspense that gives narrative sections their value.
+    source: C12K:dAR3d6xnG0o@01:04:45; C12K:dAR3d6xnG0o@01:04:56
+  - rule: Treat intentional chapter skipping differently from abandonment when reviewing long-form behavior.
+    why: A viewer who jumps directly to the needed section and leaves satisfied can be a successful use case even though percentage
+      viewed is low.
+    source: C12K:dAR3d6xnG0o@01:05:31; C12K:dAR3d6xnG0o@01:05:55
+  recording_mode:
+  - rule: Choose between a full script, detailed outline, or loose section notes based on the precision the video requires
+      and how much spontaneous explanation improves the delivery.
+    why: Long-form can become wooden when every sentence is read, but high-stakes explanations can wander when there are no
+      guardrails.
+    source: C12K:qapgPaT6zn4@00:03:54; C12K:qapgPaT6zn4@00:04:22
+  - rule: Push idea selection, research, section order, and difficult explanatory decisions into pre-production so recording
+      is primarily execution rather than live problem-solving.
+    why: Long shoots become inefficient and inconsistent when the creator is still deciding what the video is about while
+      the camera is running.
+    source: C12K:qapgPaT6zn4@00:04:31; C12K:qapgPaT6zn4@00:04:49
+  - rule: Use outline guardrails to preserve the planned destination while allowing natural examples, clarifications, and
+      short tangents that improve a long spoken explanation.
+    why: Long-form benefits from conversational texture, but the tangent should return to an intentional section objective
+      rather than create a second uncontrolled thread.
+    source: C12K:qapgPaT6zn4@00:04:05; C12K:qapgPaT6zn4@00:04:27
+  - rule: For interview or conversational long-form, capture follow-up questions when they make an idea more practical, specific,
+      or complete instead of mechanically advancing to the next prepared prompt.
+    why: The format creates value partly through responsive depth that cannot be fully known before the guest answers.
+    source: C12K:uJ8Pg6t_iho@02:50:22; C12K:uJ8Pg6t_iho@02:50:48
+  editing_and_visual_density:
+  - rule: 'Make the first long-form edit pass subtractive: remove dead time, repeated explanations, setup delays, and detours
+      before adding more effects or B-roll.'
+    why: Long runtime multiplies small inefficiencies, and added production cannot repair material that should simply be cut.
+    source: C12K:NR_GMq2lDCE@00:33:56; C12K:NR_GMq2lDCE@00:34:18
+  - rule: Use visual support at the long-form moments where the spoken track alone creates high abstraction, search cost,
+      or ambiguity rather than illustrating every sentence.
+    why: Selective graphics can clarify important mechanisms without turning the entire video into a costly layer stack.
+    source: C12K:NR_GMq2lDCE@00:34:27; C12K:RCu9Hlpmoi0@00:13:19
+  - rule: Allocate visual and editing effort unevenly across long-form according to where it materially improves comprehension,
+      trust, or commitment.
+    why: Polishing every minute equally can consume large production time even after an engaged viewer no longer needs constant
+      visual reassurance.
+    source: C12K:NR_GMq2lDCE@00:34:43; C12K:NR_GMq2lDCE@00:35:17
+  - rule: For conversation-led long-form, preserve enough natural cadence that the piece still feels like a real exchange;
+      do not force high-frequency retention editing into every second.
+    why: Excessive interruption can make a long conversation tiring or artificial even when each local edit is attention-grabbing.
+    source: C12K:NR_GMq2lDCE@00:35:18; C12K:NR_GMq2lDCE@00:35:46
+  - rule: Reduce timeline, asset, and effect complexity when it slows iteration without producing a clear viewer-facing improvement.
+    why: Long-form files and layered edits scale operational cost quickly, so production complexity should earn its place
+      in the final experience.
+    source: C12K:NR_GMq2lDCE@00:32:32; C12K:NR_GMq2lDCE@00:33:31
+  library_continuation:
+  - rule: After satisfying the current long-form video's promise, route interested viewers toward the most logically adjacent
+      next question or deeper asset instead of ending with an unrelated generic recommendation.
+    why: A relevant continuation lets the value of one long viewing session compound into deeper understanding or relationship
+      without withholding the current video's payoff.
+    source: C12K:SqpbyMGCkJc@00:03:01; C12K:SqpbyMGCkJc@00:03:27
+  - rule: Plan clusters or series of adjacent long-form videos when the subject naturally contains several sequential or neighboring
+      questions.
+    why: A coherent library gives motivated viewers somewhere useful to go next and prevents each video from being an isolated
+      dead end.
+    source: C12K:Xz_Uhx6PEtk@00:05:06; C12K:Xz_Uhx6PEtk@00:05:43
+  - rule: Keep each long-form video sufficiently self-contained for a viewer who discovers it first unless the asset is explicitly
+      labeled as a sequential course or series.
+    why: Evergreen discovery rarely guarantees that people enter a library in publication order.
+    source: C12K:SqpbyMGCkJc@00:03:01; C12K:SqpbyMGCkJc@00:06:24
+  - rule: Use library depth as a relationship and learning mechanism, not as permission to repeat the same video with superficial
+      changes.
+    why: Multiple worthwhile long-form exposures can compound trust and understanding only when each asset adds a distinct
+      reason to watch.
+    source: C12K:SqpbyMGCkJc@00:04:07; C12K:SqpbyMGCkJc@00:05:15
+  measurement_and_iteration:
+  - rule: Inspect the long-form retention curve at exact timestamps and map meaningful drops or spikes back to the corresponding
+      section, claim, visual, pause, or transition.
+    why: Aggregate watch time cannot tell the creator which concrete creative decision caused attention to change.
+    source: C12K:RCu9Hlpmoi0@00:11:30; C12K:RCu9Hlpmoi0@00:11:48
+  - rule: Review both percentage viewed and absolute watch time for long-form rather than treating either one as a universal
+      quality score.
+    why: A longer video can create substantial useful viewing with a lower completion percentage, while a short completion
+      percentage alone does not reveal total depth consumed.
+    source: C12K:NR_GMq2lDCE@00:36:01; C12K:dAR3d6xnG0o@01:05:50
+  - rule: Compare long-form retention and completion against the creator's own similar videos and viewer intent before adopting
+      universal benchmark percentages.
+    why: Runtime, topic, format, and selective-navigation behavior can change the expected curve enough that one generic threshold
+      misdiagnoses performance.
+    source: C12K:NR_GMq2lDCE@00:36:01; C12K:dAR3d6xnG0o@01:05:31
+  - rule: Separate a weak section from a weak video by examining where viewers leave and what happens after strong sections
+      instead of assuming the opening explains the full result.
+    why: A long video contains several local experiences; one late bloated section can damage completion even when the premise
+      and opening worked.
+    source: C12K:RCu9Hlpmoi0@00:11:34; C12K:dAR3d6xnG0o@01:00:37
+  - rule: Feed long-form performance findings back into the next outline, recording plan, and edit rather than treating analytics
+      as a postmortem dashboard.
+    why: The value of detailed retention data is the ability to improve the next creative decision at the same kind of moment.
+    source: C12K:RCu9Hlpmoi0@00:11:34; C12K:NR_GMq2lDCE@00:37:29

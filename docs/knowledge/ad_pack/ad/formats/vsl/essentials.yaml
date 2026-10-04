@@ -1,0 +1,196 @@
+schema_version: '1'
+pack: vsl
+kind: format
+title: Video Sales Letter (VSL)
+categories:
+  role_and_fit:
+  - rule: Use a VSL when a prospect benefits from an asynchronous explanation that can move them from interest toward a defined
+      commercial next step without requiring a live conversation.
+    why: A VSL is most useful when the buying decision needs more context than a short ad or page can provide but does not
+      yet require real-time interaction.
+    source: C12K:i9ogic8dlX4@00:34:57; C12K:_6-nvZ8PlSM@00:02:16
+  - rule: Define the VSL around one audience state, one central decision, and one intended next action before scripting the
+      presentation.
+    why: A one-way presentation becomes incoherent when it tries to educate unrelated segments, sell several offers, and route
+      to several primary actions at once.
+    source: C12K:_5RQAjOyG10@00:03:55; C12K:i9ogic8dlX4@00:13:57
+  - rule: Match VSL depth and directness to traffic intent rather than assuming every prospect should watch the same presentation.
+    why: Cold visitors may need more context and trust-building, while high-intent visitors may resent being forced through
+      information they already understand.
+    source: C12K:i9ogic8dlX4@00:46:18; C12K:i9ogic8dlX4@00:47:13
+  - rule: Do not use a VSL merely because video is available; use it only when the presentation performs decision work that
+      shorter copy, proof, or a direct action cannot perform as efficiently.
+    why: Adding a video introduces time cost and abandonment risk, so the format should earn that cost by improving comprehension,
+      trust, qualification, or decision readiness.
+    source: C12K:_6-nvZ8PlSM@00:04:18; C12K:i9ogic8dlX4@00:48:18
+  - rule: Treat the VSL as one component of a customer journey, not as a complete funnel by itself.
+    why: The video can educate and persuade, but lead capture, qualification, checkout, booking, nurture, and recovery may
+      occur before or after it.
+    source: C12K:i9ogic8dlX4@00:35:22; C12K:i9ogic8dlX4@00:35:42
+  opening_and_orientation:
+  - rule: Open by making the relevant viewer quickly recognize the problem, desired outcome, or reason this presentation is
+      for them.
+    why: A VSL viewer cannot scan the whole argument before committing attention, so the opening must create immediate relevance.
+    source: C12K:_6-nvZ8PlSM@00:04:46; C12K:_5RQAjOyG10@00:05:12
+  - rule: State the presentation’s core promise or useful destination early enough that the viewer can judge whether continuing
+      is worth their time.
+    why: A clear destination creates an evaluation frame for the rest of the video and reduces the need for mystery-based
+      retention.
+    source: C12K:i9ogic8dlX4@00:13:57; C12K:_5RQAjOyG10@00:06:08
+  - rule: Establish only the credibility needed to justify attention, then move into the substance; do not turn the opening
+      into an extended biography.
+    why: Authority can reduce uncertainty, but delaying the useful mechanism or argument creates avoidable drop-off.
+    source: C12K:_5RQAjOyG10@00:05:41; C12K:i9ogic8dlX4@00:15:17
+  - rule: Let qualified viewers self-select through specific audience, problem, and outcome language instead of relying on
+      vague universal claims.
+    why: Specific orientation improves relevance and helps non-fit viewers leave before consuming a long presentation or entering
+      the funnel.
+    source: C12K:_6-nvZ8PlSM@00:05:37; C12K:_5RQAjOyG10@00:11:05
+  - rule: Do not use empty mystery as the main retention mechanism; create curiosity around a real argument, demonstration,
+      or useful payoff.
+    why: Withholding substantive value can create distrust before the viewer has enough evidence to care about the eventual
+      reveal.
+    source: C12K:_5RQAjOyG10@00:02:20; C12K:_5RQAjOyG10@00:06:26
+  argument_and_education:
+  - rule: Organize the VSL around a central argument that explains why the promised outcome is achievable and why the proposed
+      mechanism is relevant.
+    why: A sequence of claims and benefits without a causal argument gives the viewer little reason to update their beliefs
+      or prefer the solution.
+    source: C12K:i9ogic8dlX4@00:15:47; C12K:i9ogic8dlX4@00:16:16
+  - rule: Reveal the useful plan, mechanism, or reasoning early enough that a meaningful share of viewers actually reaches
+      it.
+    why: Long setup stories can consume the highest-attention portion of the presentation while delaying the information doing
+      the real persuasion work.
+    source: C12K:i9ogic8dlX4@00:16:42; C12K:i9ogic8dlX4@00:17:55
+  - rule: Teach enough for the viewer to understand and evaluate the mechanism rather than deliberately crippling the explanation
+      to manufacture dependence.
+    why: A useful explanation increases comprehension and trust; artificial incompleteness makes the sales intent more obvious
+      without proving the solution.
+    source: C12K:_5RQAjOyG10@00:06:26; C12K:_5RQAjOyG10@00:15:13
+  - rule: Use stories only when they advance the argument, demonstrate the mechanism, or make a relevant transformation easier
+      to understand.
+    why: Because the viewer cannot interrogate or skim the presentation like a page, decorative backstory carries a high opportunity
+      cost.
+    source: C12K:i9ogic8dlX4@00:16:42; C12K:_6-nvZ8PlSM@00:06:51
+  - rule: Translate product or service features into the outcome, capability, or constraint they change for the buyer before
+      expecting the viewer to value them.
+    why: A spoken inventory of deliverables is hard to process and does not itself explain why the offer matters.
+    source: C12K:_6-nvZ8PlSM@00:07:26; C12K:_6-nvZ8PlSM@00:07:55
+  - rule: Make the offer feel like the implementation or continuation of the logic already established in the presentation,
+      not a disconnected product reveal.
+    why: Continuity reduces the cognitive jump between “I agree with this” and “therefore this offer is the relevant next
+      step.”
+    source: C12K:i9ogic8dlX4@00:01:23; C12K:i9ogic8dlX4@00:01:51
+  sequence_and_retention:
+  - rule: 'Write for sequential consumption: assume the viewer experiences the argument in order and may leave rather than
+      skip ahead to recover missing context.'
+    why: Unlike a sales page, a standalone VSL gives the viewer less ability to scan, compare sections, or jump directly to
+      the information they need.
+    source: C12K:_6-nvZ8PlSM@00:04:18
+  - rule: Front-load the highest-value decision information and compress setup that does not earn its place on the retention
+      curve.
+    why: Information placed late is available only to the surviving fraction of viewers, so critical reasoning should not
+      be buried behind unnecessary setup.
+    source: C12K:i9ogic8dlX4@00:29:49; C12K:i9ogic8dlX4@00:30:08
+  - rule: Use explicit verbal transitions so the viewer understands how one section leads to the next without relying on page
+      layout for orientation.
+    why: Spoken sequences need audible signposts because viewers cannot visually inspect the argument structure the way they
+      can scan a document.
+    source: C12K:_6-nvZ8PlSM@00:08:24
+  - rule: Do not choose VSL length from a fixed minute target; keep the shortest presentation that performs the necessary
+      argument, proof, qualification, and action work for that audience.
+    why: Different awareness levels, prices, mechanisms, and decision risks require different explanation depth, while arbitrary
+      runtime targets either omit needed material or preserve filler.
+    source: C12K:i9ogic8dlX4@00:46:18; C12K:_5RQAjOyG10@00:04:45
+  - rule: Script the presentation for natural speech and comprehension rather than reading page copy aloud verbatim.
+    why: Dense lists and written constructions that work visually can become difficult to follow when delivered only through
+      audio and time.
+    source: C12K:_6-nvZ8PlSM@00:07:55; C12K:_6-nvZ8PlSM@00:08:24
+  proof_qualification_and_objections:
+  - rule: Anticipate the major doubts that cannot be answered live and place their resolution inside the VSL before the requested
+      commitment.
+    why: An asynchronous viewer with an unresolved material objection has no immediate way to ask a clarifying question before
+      leaving.
+    source: C12K:_5RQAjOyG10@00:11:05; C12K:_6-nvZ8PlSM@00:08:41
+  - rule: Derive objection coverage from observed customer conversations, calls, comments, or other evidence rather than inventing
+      generic objection lists.
+    why: A VSL only has finite attention; resolving imagined doubts wastes time that should be spent on the questions that
+      actually block decisions.
+    source: C12K:_5RQAjOyG10@00:11:35; C12K:_5RQAjOyG10@00:13:20
+  - rule: Use proof at the point where the corresponding claim, mechanism, or outcome becomes consequential instead of isolating
+      every testimonial in one late proof dump.
+    why: Evidence is easier to interpret when the viewer knows exactly which uncertainty it is supposed to resolve.
+    source: C12K:_6-nvZ8PlSM@00:06:51; C12K:i9ogic8dlX4@00:29:07
+  - rule: Use the VSL to state meaningful fit and non-fit conditions when those conditions protect the prospect or downstream
+      sales process.
+    why: Explicit fit cues can prevent poor-fit viewers from taking the next step and can prepare strong-fit viewers for qualification.
+    source: C12K:_5RQAjOyG10@00:10:39; C12K:_5RQAjOyG10@00:11:05
+  - rule: Do not treat repeated credibility claims as a substitute for demonstrations, cases, logic, or other claim-matched
+      evidence.
+    why: Saying that the seller or solution is excellent does not resolve the viewer’s uncertainty about whether the mechanism
+      works for the relevant situation.
+    source: C12K:_5RQAjOyG10@00:15:13; C12K:_6-nvZ8PlSM@00:06:51
+  offer_and_action:
+  - rule: Introduce the commercial offer only after the viewer has enough context to understand what it implements, solves,
+      or accelerates.
+    why: An offer shown before its relevance is established becomes a feature-and-price reveal rather than the logical continuation
+      of the argument.
+    source: C12K:_6-nvZ8PlSM@00:08:41; C12K:i9ogic8dlX4@00:01:51
+  - rule: 'Keep the offer explanation verbally compressible: group components into a small number of meaningful outcomes or
+      functions rather than reading a long inventory.'
+    why: Sequential audio is a poor medium for remembering a dense stack of unrelated deliverables.
+    source: C12K:_6-nvZ8PlSM@00:07:55; C12K:i9ogic8dlX4@00:29:30
+  - rule: 'Make the requested next action explicit and operational: tell the viewer what to do and what state that action
+      creates.'
+    why: A persuasive presentation still fails commercially when an interested viewer does not know how to proceed.
+    source: C12K:_5RQAjOyG10@00:15:34; C12K:_5RQAjOyG10@00:15:57
+  - rule: Once the offer and action are understandable, repeat the same primary CTA at natural decision points when doing
+      so helps viewers act before the end.
+    why: Some viewers become ready before the final seconds, and a video does not provide the same effortless scan-to-button
+      behavior as a page.
+    source: C12K:_6-nvZ8PlSM@00:09:06; C12K:i9ogic8dlX4@00:29:30
+  - rule: Do not manufacture pressure with disingenuous trial closes, fake scarcity, or other tactics that damage credibility;
+      persuasion should survive an informed viewer inspecting the offer.
+    why: Short-term pressure can undermine the trust the VSL spent the rest of its runtime building.
+    source: C12K:i9ogic8dlX4@00:29:07; C12K:i9ogic8dlX4@00:29:30
+  page_and_handoff:
+  - rule: Choose video controls and CTA visibility according to the intended audience state rather than forcing every viewer
+      to finish the VSL before accessing the next step.
+    why: Forced sequential consumption may increase qualification for some traffic but can block high-intent prospects who
+      already understand the offer.
+    source: C12K:i9ogic8dlX4@00:45:39; C12K:i9ogic8dlX4@00:47:37
+  - rule: If the VSL is embedded on a page, let the surrounding page supply scan-friendly proof, offer detail, or action access
+      that video handles poorly when the audience benefits from it.
+    why: 'Video and page can divide labor: the VSL carries the argument while the page lets ready viewers inspect details
+      and act without replaying the presentation.'
+    source: C12K:i9ogic8dlX4@00:47:56; C12K:i9ogic8dlX4@00:48:18
+  - rule: Do not assume a VSL funnel captures early-stage leads; add an intentional lead-capture path when nurture matters
+      and the viewer may not be ready for the primary offer.
+    why: A checkout or booking abandonment captures only people who reached a late-intent state, leaving earlier interested
+      prospects invisible.
+    source: C12K:i9ogic8dlX4@00:35:22; C12K:i9ogic8dlX4@00:36:04
+  - rule: Make the post-VSL destination preserve the promise, offer, and action the video just established instead of forcing
+      the viewer to reinterpret a new message.
+    why: A discontinuous handoff wastes the understanding and intent built during the presentation.
+    source: C12K:i9ogic8dlX4@00:46:44; C12K:i9ogic8dlX4@00:50:49
+  measurement_and_iteration:
+  - rule: Evaluate a VSL with both retention and downstream conversion metrics; neither watch time nor sales alone explains
+      where the presentation is failing.
+    why: Retention reveals whether viewers reach key sections, while downstream outcomes reveal whether those sections create
+      useful commercial intent.
+    source: C12K:i9ogic8dlX4@00:29:49; C12K:i9ogic8dlX4@00:48:18
+  - rule: Inspect retention around major argument transitions, mechanism reveals, offer introduction, and CTAs rather than
+      treating average watch time as a complete diagnosis.
+    why: Local drop-offs can identify the exact section that loses attention or creates confusion.
+    source: C12K:i9ogic8dlX4@00:30:08; C12K:i9ogic8dlX4@00:48:48
+  - rule: Test high-leverage variables such as opening promise, argument order, mechanism framing, proof, and CTA access before
+      cosmetic presentation details.
+    why: Changes to what the viewer believes or when they can act usually have more potential impact than minor styling changes.
+    source: C12K:i9ogic8dlX4@00:33:07; C12K:i9ogic8dlX4@00:49:54
+  - rule: Use distinct VSL variants when materially different segments require different problems, proof, or explanation instead
+      of optimizing one blended script forever.
+    why: A script that averages several buyer contexts can become less relevant to each of them.
+    source: C12K:i9ogic8dlX4@00:50:23; C12K:_5RQAjOyG10@00:11:05
+  - rule: Iterate the VSL as evidence accumulates rather than treating the first completed script as a permanent asset.
+    why: Real objections, retention behavior, and conversion outcomes reveal which parts of the presentation deserve revision.
+    source: C12K:_5RQAjOyG10@00:00:49; C12K:i9ogic8dlX4@00:33:07

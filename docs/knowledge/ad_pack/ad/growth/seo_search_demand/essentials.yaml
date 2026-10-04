@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: seo_search_demand
+kind: growth
+title: SEO & Search Demand
+categories:
+  intent_and_demand:
+  - rule: Start SEO from the searcher’s task and intent—learn, compare, solve, buy, navigate—not from keyword volume alone.
+    why: Traffic has value only when the query maps to a useful customer or audience state.
+    source: C12K:xsVTqzratPs@00:00:01; C12K:ZfIgoAbUMrQ@00:00:00
+  - rule: Group queries by underlying intent and problem before deciding whether they require separate pages.
+    why: Near-duplicate keywords often represent one information need.
+    source: C12K:ZfIgoAbUMrQ@00:00:00; C12K:7DRO4rEIHDk@00:00:41
+  - rule: Treat search volume as directional evidence with tool uncertainty, seasonality, geography, and zero-click behavior in mind.
+    why: Reported volume is an estimate, not exact demand.
+    source: C12K:7DRO4rEIHDk@00:00:41; C12K:_s2h7X-c2jE@00:00:04
+  - rule: Prioritize queries where relevance, business value, attainable ranking, and content advantage intersect.
+    why: High-volume irrelevant traffic is not an SEO win.
+    source: C12K:_s2h7X-c2jE@00:00:04; C12K:iT7kq-R3Gjc@00:01:10
+  content_and_information_architecture:
+  - rule: Create one primary page for one coherent search intent and use supporting pages only when they add distinct depth or jobs.
+    why: Fragmentation can create weak overlapping pages competing with each other.
+    source: C12K:xsVTqzratPs@00:00:01; C12K:ZfIgoAbUMrQ@00:00:00
+  - rule: Structure pages so searchers can quickly reach the answer while still providing the depth needed for harder follow-up questions.
+    why: Search satisfaction depends on usefulness, not word count.
+    source: C12K:ZfIgoAbUMrQ@00:00:00; C12K:7DRO4rEIHDk@00:00:41
+  - rule: Use internal linking to connect related problems, entities, and next steps in a way that helps navigation and discovery.
+    why: Site architecture should reflect meaningful relationships, not arbitrary SEO silos.
+    source: C12K:7DRO4rEIHDk@00:00:41; C12K:_s2h7X-c2jE@00:00:04
+  - rule: Maintain clear canonical ownership when several pages could plausibly target the same intent.
+    why: Ambiguous ownership creates cannibalization and maintenance drift.
+    source: C12K:_s2h7X-c2jE@00:00:04; C12K:iT7kq-R3Gjc@00:01:10
+  quality_authority_and_links:
+  - rule: Publish information that is accurate, demonstrably useful, and differentiated by evidence, expertise, tools, data, or experience where possible.
+    why: Search visibility is fragile when content adds nothing beyond existing results.
+    source: C12K:xsVTqzratPs@00:00:01; C12K:ZfIgoAbUMrQ@00:00:00
+  - rule: Use backlinks and citations as evidence of external relevance, but prioritize earning them through useful assets and relationships rather than volume alone.
+    why: Low-quality link accumulation can create little durable value.
+    source: C12K:ZfIgoAbUMrQ@00:00:00; C12K:7DRO4rEIHDk@00:00:41
+  - rule: Keep factual and time-sensitive content refreshed when staleness changes the answer.
+    why: Old pages can retain rankings while becoming wrong.
+    source: C12K:7DRO4rEIHDk@00:00:41; C12K:_s2h7X-c2jE@00:00:04
+  - rule: Do not scale templated pages beyond the quality and uniqueness the underlying data can support.
+    why: Programmatic volume can multiply thin or duplicative content.
+    source: C12K:_s2h7X-c2jE@00:00:04; C12K:iT7kq-R3Gjc@00:01:10
+  technical_and_indexability:
+  - rule: Ensure important pages are crawlable, indexable, canonicalized correctly, and discoverable through navigation or sitemaps before optimizing copy.
+    why: Search engines cannot rank pages they cannot reliably discover or interpret.
+    source: C12K:xsVTqzratPs@00:00:01; C12K:ZfIgoAbUMrQ@00:00:00
+  - rule: Control duplicate, parameterized, filtered, and generated URL surfaces so crawl resources are not wasted on low-value variants.
+    why: Large sites can create accidental index bloat.
+    source: C12K:ZfIgoAbUMrQ@00:00:00; C12K:7DRO4rEIHDk@00:00:41
+  - rule: Monitor rendering, structured data, redirects, status codes, performance, and mobile usability as technical constraints on search experience.
+    why: Content quality cannot compensate for severe access or usability failures.
+    source: C12K:7DRO4rEIHDk@00:00:41; C12K:_s2h7X-c2jE@00:00:04
+  - rule: Treat schema markup as machine-readable clarification, not a guarantee of rankings or rich results.
+    why: Implementation helps interpretation but does not replace content merit.
+    source: C12K:_s2h7X-c2jE@00:00:04; C12K:iT7kq-R3Gjc@00:01:10
+  measurement_and_iteration:
+  - rule: Measure impressions, rankings, clicks, qualified sessions, conversions, revenue/lead quality, and retention by query/page where possible.
+    why: Ranking movement alone does not show business value.
+    source: C12K:xsVTqzratPs@00:00:01; C12K:ZfIgoAbUMrQ@00:00:00
+  - rule: Use Search Console and first-party analytics to identify queries a page already earns impressions for before inventing expansion topics from scratch.
+    why: Existing visibility reveals adjacent demand the site has evidence to win.
+    source: C12K:ZfIgoAbUMrQ@00:00:00; C12K:7DRO4rEIHDk@00:00:41
+  - rule: Diagnose a traffic decline by query, page, indexation, CTR, competition, seasonality, and demand before rewriting content indiscriminately.
+    why: Different causes require different fixes.
+    source: C12K:7DRO4rEIHDk@00:00:41; C12K:_s2h7X-c2jE@00:00:04
+  - rule: Keep platform-specific search-engine tactics explicitly date-sensitive and re-check them before implementation.
+    why: Search systems and presentation formats change frequently.
+    source: C12K:_s2h7X-c2jE@00:00:04; C12K:iT7kq-R3Gjc@00:01:10

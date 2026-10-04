@@ -1,0 +1,58 @@
+schema_version: '1'
+pack: copywriting
+kind: general
+title: Copywriting Craft
+categories:
+  clarity_and_directness:
+  - rule: Write to one reader and use direct second-person language when it makes the application clearer.
+    why: Direct address increases perceived relevance and reduces abstract distance.
+    source: B:round_4/05_scriptwriting-compression-personalization-and-power-words; B:kallaway/01_psychology-and-viewer-behavior
+  - rule: Prefer short active sentences and concrete nouns and verbs over abstract, passive phrasing.
+    why: Concrete active language is faster to parse and easier to visualize.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Explain necessary jargon in plain language or restate it with a simple metaphor.
+    why: The reader should not need specialist decoding to follow the argument.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Give each sentence one primary job whenever possible.
+    why: Atomic messaging reduces comprehension failures caused by overloaded sentences.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  compression:
+  - rule: Audit drafts by keeping tight high-value lines, rewriting useful but verbose lines, and deleting filler.
+    why: Compression raises information density without requiring the removal of necessary context.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Remove transition phrases, throat-clearing, and repeated setup when the relationship between ideas remains clear
+      without them.
+    why: Unnecessary connective language delays the useful claim.
+    source: B:kallaway/02_hooks-and-initial-retention; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  specificity_and_language:
+  - rule: Use truthful specificity in numbers, timeframes, settings, actions, and quoted instructions when specificity changes
+      credibility or usefulness.
+    why: Specific language makes claims easier to test, picture, and apply.
+    source: B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Prefer vivid, domain-native words that sharpen outcome, pain, mechanism, or identity over generic hype words.
+    why: Precise language carries more meaning than interchangeable superlatives.
+    source: B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Use contrast words to mark real changes in logic, not as decorative drama.
+    why: Words such as “but” and “therefore” help the reader track causal movement when the underlying relationship is genuine.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Name recurring concepts or frameworks only when the label improves memory or compression.
+    why: A useful term lets a repeated idea travel; unnecessary branding adds jargon.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  persuasion_and_objections:
+  - rule: Anticipate the strongest believable objection and answer it inside the flow rather than adding a defensive detour.
+    why: Objection handling works best when it feels like part of the reasoning.
+    source: B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Anchor a new claim to an accepted truth or familiar experience when that bridge is accurate.
+    why: Shared premises reduce the inferential leap required to consider a new conclusion.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:kallaway/02_hooks-and-initial-retention
+  - rule: Use pain, loss, or comparison to clarify stakes without exaggerating harm or manufacturing panic.
+    why: Aggressive fear language can trigger skepticism and damage trust.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/01_hooks-attention-and-open-loops
+  - rule: Do not use unsupported percentages, invented autobiographical details, or false scientific certainty.
+    why: Persuasive force that depends on fabricated evidence or authority creates ethical and reputational risk.
+    source: B:round_4/05_scriptwriting-compression-personalization-and-power-words; B:round_4/01_hooks-attention-and-open-loops
+  audience_language:
+  - rule: Collect recurring audience wording and reuse the underlying language patterns when they accurately describe the
+      problem.
+    why: Audience-native phrasing can improve clarity and relevance without inventing terminology.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:round_2/07_creativity-research-references-and-idea-systems

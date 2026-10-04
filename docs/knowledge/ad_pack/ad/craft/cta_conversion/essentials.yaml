@@ -1,0 +1,39 @@
+schema_version: '1'
+pack: cta_conversion
+kind: general
+title: CTA and Conversion Craft
+categories:
+  objective_and_action:
+  - rule: Choose the intended audience action before designing the content.
+    why: The desired action determines the depth, timing, friction, and CTA the content needs.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/02_idea-generation-problem-narrowing-and-content-research
+  - rule: Use one primary next action that matches the audience’s current level of intent.
+    why: Competing CTAs increase friction and make the content’s purpose ambiguous.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/04_expert-brand-positioning-and-monetization
+  - rule: Make the CTA a continuation of the value just delivered rather than an unrelated interruption.
+    why: Contextual continuity makes the ask feel useful instead of extractive.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:kallaway/01_psychology-and-viewer-behavior
+  - rule: Place the ask after the audience has enough value and relevance to understand why the next step helps.
+    why: Premature asks spend trust before it has been earned.
+    source: B:round_4/04_expert-brand-positioning-and-monetization; B:round_4/07_growth-testing-publishing-and-distribution
+  pain_and_solution:
+  - rule: Make a real problem emotionally present enough to matter, then signal a credible path to relief before the
+      experience becomes merely negative.
+    why: Pain without hope can create avoidance instead of action.
+    source: B:kallaway/01_psychology-and-viewer-behavior
+  - rule: Do not rely on fear as the universal motive; consider aspiration, convenience, identity, pleasure, curiosity,
+      and habit when they better fit the decision.
+    why: The corpus itself flags fear-dominance as a creator model rather than a universal law.
+    source: B:kallaway/01_psychology-and-viewer-behavior
+  friction_and_offer:
+  - rule: After teaching the core principle, sell implementation speed, reduced effort, personalization, feedback, tools,
+      integration, or accountability rather than withholding the useful idea.
+    why: The paid step can monetize execution without making free content intentionally incomplete.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/03_educational-value-and-the-trinity-of-value
+  - rule: Use a next-related-problem CTA when continued education is more appropriate than an immediate commercial ask.
+    why: Session continuation can build trust and intent before conversion.
+    source: B:round_4/04_expert-brand-positioning-and-monetization; B:round_4/07_growth-testing-publishing-and-distribution
+  ethics:
+  - rule: Do not fabricate fake leaks, false social proof, or autobiographical stakes to increase action.
+    why: Conversion pressure that depends on fabricated evidence or events damages trust and makes the action illegitimate.
+    source: B:round_3/07_distribution-networks-clipping-and-audience-growth; B:round_4/01_hooks-attention-and-open-loops

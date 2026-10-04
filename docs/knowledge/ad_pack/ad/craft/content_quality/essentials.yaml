@@ -1,0 +1,59 @@
+schema_version: '1'
+pack: content_quality
+kind: general
+title: Content Quality Craft
+categories:
+  substance_and_distinction:
+  - rule: Make the substance work before relying on editing, aesthetics, or production polish.
+    why: Presentation can amplify quality but cannot replace a weak idea or empty claim.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Reject or research further any piece whose core points are generic, obvious, or unsupported.
+    why: Polishing undifferentiated substance produces forgettable content more efficiently, not better content.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:kallaway/05_ideas-research-validation-and-substance
+  - rule: Do not present copied wording, scripts, coined frameworks without credit, or distinctive visual concepts frame-for-frame
+      as original work.
+    why: Learning from references is legitimate; disguising another creator’s distinctive expression as your own is not.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation
+  - rule: Use AI for categorization, variation, synthesis, and repetitive work while retaining human responsibility for selection,
+      facts, taste, experience, and originality.
+    why: Automation is strongest on repeatable tasks and weakest where judgment and authentic evidence matter.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:kallaway/07_ai-enabled-content-system-and-operating-workflow
+  trust_and_integrity:
+  - rule: Do not fabricate facts, personal stories, science, or results to make the content more dramatic.
+    why: False substance destroys the trust that content is supposed to compound.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Label uncertain claims as opinion, hypothesis, or source-derived belief instead of presenting confidence as proof.
+    why: Strong delivery should not blur the difference between evidence and assertion.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:01_KNOWLEDGE_CORE/CLAIMS_CAVEATS_LIMITS_AND_TENSIONS
+  - rule: Verify scientific, legal, medical, financial, and current platform claims before teaching them as settled facts.
+    why: The corpus contains creator interpretations and date-sensitive claims that may be incomplete or outdated.
+    source: B:01_KNOWLEDGE_CORE/CLAIMS_CAVEATS_LIMITS_AND_TENSIONS
+  - rule: Attack the error, method, or rejected default rather than degrading the audience.
+    why: Negative framing can clarify contrast without sacrificing authority or respect.
+    source: B:round_4/01_hooks-attention-and-open-loops; B:round_4/09_round-4-action-playbooks-and-tensions
+  audience_value:
+  - rule: Ensure self-referential content still gives the audience instruction, proof, access, identification, entertainment,
+      or a realistic example.
+    why: Status display alone is weak audience value.
+    source: B:round_3/02_founder-led-content-and-personal-brand
+  - rule: Make the content useful to the intended audience even if that reduces total relevance to everyone else.
+    why: On-target value can outperform broad virality for trust and commercial outcomes.
+    source: B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  - rule: Use examples, metaphors, visuals, and explanations that make the audience feel capable of understanding rather than
+      inferior for not knowing.
+    why: Comprehension supports likability, trust, and application.
+    source: B:kallaway/01_psychology-and-viewer-behavior
+  production_standard:
+  - rule: Choose the lowest production level that preserves accuracy, clarity, trust, and the intended emotional effect.
+    why: More production is not inherently more valuable and can reduce speed or native fit.
+    source: B:round_2/08_systems-presets-learning-and-production-efficiency; B:round_3/04_brand-storytelling-formats-and-creative-systems
+  - rule: Use higher production when the asset is evergreen, proof-heavy, visually dependent, emotionally complex, or strategically
+      high-stakes.
+    why: Some messages benefit from control and durability more than speed.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems; B:round_4/06_recording-delivery-and-visual-trust
+  - rule: Choose the highest sustainable cadence that still permits deliberate learning and reliable quality.
+    why: The sources disagree on posting frequency, but agree that blind volume without improvement is weak.
+    source: B:round_2/08_systems-presets-learning-and-production-efficiency; B:round_4/09_round-4-action-playbooks-and-tensions
+  - rule: Do not scale a format because of appearance, comments, one anecdotal result, or competitor usage alone.
+    why: Repeatable evidence matters more than social proof about the production style.
+    source: B:round_3/05_creator-ugc-performance-and-scaling

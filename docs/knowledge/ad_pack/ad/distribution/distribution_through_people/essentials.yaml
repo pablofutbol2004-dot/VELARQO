@@ -1,0 +1,133 @@
+schema_version: '1'
+pack: distribution_through_people
+kind: distribution
+title: Distribution Through People
+categories:
+  role_and_distribution_unit:
+  - rule: Treat distribution through people as a transfer of attention plus trust from a third party, not merely as another source of impressions.
+    why: A recommendation, introduction, or partner share changes how the audience interprets the message because the sender’s reputation travels with it.
+    source: C12K:F6vd5MRCEFU@00:05:52; C12K:NsAFPVbYhNQ@00:52:38
+  - rule: 'Distinguish the mechanism before designing it: referrals are introductions or recommendations, affiliates are performance-compensated partners, advocacy is voluntary promotion, and collaborations exchange access or credibility.'
+    why: These mechanisms can look similar from the outside but create different incentives, expectations, tracking needs, and trust risks.
+    source: C12K:6i_UTkBrIiU@00:02:43; C12K:6i_UTkBrIiU@00:03:07
+  - rule: Define the unit of people-powered distribution explicitly—such as a warm introduction, attributed sale, qualified lead, audience exposure, or voluntary share—before choosing incentives or measurement.
+    why: A program cannot be optimized coherently when one side thinks it is buying awareness while the other is being rewarded for revenue or leads.
+    source: C12K:6i_UTkBrIiU@00:01:42; C12K:6i_UTkBrIiU@00:03:07
+  - rule: Use people-powered distribution to complement rather than automatically replace direct acquisition channels.
+    why: Borrowed trust and partner reach can diversify acquisition, but concentration in one mechanism or one person creates its own fragility.
+    source: C12K:6i_UTkBrIiU@00:50:11; C12K:sq57hhEw49I@00:34:27
+  - rule: Prefer mechanisms that create value for the audience, the referring party, and the receiving business at the same time.
+    why: Durable distribution is easier to sustain when the introduction genuinely helps the recipient instead of treating their attention as inventory to be harvested.
+    source: C12K:F6vd5MRCEFU@00:29:20; C12K:NsAFPVbYhNQ@00:50:20
+  partner_and_source_fit:
+  - rule: Prioritize audience overlap and offer complementarity over raw partner audience size.
+    why: A smaller partner serving the exact buyer with a non-competing offer can transfer more relevant trust than a large but poorly matched audience.
+    source: C12K:tVLnzcoM5LE@00:05:36; C12K:NsAFPVbYhNQ@00:56:48
+  - rule: Vet the downstream experience before sending your audience or clients to a partner.
+    why: A bad product, weak support, or misleading sales process damages the referrer’s reputation because the recommendation implicitly endorsed the experience.
+    source: C12K:NsAFPVbYhNQ@00:49:23; C12K:NsAFPVbYhNQ@00:50:20
+  - rule: Treat a partner’s audience-building capability, trust, and distribution behavior as separate from the quality of their product.
+    why: A strong product with no effective distribution may be a weak growth partner, while a strong audience builder may need enablement to market a good offer well.
+    source: C12K:NsAFPVbYhNQ@00:47:01; C12K:NsAFPVbYhNQ@00:47:25
+  - rule: Build referral relationships around adjacent needs your customers already have rather than inventing reasons to cross-sell unrelated services.
+    why: Complementary partners create genuine client value and can improve the referrer’s own results; forced referrals erode trust.
+    source: C12K:F6vd5MRCEFU@00:27:21; C12K:F6vd5MRCEFU@00:31:15
+  - rule: Use existing authority and visible competence to reduce the risk a potential referral partner feels when recommending you.
+    why: Partners prefer to send clients toward providers they can defend and trust because their own reputation is exposed by the introduction.
+    source: C12K:F6vd5MRCEFU@00:05:22; C12K:F6vd5MRCEFU@00:05:52
+  referral_timing_and_asks:
+  - rule: Ask for referrals after a positive value moment rather than at an arbitrary calendar point.
+    why: A successful outcome, solved problem, milestone, or clearly positive interaction gives the customer fresh evidence and emotional permission to recommend you.
+    source: C12K:LsjholviAFg@00:11:59; C12K:sq57hhEw49I@00:37:22
+  - rule: Make the referral request concrete by asking for a specific kind of person or a direct introduction instead of a vague “send anyone our way.”
+    why: Specificity reduces recall effort and makes the next action easier to execute.
+    source: C12K:LsjholviAFg@00:11:59; C12K:F6vd5MRCEFU@00:27:50
+  - rule: Reduce referral friction by giving the advocate a ready path to share, such as a link, code, three-way message, or introduction template.
+    why: Goodwill often fails to become distribution because the person has to invent the mechanics themselves.
+    source: C12K:LsjholviAFg@00:11:59; C12K:6i_UTkBrIiU@00:11:05
+  - rule: Do not treat a one-time referral invitation at signup or purchase as a complete referral program.
+    why: People forget dormant links; well-timed reminders around later value moments can reactivate willingness to share.
+    source: C12K:6i_UTkBrIiU@00:12:09; C12K:sq57hhEw49I@00:35:40
+  - rule: Use high-satisfaction service touchpoints as natural referral prompts when the customer has just experienced responsive help.
+    why: The strongest referral ask often follows proof of care, not merely the original transaction.
+    source: C12K:6i_UTkBrIiU@00:12:34; C12K:6i_UTkBrIiU@00:13:21
+  incentives_and_program_design:
+  - rule: Choose incentives that are meaningful to the participant rather than assuming any coupon or reward will motivate advocacy.
+    why: Rewards that accumulate uselessly or have low perceived value create nominal programs with little behavioral pull.
+    source: C12K:6i_UTkBrIiU@00:10:16; C12K:6i_UTkBrIiU@00:10:40
+  - rule: Align compensation with the outcome you actually want the partner to produce.
+    why: Flat deliverable fees optimize for completion; performance compensation can encourage extra effort toward attributable leads or sales when that is the intended outcome.
+    source: C12K:6i_UTkBrIiU@00:07:56; C12K:6i_UTkBrIiU@00:43:57
+  - rule: Consider two-sided rewards when both the advocate and the new customer need a reason to participate.
+    why: A benefit to both sides can make the referral feel like shared value rather than the advocate pushing a friend for personal gain.
+    source: C12K:Wovob-oXqAc@00:17:33; C12K:6i_UTkBrIiU@00:11:05
+  - rule: Use tiered, milestone, or periodic incentives to reactivate proven advocates rather than spending all effort on recruiting new ones.
+    why: Affiliate and referral programs decay when participants forget them; retention mechanics can turn dormant partners back into active distribution.
+    source: C12K:6i_UTkBrIiU@00:11:33; C12K:6i_UTkBrIiU@00:12:09
+  - rule: Set incentive economics from the value of the acquired outcome and downstream margin, not from a universal commission percentage.
+    why: A payout that works for a high-margin sale may be impossible for another offer, while underpaying a valuable partner can suppress distribution.
+    source: C12K:NsAFPVbYhNQ@00:50:20; C12K:NsAFPVbYhNQ@00:59:18
+  partner_enablement_and_activation:
+  - rule: Give partners enough message, proof, and offer context to represent the business accurately without forcing every advocate into one rigid script.
+    why: Partners need boundaries and useful assets, but excessive creative control can suppress the native trust that made their distribution valuable.
+    source: C12K:NsAFPVbYhNQ@00:55:39; C12K:6i_UTkBrIiU@00:48:00
+  - rule: Set explicit brand and claim boundaries for partners before scaling the program.
+    why: Third-party promoters can accidentally create legal, reputational, or expectation problems when they exaggerate outcomes or use prohibited positioning.
+    source: C12K:NsAFPVbYhNQ@00:55:39; C12K:NsAFPVbYhNQ@00:55:47
+  - rule: Treat partner activation as an ongoing relationship process rather than a database of recruited names.
+    why: Inactive partners produce no distribution; reminders, new assets, useful updates, and reciprocal value are required to keep the channel alive.
+    source: C12K:6i_UTkBrIiU@00:11:50; C12K:6i_UTkBrIiU@00:12:09
+  - rule: Help strong partners succeed at the parts they are weak at when the relationship is strategically valuable.
+    why: An audience owner may have trust and reach but poor promotional execution; supplying copy, structure, or assets can unlock distribution without replacing their voice.
+    source: C12K:NsAFPVbYhNQ@00:47:25; C12K:NsAFPVbYhNQ@00:47:45
+  - rule: Create repeated, natural touchpoints that keep the referral relationship top of mind without turning every interaction into an ask.
+    why: Partners refer what they remember; useful contact and visibility can preserve recall better than occasional transactional outreach.
+    source: C12K:F6vd5MRCEFU@00:37:51; C12K:6i_UTkBrIiU@00:13:21
+  community_and_advocacy_loops:
+  - rule: Design advocacy around identity, belonging, mission, or useful shared meaning when those are authentic to the product or brand.
+    why: People are more willing to spread something when sharing it expresses who they are or what they want their peers to join, not merely what they bought.
+    source: C12K:Bn6na0e2IUg@00:15:10; C12K:Bn6na0e2IUg@00:16:15
+  - rule: Give a community something clear enough to describe and rally around if you want members to carry the message themselves.
+    why: Vague positioning is hard to repeat; a recognizable belief or mission gives advocates language they can transmit.
+    source: C12K:Bn6na0e2IUg@00:15:00; C12K:F0-yC1gVElA@00:57:09
+  - rule: Create value inside the community before asking its members to distribute on your behalf.
+    why: Advocacy is a consequence of experienced value and belonging; trying to manufacture it directly often feels extractive.
+    source: C12K:LsjholviAFg@00:18:23; C12K:Bn6na0e2IUg@00:16:38
+  - rule: Let credible members, customers, or community leaders speak for the offer where their independent endorsement is stronger than self-promotion.
+    why: Third-party advocacy can carry social proof and context that the business cannot credibly manufacture about itself.
+    source: C12K:LsjholviAFg@00:18:23; C12K:F6vd5MRCEFU@00:05:52
+  - rule: Place products, experiences, or useful help inside high-relevance moments and communities where natural conversation can follow.
+    why: Word of mouth accelerates when the experience is encountered by the exact people likely to discuss it with similar peers.
+    source: C12K:Wovob-oXqAc@00:11:00; C12K:Wovob-oXqAc@00:18:30
+  collaboration_and_audience_exchange:
+  - rule: Prefer collaborations where both parties serve a similar audience but solve different problems.
+    why: This creates meaningful audience overlap without forcing the parties into direct competition for the same purchase.
+    source: C12K:tVLnzcoM5LE@00:05:36; C12K:F6vd5MRCEFU@00:27:21
+  - rule: 'Make the value exchange explicit before a collaboration: what each side contributes, what audience action is desired, and what each side receives.'
+    why: Unspoken reciprocity often turns partnerships into one-sided favors and makes the relationship difficult to sustain.
+    source: C12K:F6vd5MRCEFU@00:28:22; C12K:NsAFPVbYhNQ@00:57:20
+  - rule: Use co-marketing and guest distribution to compound existing proof and access rather than waiting for the largest possible partner first.
+    why: Smaller successful collaborations can create evidence and relationships that unlock progressively larger distribution opportunities.
+    source: C12K:8uxHIWoPyEw@00:07:19; C12K:8uxHIWoPyEw@00:07:47
+  - rule: Support a partner’s promotion when doing so increases the shared asset’s performance and makes the collaboration more valuable to them.
+    why: A guest or collaborator who actively distributes the joint work can become a more attractive partner for future, larger opportunities.
+    source: C12K:8uxHIWoPyEw@00:07:47; C12K:8uxHIWoPyEw@00:08:10
+  - rule: Treat content, books, reports, events, and free resources as legitimate partnership objects—not every collaboration needs to push the paid offer directly.
+    why: Lower-friction shared assets can build trust, audience exchange, and trackable entry into each party’s ecosystem before a commercial ask.
+    source: C12K:NsAFPVbYhNQ@00:57:57; C12K:NsAFPVbYhNQ@00:58:36
+  measurement_risk_and_iteration:
+  - rule: Track referrals and partner outcomes by source whenever possible instead of treating all word of mouth as an unmeasurable bucket.
+    why: Source-level visibility reveals which relationships actually produce qualified outcomes and where more enablement or investment is justified.
+    source: C12K:sq57hhEw49I@00:29:45; C12K:6i_UTkBrIiU@00:14:31
+  - rule: Measure partner quality downstream—lead quality, conversion, retention, refunds, support burden, or customer fit—not only clicks or introductions.
+    why: Borrowed trust can generate high response while still producing poor customers if incentives or audience fit are wrong.
+    source: C12K:NsAFPVbYhNQ@01:00:31; C12K:F6vd5MRCEFU@00:32:16
+  - rule: Watch concentration risk when a large share of distribution or revenue depends on one advocate, affiliate, community, or partner.
+    why: A people-powered channel can look diversified while actually being a single point of failure hidden behind a program label.
+    source: C12K:sq57hhEw49I@00:34:27; C12K:sq57hhEw49I@00:34:45
+  - rule: Systematize a people-powered channel only after identifying what distinguishes productive partners from inactive or low-quality ones.
+    why: Scaling recruitment before understanding partner quality can multiply management overhead without multiplying valuable distribution.
+    source: C12K:sq57hhEw49I@00:32:26; C12K:sq57hhEw49I@00:33:37
+  - rule: 'Iterate the program as a portfolio: deepen relationships with proven partners, rehabilitate promising inactive ones, and stop subsidizing relationships that do not create mutual value.'
+    why: The highest-leverage next step is often more output from a proven source rather than constant expansion of the partner list.
+    source: C12K:NsAFPVbYhNQ@01:00:31; C12K:6i_UTkBrIiU@00:11:50

@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: productization
+kind: delivery
+title: Productization
+categories:
+  service_to_product_boundary:
+  - rule: Productize the stable repeated part of a service while preserving explicit exceptions for work that genuinely requires diagnosis or customization.
+    why: Productization creates leverage by reducing avoidable variance, not by pretending every customer is identical.
+    source: C12K:itA4M364nd8@00:00:30; C12K:DvwR8Y8F5W0@00:00:24
+  - rule: Define a repeatable target customer, problem, outcome, scope, inputs, process, deliverables, timeline, and commercial model before calling a service productized.
+    why: A name and fixed price alone do not create a productized system.
+    source: C12K:DvwR8Y8F5W0@00:00:24; C12K:KIuYomQgjTY@00:04:33
+  - rule: Choose the unit of delivery so work can be estimated, scheduled, measured, and compared across customers.
+    why: A stable unit makes capacity and economics visible.
+    source: C12K:KIuYomQgjTY@00:04:33; C12K:wqN-gjnpns8@00:00:04
+  - rule: Do not productize a service whose value mechanism is still poorly understood; learn manually before freezing the workflow.
+    why: Standardization scales both good and bad process.
+    source: C12K:wqN-gjnpns8@00:00:04; C12K:zC1yo8SfOI0@00:13:41
+  scope_and_options:
+  - rule: Keep the core package narrow enough that included work is predictable and quality can be standardized.
+    why: Broad promises recreate custom-agency scope inside a product label.
+    source: C12K:itA4M364nd8@00:00:30; C12K:DvwR8Y8F5W0@00:00:24
+  - rule: Use add-ons or tiers only for recurring, bounded variations with distinct economics or customer value.
+    why: Every optional branch increases operational complexity.
+    source: C12K:DvwR8Y8F5W0@00:00:24; C12K:KIuYomQgjTY@00:04:33
+  - rule: Route true exceptions into custom scoping rather than silently absorbing them into standard delivery.
+    why: Exception discipline protects margins and schedules.
+    source: C12K:KIuYomQgjTY@00:04:33; C12K:wqN-gjnpns8@00:00:04
+  - rule: Specify customer prerequisites and exclusions that determine whether the standard process can succeed.
+    why: Productized delivery depends on controlled inputs as well as controlled outputs.
+    source: C12K:wqN-gjnpns8@00:00:04; C12K:zC1yo8SfOI0@00:13:41
+  workflow_and_assets:
+  - rule: Build reusable templates, diagnostics, checklists, automations, data models, QA criteria, and communication assets around the repeated workflow.
+    why: Reusable assets are where productization creates leverage.
+    source: C12K:itA4M364nd8@00:00:30; C12K:DvwR8Y8F5W0@00:00:24
+  - rule: Separate configuration data from process logic so the same system can adapt to customers without forking the workflow.
+    why: Parameterization scales better than cloning bespoke versions.
+    source: C12K:DvwR8Y8F5W0@00:00:24; C12K:KIuYomQgjTY@00:04:33
+  - rule: Design handoffs and approvals into the productized flow rather than relying on informal operator memory.
+    why: Repeatability breaks at ambiguous transitions.
+    source: C12K:KIuYomQgjTY@00:04:33; C12K:wqN-gjnpns8@00:00:04
+  - rule: Track exception frequency; when an exception becomes common, either productize it intentionally or narrow the target segment.
+    why: Repeated exceptions reveal a mismatch between package and market.
+    source: C12K:wqN-gjnpns8@00:00:04; C12K:zC1yo8SfOI0@00:13:41
+  economics_and_capacity:
+  - rule: Price and capacity-plan from the standardized cost-to-serve distribution, including exception handling and support.
+    why: Average task time alone can hide expensive tail cases.
+    source: C12K:itA4M364nd8@00:00:30; C12K:DvwR8Y8F5W0@00:00:24
+  - rule: Use productization to reduce cycle time and variance before using it merely to lower labor cost.
+    why: Reliability and speed can be as valuable as headcount reduction.
+    source: C12K:DvwR8Y8F5W0@00:00:24; C12K:KIuYomQgjTY@00:04:33
+  - rule: Set volume limits from the constrained delivery resource and automate/delegate only after quality controls exist.
+    why: A repeatable offer can still collapse under uncontrolled scale.
+    source: C12K:KIuYomQgjTY@00:04:33; C12K:wqN-gjnpns8@00:00:04
+  - rule: Measure gross margin, cycle time, rework, utilization, customer outcome, and exception rate by package.
+    why: Productized services need product-level operating metrics.
+    source: C12K:wqN-gjnpns8@00:00:04; C12K:zC1yo8SfOI0@00:13:41
+  iteration_and_versioning:
+  - rule: Version the package when scope, process, price, or outputs materially change instead of silently mutating what existing customers bought.
+    why: Versioning preserves commercial and operational clarity.
+    source: C12K:itA4M364nd8@00:00:30; C12K:DvwR8Y8F5W0@00:00:24
+  - rule: Use delivery data and customer outcomes to remove low-value steps and strengthen high-value ones.
+    why: A productized service should become better with repetitions.
+    source: C12K:DvwR8Y8F5W0@00:00:24; C12K:KIuYomQgjTY@00:04:33
+  - rule: Retire packages that require persistent exceptions or fail unit economics rather than protecting them because they once sold.
+    why: Standardization is not a reason to preserve a bad product.
+    source: C12K:KIuYomQgjTY@00:04:33; C12K:wqN-gjnpns8@00:00:04
+  - rule: Keep the customer-facing promise simpler than the internal operating system.
+    why: Operational sophistication should reduce customer complexity, not expose it.
+    source: C12K:wqN-gjnpns8@00:00:04; C12K:zC1yo8SfOI0@00:13:41

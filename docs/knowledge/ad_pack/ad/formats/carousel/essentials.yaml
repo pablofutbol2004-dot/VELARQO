@@ -1,0 +1,172 @@
+schema_version: '1'
+pack: carousel
+kind: format
+title: Carousel
+categories:
+  format_fit_and_sequence:
+  - rule: Use a carousel when the idea benefits from a deliberately ordered set of discrete visual or textual beats that the
+      reader can advance at their own pace.
+    why: A swipe sequence earns its format when separation into panels improves comprehension, comparison, progression, or
+      interaction rather than merely chopping one post into pieces.
+    source: C12K:6uDrE5HKBI8@00:03:18; C12K:313KqLZzlM8@00:02:48
+  - rule: Give the complete carousel one coherent primary outcome even when individual slides perform different jobs.
+    why: A sequence feels scattered when every slide is locally useful but the reader cannot tell what the whole swipe was
+      meant to help them understand, decide, or do.
+    source: C12K:313KqLZzlM8@00:02:48; USERYT:Ddn_xrtCxEE@00:01:24
+  - rule: Choose a slide architecture from the job of the piece rather than forcing every carousel through one universal hook-promise-payoff
+      template.
+    why: Tutorials, case studies, comparisons, photo narratives, proof stacks, and product stories can require different panel
+      functions even though they share the swipe surface.
+    source: C12K:6uDrE5HKBI8@00:02:38; C12K:6uDrE5HKBI8@00:03:18
+  - rule: Make the order of slides create useful progression; if the same panels can be randomly shuffled with little loss,
+      the sequence is probably under-designed.
+    why: The distinctive power of a carousel is controlled reveal and accumulation, so order should change what the reader
+      understands or feels next.
+    source: C12K:6uDrE5HKBI8@00:03:23; C12K:6uDrE5HKBI8@00:03:44
+  cover_and_entry:
+  - rule: 'Design the cover for the static feed condition: it must earn an intentional stop or swipe without relying on autoplay,
+      motion, or sound.'
+    why: Unlike moving media, a carousel cover begins as a still image and therefore must create sufficient relevance and
+      visual salience before the reader has entered the sequence.
+    source: USERYT:Ddn_xrtCxEE@00:00:42; USERYT:Ddn_xrtCxEE@00:01:04
+  - rule: Judge the cover at approximately the size and context where people will actually encounter it, not only enlarged
+      on the design canvas.
+    why: Fine detail, weak contrast, and unclear hierarchy can appear acceptable at full size yet disappear when the post
+      is reduced in a crowded feed.
+    source: USERYT:Ddn_xrtCxEE@00:07:12; USERYT:Ddn_xrtCxEE@00:07:29
+  - rule: Reserve the space needed for cover typography while constructing the image instead of treating text placement as
+      an afterthought.
+    why: When the scene is built without a text zone, the final headline is forced onto busy or low-contrast areas and the
+      visual system fights itself.
+    source: USERYT:Ddn_xrtCxEE@00:03:04; USERYT:Ddn_xrtCxEE@00:10:59
+  - rule: Give the cover a dominant visual focal point rather than several equally competing subjects when recognition speed
+      matters.
+    why: At feed scale, one immediately legible subject is easier to parse than a busy scene whose hierarchy must be decoded
+      before the reader can decide to engage.
+    source: USERYT:Ddn_xrtCxEE@00:05:36; USERYT:Ddn_xrtCxEE@00:05:58
+  - rule: Use literal illustration, metaphor, contrast, or visual tension intentionally; do not default to an obvious stock-like
+      picture of the topic when it adds no curiosity or meaning.
+    why: A cover can become interchangeable when the image merely labels the subject rather than contributing a specific perspective,
+      world, or tension to the idea.
+    source: USERYT:Ddn_xrtCxEE@00:02:04; USERYT:Ddn_xrtCxEE@00:13:01
+  slide_jobs_and_progression:
+  - rule: Give each slide one primary communication job and make its internal hierarchy obvious enough that the eye knows
+      what to process first.
+    why: A swipe is a sequence of small canvases; when a panel contains several competing jobs, the reader pays a re-orientation
+      cost on every slide.
+    source: C12K:6uDrE5HKBI8@00:14:31; C12K:6uDrE5HKBI8@00:14:59
+  - rule: Use the early slides to confirm and deepen the promise made by the cover rather than immediately pivoting to a different
+      idea.
+    why: A strong cover can win the swipe but still lose trust if the next panel feels like bait-and-switch or requires the
+      reader to reconstruct the premise.
+    source: USERFILE:carousel_visual_system@L5-L8
+  - rule: Chunk explanations at natural conceptual boundaries instead of splitting a sentence or argument only because another
+      slide is available.
+    why: Panel boundaries should reduce cognitive load or create progression; arbitrary cuts interrupt comprehension without
+      adding useful pacing.
+    source: C12K:6uDrE5HKBI8@00:14:31; C12K:6uDrE5HKBI8@00:15:17
+  - rule: Vary the information scale across the sequence when useful—for example wide context, behind-the-scenes/process,
+      tighter detail, product/proof, or synthesis—rather than repeating the same visual distance on every slide.
+    why: Changing scale can create texture and progression while helping the reader move from context into specifics without
+      making every panel feel like a duplicate template.
+    source: C12K:6uDrE5HKBI8@00:03:23; C12K:6uDrE5HKBI8@00:04:24
+  - rule: Delay a product, proof artifact, or decisive detail when context genuinely makes the reveal more meaningful, but
+      do not hide necessary understanding merely to manufacture swipes.
+    why: Controlled reveal can increase narrative or explanatory payoff; artificial withholding creates friction without adding
+      value.
+    source: C12K:6uDrE5HKBI8@00:03:44; C12K:6uDrE5HKBI8@00:04:08
+  visual_system_and_small_size:
+  - rule: Use a repeatable visual system for recurring carousel elements—such as type roles, spacing, margins, page markers,
+      and recurring placements—so production does not restart from zero each time.
+    why: Stable visual roles reduce design decisions and help a sequence feel intentional while leaving creative effort for
+      the idea and meaningful variation.
+    source: USERFILE:carousel_visual_system@L27-L38
+  - rule: 'Treat contrast as functional hierarchy: the important text and focal subject must separate from their immediate
+      background at feed size.'
+    why: A beautiful palette that collapses under small-scale viewing fails the actual communication task of the cover or
+      slide.
+    source: USERYT:Ddn_xrtCxEE@00:07:12; USERYT:Ddn_xrtCxEE@00:07:51
+  - rule: Use foreground, subject, and background depth when photographic or cinematic treatment benefits the scene; avoid
+      pasted-on compositing that makes elements feel unrelated.
+    why: Depth cues integrate a subject into a visual world and can make a static cover feel more dimensional without adding
+      clutter.
+    source: USERYT:Ddn_xrtCxEE@00:08:30; USERYT:Ddn_xrtCxEE@00:08:51
+  - rule: Assign typography distinct roles instead of making every text element compete with equal visual force.
+    why: A clear display/body hierarchy lets the reader identify the entry point quickly and then settle into readable detail.
+    source: USERFILE:carousel_visual_system@L27-L32
+  - rule: Keep recurring design constraints consistent enough to build recognition, but allow deliberate variation in image,
+      composition, emphasis, and slide role so the system does not become visual wallpaper.
+    why: Consistency without variation reduces decision cost; total sameness creates audience fatigue and weakens the ability
+      of individual panels to signal a new beat.
+    source: USERFILE:carousel_visual_system@L34-L48; C12K:6uDrE5HKBI8@00:03:44
+  rhythm_and_texture:
+  - rule: Create visual rhythm across slides by alternating density, scale, image type, or compositional emphasis when the
+      idea supports it rather than holding every panel at identical intensity.
+    why: A controlled change of visual energy helps each swipe feel like progress while preserving the coherence of the overall
+      system.
+    source: C12K:6uDrE5HKBI8@00:03:44; C12K:6uDrE5HKBI8@00:04:24
+  - rule: Mix polished and intentionally raw assets only when both belong to the same story or world—for example hero imagery,
+      process/BTS, and closer detail.
+    why: Texture can increase authenticity and dimensionality, but random production styles make the sequence feel assembled
+      from unrelated posts.
+    source: C12K:6uDrE5HKBI8@00:02:54; C12K:6uDrE5HKBI8@00:03:08
+  - rule: Use page numbers, arrows, progress cues, or recurring anchors when they reduce navigation uncertainty; do not add
+      them merely because other carousels do.
+    why: A long or instructional sequence may benefit from orientation, while unnecessary chrome steals scarce visual space
+      from the content.
+    source: USERFILE:carousel_visual_system@L34-L38
+  - rule: Let simple slides remain simple when their job is already clear instead of adding decorative elements to equalize
+      visual complexity across the sequence.
+    why: A carousel benefits from contrast between dense and sparse moments; forcing every slide to look equally designed
+      can reduce clarity.
+    source: C12K:6uDrE5HKBI8@00:13:41; C12K:6uDrE5HKBI8@00:15:17
+  shareability_and_standalone_value:
+  - rule: When redistribution matters, make important slides understandable enough to survive being screenshotted or reshared
+      without the complete carousel.
+    why: Individual panels can escape the original sequence; a panel that carries a coherent idea can extend the asset without
+      requiring the recipient to reconstruct missing context.
+    source: C12K:313KqLZzlM8@00:02:48; C12K:313KqLZzlM8@00:03:06
+  - rule: Design shareability around what a reader would want another specific person to see—useful reference, identity recognition,
+      humor, proof, or a call-out—not around generic requests to share.
+    why: The reason to pass a slide along should live in the content itself rather than depend on a platform CTA.
+    source: C12K:6uDrE5HKBI8@00:12:50; C12K:6uDrE5HKBI8@00:13:27
+  - rule: Keep enough local context on a standalone slide that a reshared panel does not reverse or distort the intended claim.
+    why: Format-level virality is harmful when isolated screenshots remove the condition, qualifier, or subject needed to
+      interpret the statement correctly.
+    source: C12K:313KqLZzlM8@00:02:48; C12K:6uDrE5HKBI8@00:14:31
+  proof_and_action_in_sequence:
+  - rule: When proof is visually relevant, integrate the evidence naturally into the slide or scene instead of defaulting
+      to a detached mockup that competes with the message.
+    why: Proof that appears to belong to the visual world can be easier to parse and feel less like an interruption while
+      the canonical proof logic remains in the Proof pack.
+    source: USERYT:Ddn_xrtCxEE@00:08:51; USERYT:Ddn_xrtCxEE@00:09:32
+  - rule: Complete the promised payoff before asking for the next action; the final slide is a natural action point but not
+      permission to withhold the value of the sequence.
+    why: A carousel converts more coherently when the CTA follows a completed useful experience rather than substituting for
+      the payoff.
+    source: C12K:313KqLZzlM8@00:03:24; C12K:313KqLZzlM8@00:03:54
+  - rule: Make the final action feel like a continuation of the carousel topic—for example the implementation asset, deeper
+      breakdown, or next decision—rather than a generic unrelated promotion.
+    why: Topic continuity lowers the conceptual handoff cost between consuming the swipe and deciding whether the next step
+      is relevant.
+    source: C12K:313KqLZzlM8@00:03:24; C12K:313KqLZzlM8@00:03:57
+  measurement_and_iteration:
+  - rule: Evaluate a carousel as a chain—entry, continued swiping/consumption, saves or shares where relevant, and downstream
+      action—not by cover performance alone.
+    why: A cover can win attention while the body fails to deliver, or a modest-reach carousel can create unusually strong
+      useful actions.
+    source: C12K:313KqLZzlM8@00:03:40; C12K:4dwAHlIMBrw@00:17:53
+  - rule: 'Separate cover problems from body problems when diagnosing performance: a weak entry and a weak sequence require
+      different fixes.'
+    why: Changing the content because the cover failed, or changing the cover because the later slides are confusing, destroys
+      useful learning.
+    source: USERYT:Ddn_xrtCxEE@00:00:00; USERYT:Ddn_xrtCxEE@00:00:20
+  - rule: Test meaningful cover or sequence variables one at a time when possible—such as angle, focal image, hierarchy, or
+      slide order—rather than treating every redesign as a new style experiment.
+    why: Controlled changes reveal which part of the format is helping instead of producing a series of incomparable creative
+      resets.
+    source: C12K:5gtMabACNAk@00:03:23; USERYT:Ddn_xrtCxEE@00:15:18
+  - rule: Feed repeated carousel findings back into the reusable visual and sequence system while preserving room for exceptions.
+    why: The purpose of a format system is to remove decisions already learned, not to freeze every future idea into the first
+      successful template.
+    source: USERYT:Ddn_xrtCxEE@00:15:18; USERFILE:carousel_visual_system@L39-L48

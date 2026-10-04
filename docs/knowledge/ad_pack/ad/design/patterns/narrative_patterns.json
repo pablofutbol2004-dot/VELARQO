@@ -1,0 +1,32 @@
+{
+  "carousel": [
+    "hook",
+    "problem",
+    "tension",
+    "insight",
+    "proof",
+    "solution",
+    "payoff",
+    "cta"
+  ],
+  "landing_page": [
+    "value_proposition",
+    "proof",
+    "problem",
+    "mechanism",
+    "benefits",
+    "examples",
+    "objections",
+    "offer",
+    "cta"
+  ],
+  "lead_magnet": [
+    "promise",
+    "context",
+    "framework",
+    "examples",
+    "implementation",
+    "checklist",
+    "next_action"
+  ]
+}

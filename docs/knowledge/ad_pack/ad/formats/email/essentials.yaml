@@ -1,0 +1,213 @@
+schema_version: '1'
+pack: email
+kind: format
+title: Email
+categories:
+  role_and_message_state:
+  - rule: Use email when repeated asynchronous contact with a known subscriber, lead, or customer can materially improve nurture,
+      conversion, service, or retention.
+    why: Email creates a direct repeatable relationship with an identified audience, so it is strongest when future messages
+      have continuing value rather than acting as a one-off blast.
+    source: C12K:VVDS-biqNrY@00:14:13; C12K:VVDS-biqNrY@00:40:14
+  - rule: Define each email around the recipient's current state, one primary communication job, and one intended next state
+      before writing it.
+    why: An email becomes muddled when it simultaneously tries to welcome, educate, recover an abandoned action, upsell, and
+      request feedback without a clear priority.
+    source: C12K:2YsjeXGh-x0@00:34:10; C12K:2YsjeXGh-x0@00:41:22
+  - rule: 'Distinguish broadcast campaigns from triggered flows: campaigns respond to a calendar or editorial decision, while
+      flows respond to an observable recipient state or event.'
+    why: The two modes require different timing, suppression, and message logic even though both arrive in the same inbox.
+    source: C12K:2YsjeXGh-x0@00:32:08; C12K:2YsjeXGh-x0@00:51:20
+  - rule: Treat an email sequence as stateful rather than as a fixed stack that every recipient must finish unchanged.
+    why: Purchases, abandonment, repeat behavior, and other events can make the next scheduled message irrelevant or contradictory.
+    source: C12K:2YsjeXGh-x0@00:33:53; C12K:2YsjeXGh-x0@00:44:36
+  - rule: Let email complement other channels by carrying the message or follow-up job the inbox handles well instead of mechanically
+      duplicating every social, video, or page asset.
+    why: Email is another reliable touchpoint in the journey, but repetition without a distinct job adds noise rather than
+      useful continuity.
+    source: C12K:VVDS-biqNrY@00:39:13; C12K:VVDS-biqNrY@00:40:14
+  inbox_entry_and_expectation:
+  - rule: Treat sender identity, subject line, and preview text as one inbox-entry system rather than optimizing the subject
+      line in isolation.
+    why: The recipient decides whether and how to interpret the message before opening it, using the sender and the visible
+      text together.
+    source: C12K:ANLvE0oUNyk@00:01:05; C12K:ANLvE0oUNyk@00:03:55
+  - rule: 'Make subject line and preview text work as a pair: let the preview extend, clarify, or sharpen the subject rather
+      than merely repeat it.'
+    why: The two fields occupy scarce inbox space and can jointly frame the message before the body is visible.
+    source: C12K:ANLvE0oUNyk@00:03:55; C12K:ANLvE0oUNyk@00:06:49
+  - rule: Keep the inbox promise continuous with the body; avoid subject-line curiosity that becomes misleading once the email
+      is opened.
+    why: A clickbait open can raise an intermediate metric while damaging trust and reducing the chance of useful downstream
+      action.
+    source: C12K:2YsjeXGh-x0@00:03:43; C12K:2YsjeXGh-x0@00:03:49
+  - rule: Give enough truthful information in the subject and preview to create a reason to open without trying to summarize
+      the entire email there.
+    why: The inbox entry should orient and create relevant curiosity, while the body still needs to perform the promised communication
+      job.
+    source: C12K:ANLvE0oUNyk@00:04:02; C12K:ANLvE0oUNyk@00:04:51
+  - rule: Build sender recognition by repeatedly delivering worthwhile messages; do not rely on increasingly aggressive subject-line
+      tricks to compensate for weak prior emails.
+    why: Past experience with the sender changes the recipient's willingness to open future messages before they inspect the
+      copy closely.
+    source: C12K:ANLvE0oUNyk@00:00:58; C12K:ANLvE0oUNyk@00:20:24
+  - rule: Do not judge inbox-entry copy by open rate alone; evaluate whether the framing produces the intended downstream
+      behavior after the open.
+    why: A subject line can win opens while attracting the wrong interpretation or producing fewer clicks, orders, replies,
+      or qualified actions.
+    source: C12K:ANLvE0oUNyk@00:02:42; C12K:ANLvE0oUNyk@00:02:54
+  body_and_readability:
+  - rule: Put the email's central value, message, or decision context early enough that a scanning reader reaches it before
+      disengaging.
+    why: Inbox reading often happens in short bursts, and important context or CTAs buried under unnecessary setup may never
+      be seen.
+    source: C12K:YRMrXB5TSE4@00:05:41; C12K:s4t8ZQd5IiU@00:06:31
+  - rule: Center each email on one primary idea or argument and organize any supporting material around that job rather than
+      treating the body as a container for every available point.
+    why: A focused email is easier to scan, understand, and act on than a collection of unrelated sections competing for attention.
+    source: C12K:YRMrXB5TSE4@00:08:37; C12K:YRMrXB5TSE4@00:02:27
+  - rule: Make each email sufficiently self-contained that its main point still works when the recipient did not read or remember
+      the previous message in the sequence.
+    why: Campaigns and flows can interleave, and recipients do not reliably consume every email in order.
+    source: C12K:2YsjeXGh-x0@00:33:53; C12K:2YsjeXGh-x0@00:34:22
+  - rule: Choose email length from the amount of explanation the recipient needs for this job, then test it; do not treat
+      short or long copy as universally superior.
+    why: The same audience can prefer concise messages for one decision and need more context for another, while excessive
+      length can bury the action.
+    source: C12K:s4t8ZQd5IiU@00:05:10; C12K:s4t8ZQd5IiU@00:06:43
+  - rule: Make sequence emails advance different questions, objections, mechanisms, or states instead of repeating the same
+      argument with superficial wording changes.
+    why: Repetition without new decision value causes automated flows to become stale and easier to tune out.
+    source: C12K:2YsjeXGh-x0@00:34:14; C12K:2YsjeXGh-x0@00:45:13
+  - rule: When an email teaches or clarifies something useful, connect that value to a relevant next action rather than attaching
+      an unrelated sales pitch at the end.
+    why: Continuity between content and action makes the CTA feel like the logical next step instead of a context switch.
+    source: C12K:pboSeaXQPgw@00:11:45; C12K:pboSeaXQPgw@00:14:01
+  design_links_and_action:
+  - rule: Treat plain-text, lightly branded, and designed email as format choices to test against the audience and message
+      job, not as a universal hierarchy.
+    why: Different recipients and purposes can respond differently to conversational text, visual merchandising, or branded
+      layouts.
+    source: C12K:s4t8ZQd5IiU@00:00:33; C12K:2YsjeXGh-x0@00:37:24
+  - rule: Use visual design to improve hierarchy, comprehension, product inspection, or action access; do not add design elements
+      merely to make the email look more produced.
+    why: Decoration that does not help the reader understand or act increases complexity without doing conversion work.
+    source: C12K:YRMrXB5TSE4@00:10:56; C12K:YRMrXB5TSE4@00:11:01
+  - rule: Limit competing destinations when one primary action matters; more visible options can reduce the probability that
+      any one of them is chosen.
+    why: Choice inside a small inbox surface can turn a focused message into a browsing problem.
+    source: C12K:s4t8ZQd5IiU@00:04:28
+  - rule: Link to the destination that matches the recipient's current decision rather than automatically sending everyone
+      to the broadest category or homepage.
+    why: A direct relevant destination reduces the additional search work required after the click.
+    source: C12K:s4t8ZQd5IiU@00:04:28; C12K:s4t8ZQd5IiU@00:04:11
+  - rule: Place the primary CTA where the reader has enough context to act and can find it without excavating the email; long
+      emails may need repeated access to the same action.
+    why: A persuasive body still fails when the intended action is visually or structurally buried.
+    source: C12K:s4t8ZQd5IiU@00:06:31; C12K:YRMrXB5TSE4@00:11:01
+  campaigns_and_sequences:
+  - rule: Send the first welcome email immediately after the opt-in or registration state is created unless there is a specific
+      operational reason not to.
+    why: The first message has the strongest continuity with the action the subscriber just took and should confirm what happens
+      next.
+    source: C12K:2YsjeXGh-x0@00:36:46
+  - rule: Use the opening welcome message to orient the subscriber and set realistic expectations for what they will receive
+      and how the relationship works.
+    why: Explicit expectations reduce surprise and give later messages a recognizable context.
+    source: C12K:pboSeaXQPgw@00:04:10; C12K:pboSeaXQPgw@00:06:28
+  - rule: Give a welcome sequence a finite set of jobs—such as orientation, trust building, education, or conversion—rather
+      than extending it indefinitely because more emails can be automated.
+    why: Long unmanaged welcome flows become repetitive, stale, and more likely to collide with other messages.
+    source: C12K:2YsjeXGh-x0@00:33:14; C12K:2YsjeXGh-x0@00:34:10
+  - rule: Choose sequence depth from the number of distinct useful jobs and the ability to keep the sequence current, not
+      from a fixed industry email count.
+    why: A universal count can force filler into simple journeys or omit needed steps from complex ones.
+    source: C12K:2YsjeXGh-x0@00:32:39; C12K:2YsjeXGh-x0@00:33:33
+  - rule: Coordinate evergreen flows with live campaigns so recipients do not receive contradictory offers, redundant messages,
+      or an unreasonable concentration of unrelated emails.
+    why: Automation systems can independently behave correctly while creating a bad combined inbox experience.
+    source: C12K:2YsjeXGh-x0@00:33:53; C12K:2YsjeXGh-x0@00:34:30
+  - rule: Promote proven campaign themes into evergreen sequences when they match the sequence state, but reframe them for
+      that context instead of copying them blindly.
+    why: Campaign performance can reveal durable arguments, while evergreen placement requires continuity with the recipient's
+      current journey.
+    source: C12K:2YsjeXGh-x0@00:39:18; C12K:2YsjeXGh-x0@00:40:11
+  triggered_flows_and_state_changes:
+  - rule: Trigger automated email from observable states or events—such as subscription, browse/cart/checkout abandonment,
+      purchase, replenishment, or win-back need—rather than arbitrary calendar timing when state data exists.
+    why: The event explains why the message is relevant now and gives the sequence a concrete job.
+    source: C12K:2YsjeXGh-x0@00:40:47; C12K:2YsjeXGh-x0@00:45:33
+  - rule: Separate materially different abandonment states instead of treating every incomplete purchase behavior as the same
+      problem.
+    why: Browsing, adding to cart, and starting checkout imply different intent and can require different reminders, proof,
+      or friction removal.
+    source: C12K:2YsjeXGh-x0@00:40:47
+  - rule: Differentiate first-time, repeat, or high-value customers when that history changes the relevant proof, offer, service
+      level, or message.
+    why: Known customer history can materially alter what uncertainty remains and what response is appropriate.
+    source: C12K:2YsjeXGh-x0@00:41:22; C12K:2YsjeXGh-x0@00:50:18
+  - rule: Do not send frequent repeat abandoners the identical recovery message indefinitely; vary or suppress the flow when
+      repeated exposure shows the old message is no longer useful.
+    why: Recipients learn to ignore a predictable automation that fires every time with the same copy and pressure.
+    source: C12K:2YsjeXGh-x0@00:44:36
+  - rule: Use early post-purchase email to help the customer succeed with the product or service before treating the buyer
+      as another sales target.
+    why: Successful use improves the customer experience and creates a better foundation for later reviews, replenishment,
+      referrals, or expansion.
+    source: C12K:2YsjeXGh-x0@00:46:12
+  - rule: Time review requests, replenishment reminders, and similar lifecycle messages to the customer's plausible experience
+      or observed consumption/reorder cycle rather than a guessed fixed delay.
+    why: A request sent before the customer can use the product or after the natural reorder moment wastes timing relevance.
+    source: C12K:2YsjeXGh-x0@00:46:25; C12K:2YsjeXGh-x0@00:46:47
+  segmentation_and_cadence:
+  - rule: Create a segment only when a known difference is expected to change message, offer, timing, destination, or suppression
+      logic; do not segment merely because data is available.
+    why: Segmentation has operational cost, so it should change a decision rather than produce complexity for its own sake.
+    source: C12K:2YsjeXGh-x0@00:41:22; C12K:2YsjeXGh-x0@00:42:20
+  - rule: Use acquisition source or entry context to vary welcome messaging when it implies meaningfully different intent
+      or prior knowledge.
+    why: A subscriber arriving from a specific article, affiliate, ad, or organic source may need different orientation even
+      if they enter the same list.
+    source: C12K:2YsjeXGh-x0@00:35:52
+  - rule: Use observed format or link behavior to personalize later messages only when the signal is strong enough to justify
+      the extra branch.
+    why: Behavior can reveal preference, but weak signals can create brittle micro-segments that are harder to maintain than
+      the value they add.
+    source: C12K:2YsjeXGh-x0@00:37:55; C12K:2YsjeXGh-x0@00:38:09
+  - rule: Start with simple, decision-relevant segmentation before building many intricate audience slices.
+    why: Complex segmentation can consume disproportionate effort when a broad engaged audience already receives a relevant
+      message.
+    source: C12K:YRMrXB5TSE4@00:17:53; C12K:YRMrXB5TSE4@00:18:17
+  - rule: Set expectations around normal email frequency and manage total contact load across flows and campaigns; do not
+      adopt a universal cadence independent of value and overlap.
+    why: Consistency can build recognition, but uncoordinated automation can create several unrelated messages in a short
+      period and damage the relationship.
+    source: C12K:pboSeaXQPgw@00:04:10; C12K:2YsjeXGh-x0@00:33:53; C12K:ANLvE0oUNyk@00:01:41
+  measurement_testing_and_maintenance:
+  - rule: Separate opens, clicks, conversions, revenue or qualified actions, and lifecycle outcomes because each metric describes
+      a different part of email performance.
+    why: A strong open rate can coexist with weak clicks or downstream conversion, so one metric cannot diagnose the whole
+      message.
+    source: C12K:s4t8ZQd5IiU@00:00:33; C12K:ANLvE0oUNyk@00:02:54
+  - rule: Choose test winners by the metric closest to the email's intended business or lifecycle outcome rather than automatically
+      maximizing opens.
+    why: Intermediate engagement is useful only when it leads toward the job the email was supposed to perform.
+    source: C12K:ANLvE0oUNyk@00:02:54; C12K:ANLvE0oUNyk@00:03:11
+  - rule: Evaluate a sequence by movement through the intended recipient states, not by selecting the individually highest-performing
+      email in isolation.
+    why: An email can support trust or prepare a later conversion even when it is not the message credited with the final
+      action.
+    source: C12K:2YsjeXGh-x0@00:34:10; C12K:2YsjeXGh-x0@00:40:11
+  - rule: Isolate important variables when testing—such as subject framing, body length, design mode, offer, or timing—so
+      the result can be attributed to a meaningful change.
+    why: Changing several elements at once can produce a performance difference without revealing what actually caused it.
+    source: C12K:ANLvE0oUNyk@00:02:42; C12K:s4t8ZQd5IiU@00:05:10
+  - rule: Do not promote a small-sample difference into a durable rule when the test does not contain enough observations
+      to distinguish signal from noise.
+    why: Email experiments can show large percentage swings from very few conversions, especially on downstream metrics.
+    source: C12K:s4t8ZQd5IiU@00:07:12
+  - rule: Review evergreen flows periodically for stale claims, outdated offers, repetitive content, and weak messages; replace
+      poor sections with newer evidence-backed winners when appropriate.
+    why: Automations keep sending after the assumptions that created them have changed, so unattended sequences can decay
+      while appearing operationally healthy.
+    source: C12K:2YsjeXGh-x0@00:33:14; C12K:2YsjeXGh-x0@00:39:18

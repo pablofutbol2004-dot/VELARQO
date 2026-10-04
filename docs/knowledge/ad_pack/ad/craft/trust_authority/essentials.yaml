@@ -1,0 +1,89 @@
+schema_version: '1'
+pack: trust_authority
+kind: general
+title: Trust & Authority Craft
+categories:
+  trust_and_authority_model:
+  - rule: Treat authority as confidence that the source understands the relevant problem, and trust as confidence
+      that the source is credible and acting in a way the audience can rely on.
+    why: Competence and trustworthiness are related but separable; a person can be seen as knowledgeable without
+      being considered safe to follow or buy from.
+    source: C12K:7NXz-2GfWoI@00:12:12; C12K:7NXz-2GfWoI@00:12:56
+  - rule: Do not equate fame, follower count, or broad reach with authority in the buyer's problem.
+    why: Attention can exist without demonstrated competence or a relationship strong enough to influence a commercial
+      decision.
+    source: C12K:7NXz-2GfWoI@00:08:56; C12K:F0-yC1gVElA@00:54:32
+  - rule: Treat market trust as an accumulated prior that changes how readily future claims and offers are believed.
+    why: The same message can be interpreted differently when the audience has years of positive or negative experience
+      with the source or category.
+    source: C12K:hWRAPUgMdIM@00:03:31; C12K:hWRAPUgMdIM@00:10:28
+  competence_signals:
+  - rule: Demonstrate authority by showing diagnosis, reasoning, process, and how results are produced instead of
+      relying only on self-descriptions of expertise.
+    why: Visible thinking lets the audience evaluate competence from the work itself.
+    source: C12K:cXBJSYL5_2E@00:36:28; C12K:cXBJSYL5_2E@00:40:12
+  - rule: State the boundary of your expertise and qualify opinions or predictions when evidence is limited.
+    why: Accurately scoped confidence protects credibility better than performing certainty outside demonstrated
+      competence.
+    source: C12K:7NXz-2GfWoI@00:18:04
+  integrity_and_reputation:
+  - rule: Protect long-term reputation when a short-term sales tactic would require misleading pressure, exaggerated
+      certainty, or behavior the audience is likely to resent later.
+    why: A single conversion tactic can impose a larger future cost by lowering willingness to believe or engage
+      with subsequent messages.
+    source: C12K:uTySd2EJAjs@00:03:19; C12K:uTySd2EJAjs@00:07:34
+  - rule: Do not present only wins when that creates an implausibly polished picture; relevant failures and lessons
+      can make the source easier to trust.
+    why: A flawless self-portrait can trigger skepticism, while bounded disclosure shows the audience how the creator
+      handles reality when things go wrong.
+    source: C12K:Ch4Sl0POBhU@00:18:53; C12K:Ch4Sl0POBhU@00:19:20
+  - rule: Use transparency to reveal information that helps the audience evaluate the business, process, or claim
+      rather than treating disclosure itself as a trust trick.
+    why: Transparency builds trust when the revealed information is material and interpretable, not when it is performative
+      oversharing.
+    source: C12K:eXFp3cWkce4@00:10:52; C12K:Ch4Sl0POBhU@00:19:20
+  - rule: When audience pushback exposes missing context, add the missing context without abandoning a well-supported
+      position merely to preserve approval.
+    why: Responsiveness can improve trust while opportunistic belief changes can make the source appear unprincipled.
+    source: C12K:Ch4Sl0POBhU@00:25:44
+  association_and_position:
+  - rule: Treat repeated associations with people, brands, ideas, and behaviors as inputs to how the audience evaluates
+      your trustworthiness and positioning.
+    why: Audiences infer meaning from repeated pairings, so association can transfer positive or negative expectations
+      to the source.
+    source: C12K:Ch4Sl0POBhU@00:08:52; C12K:hWRAPUgMdIM@00:11:00
+  - rule: Choose collaborators and visible affiliations with awareness that their reputation can become part of
+      your own trust signal.
+    why: Repeated proximity to an untrusted source can transfer the same negative association to you.
+    source: C12K:Ch4Sl0POBhU@00:10:03
+  - rule: If using a common enemy or contrarian position, attack a harmful idea, behavior, or default rather than
+      manufacturing conflict with individuals for attention.
+    why: Concept-level disagreement can clarify values without making outrage or personal call-outs the basis of
+      the brand.
+    source: C12K:F0-yC1gVElA@00:54:03; C12K:F0-yC1gVElA@00:55:01
+  - rule: Reject attention sources that materially weaken the trust, audience fit, or associations the business
+      needs.
+    why: Not all views create the same downstream audience; attention acquired through the wrong signal can work
+      against commercial positioning.
+    source: C12K:F0-yC1gVElA@00:54:32; C12K:F0-yC1gVElA@00:55:30
+  humanity_and_affinity:
+  - rule: Use specific stories and lived experiences to communicate perspective and values instead of relying on
+      generic trait claims such as innovative, hardworking, or authentic.
+    why: Concrete stories give the audience evidence of how the source thinks and behaves while generic traits ask
+      for belief without demonstration.
+    source: C12K:Ch4Sl0POBhU@00:14:37; C12K:Ch4Sl0POBhU@00:15:29
+  - rule: Use values and worldview content to attract people who are compatible with how the business works, but
+      do not let affinity substitute for competence or proof.
+    why: Shared beliefs can strengthen relationship and fit while leaving outcome claims as a separate evidentiary
+      question.
+    source: C12K:cXBJSYL5_2E@00:40:36; C12K:7NXz-2GfWoI@00:14:32
+  accumulation_and_market_context:
+  - rule: Build trust through repeated useful and consistent exposures rather than assuming one credibility asset
+      can create the entire relationship.
+    why: Trust compounds across interactions and can make later commercial messages easier to accept when prior
+      behavior has been reliable.
+    source: C12K:uTySd2EJAjs@00:08:29; C12K:uTySd2EJAjs@00:09:02; C12K:hWRAPUgMdIM@00:10:28
+  - rule: Raise the evidence and clarity burden when the market or category has been damaged by repeated bad experiences.
+    why: Category-level distrust makes buyers more skeptical even when the current seller did not cause the original
+      disappointment.
+    source: C12K:hWRAPUgMdIM@00:05:30; C12K:hWRAPUgMdIM@00:12:07

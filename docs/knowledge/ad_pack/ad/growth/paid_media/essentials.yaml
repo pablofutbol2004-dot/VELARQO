@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: paid_media
+kind: growth
+title: Paid Media
+categories:
+  role_and_channel_fit:
+  - rule: Use paid media when incremental reach or demand capture can be bought at economics the business can support; do not treat ads as a substitute for an unproven offer.
+    why: Paid traffic amplifies the underlying system, including its weaknesses.
+    source: C12K:72CkB38EfRM@00:00:00; C12K:iswjUVzrzXo@00:00:00
+  - rule: Choose channels from buyer behavior, intent, creative fit, targeting options, and unit economics rather than platform popularity.
+    why: Different channels create demand, capture demand, and retarget with different strengths.
+    source: C12K:iswjUVzrzXo@00:00:00; C12K:n4R9uO0xYpA@00:01:07
+  - rule: Separate demand capture from demand generation when setting expectations and attribution.
+    why: Search and social often influence different parts of the decision journey.
+    source: C12K:n4R9uO0xYpA@00:01:07; C12K:OOc6FcMD_cA@00:02:17
+  - rule: Define the conversion event that economically justifies spend before optimizing delivery.
+    why: Platforms will optimize the signal you provide, even if it is a weak proxy for revenue.
+    source: C12K:OOc6FcMD_cA@00:02:17; C12K:DiVv1LplSAQ@00:00:00
+  budget_and_learning:
+  - rule: Allocate enough budget and time for a campaign to produce informative conversion data before making fine-grained judgments.
+    why: Underfunded tests create noise that looks like strategy.
+    source: C12K:72CkB38EfRM@00:00:00; C12K:iswjUVzrzXo@00:00:00
+  - rule: Concentrate spend on a manageable set of hypotheses instead of fragmenting a small budget across many audiences and campaigns.
+    why: Excess fragmentation prevents learning and operational clarity.
+    source: C12K:iswjUVzrzXo@00:00:00; C12K:n4R9uO0xYpA@00:01:07
+  - rule: Scale spend in increments that the funnel, tracking, sales, and fulfillment systems can absorb.
+    why: Media can grow faster than downstream capacity or economics.
+    source: C12K:n4R9uO0xYpA@00:01:07; C12K:OOc6FcMD_cA@00:02:17
+  - rule: Protect a deliberate exploration budget for new audiences, offers, channels, and creatives while exploiting proven winners.
+    why: Pure exploitation eventually suffers from fatigue and market change.
+    source: C12K:OOc6FcMD_cA@00:02:17; C12K:DiVv1LplSAQ@00:00:00
+  auction_targeting_and_signal:
+  - rule: Treat platform targeting as one part of the system; creative, conversion signal quality, landing experience, bid objective, and offer also shape who the algorithm finds.
+    why: Modern ad platforms optimize from multiple signals, not audience settings alone.
+    source: C12K:72CkB38EfRM@00:00:00; C12K:iswjUVzrzXo@00:00:00
+  - rule: Use broader targeting when conversion data and creative provide enough signal, but preserve tighter controls when legal, geographic, economic, or product constraints require them.
+    why: Broad is not universally better.
+    source: C12K:iswjUVzrzXo@00:00:00; C12K:n4R9uO0xYpA@00:01:07
+  - rule: Feed high-quality downstream conversion events back to ad systems when technically and legally appropriate.
+    why: Optimizing to low-quality leads teaches the platform to find more low-quality leads.
+    source: C12K:n4R9uO0xYpA@00:01:07; C12K:OOc6FcMD_cA@00:02:17
+  - rule: Exclude or segment audiences when the economic value or eligibility materially differs.
+    why: A single blended target can shift spend toward cheap but poor-value conversions.
+    source: C12K:OOc6FcMD_cA@00:02:17; C12K:DiVv1LplSAQ@00:00:00
+  attribution_and_incrementality:
+  - rule: Use platform attribution for operational optimization but do not treat self-reported attributed conversions as proof of incrementality.
+    why: Multiple channels can claim the same customer and platforms have incentives to attribute value.
+    source: C12K:72CkB38EfRM@00:00:00; C12K:iswjUVzrzXo@00:00:00
+  - rule: Compare platform data with first-party revenue, CRM state, blended CAC, holdouts or geo tests where stakes justify stronger causal evidence.
+    why: Independent evidence reveals whether ads created value rather than merely touched it.
+    source: C12K:iswjUVzrzXo@00:00:00; C12K:n4R9uO0xYpA@00:01:07
+  - rule: Track lag between click/impression and downstream revenue so recent campaigns are not judged before outcomes mature.
+    why: Long sales cycles create misleading early ROAS.
+    source: C12K:n4R9uO0xYpA@00:01:07; C12K:OOc6FcMD_cA@00:02:17
+  - rule: Use one attribution convention consistently for internal comparison while preserving uncertainty about causal credit.
+    why: A consistent imperfect model is more useful than switching models to favor a conclusion.
+    source: C12K:OOc6FcMD_cA@00:02:17; C12K:DiVv1LplSAQ@00:00:00
+  optimization_and_risk:
+  - rule: Diagnose performance by creative/offer → traffic quality → landing conversion → qualification → sales → retention before assuming the media buyer is the bottleneck.
+    why: Paid performance is a chain-level outcome.
+    source: C12K:72CkB38EfRM@00:00:00; C12K:iswjUVzrzXo@00:00:00
+  - rule: Treat rising frequency, declining response, or segment saturation as signals to refresh creative or expand valid demand rather than endlessly increasing bids.
+    why: Auction pressure and fatigue can erode marginal economics.
+    source: C12K:iswjUVzrzXo@00:00:00; C12K:n4R9uO0xYpA@00:01:07
+  - rule: Set spend ceilings and automated stop conditions around data loss, tracking failure, abnormal cost, or downstream capacity constraints.
+    why: Paid systems can lose money quickly when instrumentation breaks.
+    source: C12K:n4R9uO0xYpA@00:01:07; C12K:OOc6FcMD_cA@00:02:17
+  - rule: Keep platform-specific tactics in volatile channel guidance and re-check them before implementation.
+    why: Auction mechanics, UI, attribution settings, and policies change frequently.
+    source: C12K:OOc6FcMD_cA@00:02:17; C12K:DiVv1LplSAQ@00:00:00

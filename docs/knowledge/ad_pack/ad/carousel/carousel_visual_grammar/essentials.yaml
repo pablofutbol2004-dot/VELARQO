@@ -1,0 +1,98 @@
+schema_version: "1"
+pack: carousel_visual_grammar
+kind: carousel
+title: Carousel visual grammar and layouts
+categories:
+  grammar_invariants_variables:
+  - rule: "Fix the invariants first: type families, accent colors, margins, texture, radius and border language, icon style, numbering, and micro-header treatment."
+    why: "Invariants make changing layouts stay recognizably one system."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#1"
+  - rule: "Allow only controlled variables to change: headline scale, image position, density, background tone, crop, columns, and full-bleed versus framed."
+    why: "Varying everything at once reads as random, not designed."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#1"
+  hierarchy:
+  - rule: "Give every slide one dominant entry point; build hierarchy with size, weight, position, contrast, color, whitespace, isolation, and framing."
+    why: "A slide needs a clear answer to where the eye starts."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#2"
+  - rule: "Keep typography to three levels or fewer: dominant headline, explanation or label, and metadata or footer."
+    why: "Four to six equally loud levels overwhelm the reading order."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#2"
+  typography:
+  - rule: "Pair type by role: one loud font for impact and one quiet font for clarity."
+    why: "A loud-plus-quiet pairing transfers better than memorized font pairs."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#3"
+  - rule: "Use display type as a focal shape, serif or italic for editorial emphasis, grotesk for utility, condensed bold for force, and small mono for metadata."
+    why: "Type is both language and a visual object."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#3"
+  - rule: "Target roughly 45 to 75 characters per line and 120 to 150 percent line height as starting ranges, then check readability at mobile size and a clean rag."
+    why: "Long, cramped blocks defeat scanning."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#4"
+  alignment:
+  - rule: "Choose alignment by content and reading order: left for paragraphs and lists, center for short statements, covers, and punchlines."
+    why: "Alignment is a tool, not an ideology; failure is poor hierarchy and awkward line length, not centering itself."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#5"
+  spacing_system:
+  - rule: "Pick a base spacing unit and construct most gaps from a small scale such as 1u, 2u, 3u, 4u, 6u, and 8u."
+    why: "A spacing scale makes dense slides feel calm and consistent."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#6"
+  - rule: "Hold consistent margins and internal gaps and align related elements to each other."
+    why: "Alignment and rhythm across related elements reduce search cost."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#6"
+  grids:
+  - rule: "Use grids as composition strategy, not labels: radial for focal centers, modular for collections and comparisons, column for editorial, hierarchical for importance-driven layouts, baseline for type-heavy, axial for balance."
+    why: "The grid is a tool for placing and sizing elements with intent."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#7"
+  image_roles:
+  - rule: "Tag every image with a job: hero, evidence, demonstration, context, mood, symbol, texture, or connector."
+    why: "Never choose images only because they look cool."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#9"
+  - rule: "Prefer evidence images for claims: screenshots, before and after, real examples, charts, and process shots."
+    why: "Evidence beats decoration whenever a claim needs support."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#9"
+  image_sequence:
+  - rule: "Shape image-first sequences with scale rhythm (wide, medium, detail, wide), color rhythm, direction rhythm, and energy rhythm."
+    why: "Curation logic is what separates a gallery from a carousel."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#10"
+  before_after:
+  - rule: "Carry conceptual transformation with a repeated visual transformation: grayscale to color, blur to sharp, cluttered to clean, small to large, or empty to populated."
+    why: "The visual shift should mean the conceptual shift."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#11"
+  repetition:
+  - rule: "Use repeated card modules when comparison is the goal; use freer layouts when emotional pacing or narrative is the goal."
+    why: "Good repetition is the same structure with controlled changes; bad repetition is identical slides."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#12"
+  whitespace:
+  - rule: "Let whitespace carry hierarchy, pacing, focus, and relief; every element must justify the attention it consumes."
+    why: "Whitespace is not emptiness that must be filled."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#13"
+  color_systems:
+  - rule: "Choose one accent plus neutrals for clarity, alternating two backgrounds for long essays, image-led palettes for photography, or high-contrast brand palettes for punchy education."
+    why: "Pick color for function: emphasis, category coding, mood, continuity, or contrast."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#14"
+  - rule: "Do not add accents merely to make a carousel feel dynamic."
+    why: "Multiple unmotivated accents break recognizability."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#14"
+  texture_caution:
+  - rule: "Use grain, noise, or paper-like texture subtly; never let fake grain, glow, or editorial effects substitute for composition."
+    why: "Texture is style, and excessive effect is a failure mode."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#15"
+  diagrams:
+  - rule: "Build a diagram only when it makes a relationship easier to see than text alone: funnel, matrix, radial, before-and-after, flowchart, staircase, cycle, comparison, or annotated image."
+    why: "A plain list needs no diagram."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#16"
+  ui_frames:
+  - rule: "Frame screenshots in phone mockups, rounded cards, browser frames, or highlighted annotations, and keep the relevant area large enough to read."
+    why: "Decoration that shrinks the proof defeats the screenshot's purpose."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#17"
+  continuity:
+  - rule: "Bridge slides with continuity devices: a repeated shape, color carryover, continuing line or arrow, recurring frame, consistent number badge, or a crop progression."
+    why: "Perceptible continuity makes a sequence feel authored."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#19"
+  rhythm_planner:
+  - rule: "Assign each slide density, dominant mode, energy, scale, background, and layout family before rendering, then inspect the whole sequence for drift."
+    why: "Prevents ten dense, ten identical, or randomly alternating slides."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#20"
+  system_by_content:
+  - rule: "Match the visual system to content type: grid plus repeated cards for dense reference, strong type plus whitespace for essays, bold display for high-energy education, real subject photography for local services, minimal text for portfolios."
+    why: "One system does not fit every content job."
+    source: "CP:VISUAL_GRAMMAR_AND_LAYOUTS.md#21"

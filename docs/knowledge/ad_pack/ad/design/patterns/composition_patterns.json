@@ -1,0 +1,16 @@
+{
+  "patterns": [
+    "centered_focus",
+    "asymmetric_editorial",
+    "split_screen",
+    "hero_support",
+    "full_bleed_image",
+    "type_dominant",
+    "modular_grid",
+    "stacked_vertical",
+    "diagonal_flow",
+    "z_pattern",
+    "f_pattern",
+    "radial_focus"
+  ]
+}

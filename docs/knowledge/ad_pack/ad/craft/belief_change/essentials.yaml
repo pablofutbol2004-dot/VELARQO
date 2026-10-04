@@ -1,0 +1,68 @@
+schema_version: '1'
+pack: belief_change
+kind: general
+title: Belief Change Craft
+categories:
+  belief_map:
+  - rule: Map the beliefs a qualified buyer would need to hold for the desired commercial decision to make sense,
+      then identify which of those beliefs are currently missing or opposed.
+    why: Persuasion becomes diagnosable when the gap is expressed as a specific belief rather than a vague need
+      to be more convincing.
+    source: C12K:_5RQAjOyG10@00:00:49; C12K:_5RQAjOyG10@00:14:02
+  - rule: Separate beliefs about the problem, opportunity, mechanism, personal applicability, and source from one
+      another instead of treating purchase intent as one undifferentiated attitude.
+    why: A prospect can accept the problem while doubting the mechanism, or trust the mechanism while doubting that
+      it applies to them.
+    source: C12K:_5RQAjOyG10@00:11:40; C12K:_5RQAjOyG10@00:14:02
+  - rule: Identify the buyer's current explanatory model before trying to replace it.
+    why: A new claim is easier to evaluate when it directly addresses the model that currently explains why the
+      buyer acts or does not act.
+    source: C12K:zrpWNzEoaLU@00:09:01; C12K:zrpWNzEoaLU@00:09:13
+  diagnosis_and_reframe:
+  - rule: When a current belief blocks progress, show why that model produces the observed problem before presenting
+      the replacement model.
+    why: Explaining the failure of the old model creates a reason to update rather than asking the audience to accept
+      a contradictory assertion.
+    source: C12K:zrpWNzEoaLU@00:09:01; C12K:zrpWNzEoaLU@00:09:13
+  - rule: Frame the replacement belief as a better causal explanation or decision rule, not merely as the opposite
+      opinion.
+    why: A useful reframe gives the buyer a model they can apply and test instead of a slogan they must accept on
+      authority.
+    source: C12K:zrpWNzEoaLU@00:04:40; C12K:zrpWNzEoaLU@00:09:13
+  - rule: When the market does not yet desire the solution category, first make the better state and the path to
+      it believable enough to create solution interest.
+    why: Demand can emerge when prospects recognize both the cost of the current state and the plausibility of a
+      better way.
+    source: C12K:zrpWNzEoaLU@00:04:40; C12K:pFzSQX7fo6M@00:09:42
+  evidence_and_self_conclusion:
+  - rule: Prefer reasoning, demonstration, and evidence that let the prospect reach the conclusion themselves over
+      repeated commands to believe the seller.
+    why: Self-derived conclusions are easier to inspect and less dependent on rhetorical pressure.
+    source: C12K:_5RQAjOyG10@00:01:16
+  decision_oriented_education:
+  - rule: Let a sequence of content resolve different decision questions over time rather than cramming every required
+      belief into every piece.
+    why: Belief change can accumulate across multiple exposures, allowing each asset to make one coherent update.
+    source: C12K:cXBJSYL5_2E@00:35:59; C12K:cXBJSYL5_2E@00:36:28
+  repetition_and_consistency:
+  - rule: Repeat the central commercial message across multiple relevant pieces when the audience needs repeated
+      exposure to understand and remember it.
+    why: A consistent message can accumulate familiarity and comprehension across a content ecosystem rather than
+      depending on one perfect asset.
+    source: C12K:_5RQAjOyG10@00:03:29
+  - rule: Vary examples, proof, and angles while keeping the underlying belief direction consistent when the same
+      core idea needs reinforcement.
+    why: Repetition of the conclusion with fresh support can deepen understanding without mechanically duplicating
+      the same piece.
+    source: C12K:_5RQAjOyG10@00:03:29; C12K:cXBJSYL5_2E@00:43:47
+  scope_and_ethics:
+  - rule: Do not require every commercial content piece to perform a belief shift; some pieces can primarily build
+      affinity, proof, awareness, or qualification.
+    why: A commercial content system needs multiple jobs, and forcing every asset into persuasion makes the portfolio
+      narrow and repetitive.
+    source: C12K:cXBJSYL5_2E@00:35:00
+  - rule: Do not treat a factual constraint, poor fit, or missing evidence as a limiting belief to be rhetorically
+      overcome.
+    why: Persuasion should update mistaken or incomplete models, not deny real constraints or substitute confidence
+      for evidence.
+    source: C12K:_5RQAjOyG10@00:11:05; C12K:7NXz-2GfWoI@00:18:04

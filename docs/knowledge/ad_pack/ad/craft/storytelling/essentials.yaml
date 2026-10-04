@@ -1,0 +1,57 @@
+schema_version: '1'
+pack: storytelling
+kind: general
+title: Storytelling Craft
+categories:
+  direction_and_arc:
+  - rule: Decide the ending or final meaning before building the path to it.
+    why: A known destination helps every earlier beat earn its place.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Build causal movement with “but,” “therefore,” consequences, and decisions instead of a flat chain of “and then” events.
+    why: Causality creates changing tension and makes events feel consequential.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:round_4/01_hooks-attention-and-open-loops
+  - rule: Alternate context and conflict rather than delivering long uninterrupted blocks of either.
+    why: Context makes conflict understandable and conflict gives context a reason to matter.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Use waves of tension and release instead of constant escalation.
+    why: Release creates contrast and makes later peaks feel stronger.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Place the promised answer, event, or transformation at the narrative climax and make the preceding progression visibly earn it.
+    why: A climax works when it resolves the central story promise rather than appearing arbitrarily.
+    source: B:round_2/02_retention-hooks-pacing-and-story
+  - rule: When telling an internet-native story, lead with the consequential event and why it matters before lower-priority time and place details.
+    why: Relevance-first ordering reduces slow setup while preserving context later.
+    source: B:kallaway/02_hooks-and-initial-retention; B:kallaway/03_storytelling-and-scriptwriting
+  conflict_and_stakes:
+  - rule: Give the protagonist or subject a clear objective, obstacle, risk, or rejected default.
+    why: Conflict defines what can be won or lost and gives the audience something to track.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Use an antagonistic force that can be a method, system, norm, constraint, institution, or person rather than inventing personal drama.
+    why: A clear opposing force creates contrast without requiring manufactured conflict.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Give the audience a reason to root for the protagonist by connecting the goal to recognizable values, identity, or a desired future.
+    why: Stakes become emotionally meaningful when the audience can project into them.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  story_lenses:
+  - rule: Choose a distinctive lens on a familiar event instead of assuming the event itself must be novel.
+    why: A different causal, economic, human, cultural, or technical angle can create originality from shared material.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Turn process into narrative by showing the failed version, constraint, trade-off, decision, and resulting change.
+    why: Transformation through decisions is more memorable than a static list of final features.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems; B:round_3/02_founder-led-content-and-personal-brand
+  - rule: Use a public-goal narrative only when it has a measurable objective, deadline, stakes, recurring progress, and a real climax.
+    why: A quest needs structure beyond repeated updates to sustain meaning.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems
+  - rule: For event or process stories, capture context, action, reaction, and outcome so the final narrative contains both cause and consequence.
+    why: Coverage of only the activity often produces footage without a story.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems; B:round_3/02_founder-led-content-and-personal-brand
+  payoff_and_meaning:
+  - rule: End with a clear resolution, lesson, or changed state rather than simply stopping when the chronology ends.
+    why: The audience needs to know what the events meant and what changed.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  - rule: Compress the central story idea until it can be repeated accurately after one consumption.
+    why: A portable takeaway improves memory and shareability.
+    source: B:kallaway/03_storytelling-and-scriptwriting
+  - rule: Choose a primary emotional outcome and make the story beats support it rather than mixing incompatible emotional signals accidentally.
+    why: A coherent emotional direction strengthens interpretation and recall.
+    source: B:round_3/04_brand-storytelling-formats-and-creative-systems

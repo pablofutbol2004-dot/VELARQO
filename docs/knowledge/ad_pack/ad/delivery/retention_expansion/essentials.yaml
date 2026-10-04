@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: retention_expansion
+kind: delivery
+title: Retention & Expansion
+categories:
+  retention_definition_and_states:
+  - rule: Define retention as continued realized value and continued relationship, not merely the absence of a cancellation event.
+    why: Customers can remain temporarily while usage, satisfaction, or economics are already deteriorating.
+    source: C12K:wFFU49mLYlo@00:00:07; C12K:vIVj_l2svrU@00:00:00
+  - rule: Separate logo/customer retention, revenue retention, usage retention, and repeat-purchase behavior because they answer different questions.
+    why: A stable customer count can hide shrinking revenue or disengagement.
+    source: C12K:vIVj_l2svrU@00:00:00; C12K:wdiYykjNrLM@00:09:44
+  - rule: Model customer states such as activated, healthy, underused, at-risk, renewal-due, expanded, churned, and reactivated.
+    why: Different states need different interventions.
+    source: C12K:wdiYykjNrLM@00:09:44; C12K:MbXrMptSjC0@00:02:44
+  - rule: Use cohort views so changes in customer mix do not masquerade as changes in retention quality.
+    why: Aggregate retention can improve simply because newer cohorts differ.
+    source: C12K:MbXrMptSjC0@00:02:44; C12K:moyivPzSwhs@00:00:00
+  value_realization_and_health:
+  - rule: Anchor customer health in evidence that the promised value is being realized, not only in relationship warmth or meeting attendance.
+    why: Friendly customers can still churn when outcomes are weak.
+    source: C12K:wFFU49mLYlo@00:00:07; C12K:vIVj_l2svrU@00:00:00
+  - rule: Identify leading indicators of future churn from usage, outcomes, support friction, payment behavior, stakeholder change, and missed commitments.
+    why: Early signals create intervention time before cancellation.
+    source: C12K:vIVj_l2svrU@00:00:00; C12K:wdiYykjNrLM@00:09:44
+  - rule: Make value visible with outcome reviews, progress summaries, or evidence the customer can understand and share internally.
+    why: Unseen value is easy to discount at renewal.
+    source: C12K:wdiYykjNrLM@00:09:44; C12K:MbXrMptSjC0@00:02:44
+  - rule: Treat chronic customer effort and implementation burden as retention risks even when the core product works.
+    why: A technically valuable solution can still lose to a simpler alternative.
+    source: C12K:MbXrMptSjC0@00:02:44; C12K:moyivPzSwhs@00:00:00
+  churn_and_save:
+  - rule: Classify churn by controllable cause, customer state, timing, segment, and economic impact rather than storing one generic reason.
+    why: Different causes require different fixes.
+    source: C12K:wFFU49mLYlo@00:00:07; C12K:vIVj_l2svrU@00:00:00
+  - rule: Do not use discounts as the default save tactic before diagnosing missing value, fit, product gaps, or changed circumstances.
+    why: Discounting can delay inevitable churn while reducing revenue.
+    source: C12K:vIVj_l2svrU@00:00:00; C12K:wdiYykjNrLM@00:09:44
+  - rule: Use cancellation and downgrade conversations to learn without coercing customers who have a legitimate reason to leave.
+    why: A clean exit can preserve reputation and future reactivation.
+    source: C12K:wdiYykjNrLM@00:09:44; C12K:MbXrMptSjC0@00:02:44
+  - rule: Fix systemic churn causes upstream in onboarding, product, delivery, or positioning instead of relying on heroic renewal conversations.
+    why: Retention problems are often created long before renewal.
+    source: C12K:MbXrMptSjC0@00:02:44; C12K:moyivPzSwhs@00:00:00
+  expansion_and_renewal:
+  - rule: Expand only after evidence of realized value or a clearly adjacent unmet need; do not treat every customer as an automatic upsell target.
+    why: Expansion built on trust compounds value; premature upsell damages it.
+    source: C12K:wFFU49mLYlo@00:00:07; C12K:vIVj_l2svrU@00:00:00
+  - rule: Tie upgrades to a new value boundary such as more usage, broader scope, additional locations, higher service level, or a new outcome.
+    why: Expansion is easier to justify when the economic reason is explicit.
+    source: C12K:vIVj_l2svrU@00:00:00; C12K:wdiYykjNrLM@00:09:44
+  - rule: Begin renewal work early enough to resolve performance gaps, stakeholder questions, and procurement steps before the decision deadline.
+    why: Late renewal outreach converts solvable issues into urgent risk.
+    source: C12K:wdiYykjNrLM@00:09:44; C12K:MbXrMptSjC0@00:02:44
+  - rule: Track net revenue retention and expansion by cohort/segment alongside gross retention.
+    why: Expansion can mask a churn problem if both are not visible.
+    source: C12K:MbXrMptSjC0@00:02:44; C12K:moyivPzSwhs@00:00:00
+  reactivation_and_learning:
+  - rule: Keep churned customers in a reason-coded reactivation pool when the problem may become relevant again.
+    why: A lost customer can become a high-intent future customer when timing or circumstances change.
+    source: C12K:wFFU49mLYlo@00:00:07; C12K:vIVj_l2svrU@00:00:00
+  - rule: Trigger reactivation from meaningful product, need, timing, or market changes rather than generic “we miss you” campaigns.
+    why: A new reason to return is stronger than nostalgia.
+    source: C12K:vIVj_l2svrU@00:00:00; C12K:wdiYykjNrLM@00:09:44
+  - rule: Feed churn and expansion evidence back into positioning, qualification, onboarding, pricing, and product decisions.
+    why: Retention is one of the strongest validators of whether the whole business system works.
+    source: C12K:wdiYykjNrLM@00:09:44; C12K:MbXrMptSjC0@00:02:44
+  - rule: Judge retention initiatives by incremental retained value and customer outcome, not contact volume or save-team activity.
+    why: Busy customer-success operations can exist without changing retention economics.
+    source: C12K:MbXrMptSjC0@00:02:44; C12K:moyivPzSwhs@00:00:00

@@ -1,0 +1,128 @@
+schema_version: '1'
+pack: proof
+kind: general
+title: Proof Craft
+categories:
+  claim_to_evidence:
+  - rule: Bind each proof item to a specific claim or doubt instead of using generic trust decoration.
+    why: Evidence persuades by resolving uncertainty about something concrete; disconnected testimonials or badges can add
+      noise without increasing belief.
+    source: C12K:5--HmBapYgA@00:12:07; C12K:vUbLw80KTpo@01:40:55
+  - rule: Require stronger proof as a claim becomes larger, less familiar, higher-risk, or asks for greater commitment.
+    why: Bigger or costlier claims create more skepticism, so the evidence burden should rise with the consequence of being
+      wrong.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/01_hooks-attention-and-open-loops; C12K:JDR-R--4HhM@00:24:40
+  - rule: 'Make proof specific and verifiable: identify the relevant subject, starting point, result, timeframe, and conditions
+      when they materially affect the claim.'
+    why: Specific evidence gives the audience something they can inspect and prevents vague words such as proven, successful,
+      or fast from doing the work of proof.
+    source: C12K:9c5BhTXqzN0@00:04:59; C12K:0HGJlL6fnAc@00:06:22
+  - rule: Verify the outcome at the boundary that matters to the audience; internal activity or process completion is not
+      proof of an external result.
+    why: A system can report success while the customer, user, or business never receives the promised outcome.
+    source: C12K:BInpv7lGp1o@00:13:41
+  proof_selection:
+  - rule: 'Match the type of proof to the doubt: use outcomes for result claims, demonstrations for observable performance,
+      similar cases for applicability, and independent evidence for external validation.'
+    why: Different doubts require different evidence; there is no universal proof hierarchy that is strongest for every claim.
+    source: B:round_4/03_educational-value-and-the-trinity-of-value; C12K:vUbLw80KTpo@01:40:55; C12K:eAg9NsxffMI@00:08:29
+  - rule: Prefer audience or situation similarity over prestige when the main doubt is whether the result will transfer to
+      someone like them.
+    why: A highly relevant peer case often answers applicability better than a famous but dissimilar endorsement.
+    source: C12K:HsQeQM1jUeg@00:03:03; C12K:Hz_2XmS1Q78@00:04:36
+  - rule: Prefer direct observation or demonstration when the claim can be shown rather than merely asserted.
+    why: Visible behavior, output, or change reduces dependence on the creator asking the audience to take the claim on trust.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_3/04_brand-storytelling-formats-and-creative-systems; C12K:eAg9NsxffMI@00:08:29
+  - rule: Stack complementary proof types only when they resolve different doubts; do not confuse repeated redundant evidence
+      with stronger proof.
+    why: A result, demonstration, and independent source can reinforce different uncertainties, while ten near-identical testimonials
+      may add little new information.
+    source: C12K:eAg9NsxffMI@00:08:29; C12K:wr0mxKOrJuQ@00:05:02
+  demonstrations_and_artifacts:
+  - rule: Show the product, service, process, or output in use when its mechanism or quality is observable.
+    why: A relevant demonstration lets the audience evaluate performance directly instead of relying only on descriptive claims.
+    source: C12K:vUbLw80KTpo@01:40:55; C12K:eAg9NsxffMI@00:08:29
+  - rule: Use screenshots, recordings, receipts, dashboards, logs, or other artifacts as proof only when their provenance
+      and meaning are clear.
+    why: Raw artifacts can increase verifiability, but an unexplained screenshot can be ambiguous, cherry-picked, or unrelated
+      to the claimed outcome.
+    source: C12K:W7_p0arAMF4@00:00:00; C12K:BInpv7lGp1o@00:13:41
+  - rule: For before-and-after or comparison proof, show enough of the starting state, intervention or context, and result
+      to make the change interpretable.
+    why: An endpoint without a believable baseline or pathway can look dramatic while proving very little about what caused
+      the change.
+    source: C12K:jV_bKvKqgHY@00:32:18; C12K:oRMG_HpOAN4@00:18:04
+  - rule: Prefer user or business outcome artifacts over vanity metrics or internal proxies when the claim is about an outcome.
+    why: Evidence should measure the thing promised; process completion, impressions, or internal status are weaker when the
+      audience cares about revenue, time saved, delivery, or another external result.
+    source: C12K:BInpv7lGp1o@00:13:41; C12K:Fw8NGGnEchs@00:15:34
+  testimonials:
+  - rule: Prefer testimonials that describe a concrete result, change, or experience over generic praise.
+    why: Specific testimony gives the audience evidence about what happened, while compliments such as great service mainly
+      communicate sentiment.
+    source: C12K:oIX1cPYm-qw@00:11:16; C12K:GBgReYa9hX8@00:10:43
+  - rule: Match testimonials to the exact product, problem, objection, segment, or use case when possible.
+    why: The closer the testimonial is to the prospect’s situation, the more directly it answers whether the result is relevant
+      to them.
+    source: C12K:h8cMdMI2fGE@00:09:46; C12K:Hz_2XmS1Q78@00:04:36
+  - rule: Ask for a testimonial soon after a meaningful win or peak-satisfaction moment, while details and emotion are fresh.
+    why: Clients can recall the change more vividly and are more willing to describe it when the value has just become salient.
+    source: C12K:xgerR4GgZQc@00:17:18; C12K:oRMG_HpOAN4@00:18:04; C12K:3D-AyDCAZHo@00:08:18
+  - rule: Use focused prompts or a natural conversation to surface the starting problem, observed change, perceived cause,
+      and practical benefit; preserve the customer’s own language.
+    why: Good prompts produce useful specificity without turning the testimonial into a scripted advertisement.
+    source: C12K:GBgReYa9hX8@00:10:43; C12K:HNn9j3sD6S0@01:15:56
+  case_studies:
+  - rule: Structure a case study around context and baseline, problem, intervention, process, and result, including timeframe
+      or ROI when they are important to interpretation.
+    why: A case becomes credible and useful when the audience can see what changed, what was done, and what outcome followed.
+    source: C12K:mugDs0XaQ1A@00:35:01; C12K:jV_bKvKqgHY@00:32:18
+  - rule: Explain the pathway and key decisions, not only the before-and-after result.
+    why: Showing how the transformation happened makes the case educational and helps the audience judge whether the mechanism
+      is plausible.
+    source: C12K:mugDs0XaQ1A@00:35:01; C12K:jV_bKvKqgHY@00:32:18
+  - rule: Choose case studies from comparable clients, industries, starting states, or constraints when applicability is the
+      main concern.
+    why: Similarity helps the audience infer that the result may transfer to their own situation.
+    source: C12K:HsQeQM1jUeg@00:03:03; C12K:Hz_2XmS1Q78@00:04:36
+  - rule: Repurpose strong case evidence into educational assets so the same material can teach while demonstrating capability.
+    why: A useful case can create value for the audience and prove competence without becoming a detached self-promotional
+      testimonial block.
+    source: C12K:HNn9j3sD6S0@00:55:28; C12K:KjwVPlM5gjc@00:13:42
+  social_and_authority:
+  - rule: Use review volume, adoption, repeat use, or broad customer participation as legitimacy signals when popularity,
+      reliability, or market acceptance is relevant.
+    why: A large body of independent behavior can reduce the chance that a positive signal is an isolated exception.
+    source: C12K:JDR-R--4HhM@00:25:20
+  - rule: Treat credentials, awards, longevity, notable clients, and professional presentation as authority cues, not direct
+      proof of every outcome claim.
+    why: These cues can establish competence or legitimacy, but they do not automatically demonstrate that a specific promise
+      will be achieved.
+    source: B:kallaway/01_psychology-and-viewer-behavior; C12K:JDR-R--4HhM@00:23:31
+  - rule: Use personal or living proof to show that the creator has achieved or performs the claimed behavior, but add client
+      or peer evidence when repeatability for others is the key doubt.
+    why: Doing it yourself demonstrates capability; transferability to customers is a separate claim.
+    source: C12K:eAg9NsxffMI@00:08:29; C12K:0HGJlL6fnAc@00:06:22
+  - rule: Use peer-to-peer endorsements in a trusted industry or community context when the audience relies heavily on people
+      like themselves.
+    why: A recommendation from a relevant peer can carry contextual trust that a distant authority or generic testimonial
+      does not.
+    source: C12K:gEU8cIlJB34@00:08:20
+  placement_and_capture:
+  - rule: Place proof close to the claim, objection, teaching point, or decision it is meant to resolve instead of confining
+      all proof to a detached testimonial section.
+    why: The audience can connect the evidence to the exact uncertainty while that uncertainty is active.
+    source: C12K:5--HmBapYgA@00:12:07; C12K:pr5ZPbCDyK0@00:25:43
+  - rule: Give enough relatable starting context before an extreme result so the transformation remains believable and relevant.
+    why: Jumping straight to an exceptional endpoint can feel disconnected when the audience cannot see how the subject started
+      or why the change applies.
+    source: C12K:oRMG_HpOAN4@00:18:04; C12K:jV_bKvKqgHY@00:32:18
+  - rule: Build proof capture into delivery closeout so meaningful wins trigger collection of testimonials, case data, and
+      supporting artifacts with permission.
+    why: Systematic capture prevents real results from disappearing and creates a compounding evidence library for future
+      communication.
+    source: C12K:3D-AyDCAZHo@00:08:18; C12K:UYtUCg9D7K8@00:02:48
+  - rule: When proof is missing, create it through genuine delivery such as a beta, pilot, pro-bono engagement, or first-client
+      project and document the result honestly.
+    why: The durable solution to a proof deficit is real experience and outcomes, not stronger wording.
+    source: C12K:yjjTH3G44yY@00:02:47; C12K:6FRzfcU17W0@00:03:26; C12K:vJAiJc4GeQE@00:05:04

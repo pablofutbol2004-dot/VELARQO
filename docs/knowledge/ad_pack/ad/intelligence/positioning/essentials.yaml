@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: positioning
+kind: intelligence
+title: Positioning
+categories:
+  category_and_reference_frame:
+  - rule: Positioning defines the reference frame in which buyers compare you, not just the words used to describe the offer.
+    why: Changing the comparison set changes which attributes matter and which alternatives feel relevant.
+    source: C12K:YtBTizLVBoo@00:00:00; C12K:iyOX_DmkxOs@00:01:52
+  - rule: Choose a category or frame that helps the target buyer understand what the product replaces, complements, or makes unnecessary.
+    why: A novel label without a comparison anchor can create confusion instead of differentiation.
+    source: C12K:iyOX_DmkxOs@00:01:52; C12K:XW5kKJFHr44@00:01:03
+  - rule: Do not invent a new category merely to sound unique; create one only when existing categories consistently misdescribe the value or buying process.
+    why: Category creation adds education cost and should earn that cost.
+    source: C12K:XW5kKJFHr44@00:01:03; C12K:l5NbfgqRibo@00:01:28
+  - rule: Treat the status quo and “do nothing” as competitors whenever buyers can rationally keep the current process.
+    why: The real alternative is often inertia, spreadsheets, internal labor, or existing habits rather than a named competitor.
+    source: C12K:l5NbfgqRibo@00:01:28; C12K:h3GpqTpp9RU@00:00:55
+  target_segment_and_problem:
+  - rule: Position around a segment whose problem, alternatives, buying criteria, and willingness to act are meaningfully similar.
+    why: A segment is useful only when it predicts different buying behavior or value.
+    source: C12K:YtBTizLVBoo@00:00:00; C12K:iyOX_DmkxOs@00:01:52
+  - rule: Prefer specificity that sharpens product and go-to-market decisions over demographic narrowness that does not change the job to be done.
+    why: “Men 30–40” is not useful positioning if their problem and decision process are identical to everyone else’s.
+    source: C12K:iyOX_DmkxOs@00:01:52; C12K:XW5kKJFHr44@00:01:03
+  - rule: Name the high-stakes problem or desired progress the segment recognizes before emphasizing internal product features.
+    why: Positioning works when buyers can locate themselves in the problem and outcome.
+    source: C12K:XW5kKJFHr44@00:01:03; C12K:l5NbfgqRibo@00:01:28
+  - rule: Explicitly state who the offer is not designed for when exclusion clarifies fit or protects delivery quality.
+    why: A credible boundary can improve trust and reduce poor-fit demand.
+    source: C12K:l5NbfgqRibo@00:01:28; C12K:h3GpqTpp9RU@00:00:55
+  alternatives_and_differentiation:
+  - rule: Differentiate on attributes that matter to the target buyer and are difficult for alternatives to match simultaneously.
+    why: A difference that does not affect choice is decoration, not positioning.
+    source: C12K:YtBTizLVBoo@00:00:00; C12K:iyOX_DmkxOs@00:01:52
+  - rule: Derive differentiation from mechanism, experience, specialization, speed, risk, integration, access, economics, or outcome—not from unsupported adjectives.
+    why: “Premium” or “innovative” carries little meaning without an observable basis.
+    source: C12K:iyOX_DmkxOs@00:01:52; C12K:XW5kKJFHr44@00:01:03
+  - rule: Map the strengths buyers currently value in alternatives before asking them to switch.
+    why: Positioning that ignores why the incumbent wins misunderstands the decision.
+    source: C12K:XW5kKJFHr44@00:01:03; C12K:l5NbfgqRibo@00:01:28
+  - rule: Avoid building a position around a feature competitors can copy quickly unless the advantage is reinforced by data, distribution, workflow, brand, or accumulated trust.
+    why: Temporary feature novelty is weak strategic differentiation.
+    source: C12K:l5NbfgqRibo@00:01:28; C12K:h3GpqTpp9RU@00:00:55
+  position_to_message:
+  - rule: Keep positioning as the upstream strategic decision and messaging as its audience-facing expression.
+    why: Copy can change by channel while the underlying competitive position remains stable.
+    source: C12K:YtBTizLVBoo@00:00:00; C12K:iyOX_DmkxOs@00:01:52
+  - rule: Translate the same position differently for buyers, users, partners, and other stakeholders when their decision criteria differ.
+    why: One message cannot efficiently answer every stakeholder’s distinct question.
+    source: C12K:iyOX_DmkxOs@00:01:52; C12K:XW5kKJFHr44@00:01:03
+  - rule: Ensure offer, proof, content, sales language, and product experience reinforce the same central position.
+    why: Repeated contradiction across surfaces weakens category memory and trust.
+    source: C12K:XW5kKJFHr44@00:01:03; C12K:l5NbfgqRibo@00:01:28
+  - rule: Use concrete comparisons and proof to make differentiation legible instead of relying on slogans to carry the entire position.
+    why: Buyers need evidence that the claimed difference exists and matters.
+    source: C12K:l5NbfgqRibo@00:01:28; C12K:h3GpqTpp9RU@00:00:55
+  validation_and_governance:
+  - rule: Validate positioning through changes in comprehension, qualified response, win/loss reasons, price tolerance, and sales friction—not only preference surveys.
+    why: Positioning exists to influence real market behavior.
+    source: C12K:YtBTizLVBoo@00:00:00; C12K:iyOX_DmkxOs@00:01:52
+  - rule: Record the assumptions underneath a positioning decision so future evidence can confirm or invalidate them.
+    why: Without explicit assumptions, teams preserve old positioning by inertia.
+    source: C12K:iyOX_DmkxOs@00:01:52; C12K:XW5kKJFHr44@00:01:03
+  - rule: Do not reposition because of isolated negative feedback; look for repeated evidence that the current frame attracts the wrong market or obscures value.
+    why: Frequent reactive repositioning destroys accumulated recognition.
+    source: C12K:XW5kKJFHr44@00:01:03; C12K:l5NbfgqRibo@00:01:28
+  - rule: Revisit positioning when the product, segment, alternatives, or market category materially changes.
+    why: Positioning should be stable enough to compound but not permanent when the market moves.
+    source: C12K:l5NbfgqRibo@00:01:28; C12K:h3GpqTpp9RU@00:00:55

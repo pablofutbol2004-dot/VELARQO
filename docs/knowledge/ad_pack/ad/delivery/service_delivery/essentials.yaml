@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: service_delivery
+kind: delivery
+title: Service Delivery
+categories:
+  delivery_system_and_scope:
+  - rule: Convert the sold outcome into a defined delivery system with inputs, stages, owners, acceptance criteria, and outputs.
+    why: Repeatable delivery requires more than an informal list of tasks.
+    source: C12K:EpPd1kX4tBw@00:00:17; C12K:wdiYykjNrLM@00:07:52
+  - rule: Keep scope boundaries explicit and route change requests through a defined decision path.
+    why: Uncontrolled scope changes destroy capacity and margin while obscuring accountability.
+    source: C12K:wdiYykjNrLM@00:07:52; C12K:ajobFAtl_u0@00:16:08
+  - rule: Separate standard delivery components from customer-specific exceptions.
+    why: This reveals what can be optimized, automated, delegated, or productized.
+    source: C12K:ajobFAtl_u0@00:16:08; C12K:WXH1Ssm11_s@00:02:08
+  - rule: Design the service around the customer outcome and constraints rather than preserving internal steps merely because they are traditional.
+    why: Operations exist to create value, not to protect legacy workflow.
+    source: C12K:WXH1Ssm11_s@00:02:08; C12K:ZDDfdHGzO3g@00:00:48
+  capacity_and_workflow:
+  - rule: Measure capacity at the constrained resource, not by nominal team headcount.
+    why: One bottleneck can determine system throughput even when other resources are idle.
+    source: C12K:EpPd1kX4tBw@00:00:17; C12K:wdiYykjNrLM@00:07:52
+  - rule: Limit work in progress when multitasking and queues are degrading cycle time or quality.
+    why: Starting more work does not increase throughput when the bottleneck is already saturated.
+    source: C12K:wdiYykjNrLM@00:07:52; C12K:ajobFAtl_u0@00:16:08
+  - rule: Batch similar low-variance work when setup cost dominates, but avoid batching time-sensitive customer work that benefits from fast flow.
+    why: Batching trades efficiency against latency.
+    source: C12K:ajobFAtl_u0@00:16:08; C12K:WXH1Ssm11_s@00:02:08
+  - rule: Create explicit priority rules for urgent, high-value, blocked, and standard work so queue order is not determined by whoever shouts loudest.
+    why: Uncontrolled priority changes create hidden delays and context switching.
+    source: C12K:WXH1Ssm11_s@00:02:08; C12K:ZDDfdHGzO3g@00:00:48
+  quality_and_acceptance:
+  - rule: Define observable acceptance criteria before final delivery whenever quality can be specified.
+    why: Quality disputes shrink when “done” is defined in advance.
+    source: C12K:EpPd1kX4tBw@00:00:17; C12K:wdiYykjNrLM@00:07:52
+  - rule: Use deterministic checks for objective constraints and human or expert review for judgment-heavy dimensions.
+    why: The cheapest reliable validator depends on the type of error being prevented.
+    source: C12K:wdiYykjNrLM@00:07:52; C12K:ajobFAtl_u0@00:16:08
+  - rule: Sample delivered work for recurring defects even when every item cannot justify full manual review.
+    why: Quality control needs feedback beyond customer complaints.
+    source: C12K:ajobFAtl_u0@00:16:08; C12K:WXH1Ssm11_s@00:02:08
+  - rule: Track defect source and recurrence so fixes change the process rather than repeatedly patching outputs.
+    why: A reliable system removes causes, not only symptoms.
+    source: C12K:WXH1Ssm11_s@00:02:08; C12K:ZDDfdHGzO3g@00:00:48
+  sops_automation_and_delegation:
+  - rule: Document stable recurring work after the workflow is understood; do not freeze an immature process into an SOP too early.
+    why: Premature standardization scales confusion.
+    source: C12K:EpPd1kX4tBw@00:00:17; C12K:wdiYykjNrLM@00:07:52
+  - rule: Write SOPs around decisions, inputs, outputs, failure modes, and escalation—not only click-by-click instructions.
+    why: Robust procedures survive minor tool and interface changes.
+    source: C12K:wdiYykjNrLM@00:07:52; C12K:ajobFAtl_u0@00:16:08
+  - rule: Automate high-volume, deterministic, measurable steps before automating ambiguous judgment.
+    why: Automation ROI and reliability are highest where rules are stable.
+    source: C12K:ajobFAtl_u0@00:16:08; C12K:WXH1Ssm11_s@00:02:08
+  - rule: Delegate with clear authority boundaries and feedback loops instead of transferring tasks without decision context.
+    why: Ownership requires knowing when to act and when to escalate.
+    source: C12K:WXH1Ssm11_s@00:02:08; C12K:ZDDfdHGzO3g@00:00:48
+  economics_and_improvement:
+  - rule: Track delivery time, labor/cost to serve, rework, defects, cycle time, capacity utilization, and customer outcome by service type.
+    why: Without service-level economics, growth can increase revenue while destroying margin.
+    source: C12K:EpPd1kX4tBw@00:00:17; C12K:wdiYykjNrLM@00:07:52
+  - rule: Identify whether a bottleneck is demand, information, approval, skill, capacity, tooling, or process before adding headcount.
+    why: More people do not fix every constraint.
+    source: C12K:wdiYykjNrLM@00:07:52; C12K:ajobFAtl_u0@00:16:08
+  - rule: Use postmortems for material failures without turning every minor issue into process bureaucracy.
+    why: Learning should be proportional to impact and recurrence.
+    source: C12K:ajobFAtl_u0@00:16:08; C12K:WXH1Ssm11_s@00:02:08
+  - rule: Scale volume only as fast as the delivery system can maintain promised quality and economics.
+    why: Acquisition that outruns fulfillment creates churn and reputation damage.
+    source: C12K:WXH1Ssm11_s@00:02:08; C12K:ZDDfdHGzO3g@00:00:48

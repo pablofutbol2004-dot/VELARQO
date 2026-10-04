@@ -1,0 +1,294 @@
+schema_version: "1"
+pack: short_form_video
+kind: format
+title: Short-form video craft
+categories:
+  attention_and_audience:
+  - rule: Choose the intended viewer action before designing the video.
+    why: Reach and action metrics can diverge.
+    source: B:03_SOURCE_NOTES/kallaway/01_how-to-use-psychology-to-hack-viewers-brains-and-make-more-money.md
+  - rule: Optimize for on-target attention rather than generic virality.
+    why: A smaller relevant audience can create more useful action.
+    source: B:03_SOURCE_NOTES/kallaway/08_social-media-isn-t-hard-it-s-misunderstood.md
+  - rule: Make the subject appear immediately and cut greetings, throat-clearing, biography, and vague setup.
+    why: Cold viewers have little patience for delayed context.
+    source: B:03_SOURCE_NOTES/kallaway/09_give-me-15-mins-and-i-ll-make-your-hooks-impossible-to-skip.md
+  - rule: 'Treat the opening as a sequence: interrupt, clarify, confirm, prove, then leave one meaningful question open.'
+    why: A single hook line earns only the first pause.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  - rule: Answer “what is this about?” and “what do I get?” as fast as possible.
+    why: Fast orientation reduces scroll-away caused by confusion.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Align spoken words, title text, and the first visual around the same subject and payoff.
+    why: Mixed signals increase decoding cost.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Keep one active question at a time and give partial value while the main payoff remains unresolved.
+    why: Retention depends on progress plus unfinished relevance.
+    source: B:03_SOURCE_NOTES/round_2/04_how-to-make-shorts-that-go-viral-every-time.md
+  - rule: Re-hook with a deeper relevant question, hidden problem, rejected default, or shift from result to method.
+    why: Attention needs renewal without filler.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  - rule: Use pain or risk only with an early signal that a credible solution is coming.
+    why: Unrelieved negativity can feel manipulative or unpleasant.
+    source: B:03_SOURCE_NOTES/kallaway/01_how-to-use-psychology-to-hack-viewers-brains-and-make-more-money.md
+  - rule: Keep the eye path coherent so face, captions, and graphics do not force constant visual searching.
+    why: Lower visual search cost improves comprehension.
+    source: B:03_SOURCE_NOTES/round_2/02_3-hacks-to-get-perfect-retention-on-your-short-form-content.md
+  hooks:
+  - rule: 'Prioritize clarity before cleverness: state the subject, stake, and one reason to continue.'
+    why: Delay, confusion, irrelevance, and disinterest are primary hook failures.
+    source: B:03_SOURCE_NOTES/kallaway/09_give-me-15-mins-and-i-ll-make-your-hooks-impossible-to-skip.md
+  - rule: Write subject and stakes first, then compress the hook.
+    why: Compression is more reliable after the promise is clear.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Use simple grammar, active voice, and one obvious interpretation.
+    why: Low decoding friction protects the first seconds.
+    source: B:03_SOURCE_NOTES/kallaway/09_give-me-15-mins-and-i-ll-make-your-hooks-impossible-to-skip.md
+  - rule: Lead with a viewer-facing benefit, pain, question, or consequence instead of internal detail.
+    why: Immediate relevance is stronger than process-first framing.
+    source: B:03_SOURCE_NOTES/kallaway/03_how-to-create-irresistible-hooks-and-blow-up-your-content.md
+  - rule: Create contrast when the topic is clear but flat.
+    why: Contrast adds stakes and a reason to hear the explanation.
+    source: B:03_SOURCE_NOTES/kallaway/09_give-me-15-mins-and-i-ll-make-your-hooks-impossible-to-skip.md
+  - rule: Confirm the hook in sentence two with proof, specificity, story movement, or the first solution step.
+    why: The lock-in zone must prove the opening was not empty hype.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  - rule: Use specificity only when true; never add false precision for intensity.
+    why: Truthful detail builds credibility while fabricated detail destroys it.
+    source: B:03_SOURCE_NOTES/round_4/05_how-to-grow-10-000-instagram-followers-fast-in-2026.md
+  - rule: Pair stronger claims with faster proof or a trust anchor.
+    why: Claim intensity raises the viewer’s trust requirement.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Use negative hooks to attack the mistake or problem, not to shame the viewer.
+    why: Aggression can increase attention while damaging trust.
+    source: B:03_SOURCE_NOTES/round_4/09_i-studied-10-000-hooks-33-hook-patterns.md
+  - rule: Adapt proven hook grammar but originate the substance, proof, language, and delivery.
+    why: Validated structures reduce risk without requiring copying.
+    source: B:03_SOURCE_NOTES/round_4/09_i-studied-10-000-hooks-33-hook-patterns.md
+  - rule: Test multiple materially different openings for the same body.
+    why: One wording should not be assumed to be the best hook.
+    source: B:03_SOURCE_NOTES/round_4/03_how-i-record-viral-instagram-reels-live.md
+  - rule: Never promise a payoff the body cannot deliver.
+    why: Expectation debt harms trust and retention.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  structure:
+  - rule: Use Hook → Progression → Climax when the promise is a reveal, test, challenge, comparison, or final result.
+    why: Visible progress sustains attention until the payoff.
+    source: B:03_SOURCE_NOTES/round_2/04_how-to-make-shorts-that-go-viral-every-time.md
+  - rule: Use Problem → desired result → default failure → exact alternative → demonstration → mechanism → objection → result
+      for compact education.
+    why: It turns advice into an actionable state change.
+    source: B:03_SOURCE_NOTES/round_4/12_how-to-give-value-the-trinity-of-value.md
+  - rule: Use Event/stakes → context → conflict → attempt → but → consequence → resolution → lesson for short narrative.
+    why: Causal turns are more engaging than flat chronology.
+    source: B:03_SOURCE_NOTES/round_4/05_how-to-grow-10-000-instagram-followers-fast-in-2026.md
+  - rule: Use “but/therefore” progression instead of repeated “and then” when events change stakes or direction.
+    why: Causality keeps the viewer updating their model.
+    source: B:03_SOURCE_NOTES/kallaway/02_how-to-become-a-master-storyteller.md
+  - rule: Preserve true dependency order in tutorials even if a different order seems more dramatic.
+    why: Correct comprehension outranks manufactured suspense.
+    source: B:03_SOURCE_NOTES/kallaway/07_how-to-write-a-killer-script-that-keeps-viewers-hooked.md
+  - rule: For multi-point education, lead with a strong point and avoid saving all value for the end.
+    why: Early delivery confirms the promise.
+    source: B:03_SOURCE_NOTES/kallaway/07_how-to-write-a-killer-script-that-keeps-viewers-hooked.md
+  - rule: 'Give each body point a value loop: what, why, how, then a transition or re-hook.'
+    why: Each section should earn its screen time.
+    source: B:03_SOURCE_NOTES/kallaway/07_how-to-write-a-killer-script-that-keeps-viewers-hooked.md
+  - rule: Write the ending or payoff first when the middle lacks direction.
+    why: A known destination prevents wandering.
+    source: B:03_SOURCE_NOTES/kallaway/02_how-to-become-a-master-storyteller.md
+  - rule: Close the main loop before adding a CTA or next-problem hook.
+    why: The viewer should receive the promised payoff before being redirected.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  scriptwriting:
+  - rule: Write for the ear with conversational syntax and clean thought units.
+    why: Spoken language must be easy to perform and process.
+    source: B:03_SOURCE_NOTES/kallaway/06_how-to-master-the-art-of-speaking-and-blow-up-your-content.md
+  - rule: Keep one main idea per sentence or visual beat.
+    why: Multiple simultaneous ideas overload speech, captions, and visuals.
+    source: B:03_SOURCE_NOTES/round_2/02_3-hacks-to-get-perfect-retention-on-your-short-form-content.md
+  - rule: Keep tight high-value lines, rewrite useful-but-verbose lines, and delete filler.
+    why: Value per second improves without stripping necessary context.
+    source: B:03_SOURCE_NOTES/round_4/12_how-to-give-value-the-trinity-of-value.md
+  - rule: Vary sentence length and cadence instead of writing one uniform paragraph.
+    why: Rhythmic contrast makes speech easier to follow.
+    source: B:03_SOURCE_NOTES/kallaway/06_how-to-master-the-art-of-speaking-and-blow-up-your-content.md
+  - rule: Write to one specific viewer and match their knowledge level, language, pains, and objections.
+    why: Direct relevance is stronger than crowd-addressing language.
+    source: B:03_SOURCE_NOTES/kallaway/04_18-psychology-tricks-to-get-viewers-addicted-to-your-videos.md
+  - rule: Assume first-time-viewer context unless the video explicitly targets insiders.
+    why: Short-form discovery often reaches people without prior context.
+    source: B:03_SOURCE_NOTES/round_2/01_10-must-know-tips-for-short-form-content-creators.md
+  - rule: Use a precise statement followed by a simple metaphor or comparison when the concept is hard.
+    why: A second representation can lower cognitive load.
+    source: B:03_SOURCE_NOTES/kallaway/06_how-to-master-the-art-of-speaking-and-blow-up-your-content.md
+  - rule: Handle objections inside the flow where they arise.
+    why: Integrated objection handling preserves momentum.
+    source: B:03_SOURCE_NOTES/round_4/05_how-to-grow-10-000-instagram-followers-fast-in-2026.md
+  - rule: Use line-by-line recording only when it improves clarity enough to justify reduced spontaneity and extra editing.
+    why: The method is a control tool, not a universal style.
+    source: B:03_SOURCE_NOTES/kallaway/06_how-to-master-the-art-of-speaking-and-blow-up-your-content.md
+  - rule: Use a teleprompter as a prompt and abandon it if delivery becomes read or flat.
+    why: Memory relief is not worth losing natural rhythm and eye contact.
+    source: B:03_SOURCE_NOTES/round_4/03_how-i-record-viral-instagram-reels-live.md
+  - rule: Record a disposable rehearsal and multiple hook variants before finalizing.
+    why: Coverage exposes awkward lines and gives the editor options.
+    source: B:03_SOURCE_NOTES/round_4/03_how-i-record-viral-instagram-reels-live.md
+  - rule: Preserve uncertainty and truth when strengthening wording.
+    why: Stronger rhetoric must not turn unsupported claims into facts.
+    source: B:03_SOURCE_NOTES/kallaway/15_say-this-in-your-videos-it-ll-improve-your-storytelling-by-10x.md
+  visual_and_sound:
+  - rule: Build the A-roll/message foundation before adding effects.
+    why: Decoration cannot reliably repair a weak idea.
+    source: B:03_SOURCE_NOTES/round_2/08_how-to-learn-video-editing-so-fast-it-feels-like-cheating.md
+  - rule: 'Give each visual one clear job: prove, demonstrate, orient, contrast, evoke, or renew attention.'
+    why: Unmotivated visuals compete with comprehension.
+    source: B:03_SOURCE_NOTES/round_2/07_my-step-by-step-process-for-editing-short-form-content.md
+  - rule: Match B-roll to the exact spoken noun, action, or claim instead of choosing footage only for beauty.
+    why: Meaningful visual correspondence increases clarity and proof.
+    source: B:03_SOURCE_NOTES/round_2/07_my-step-by-step-process-for-editing-short-form-content.md
+  - rule: Keep successive focal objects near a coherent eye line.
+    why: Stable eye flow reduces search after cuts.
+    source: B:03_SOURCE_NOTES/round_2/07_my-step-by-step-process-for-editing-short-form-content.md
+  - rule: Use stronger moves, transitions, and full-screen animation mainly at thought boundaries or high-importance beats.
+    why: Visual intensity should match narrative importance.
+    source: B:03_SOURCE_NOTES/round_2/14_the-ultimate-guide-to-editing-short-form-content-in-2026.md
+  - rule: Ease keyframed movement rather than using robotic linear motion.
+    why: Natural acceleration and deceleration look more intentional.
+    source: B:03_SOURCE_NOTES/round_2/19_make-your-edits-look-expensive-simple-tricks.md
+  - rule: Prefer coordinated restraint over effect density when aiming for polish.
+    why: Fewer intentional choices often look more premium.
+    source: B:03_SOURCE_NOTES/round_2/19_make-your-edits-look-expensive-simple-tricks.md
+  - rule: Keep captions short, readable, and in a stable viewing zone.
+    why: Stable text reduces visual search and clutter.
+    source: B:03_SOURCE_NOTES/round_2/02_3-hacks-to-get-perfect-retention-on-your-short-form-content.md
+  - rule: Use typographic hierarchy selectively and avoid styling every word equally.
+    why: Hierarchy tells the viewer what matters.
+    source: B:03_SOURCE_NOTES/round_2/14_the-ultimate-guide-to-editing-short-form-content-in-2026.md
+  - rule: Prioritize intelligible voice over music and sound effects.
+    why: Speech carries the information.
+    source: B:03_SOURCE_NOTES/kallaway/06_how-to-master-the-art-of-speaking-and-blow-up-your-content.md
+  - rule: Use motion, texture, and emotional sound effects only when they correspond to a real visual or narrative event.
+    why: Motivated sound feels intentional instead of noisy.
+    source: B:03_SOURCE_NOTES/round_2/05_master-viral-sound-design-for-short-form-content.md
+  - rule: Use silence deliberately when it creates more gravity, tension, contrast, or release than another sound.
+    why: Constant sound design can weaken emotional dynamics.
+    source: B:03_SOURCE_NOTES/round_2/08_how-to-learn-video-editing-so-fast-it-feels-like-cheating.md
+  - rule: Use a fresh-eyes phone review to verify where attention actually lands.
+    why: Editors become biased by knowing the timeline.
+    source: B:03_SOURCE_NOTES/round_2/07_my-step-by-step-process-for-editing-short-form-content.md
+  - rule: Respect current platform UI safe zones and leave text space before recording.
+    why: Interface overlays and framing constraints can obscure key information.
+    source: B:03_SOURCE_NOTES/round_2/02_3-hacks-to-get-perfect-retention-on-your-short-form-content.md
+  packaging:
+  - rule: Define the first-frame/title promise before scripting when possible.
+    why: The body must know what expectation it is paying.
+    source: B:03_SOURCE_NOTES/kallaway/07_how-to-write-a-killer-script-that-keeps-viewers-hooked.md
+  - rule: Make the first frame classify the same subject and payoff as the spoken hook.
+    why: Visual promise mismatch creates expectation debt.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Use title text as a distinct hook layer rather than merely duplicating captions.
+    why: Title text can reinforce subject, outcome, question, or comparison instantly.
+    source: B:03_SOURCE_NOTES/kallaway/18_the-psychology-of-killer-hooks.md
+  - rule: Place the CTA after meaningful value and before the largest expected drop-off.
+    why: An ask is stronger after relevance and trust have been earned.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Match the CTA to the video’s role instead of forcing every short to sell.
+    why: Discovery, education, proof, and conversion content have different next actions.
+    source: B:03_SOURCE_NOTES/kallaway/14_if-i-started-social-media-from-scratch-in-2026-i-d-do-this.md
+  - rule: Use a next-problem hook instead of a generic sign-off when session continuation matters.
+    why: A new relevant loop can move viewers to another asset.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Treat hashtags, keywords, posting time, search tactics, and testing features as date-sensitive variables.
+    why: Platform mechanics change and source prescriptions conflict.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Use platform-native raw production when useful, but still trim dead space and preserve clear captions and direction.
+    why: Native feel is not the same as random execution.
+    source: B:03_SOURCE_NOTES/round_3/12_unfortunately-growing-on-social-media-just-changed-forever.md
+  - rule: Use current platform-appropriate vertical dimensions and safe zones rather than assuming a fixed spec from this
+      corpus.
+    why: The archives do not contain an authoritative cross-platform aspect-ratio standard.
+    source: B:03_SOURCE_NOTES/round_2/13_how-to-edit-short-form-content-full-course-premiere-pro.md
+  - rule: Choose length by the shortest duration that fully pays the promise without filler or missing steps.
+    why: The corpus does not support one universal ideal length.
+    source: B:03_SOURCE_NOTES/round_4/04_how-to-actually-make-viral-video-ideas.md
+  quality_do_dont:
+  - rule: Do make subject, stakes, and payoff obvious while leaving one meaningful question open.
+    why: Strong openings balance clarity and curiosity.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  - rule: Do solve one narrow problem completely enough that the viewer can act.
+    why: Generic principle lists create weak practical value.
+    source: B:03_SOURCE_NOTES/round_4/12_how-to-give-value-the-trinity-of-value.md
+  - rule: Do let editing serve comprehension, proof, emotion, or attention renewal.
+    why: Motivated craft is stronger than performative effects.
+    source: B:03_SOURCE_NOTES/round_2/08_how-to-learn-video-editing-so-fast-it-feels-like-cheating.md
+  - rule: Do use claims proportionate to evidence and specificity that is true.
+    why: Trust compounds only when rhetoric is credible.
+    source: B:03_SOURCE_NOTES/round_4/11_the-science-behind-viral-content-that-can-blow-up-any-brand.md
+  - rule: Do choose formats that are repeatable at the available production capacity.
+    why: A format that cannot be sustained is not operationally strong.
+    source: B:03_SOURCE_NOTES/round_2/06_breaking-down-my-favourite-short-form-editing-styles.md
+  - rule: Do transform borrowed patterns through original reasoning, proof, language, and delivery.
+    why: Adaptation should preserve originality and trust.
+    source: B:03_SOURCE_NOTES/round_3/13_how-to-grow-an-audience-if-you-have-0-followers-it-s-only-2-habits.md
+  - rule: Do not fully reveal the central payoff early if the rest of the video adds little.
+    why: A paid-off question removes the reason to keep watching.
+    source: B:03_SOURCE_NOTES/round_2/04_how-to-make-shorts-that-go-viral-every-time.md
+  - rule: Do not delay the payoff with empty withholding.
+    why: Curiosity must be supported by real progression and value.
+    source: B:03_SOURCE_NOTES/round_4/11_the-science-behind-viral-content-that-can-blow-up-any-brand.md
+  - rule: Do not let face, captions, title, graphics, motion, and sound all compete at once.
+    why: Unstable hierarchy overloads attention.
+    source: B:03_SOURCE_NOTES/round_4/06_how-to-get-10-000-followers-on-instagram-step-by-step-guide.md
+  - rule: Do not use unrelated B-roll or effects merely because the timeline feels empty.
+    why: Random polish weakens meaning and perceived control.
+    source: B:03_SOURCE_NOTES/round_2/19_make-your-edits-look-expensive-simple-tricks.md
+  - rule: Do not fabricate percentages, urgency, scientific certainty, or autobiographical stakes.
+    why: Attention gained through false specificity creates ethical and trust costs.
+    source: B:03_SOURCE_NOTES/round_4/01_10-000-hours-of-studying-the-best-viral-hooks-in-51-minutes.md
+  - rule: Do not judge a video as strong from views alone when the objective was another action.
+    why: Quality must be measured against the intended outcome.
+    source: B:03_SOURCE_NOTES/kallaway/14_if-i-started-social-media-from-scratch-in-2026-i-d-do-this.md
+  measurement_and_iteration:
+  - rule: Define the success metric from the intended viewer action before publishing.
+    why: Different content roles require different metrics.
+    source: B:03_SOURCE_NOTES/kallaway/14_if-i-started-social-media-from-scratch-in-2026-i-d-do-this.md
+  - rule: Use watch time, completion, hold/hook metrics where available, rewatches, and retention dips to diagnose attention.
+    why: Retention data shows where the viewing experience breaks.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Use shares, saves, follows per view, and subscriber gain to judge propagation.
+    why: Distribution quality is different from raw view count.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Use profile visits, leads, conversions, and revenue per view when the objective is downstream action.
+    why: Business outcomes can diverge from reach.
+    source: B:03_SOURCE_NOTES/kallaway/14_if-i-started-social-media-from-scratch-in-2026-i-d-do-this.md
+  - rule: Inspect the exact sentence, visual, transition, and payoff state at retention dips.
+    why: Local diagnosis is more useful than vague global guesses.
+    source: B:03_SOURCE_NOTES/round_2/10_short-form-expert-going-viral-isn-t-luck-i-make-1m-month-with-31-second-videos.md
+  - rule: Test one major variable at a time when learning matters.
+    why: Changing everything destroys attribution.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Test multiple openings against the same body when evaluating hook quality.
+    why: This isolates the entry mechanism.
+    source: B:03_SOURCE_NOTES/round_4/07_how-to-grow-100-000-instagram-followers-in-90-days-content-bible.md
+  - rule: Benchmark outliers against the account’s own baseline and treat them as clues, not proof of causation.
+    why: Relative performance is more informative than raw popularity alone.
+    source: B:03_SOURCE_NOTES/kallaway/11_the-science-based-method-to-create-irresistible-ideas.md
+  - rule: Analyze winners by topic, angle, hook, format, proof, visual treatment, CTA, and audience response.
+    why: Component analysis reveals what may be reusable.
+    source: B:03_SOURCE_NOTES/round_3/01_48-min-to-develop-the-best-content-strategy.md
+  - rule: Separate experimentation from standardized production and graduate repeated winners into reusable systems.
+    why: Exploration and efficient scaling require different operating modes.
+    source: B:03_SOURCE_NOTES/kallaway/14_if-i-started-social-media-from-scratch-in-2026-i-d-do-this.md
+  - rule: Track production friction as well as audience performance.
+    why: An unrepeatable winner may not be a practical format.
+    source: B:03_SOURCE_NOTES/round_2/06_breaking-down-my-favourite-short-form-editing-styles.md
+  - rule: Save successful templates, presets, references, proof assets, and decisions immediately after use.
+    why: Reusable assets make iteration compound.
+    source: B:03_SOURCE_NOTES/round_2/08_how-to-learn-video-editing-so-fast-it-feels-like-cheating.md
+  - rule: Use current account/platform data rather than self-reported source benchmarks.
+    why: The corpus contains many unverified performance claims.
+    source: B:03_SOURCE_NOTES/round_4/11_the-science-behind-viral-content-that-can-blow-up-any-brand.md
+  - rule: Re-check platform mechanics periodically.
+    why: Search, hashtags, timing, UI, distribution signals, and testing features change.
+    source: B:03_SOURCE_NOTES/kallaway/16_how-social-media-algorithms-actually-work-and-how-to-beat-them.md

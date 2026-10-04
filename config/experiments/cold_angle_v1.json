@@ -2,21 +2,26 @@
   "name": "cold_angle_v1",
   "stage": "cold_email",
   "hypothesis": "Opening with what a quiet quote already cost them (survey visit, paperwork) gets more positive replies than opening with a question about how many went quiet.",
-  "variable": "opening angle (offer line = winner of cold_offer_v1; swap it in before running)",
+  "variable": "opening sentence only (subject, offer line, ask and follow-ups = cold_offer_v1 winner)",
   "primary_metric": "positive_reply_rate",
-  "guardrails": ["bounce_rate < 3%", "unsubscribe_or_complaint_rate < 2%", "zero complaints"],
+  "guardrails": [
+    "bounce_rate < 3%",
+    "unsubscribe_or_complaint_rate < 2%",
+    "zero complaints"
+  ],
   "min_sent_per_arm": 300,
-  "decision_rule": "Run after cold_offer_v1 is decided. Keep the arm with >= 90% probability of the higher positive-reply rate; otherwise keep the one with more booked calls.",
+  "decision_rule": "Start only after cold_offer_v1 is decided: replace [OFFER] and the ask with the winning arm's, copy its follow_ups, set status to ready. Run on ~30% of the remaining list. Keep the arm with >= 90% probability of the higher positive-reply rate; otherwise keep the one with more booked calls.",
   "arms": [
     {
       "key": "A_question",
       "subject": "quotes that went quiet",
-      "body": "Hi,\n\nHow many quotes has {company} sent out in the last year where the homeowner just went quiet?\n\nI chase those people up for you, in your name, and book anyone who's still interested back in for a survey. Nothing to pay unless it works.\n\nWorth me sending over how it works?"
+      "body": "Hi,\n\nHow many quotes has {company} sent in the last year where the homeowner just went quiet?\n\n[OFFER]\n\nWorth me explaining how it works?"
     },
     {
       "key": "B_money_already_spent",
-      "subject": "old quotes",
-      "body": "Hi,\n\nEvery quote that goes quiet has already cost you a survey visit and an evening on the paperwork. Most of those homeowners never actually said no. They just went quiet.\n\nI chase them for you, in your name, and book the ones still interested back in. Nothing to pay unless it works.\n\nWorth a look for {company}?"
+      "subject": "quotes that went quiet",
+      "body": "Hi,\n\nEvery quote that goes quiet has already cost {company} a survey visit and an evening of paperwork.\n\n[OFFER]\n\nWorth me explaining how it works?"
     }
-  ]
+  ],
+  "status": "waiting"
 }

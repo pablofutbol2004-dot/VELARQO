@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: content_measurement
+kind: general
+title: Content Measurement Craft
+categories:
+  objective_metrics:
+  - rule: Define the business or communication objective before choosing success metrics.
+    why: A metric is only meaningful relative to the behavior the content was designed to produce.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  - rule: Separate attention outcomes from follower or relationship outcomes and from conversion outcomes.
+    why: Views, follows, leads, and revenue measure different stages and can move independently.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/07_growth-testing-publishing-and-distribution
+  - rule: Judge reach-oriented content with attention and sharing signals, and judge commercial content with qualified actions and economic outcomes.
+    why: A high-view asset can be a poor commercial result and a low-view asset can be commercially strong.
+    source: B:kallaway/06_content-strategy-growth-algorithms-and-monetization; B:round_3/05_creator-ugc-performance-and-scaling
+  - rule: Track conversion quality per unit of exposure when the goal is business value, not only total conversions.
+    why: Rates such as qualified leads or revenue per view help compare differently sized pieces.
+    source: B:kallaway/06_content-strategy-growth-algorithms-and-monetization; B:round_4/04_expert-brand-positioning-and-monetization
+  testing:
+  - rule: Change one major variable at a time when the purpose of a test is causal learning.
+    why: If topic, hook, format, proof, length, and CTA all change, the result is hard to diagnose.
+    source: B:round_4/07_growth-testing-publishing-and-distribution
+  - rule: Test variables such as topic, hook, visual framing, format, length, proof, and CTA as separate hypotheses.
+    why: A structured variable map turns output volume into learnable experiments.
+    source: B:round_4/07_growth-testing-publishing-and-distribution; B:round_3/05_creator-ugc-performance-and-scaling
+  - rule: Produce small controlled batches before scaling a creative combination.
+    why: Small batches create enough evidence to compare without committing excessive resources.
+    source: B:round_3/05_creator-ugc-performance-and-scaling; B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  - rule: Keep an exploration stream for new ideas while continuing to exploit repeatable winners.
+    why: A factory without experimentation decays, while experimentation without reuse wastes proven learning.
+    source: B:kallaway/06_content-strategy-growth-algorithms-and-monetization
+  diagnosis:
+  - rule: Compare a piece with the creator or account’s own baseline rather than relying only on raw view counts across unequal accounts.
+    why: Relative outliers expose unusually strong ideas more reliably than absolute scale alone.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:kallaway/05_ideas-research-validation-and-substance
+  - rule: Inspect performance at exact drop points or weak stages and map them back to the corresponding line, shot, claim, or transition.
+    why: Diagnosis improves when failure is localized to a concrete creative decision.
+    source: B:round_2/02_retention-hooks-pacing-and-story
+  - rule: Tag each asset with the variables needed to explain performance before publishing.
+    why: Volume without metadata becomes noise because winners cannot be decomposed.
+    source: B:round_3/05_creator-ugc-performance-and-scaling
+  - rule: Record audience questions, comments, objections, and repeated wording as qualitative evidence alongside quantitative metrics.
+    why: Behavioral data explains what happened; audience language can help explain why.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:round_4/04_expert-brand-positioning-and-monetization
+  validation:
+  - rule: 'Use a validation ladder: external evidence, internal attention, audience response, business response, then repeatability.'
+    why: One successful reference or one successful post is weaker evidence than repeated performance through the full objective chain.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation
+  - rule: Promote a format or concept into a major template only after variations continue to work.
+    why: Repeatability separates a durable mechanism from a one-off outlier.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; B:round_3/05_creator-ugc-performance-and-scaling
+  - rule: Distinguish content strength, distribution strength, and conversion strength when reviewing a result.
+    why: A weak outcome can come from a good piece with poor reach, strong reach with weak conversion, or weak content itself.
+    source: B:round_3/07_distribution-networks-clipping-and-audience-growth
+  - rule: Study patterns across several adjacent sources or creators before treating one isolated hit as a general rule.
+    why: Cross-source recurrence is stronger evidence of demand than a single exceptional post.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation
+  - rule: Treat historic winners as time-sensitive evidence and keep research current enough to detect saturation or decay.
+    why: Topics, formats, audience taste, and platform conditions change over time.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation
+  - rule: Verify attribution before scaling a supposedly high-performing format or creator.
+    why: Correlation with sales, comments, or professional appearance does not prove causal contribution.
+    source: B:round_3/05_creator-ugc-performance-and-scaling
+  platform_caution:
+  - rule: Treat exact algorithm mechanics, sample sizes, benchmark thresholds, posting-time rules, hashtag weights, and feature-specific tactics as re-check items.
+    why: Platform systems are dynamic, partially opaque, and represented in the corpus largely through creator claims.
+    source: B:01_KNOWLEDGE_CORE/CLAIMS_CAVEATS_LIMITS_AND_TENSIONS; B:round_4/07_growth-testing-publishing-and-distribution
+  - rule: Treat watch time and retention as important signals rather than the complete explanation of recommendation performance.
+    why: The corpus explicitly flags “algorithms only care about hook rate and watch time” as an oversimplification.
+    source: B:round_4/07_growth-testing-publishing-and-distribution

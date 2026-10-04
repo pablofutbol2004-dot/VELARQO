@@ -1,0 +1,15 @@
+{
+  "devices": [
+    "edge_crop",
+    "oversized_type",
+    "giant_numbers",
+    "microcopy",
+    "thin_rules",
+    "annotation_marks",
+    "frame_break",
+    "subject_text_overlap",
+    "high_contrast_accent",
+    "progress_indicator",
+    "visual_continuation"
+  ]
+}

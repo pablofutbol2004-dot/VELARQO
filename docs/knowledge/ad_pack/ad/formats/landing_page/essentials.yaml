@@ -1,0 +1,199 @@
+schema_version: '1'
+pack: landing_page
+kind: format
+title: Landing Page
+categories:
+  page_role_and_scope:
+  - rule: Define the landing page around one primary audience, offer context, and intended conversion action before choosing
+      sections or layout.
+    why: A page cannot prioritize information coherently when it is simultaneously trying to serve unrelated visitors, offers,
+      and next actions.
+    source: C12K:1AAcCET2Hiw@00:11:48; C12K:hcPxMuxh5Tc@00:03:08
+  - rule: 'Treat a landing page as a focused decision environment rather than a general-purpose website page: every major
+      element should help the intended visitor understand, trust, or take the primary next step.'
+    why: General navigation and unrelated content compete with the page-specific decision the visitor arrived to make.
+    source: C12K:PN2dcxR8pJg@00:04:39; C12K:1AAcCET2Hiw@00:10:27
+  - rule: Give a cold or unfamiliar visitor enough information to make the requested commitment instead of assuming they will
+      convert from a headline and button alone.
+    why: Visitors who lack prior context usually need benefits, mechanism, evidence, and uncertainty reduction before a meaningful
+      commitment is reasonable.
+    source: C12K:1AAcCET2Hiw@00:09:20; C12K:hcPxMuxh5Tc@00:03:59
+  - rule: Do not choose page length from a universal short-page or long-page rule; include the information required by offer
+      complexity, visitor awareness, and decision risk, then remove what does not help the decision.
+    why: High-intent visitors may need little education while unfamiliar or high-risk offers can require much more explanation
+      and proof.
+    source: C12K:1AAcCET2Hiw@00:10:56; C12K:1AAcCET2Hiw@00:53:55
+  - rule: Build the page from actual customer problems, desired outcomes, objections, and decision criteria rather than filling
+      a standard template with generic copy.
+    why: A structurally correct page still fails when its sections answer questions the intended visitor does not have.
+    source: C12K:1AAcCET2Hiw@00:07:20; C12K:1AAcCET2Hiw@00:10:27
+  traffic_and_message_match:
+  - rule: 'Preserve message continuity from the acquisition source into the landing page: the promise, audience, offer, and
+      expected next step should feel like the same conversation.'
+    why: A visitor who clicks one promise and lands on a materially different message must re-orient and may infer bait-and-switch
+      or irrelevance.
+    source: C12K:1AAcCET2Hiw@00:10:27; C12K:1AAcCET2Hiw@00:10:56
+  - rule: Adapt page directness and education depth to the visitor’s awareness and intent instead of using the same page sequence
+      for every traffic source.
+    why: Someone actively searching for a solution can often act earlier than someone interrupted by an ad who is only becoming
+      aware of the problem.
+    source: C12K:1AAcCET2Hiw@00:10:56; C12K:1AAcCET2Hiw@00:49:58
+  - rule: When materially different traffic sources imply different intent or problems, use distinct page variants or sections
+      rather than forcing all traffic into one blended message.
+    why: Source-level differences can change what must be explained, proved, or requested before conversion.
+    source: C12K:1AAcCET2Hiw@00:10:56; C12K:1AAcCET2Hiw@00:11:48
+  - rule: Do not send purpose-specific campaign traffic to a generic destination when a dedicated landing page can preserve
+      the campaign’s context.
+    why: A generic homepage makes the visitor rediscover the relevant offer and weakens message match.
+    source: C12K:1AAcCET2Hiw@00:10:27; C12K:PN2dcxR8pJg@00:03:00
+  above_fold_and_orientation:
+  - rule: 'Use the first visible screen to answer the visitor’s immediate orientation questions: what this is, why it matters
+      to them, and what they can do next.'
+    why: The first view is the only page region every visitor encounters before deciding whether to continue.
+    source: C12K:CNRiNz0YYlM@00:06:19; C12K:1AAcCET2Hiw@00:06:35
+  - rule: Make the primary headline communicate the visitor-relevant outcome or differentiator, not merely the company category
+      or a vague slogan.
+    why: A category label explains what the business is but leaves the visitor to infer why they should care.
+    source: C12K:1AAcCET2Hiw@00:06:08; C12K:CNRiNz0YYlM@00:07:01
+  - rule: Use the subheadline to clarify, qualify, or explain the mechanism behind the headline when the headline alone cannot
+      carry the needed context.
+    why: The headline should stay easy to grasp while the subheadline can answer the most important immediate follow-up question.
+    source: C12K:zA0B-VwOPn4@00:09:50; C12K:zA0B-VwOPn4@00:10:04
+  - rule: Choose a hero visual that demonstrates, previews, or reinforces the promised result or mechanism rather than functioning
+      as unrelated decoration.
+    why: The first visual can strengthen comprehension and proof, or it can consume prime space without helping the decision.
+    source: C12K:zA0B-VwOPn4@00:05:49; C12K:hcPxMuxh5Tc@00:02:05
+  - rule: Place the primary action above the fold when the visitor is sufficiently informed and ready to act; do not force
+      an early form when the traffic still needs education.
+    why: Action visibility helps high-intent visitors, but an immediate commitment can be premature for low-awareness traffic.
+    source: C12K:1AAcCET2Hiw@00:11:26; C12K:1AAcCET2Hiw@00:49:58
+  - rule: Put the most relevant trust or risk-reduction cue near an early high-stakes action when that cue resolves a likely
+      immediate doubt.
+    why: Evidence is more useful when it appears where the uncertainty becomes consequential rather than in a distant generic
+      proof block.
+    source: C12K:1AAcCET2Hiw@00:50:27; C12K:rfdkMStaBW0@01:14:07
+  page_sequence_and_information:
+  - rule: Order sections according to the questions the visitor must resolve next, not according to a fixed universal landing-page
+      template.
+    why: Problem-aware and solution-aware visitors need different sequencing even when the underlying offer is identical.
+    source: C12K:1AAcCET2Hiw@00:52:56; C12K:1AAcCET2Hiw@00:53:55
+  - rule: Let section headlines carry meaningful benefits or conclusions so a visitor can understand the page by scanning
+      the headings alone.
+    why: Visitors often scan before deciding what to read closely; generic labels such as “Our Services” waste that scan path.
+    source: C12K:PcwuZJNJny4@00:09:17; C12K:PcwuZJNJny4@00:10:03
+  - rule: Break dense explanation into visually digestible sections, bullets, comparisons, steps, or other structures that
+      expose information hierarchy.
+    why: Scannable structure lets visitors find the evidence or explanation they need without processing one undifferentiated
+      wall of copy.
+    source: C12K:PcwuZJNJny4@00:09:38; C12K:1AAcCET2Hiw@01:01:01
+  - rule: Use a concise “how it works” sequence when process uncertainty is material, and end the sequence on the visitor’s
+      desired result rather than on internal operational steps.
+    why: A simple process model lowers ambiguity while keeping attention on the outcome the process is meant to produce.
+    source: C12K:1AAcCET2Hiw@01:01:46; C12K:1AAcCET2Hiw@01:02:15
+  - rule: Do not assemble unrelated value propositions, images, and generic sections merely to make the page look complete.
+    why: Random completeness increases length without building a coherent argument or helping the visitor progress toward
+      a decision.
+    source: C12K:1AAcCET2Hiw@00:10:27
+  - rule: Use the final conversion section to restate the desired outcome, clarify what happens after action, and present
+      the primary next step instead of ending with a generic “Contact us.”
+    why: The bottom of the page is the last decision point for visitors who consumed the full argument; generic labels waste
+      the accumulated context.
+    source: C12K:1AAcCET2Hiw@01:03:57; C12K:1AAcCET2Hiw@01:04:26
+  action_and_form_design:
+  - rule: Keep one dominant call-to-action meaning across the page even when the same action is repeated in several locations.
+    why: Repeated access to one next step can reduce effort; competing primary actions fragment intent and make the page harder
+      to interpret.
+    source: C12K:hcPxMuxh5Tc@00:03:08; C12K:hcPxMuxh5Tc@00:03:34
+  - rule: Judge CTA placement by completed downstream actions rather than by button clicks alone.
+    why: An earlier button can increase clicks while sending under-informed visitors into a form or checkout they do not complete.
+    source: C12K:hcPxMuxh5Tc@00:03:59; C12K:hcPxMuxh5Tc@00:04:26
+  - rule: Ask only for form fields that materially support fulfillment, routing, qualification, compliance, or follow-up;
+      remove fields that create effort without changing what happens next.
+    why: Every unnecessary input adds abandonment risk, while some additional fields can be justified when they improve a
+      real downstream decision.
+    source: C12K:rfdkMStaBW0@00:09:08; C12K:1AAcCET2Hiw@01:04:54
+  - rule: Explain what the visitor will receive or what will happen after submitting a form when that next step is not obvious.
+    why: Uncertainty about the consequence of submission increases perceived risk and makes a generic form feel like an invitation
+      to be sold to.
+    source: C12K:rfdkMStaBW0@00:34:50; C12K:1AAcCET2Hiw@00:50:27
+  - rule: Use persistent, readable form labels—especially on mobile—instead of relying only on placeholder text that disappears
+      during entry.
+    why: Visitors should not have to remember what a field meant after they begin typing.
+    source: C12K:1AAcCET2Hiw@01:04:54
+  - rule: After conversion, confirm the completed action and make the next expected state obvious; the funnel pack owns what
+      that next state should be.
+    why: A clear confirmation prevents uncertainty, duplicate submissions, and a broken handoff immediately after the page
+      succeeds.
+    source: C12K:1AAcCET2Hiw@00:12:41; C12K:01cCzRY3iJM@00:08:01
+  proof_and_objection_placement:
+  - rule: Select proof using the `proof` pack, then place each proof element close to the claim, fear, or action it is meant
+      to support.
+    why: Page-specific proof placement should resolve local uncertainty without recreating a generic testimonial dump.
+    source: C12K:1AAcCET2Hiw@00:54:24; C12K:rfdkMStaBW0@01:14:07
+  - rule: Move proof earlier for high-intent visitors when trust is the remaining barrier; move education earlier when understanding
+      the problem or mechanism is the barrier.
+    why: The same sections can perform differently depending on what the visitor already believes before arriving.
+    source: C12K:1AAcCET2Hiw@00:53:17; C12K:1AAcCET2Hiw@00:54:24
+  - rule: On mobile, expose high-value proof directly when it is important to the decision instead of hiding it behind low-discovery
+      carousels or accordions.
+    why: Critical evidence that is technically present but rarely opened behaves as if it were absent.
+    source: C12K:PcwuZJNJny4@00:08:48; C12K:PcwuZJNJny4@00:09:05
+  - rule: Build FAQ content from recurring customer questions, objections, and observed hesitation rather than padding the
+      page with generic questions.
+    why: A useful FAQ resolves real uncertainty at the point where visitors who reached the bottom may still hesitate.
+    source: C12K:1AAcCET2Hiw@01:03:30; C12K:1AAcCET2Hiw@00:12:41
+  - rule: If the offer has a legitimate guarantee or risk reversal, decide its page prominence based on the doubt it resolves;
+      do not invent one for page conversion.
+    why: Guarantee design belongs to `offer_framing`; the landing page should only communicate a real term where it is decision-relevant.
+    source: C12K:1AAcCET2Hiw@01:03:10; C12K:hcPxMuxh5Tc@00:05:12
+  - rule: For service businesses where the buyer is evaluating the people delivering the work, use team or founder identity
+      as trust context when it materially reduces uncertainty.
+    why: Human identity can matter to service credibility in a way that is less relevant to many self-serve products.
+    source: C12K:1AAcCET2Hiw@01:02:44
+  visual_usability_and_mobile:
+  - rule: 'Use visual hierarchy to make the intended reading order obvious: primary promise first, supporting context second,
+      action and evidence where they become relevant.'
+    why: A page can contain the right information and still fail if typography, spacing, or emphasis makes everything compete
+      equally.
+    source: C12K:1AAcCET2Hiw@00:51:46; C12K:PcwuZJNJny4@00:09:38
+  - rule: Optimize the mobile page as its own layout rather than assuming the desktop hierarchy survives automatic stacking.
+    why: Reordering, hidden content, oversized spacing, and interaction patterns can materially change what mobile visitors
+      notice and can access.
+    source: C12K:PcwuZJNJny4@00:08:48; C12K:1AAcCET2Hiw@01:04:54
+  - rule: Keep the page visually credible and readable without adding animation, decoration, or brand effects that compete
+      with comprehension and action.
+    why: Visual quality can support trust, but visual spectacle that obscures hierarchy adds cognitive work without decision
+      value.
+    source: C12K:1AAcCET2Hiw@00:08:00; C12K:1AAcCET2Hiw@00:08:29
+  - rule: Avoid excessive empty space or oversized decorative regions when they push decision-relevant information below the
+      first view without adding clarity.
+    why: Prime screen space is scarce, especially on mobile; spacing should separate information, not bury it.
+    source: C12K:1AAcCET2Hiw@00:50:36; C12K:1AAcCET2Hiw@00:51:05
+  - rule: Reduce technical and interaction delays that materially interrupt the conversion action, such as unnecessary page
+      refreshes or laborious selection flows.
+    why: A visitor who has decided to act can still be lost when the interface inserts avoidable waiting or state changes.
+    source: C12K:1AAcCET2Hiw@01:06:19; C12K:rfdkMStaBW0@00:09:08
+  measurement_and_iteration:
+  - rule: Establish the page’s baseline conversion and downstream-quality metrics before interpreting a redesign or test.
+    why: Without a baseline and a defined outcome, “better landing page” becomes an aesthetic judgment rather than a measurable
+      hypothesis.
+    source: C12K:1AAcCET2Hiw@00:11:48; C12K:1AAcCET2Hiw@01:13:57
+  - rule: Inspect behavior from both converters and non-converters to identify hesitation, missed information, dead clicks,
+      scroll patterns, and abandonment points.
+    why: Aggregate conversion rate shows that a problem exists; behavioral evidence helps localize why.
+    source: C12K:1AAcCET2Hiw@00:12:16; C12K:1AAcCET2Hiw@00:12:41
+  - rule: Segment landing-page performance by traffic source and device before trusting a blended average.
+    why: A page can look healthy overall while failing for a high-value source or for mobile visitors.
+    source: C12K:1AAcCET2Hiw@00:10:56; C12K:1AAcCET2Hiw@01:13:28
+  - rule: Prioritize high-leverage hypotheses—often the promise, first-view message, hero, proof, or action path—before polishing
+      low-impact visual details.
+    why: Large decision variables usually have more room to move behavior than tiny cosmetic adjustments, especially early
+      in optimization.
+    source: C12K:CNRiNz0YYlM@00:05:44; C12K:CNRiNz0YYlM@00:06:03
+  - rule: Use controlled A/B tests when traffic is sufficient for useful inference; with low traffic, prefer qualitative evidence
+      and larger hypothesis-driven changes over significance theater.
+    why: Tiny-sample split tests can produce unstable winners and delay learning.
+    source: C12K:1AAcCET2Hiw@01:12:00; C12K:1AAcCET2Hiw@01:12:29
+  - rule: Track qualified leads, purchases, revenue, or other downstream economics alongside landing-page conversion rate.
+    why: A local conversion lift can be harmful if it attracts lower-fit actions or reduces economic value.
+    source: C12K:hcPxMuxh5Tc@00:03:59; C12K:1AAcCET2Hiw@01:16:33

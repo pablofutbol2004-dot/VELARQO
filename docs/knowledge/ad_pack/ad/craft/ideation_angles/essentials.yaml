@@ -1,0 +1,181 @@
+schema_version: '1'
+pack: ideation_angles
+kind: general
+title: Ideation & Angles Craft
+categories:
+  definitions_and_units:
+  - rule: Separate the parent topic, content idea, angle, and format instead of treating them as one thing.
+    why: A topic is the subject area; an idea is the specific proposition, problem, question, or transformation; an angle
+      is the treatment of that idea; format is how it is delivered. Keeping the units separate makes iteration deliberate.
+    source: C12K:pirnGDCZD3Y@00:01:24; C12K:tJAmLKU9DEA@00:09:16
+  - rule: Do not stop at a topic; turn it into a specific audience-relevant idea before drafting.
+    why: “Branding,” “fitness,” or “content marketing” are categories, not yet useful content premises. A usable idea tells
+      the audience what specific problem, question, claim, transformation, or tension will be addressed.
+    source: C12K:pirnGDCZD3Y@00:00:55; C12K:F0-yC1gVElA@01:50:14
+  - rule: Treat an angle as a meaningful change in premise, take, context, causal explanation, or point of attack—not merely
+      a new hook or synonymous wording.
+    why: Two pieces can share a topic while becoming different content because the underlying treatment changes; cosmetic
+      phrasing changes do not create a new idea.
+    source: C12K:pirnGDCZD3Y@00:01:27; C12K:F0-yC1gVElA@01:50:43
+  input_mining_and_capture:
+  - rule: Mine recurring audience questions, requests, comments, objections, beliefs, disagreements, and frustrations as raw
+      idea inputs.
+    why: These signals reveal uncertainty and demand in the audience’s own environment instead of forcing the creator to guess
+      what matters.
+    source: C12K:5N1aLgU8E00@00:00:35; C12K:epfdvJ1L39g@00:05:13; C12K:_5RQAjOyG10@00:11:35
+  - rule: Mine sales, support, delivery, customer, and client conversations for the problems and experiences people actually
+      describe.
+    why: Real interactions expose specific language, edge cases, objections, and operational pain that generic market summaries
+      often miss.
+    source: C12K:O9zXC_kNtw8@00:03:39; C12K:avm5jc2AWYI@00:13:54
+  - rule: Capture spontaneous observations and ideas immediately in one trusted idea bank instead of relying on memory.
+    why: Useful ideas often appear during work, conversations, or everyday observation; a consistent capture point prevents
+      those insights from disappearing before an ideation session.
+    source: C12K:epfdvJ1L39g@00:02:19
+  - rule: Mine your own strongest past content before external references and look for components worth iterating.
+    why: Your own winners are the closest evidence of what your specific audience already responds to and what you can execute
+      credibly.
+    source: C12K:epfdvJ1L39g@00:01:25; C12K:reisEL_D7xc@01:22:14
+  - rule: Use lived experience, real decisions, experiments, mistakes, results, and work-in-progress as idea material when
+      they create a useful lesson for the audience.
+    why: First-hand material gives the creator specific substance and a viewpoint that cannot be reproduced by generic research
+      alone.
+    source: C12K:F0-yC1gVElA@01:48:47; C12K:N34zz1-RSGw@00:15:28
+  - rule: Use competitor, adjacent-niche, and cross-domain creators as research inputs, not as scripts to imitate.
+    why: External references can reveal demand and mechanisms that work while still leaving the creator responsible for relevance,
+      reasoning, and original expression.
+    source: C12K:epfdvJ1L39g@00:03:27; C12K:v_-9YiG1kO0@00:12:33
+  - rule: Separate idea references from execution references when useful.
+    why: A creator may be valuable because their topics show demand while another is valuable because of structure, visuals,
+      or delivery; mixing those roles encourages unnecessary cloning.
+    source: C12K:v_-9YiG1kO0@00:12:06; C12K:v_-9YiG1kO0@00:13:01
+  - rule: Treat fresh events, new cases, recent work, and changes in your own environment as ways to refresh durable ideas
+      without becoming dependent on trend-chasing.
+    why: Evergreen principles can gain relevance from current context while the underlying idea remains useful after the moment
+      passes.
+    source: C12K:reisEL_D7xc@01:22:14; C12K:O9zXC_kNtw8@00:03:39
+  demand_and_relevance:
+  - rule: 'Prefer ideas connected to demonstrated audience demand: a problem, question, desire, uncertainty, or decision people
+      already care about.'
+    why: An original treatment cannot rescue a subject that the intended audience has no reason to consume.
+    source: C12K:epfdvJ1L39g@00:00:44; C12K:5N1aLgU8E00@00:00:42
+  - rule: Prefer specific, observable problems over vague abstractions unless the content can first make the hidden problem
+      visible.
+    why: People respond more readily to a condition they can recognize in their own experience than to an abstract issue they
+      do not perceive themselves as having.
+    source: C12K:epfdvJ1L39g@00:04:34
+  - rule: Keep the intended audience and desired audience fit visible when selecting ideas; raw reach is not the only definition
+      of a good idea.
+    why: A broadly popular topic can attract the wrong people, while a narrower idea can be more useful when it concentrates
+      the exact audience the creator wants.
+    source: C12K:O9zXC_kNtw8@00:00:41; C12K:N34zz1-RSGw@00:16:56
+  - rule: Use research and prior performance to form better hypotheses, not as commands that eliminate judgment or testing.
+    why: What worked elsewhere reduces guessing but does not prove that the same idea or treatment will work for a different
+      creator, audience, offer, or context.
+    source: C12K:tJAmLKU9DEA@00:10:47; C12K:pirnGDCZD3Y@00:05:27
+  - rule: Look for recurring components across several strong references instead of generalizing from one isolated hit.
+    why: Repeated patterns give a stronger signal about demand or mechanism than a single winner whose success may depend
+      on factors you have not identified.
+    source: C12K:pirnGDCZD3Y@00:04:16; B:content_measurement/validation
+  - rule: Pair a costly or consequential audience problem with a solution, explanation, or experience you can genuinely contribute.
+    why: This intersection combines relevance with credible distinction and reduces the temptation to teach generic solutions
+      you have never applied.
+    source: C12K:F0-yC1gVElA@01:46:00; C12K:F0-yC1gVElA@01:48:47
+  angle_development:
+  - rule: Expand a strong core idea into multiple angles before assuming you need a completely new topic.
+    why: A useful idea usually contains several relevant questions, contexts, objections, mechanisms, and consequences that
+      can each become distinct content.
+    source: C12K:F0-yC1gVElA@01:50:43; C12K:reisEL_D7xc@01:22:14
+  - rule: Generate angles by changing a meaningful dimension such as audience or segment, context or use case, mechanism or
+      cause, consequence or stakes, constraint, comparison, objection, belief, or point of view.
+    why: Changing a real dimension of the problem creates a new reason to consume the idea instead of merely repainting the
+      same piece.
+    source: C12K:F0-yC1gVElA@01:52:06; C12K:_5RQAjOyG10@00:11:40; C12K:dW7lF22BlKU@00:08:41
+  - rule: Use beliefs, misconceptions, objections, and disagreement as angle sources only when they expose a real audience
+      tension worth resolving.
+    why: Contrarian framing is useful when it clarifies a consequential misunderstanding; disagreement manufactured only for
+      attention produces empty angles.
+    source: C12K:_5RQAjOyG10@00:11:35; C12K:epfdvJ1L39g@00:05:19
+  - rule: Create distinction through first-hand experience, evidence, argument, examples, worldview, or mechanism rather than
+      pretending the underlying topic has never existed.
+    why: Most useful subjects are not new; the creator’s contribution becomes distinctive through what they can add to the
+      treatment.
+    source: B:round_3/03_content-research-reverse-engineering-and-validation; C12K:F0-yC1gVElA@01:49:44
+  - rule: Use a distinctive lens on familiar material when the lens changes what the audience notices, understands, or can
+      do.
+    why: A familiar subject can feel new when viewed through a relevant transformation, diagnostic, economic, historical,
+      human, technical, or other meaningful lens.
+    source: C12K:ol26gYDKJ1E@00:03:42; B:storytelling/story_lenses
+  - rule: Borrow a familiar demand signal, then solve or explain the underlying problem in your own way.
+    why: Demand can be borrowed without borrowing the original creator’s wording, reasoning, examples, or conclusions.
+    source: C12K:epfdvJ1L39g@00:04:03; C12K:v_-9YiG1kO0@00:13:50
+  - rule: Generate angle candidates expansively before filtering them.
+    why: Simultaneously creating and judging candidates suppresses variation; separating divergence from selection makes it
+      easier to discover stronger treatments.
+    source: C12K:F0-yC1gVElA@01:55:33
+  - rule: Transfer a format, lens, or creative mechanism from another niche only when the underlying audience behavior or
+      narrative mechanism maps to your subject.
+    why: Cross-pollination creates useful novelty when the structure transfers; copying a surface pattern without the underlying
+      fit creates gimmicks.
+    source: C12K:ol26gYDKJ1E@00:03:42; C12K:v_-9YiG1kO0@00:12:33
+  reference_mining_and_remix:
+  - rule: Prioritize references with evidence of disproportionate performance or unusually strong audience response over random
+      references chosen only because they look good.
+    why: Reference mining is more useful when the source has some signal that the idea or execution resonated beyond normal
+      baseline.
+    source: C12K:pirnGDCZD3Y@00:03:05; C12K:tJAmLKU9DEA@00:07:27
+  - rule: Decompose a reference into components instead of treating the whole piece as one indivisible template.
+    why: Separating topic, angle, hook, structure, format, visuals, audio, or equivalent components lets the creator learn
+      from mechanisms without cloning the entire artifact.
+    source: C12K:pirnGDCZD3Y@00:01:02
+  - rule: For each strong reference, identify what likely worked, what was weak, and what gap your version can improve.
+    why: Reverse engineering should create a better hypothesis, not a duplicate; weaknesses and missing information are often
+      where the creator can add value.
+    source: C12K:pirnGDCZD3Y@00:03:52; C12K:pirnGDCZD3Y@00:20:18
+  - rule: Hold only the components you have reason to preserve and deliberately remix the rest.
+    why: Keeping every component recreates the original; changing everything discards the evidence you researched. Selective
+      remixing balances validation with originality.
+    source: C12K:pirnGDCZD3Y@00:06:10
+  - rule: Combine mechanisms and inspiration from several references rather than tracing one source too closely.
+    why: Synthesis gives more room for judgment and distinct expression while reducing derivation risk.
+    source: B:round_4/02_idea-generation-problem-narrowing-and-content-research; C12K:v_-9YiG1kO0@00:01:54
+  - rule: Borrow the underlying question or problem when useful, then rebuild the reasoning, examples, evidence, and expression
+      from your own material.
+    why: The market does not grant ownership over a broad problem, but distinctive expression and original reasoning should
+      not be copied.
+    source: C12K:epfdvJ1L39g@00:04:03; B:content_quality/substance_and_distinction
+  - rule: Treat any one winning reference as a seed or hypothesis, not proof that every visible component caused the result.
+    why: Performance is multicausal; pattern comparison and testing are needed before assuming what should be preserved.
+    source: C12K:tJAmLKU9DEA@00:10:50; C12K:pirnGDCZD3Y@00:04:21
+  selection_banking_and_reuse:
+  - rule: Select ideas using a combination of audience relevance, evidence of demand, distinct contribution, credibility or
+      proof available, strategic fit, and ability to execute well.
+    why: Optimizing only for virality, novelty, or ease can produce content that grows the wrong audience, says nothing new,
+      or cannot be delivered credibly.
+    source: C12K:O9zXC_kNtw8@00:01:11; C12K:F0-yC1gVElA@01:48:47; C12K:N34zz1-RSGw@00:16:56
+  - rule: Generate more candidates than you publish and filter after generation.
+    why: A larger candidate pool makes selection meaningful and reduces the pressure to force the first plausible idea into
+      production.
+    source: C12K:F0-yC1gVElA@01:55:33; C12K:epfdvJ1L39g@00:04:58
+  - rule: Store source or provenance and a short note about why an idea or reference mattered, not just a bare link or title.
+    why: An annotated bank preserves the reasoning that made the reference useful and makes later selection and remixing much
+      faster.
+    source: C12K:pirnGDCZD3Y@00:18:42; C12K:epfdvJ1L39g@00:02:28
+  - rule: Promote a recurring problem or topic into a durable pillar only when repeated signals show it can support many useful
+      ideas.
+    why: One successful post is an idea-level signal; a pillar needs enough breadth and recurrence to sustain a body of work.
+    source: C12K:tJAmLKU9DEA@00:08:35
+  - rule: Revisit evergreen ideas and past winners with new stories, contexts, segments, evidence, or angles instead of assuming
+      repetition is automatically bad.
+    why: Creators become tired of their own ideas earlier than audiences do, and new audience members may never have seen
+      the earlier version.
+    source: C12K:reisEL_D7xc@01:20:26; C12K:reisEL_D7xc@01:22:14
+  - rule: When your own idea wins, treat it as a seed for deliberate iteration rather than immediately abandoning it for novelty.
+    why: A validated idea can support follow-ups, adjacent questions, deeper explanations, new contexts, and new angles while
+      preserving what the audience already demonstrated interest in.
+    source: C12K:epfdvJ1L39g@00:01:38; C12K:reisEL_D7xc@01:22:14
+  - rule: Use AI to cluster, expand, summarize, and generate variants from grounded inputs, while keeping human responsibility
+      for relevance, selection, facts, taste, and original contribution.
+    why: AI is effective at combinatorial search and organization but can generate plausible generic ideas disconnected from
+      the audience or creator’s real experience.
+    source: C12K:5N1aLgU8E00@00:01:00; C12K:N34zz1-RSGw@00:24:11; B:content_quality/substance_and_distinction

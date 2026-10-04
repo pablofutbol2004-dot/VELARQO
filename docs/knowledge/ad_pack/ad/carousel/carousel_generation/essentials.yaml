@@ -1,0 +1,82 @@
+schema_version: "1"
+pack: carousel_generation
+kind: carousel
+title: Carousel generation and novelty spec
+categories:
+  inputs:
+  - rule: "Require the minimum inputs before generating: viewer objective, audience current versus desired state, one-sentence thesis, content mode, CTA type and action, brand voice and visual identity, available assets and evidence, and slide count constraints."
+    why: "A carousel planned against real inputs cannot drift into template cloning."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#1"
+  - rule: "Let optional inputs refine: required facts, offer, season or local context, proof sources, forbidden claims or styles, and prior carousels to avoid repeating."
+    why: "Prior-output memory is how the system stops repeating itself."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#1"
+  planner_output:
+  - rule: "Emit a structured plan before copy or images: thesis, viewer change, chosen archetype and why, sequence engine, cover (hook family, promise, visual concept, layout primitive), visual invariants and variables, and per-slide role, core idea, reason to continue, visual function, dominant element, density, and continuity device."
+    why: "Plan-first makes every later stage checkable."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#2"
+  - rule: "Do not render until the plan passes structural QC."
+    why: "Rendering a bad plan wastes the most expensive step."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#2"
+  viewer_change:
+  - rule: "Start generation by completing the sentence: the viewer currently blank and after the carousel they should blank."
+    why: "If the transformation cannot be stated, the idea is not ready."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  content_mode:
+  - rule: "Choose the content mode from the core value: content-first for explanation and method, image-first for photography and taste, experience-first when the sequence itself is the product."
+    why: "Never default to text-first because models are good at text."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  cover_and_slide2:
+  - rule: "Generate at least three cover directions, each using a different hook mechanism, scored on relevance, specificity, clarity, curiosity, promise-payoff fit, and originality."
+    why: "Cover choice is a search, not a single guess."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  - rule: "Design slide two to answer why believe, why care, what exactly this is, what the map is, or what happened next; never use it as filler."
+    why: "Cover earns curiosity, slide two earns trust."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  sequence_planning:
+  - rule: "Decompose the idea into atomic units (claim, cause, consequence, example, proof, instruction, contrast, transition, payoff) and group them into slides with one dominant unit each."
+    why: "Unit allocation prevents a slide from trying to do everything."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  - rule: "Build a sequence curve that changes state every one to three slides, such as stop, validate, problem, mechanism, framework, example, application, residue, CTA."
+    why: "A planned curve guarantees progression rather than accumulation."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#3"
+  copy_and_visual:
+  - rule: "Write per-slide copy as primary line, optional support, labels, proof note, and continuation cue; vary density by role and reserve high density for genuinely saveable reference slides."
+    why: "Automatic paragraphs are the default failure of AI copy."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#4"
+  - rule: "Define each slide's visual mode, role, composition, focal point, supporting elements, background, energy, and scale; never accept add-some-icons as an instruction."
+    why: "Every visual element must have a stated function."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#5"
+  novelty:
+  - rule: "Create novelty by recombination across primitive libraries (archetype, sequence primitive, hook family, cover layout, slide layout, evidence type, rhythm, image role, continuity, CTA, material, diagram), never by random effects."
+    why: "A new combination of proven parts is novelty without nonsense."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#6"
+  - rule: "Mutate only one or two dimensions per alternative while preserving the concept: same sequence new visual world, same identity different archetype, or same content story instead of list."
+    why: "Changing everything at once breaks coherence."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#6"
+  - rule: "Track novelty distance from recent work on archetype, hook family, cover layout, palette, type style, visual mode, sequence engine, and ending; force variation in the lowest-risk dimensions first (layout, rhythm, evidence, hook, archetype)."
+    why: "Similarity is measured, not felt."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#6"
+  - rule: "When borrowing from a reference, extract the mechanism and describe the system in principles, never copying wording, full sequences, or exact composition plus type plus imagery together."
+    why: "Copying references reproduces their limits."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#6"
+  evidence_integrity:
+  - rule: "Keep a claim ledger for factual content: claim, source, confidence, and allowed language; forbid unsupported numbers, invented testimonials or results, research-shows without a source, and charts implying data that does not exist."
+    why: "Evidence-heavy design can make weak claims look authoritative."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#7"
+  structural_qc:
+  - rule: "Before rendering, answer the ten structural questions: viewer change, why this archetype, what each slide does, what breaks if removed, what makes the viewer continue, where the payoff is, which slide saves, evidence strategy, invariants, and controlled variables."
+    why: "A vague answer to any question is a reason to revise."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#8"
+  render_loop:
+  - rule: "Run the render loop in order: plan, cover concepts, sequence, copy, visual plan, structural QC, low-fidelity contact sheet, sequence QC, final render, thumbnail QC, slide QC, full-sequence QC, export."
+    why: "Cheap previews catch sequence problems before expensive renders."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#9"
+  - rule: "Before image generation, review a rough contact sheet for rhythm, identical slides, density spikes, accidental color repetition, cover dominance, a weak closer, or a buried payoff."
+    why: "Sequence problems only appear when all slides are seen together."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#10"
+  - rule: "Package every carousel with brief, plan, copy, visual plan, claims, QC report, contact sheet, and slide files; optional captions, alt text, source refs, and cover variants."
+    why: "A complete package is inspectable and regenerable."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#11"
+  - rule: "Split generation into separate responsibilities (strategist, copy planner, visual director, renderer, critic, claim gate) implemented as deterministic pipeline stages, not autonomous agents."
+    why: "Separation keeps each stage independently testable."
+    source: "CP:AI_GENERATION_AND_NOVELTY_SPEC.md#12"

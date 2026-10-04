@@ -24,7 +24,7 @@ These override generic copywriting advice when they conflict. Product truth live
 
 - British English spelling. Plain, short sentences. Sounds like one person writing to another tradesperson, not a marketing team.
 - Use their words: quotes, surveys, fitters, diary, jobs, homeowners. Avoid: leverage, solutions, AI-powered, growth, pipeline, funnel, synergy, "I hope this finds you well".
-- Cold emails: under ~90 words, one idea, one soft ask (a reply), no links or attachments in the first touch, plain text.
+- Cold emails: under 80 words including signature and opt-out (enforced in `compose.problems`), one idea, one soft ask (a reply), no links or attachments in the first touch, plain text.
 - Sign-off: Pablo, Velarqo, velarqo.com. Every email says who we are and how to opt out ("Reply 'no' and I won't email again").
 
 ## Legal checklist (run before ANY send)

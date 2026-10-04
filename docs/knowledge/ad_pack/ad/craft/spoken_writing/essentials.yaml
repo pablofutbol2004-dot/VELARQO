@@ -1,0 +1,44 @@
+schema_version: '1'
+pack: spoken_writing
+kind: general
+title: Spoken Writing Craft
+categories:
+  write_for_ears:
+  - rule: Write as if speaking to one person in a voice note rather than addressing a crowd from a page.
+    why: Conversational syntax sounds more natural when heard aloud.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Read every script aloud and rewrite lines that are technically correct but awkward to say.
+    why: Written fluency does not guarantee spoken fluency.
+    source: B:round_4/06_recording-delivery-and-visual-trust; B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Break long paragraphs into recordable thought units with one clear emphasis per unit.
+    why: Shorter performance units preserve clarity, energy, and editability.
+    source: B:kallaway/04_delivery-presence-audio-and-production; B:round_4/05_scriptwriting-compression-personalization-and-power-words
+  rhythm_and_cadence:
+  - rule: Vary sentence length and syllable pattern so the script does not produce a monotonous verbal rhythm.
+    why: Rhythmic variation helps emphasis and keeps speech from sounding machine-generated.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Use deliberate pauses, holds, and faster runs according to meaning rather than maintaining one continuous tempo.
+    why: Pace contrast can signal importance, tension, confidence, or release.
+    source: B:kallaway/04_delivery-presence-audio-and-production; B:round_2/04_sound-design-music-and-silence
+  - rule: Let important statements land with clean endings instead of trailing into filler words.
+    why: A decisive cadence makes the core thought easier to perceive and edit.
+    source: B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Use lists and repeated grammatical patterns selectively to create predictable rhythm, then break the pattern at the important turn.
+    why: Pattern and variation can make spoken structure easier to follow.
+    source: B:kallaway/04_delivery-presence-audio-and-production
+  delivery_support:
+  - rule: Write slightly more energy into performance than ordinary private conversation when the medium flattens presence, but do not turn the speaker into a caricature.
+    why: Recorded delivery can read lower-energy than it felt in the room.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Preserve natural personality and recognizable speech habits instead of imitating a generic “creator voice.”
+    why: Sustainable authenticity supports likability and differentiation.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_2/06_formats-yapping-and-creator-presence
+  - rule: Use a teleprompter as a memory aid rather than reading every word with fixed cadence.
+    why: Reading can flatten emphasis, eye behavior, and conversational timing.
+    source: B:kallaway/04_delivery-presence-audio-and-production; B:round_4/06_recording-delivery-and-visual-trust
+  - rule: Re-record unclear or low-energy lines instead of expecting editing to manufacture conviction.
+    why: Performance quality is cheaper to fix at capture than in post.
+    source: B:round_4/06_recording-delivery-and-visual-trust; B:kallaway/04_delivery-presence-audio-and-production
+  - rule: Prioritize intelligible enunciation and distilled wording before adding vocal style.
+    why: Style cannot compensate for speech the listener cannot reliably parse.
+    source: B:kallaway/04_delivery-presence-audio-and-production

@@ -105,6 +105,8 @@ def create_cohort(size, name, experiment):
     """Pick the best unsent installers and draft their first emails (nothing is sent)."""
     icp = _icp()
     exp = experiments.load(experiment)
+    if exp.get("status") == "waiting":
+        raise click.ClickException(f"{exp['name']} is waiting: {exp['decision_rule']}")
     name = name or f"Windows {datetime.now():%Y-%m-%d} {exp['name']}"
     result = engine.create_cohort(_conn(), name, size, exp, icp, icp_version(icp))
     if not result["campaign_id"]:

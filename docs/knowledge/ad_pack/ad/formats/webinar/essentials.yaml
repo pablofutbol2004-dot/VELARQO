@@ -1,0 +1,207 @@
+schema_version: '1'
+pack: webinar
+kind: format
+title: Webinar
+categories:
+  event_role_and_scope:
+  - rule: Use a webinar when synchronous or event-like participation materially improves education, trust, interaction, or
+      the commercial decision compared with an asynchronous asset.
+    why: A webinar imposes registration and attendance costs, so its live/event properties should create value that a page
+      or VSL would not.
+    source: C12K:pr5ZPbCDyK0@00:08:58; C12K:Fz6HlrECYgc@00:01:05
+  - rule: Define the webinar around one audience, one event promise, and one primary post-event commercial path before designing
+      the agenda.
+    why: A live session becomes difficult to follow when it tries to serve unrelated audiences or transition into several
+      competing offers.
+    source: C12K:pr5ZPbCDyK0@00:01:59; C12K:Fz6HlrECYgc@00:18:05
+  - rule: Separate the webinar campaign into distinct states—registration, attendance, live consumption, offer response, and
+      follow-up—instead of treating “run a webinar” as one conversion event.
+    why: Each state has different failure modes and requires different interventions.
+    source: C12K:pr5ZPbCDyK0@00:51:11; C12K:pr5ZPbCDyK0@00:52:44
+  - rule: Choose live, recurring-live, replay, or evergreen delivery based on the value of interaction and operational constraints;
+      do not assume automation is automatically superior.
+    why: Live delivery creates feedback and Q&A opportunities, while recorded delivery creates scheduling leverage but loses
+      genuine real-time interaction.
+    source: C12K:Fz6HlrECYgc@00:19:20; C12K:e-fj5vnL1zM@00:09:13
+  - rule: Do not choose webinar runtime from a fixed industry template; allocate enough time to fulfill the promised teaching,
+      establish the decision context, present the offer, and handle useful interaction without padding.
+    why: Different topics, audiences, prices, and Q&A needs require different event lengths.
+    source: C12K:pr5ZPbCDyK0@00:19:45; C12K:Fz6HlrECYgc@00:34:52
+  registration_and_expectation:
+  - rule: Make the registration promise specific enough that the intended attendee understands what useful result or decision
+      the session will help them reach.
+    why: Registration is a future-time commitment; vague “free training” language gives little reason to reserve attention
+      and show up.
+    source: C12K:pr5ZPbCDyK0@00:57:49; C12K:Fz6HlrECYgc@00:18:05
+  - rule: Keep registration messaging continuous with the actual webinar opening and content so attendees receive what they
+      were told to expect.
+    why: A mismatch between promotion and event content damages trust at the moment the attendee is deciding whether to stay.
+    source: C12K:pr5ZPbCDyK0@00:22:19; C12K:pr5ZPbCDyK0@00:47:29
+  - rule: Treat the registration page as an attendance promise, not merely a lead form; communicate why the event is worth
+      putting on the calendar.
+    why: A low-friction opt-in is commercially useless if registrants never convert into actual attendees.
+    source: C12K:pr5ZPbCDyK0@00:09:32; C12K:Fz6HlrECYgc@00:07:44
+  - rule: Ask only for registration information that has a real purpose in access, reminders, personalization, routing, compliance,
+      or follow-up.
+    why: Unnecessary fields reduce registration without improving the event or downstream decision.
+    source: C12K:e-fj5vnL1zM@00:02:26; C12K:e-fj5vnL1zM@00:02:41
+  - rule: Use the registration campaign to test event-level messaging, but do not confuse the highest opt-in rate with the
+      strongest webinar economics.
+    why: A promise can attract many low-intent registrants who do not attend, stay, or convert.
+    source: C12K:i9ogic8dlX4@00:49:54; C12K:Fz6HlrECYgc@00:06:28
+  show_up_and_pre_event:
+  - rule: Treat show-up as a separate conversion problem after registration rather than assuming a submitted form equals attendance.
+    why: A person can register with genuine interest and still forget, deprioritize, or lose the event details before it begins.
+    source: C12K:pr5ZPbCDyK0@00:52:14; C12K:Fz6HlrECYgc@00:28:13
+  - rule: Immediately confirm the event time, access method, and calendar state after registration so the attendee knows exactly
+      how to return.
+    why: Operational ambiguity between opt-in and event time creates preventable no-shows.
+    source: C12K:e-fj5vnL1zM@00:03:28; C12K:e-fj5vnL1zM@00:03:34
+  - rule: Use pre-event communication to reinforce the event’s value, answer relevant questions, and remind the registrant—not
+      merely to repeat “don’t forget.”
+    why: Useful pre-framing can maintain motivation between registration and attendance while reducing uncertainty about the
+      session.
+    source: C12K:e-fj5vnL1zM@00:05:42; C12K:Fz6HlrECYgc@00:20:46
+  - rule: Adapt reminder intensity and channels to the registration window and audience instead of applying one universal
+      cadence.
+    why: Someone who registers hours before the event needs a different reminder sequence from someone who registered much
+      earlier, and excessive contact can reduce goodwill.
+    source: C12K:Fz6HlrECYgc@00:10:17; C12K:Fz6HlrECYgc@00:29:02
+  - rule: Use pre-event questions or interaction when they can improve the session’s relevance, while keeping the core event
+      useful even for attendees who provide no extra data.
+    why: Registrant input can reveal doubts and desired outcomes, but extra participation should not become a hidden prerequisite
+      for receiving the promised value.
+    source: C12K:Fz6HlrECYgc@00:31:30; C12K:pr5ZPbCDyK0@00:20:46
+  opening_and_live_frame:
+  - rule: Use the opening to quickly re-establish the promise, the important problem, and why the attendee is in the right
+      session.
+    why: Online attendees are one click from leaving, so the opening must immediately justify the time commitment they just
+      made.
+    source: C12K:pr5ZPbCDyK0@00:18:04; C12K:pr5ZPbCDyK0@00:18:34
+  - rule: Set expectations for agenda, participation, timing, and what will happen commercially later in the session when
+      an offer will be made.
+    why: Explicit expectations reduce bait-and-switch feelings and make the eventual transition to the offer less abrupt.
+    source: C12K:pr5ZPbCDyK0@00:21:48; C12K:pr5ZPbCDyK0@00:22:48
+  - rule: Create genuine two-way participation early enough that attendees understand this is an interactive event rather
+      than a prerecorded lecture with a chat box.
+    why: Early response establishes the behavior needed for useful live feedback and later Q&A.
+    source: C12K:pr5ZPbCDyK0@00:20:14; C12K:pr5ZPbCDyK0@00:20:46
+  - rule: Use attendee responses to learn what is happening in the room and adapt emphasis when appropriate rather than running
+      the live event as a completely blind script.
+    why: Real-time feedback is one of the main advantages of a webinar over an asynchronous VSL.
+    source: C12K:pr5ZPbCDyK0@00:21:48; C12K:Fz6HlrECYgc@00:34:04
+  - rule: Prepare the operational opening—access, slides, audio, moderation, and failure fallback—so technical friction does
+      not consume the highest-attention minutes.
+    why: Early technical confusion can make attendees abandon the session before the content has had a chance to create value.
+    source: C12K:pr5ZPbCDyK0@00:19:16; C12K:pr5ZPbCDyK0@00:19:45
+  teaching_and_engagement:
+  - rule: Design the teaching around a small number of useful decisions, principles, or capabilities rather than maximizing
+      information volume.
+    why: A dense data dump can feel valuable while leaving attendees unable to understand what matters or what to do next.
+    source: C12K:pr5ZPbCDyK0@00:23:41; C12K:pr5ZPbCDyK0@00:24:41
+  - rule: Give real standalone value to non-buyers while choosing teaching that is relevant to the problem the offer addresses.
+    why: The event should be worth attending even without purchase, yet unrelated teaching wastes attention and weakens the
+      transition to the offer.
+    source: C12K:pr5ZPbCDyK0@00:02:57; C12K:pr5ZPbCDyK0@00:25:43
+  - rule: Use interaction—questions, chat, polls, exercises, or reflection—when it deepens understanding or reveals audience
+      state, not as decorative activity.
+    why: Interaction is valuable when it creates attention, feedback, or learning; constant participation prompts can become
+      noise.
+    source: C12K:pr5ZPbCDyK0@00:26:17; C12K:Fz6HlrECYgc@00:33:04
+  - rule: Place proof next to the teaching point, mechanism, or claim it validates instead of saving every result for the
+      pitch.
+    why: Evidence inside the educational section lets attendees evaluate the mechanism while they are learning it.
+    source: C12K:pr5ZPbCDyK0@00:25:43
+  - rule: Use recaps and explicit section transitions to help attendees retain the argument across a longer live session.
+    why: Long synchronous sessions create memory load and interruption risk that short videos and pages do not.
+    source: C12K:pr5ZPbCDyK0@00:45:11; C12K:pr5ZPbCDyK0@00:47:00
+  - rule: Seed only offer components or implementation needs that genuinely follow from the teaching; do not manipulate the
+      curriculum solely to manufacture desire for arbitrary bonuses.
+    why: The strongest offer transition is continuity between the problem just taught and the implementation help being offered,
+      not hidden product placement.
+    source: C12K:pr5ZPbCDyK0@00:46:29; C12K:pr5ZPbCDyK0@00:49:32
+  offer_transition_and_pitch:
+  - rule: Signal before the sales segment that an offer will be presented, then transition explicitly when the teaching portion
+      is complete.
+    why: A transparent transition preserves trust and prevents the tonal whiplash of suddenly switching from education to
+      selling.
+    source: C12K:pr5ZPbCDyK0@00:22:48; C12K:pr5ZPbCDyK0@00:23:13
+  - rule: Make the offer the logical implementation, acceleration, or support path for the decisions established during the
+      teaching.
+    why: When the offer solves a different problem from the webinar, the event feels like bait rather than a coherent buying
+      journey.
+    source: C12K:pr5ZPbCDyK0@00:49:00; C12K:pr5ZPbCDyK0@00:49:32
+  - rule: Keep the live offer explanation simple enough to comprehend without pausing or rereading the presentation.
+    why: A live attendee cannot easily inspect a long offer stack while the presenter keeps speaking.
+    source: C12K:pr5ZPbCDyK0@00:50:09
+  - rule: Make the CTA visible and verbally explicit during the offer segment, including what happens after the attendee takes
+      action.
+    why: The live presentation must convert interest into an executable next state before attention disperses after the event.
+    source: C12K:Fz6HlrECYgc@00:36:07; C12K:Fz6HlrECYgc@00:38:03
+  - rule: Handle predictable offer questions before or during the pitch when doing so improves clarity, but do not turn the
+      teaching section into a disguised objection script.
+    why: Preemptive clarity can reduce friction while preserving the educational value and credibility of the main session.
+    source: C12K:Fz6HlrECYgc@00:34:41; C12K:pr5ZPbCDyK0@00:08:28
+  qa_and_live_decision:
+  - rule: Reserve a clear place for Q&A when unresolved questions are likely to affect the decision or implementation.
+    why: Real-time clarification is a distinctive webinar advantage and can rescue decisions that an asynchronous presentation
+      would lose.
+    source: C12K:Fz6HlrECYgc@00:35:14; C12K:Fz6HlrECYgc@00:35:29
+  - rule: Answer the actual question first, then connect the answer to the relevant mechanism, fit condition, or next step
+      only when that connection is genuine.
+    why: Using every question as an excuse to pitch makes Q&A feel evasive and reduces trust.
+    source: C12K:e-fj5vnL1zM@00:17:11; C12K:pr5ZPbCDyK0@00:20:46
+  - rule: Use repeated or high-signal Q&A themes as research for future webinar content, offer framing, sales conversations,
+      and qualification.
+    why: Live questions expose language and uncertainties that may not appear in surveys or polished customer interviews.
+    source: C12K:pr5ZPbCDyK0@00:20:46; C12K:Fz6HlrECYgc@00:31:30
+  - rule: Do not prolong Q&A merely to increase runtime; continue while questions are useful and relevant, then close the
+      event cleanly.
+    why: A long tail of low-value questions penalizes attendees who stayed and weakens the final experience.
+    source: C12K:Fz6HlrECYgc@00:35:14; C12K:pr5ZPbCDyK0@00:19:45
+  replay_and_follow_up:
+  - rule: Segment post-webinar follow-up by what actually happened—no-show, early exit, saw offer/no action, buyer, or another
+      meaningful state—rather than sending everyone the same sequence.
+    why: Each group lacks different information and requires a different next step.
+    source: C12K:pr5ZPbCDyK0@00:52:44; C12K:pr5ZPbCDyK0@00:53:20
+  - rule: Use a replay primarily for people who missed useful content or the offer, not as the default message to people who
+      already consumed the full event.
+    why: Asking a full attendee to repeat the entire webinar ignores their actual state and creates unnecessary friction.
+    source: C12K:pr5ZPbCDyK0@00:53:20; C12K:CmCdLS8aCwc@00:04:33
+  - rule: When repackaging a live webinar as a replay, remove or reframe live-only elements that become confusing or misleading
+      outside the original event.
+    why: Recorded viewers should not be asked to participate in expired live chat, wait for nonexistent Q&A, or believe a
+      recording is occurring in real time.
+    source: C12K:e-fj5vnL1zM@00:09:13; C12K:Fz6HlrECYgc@00:19:20
+  - rule: Follow up on unresolved decision questions with relevant proof, FAQs, clarification, or the next appropriate action
+      rather than merely repeating the pitch.
+    why: A non-buyer who saw the offer often needs different evidence or clarity, not another identical exposure.
+    source: C12K:pr5ZPbCDyK0@00:53:20; C12K:Fz6HlrECYgc@00:39:08
+  - rule: Give buyers a distinct post-event handoff focused on fulfillment and next steps instead of keeping them inside prospect
+      follow-up.
+    why: Once the state changes to buyer, sales reminders become noise and can create confusion about whether the purchase
+      succeeded.
+    source: C12K:pr5ZPbCDyK0@00:52:44
+  measurement_and_iteration:
+  - rule: 'Measure the webinar as a chain of state conversions: traffic → registration → attendance → retained-to-key-point
+      → commercial action → downstream sale or qualified outcome.'
+    why: A single webinar conversion rate hides whether the real bottleneck is promotion, show-up, retention, pitch response,
+      or post-event follow-up.
+    source: C12K:Fz6HlrECYgc@00:06:28; C12K:pr5ZPbCDyK0@00:51:11
+  - rule: Track retention to the teaching and offer sections, not only total attendance or average watch time.
+    why: A registrant who technically attended but left before the decisive content is economically different from one who
+      saw the offer.
+    source: C12K:Fz6HlrECYgc@00:10:33; C12K:CmCdLS8aCwc@00:04:33
+  - rule: Evaluate follow-up by incremental downstream outcomes within each attendee state rather than attributing all later
+      sales generically to “the webinar.”
+    why: Segmented measurement reveals whether replay, proof, sales follow-up, or another recovery path actually created the
+      later conversion.
+    source: C12K:pr5ZPbCDyK0@00:53:20; C12K:Fz6HlrECYgc@00:39:08
+  - rule: Run early live sessions as learning opportunities when possible before freezing the event into an evergreen asset.
+    why: Live delivery exposes questions, drop-offs, and weak explanations that can be corrected before automation scales
+      the same defects.
+    source: C12K:pr5ZPbCDyK0@00:20:46; C12K:pr5ZPbCDyK0@00:12:10
+  - rule: Test high-leverage event variables—registration promise, show-up system, opening, teaching order, offer transition,
+      CTA, and follow-up—before cosmetic webinar-platform details.
+    why: These variables directly affect whether people enter, stay, understand, decide, and act.
+    source: C12K:Fz6HlrECYgc@00:06:28; C12K:Fz6HlrECYgc@00:08:52

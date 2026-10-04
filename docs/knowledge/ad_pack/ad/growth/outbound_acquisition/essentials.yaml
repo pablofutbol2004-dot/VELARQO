@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: outbound_acquisition
+kind: growth
+title: Outbound Acquisition
+categories:
+  list_and_targeting:
+  - rule: 'Treat list quality as upstream of copy quality: define the account/person criteria and trigger that make outreach relevant before writing messages.'
+    why: Excellent copy cannot rescue a list of people with no reason to care.
+    source: C12K:uSTGNHGFOAo@00:00:01; C12K:LzGJ3MQParY@00:00:45
+  - rule: Use observable fit and timing signals to prioritize accounts rather than maximizing raw contact volume.
+    why: Scarce outreach capacity should concentrate where probability and value are highest.
+    source: C12K:LzGJ3MQParY@00:00:45; C12K:1rRo1xYacGo@00:00:01
+  - rule: Separate account qualification from contact selection; the right company can still be reached through the wrong person.
+    why: Authority, influence, and access differ within the same organization.
+    source: C12K:1rRo1xYacGo@00:00:01; C12K:0NgynLGboX4@00:00:00
+  - rule: Maintain source, freshness, verification status, and consent/compliance fields on contact data.
+    why: Stale or poorly sourced data increases bounce, risk, and wasted effort.
+    source: C12K:0NgynLGboX4@00:00:00; C12K:XQ4hr48ikwY@00:00:55
+  message_and_relevance:
+  - rule: Lead with a problem, trigger, observation, or opportunity that is specific enough to explain why this recipient is being contacted now.
+    why: Relevance reduces the need for manipulative personalization.
+    source: C12K:uSTGNHGFOAo@00:00:01; C12K:LzGJ3MQParY@00:00:45
+  - rule: Personalize around decision-relevant context, not trivia that proves only that a scraper found the person.
+    why: Shallow personalization adds words without increasing credibility.
+    source: C12K:LzGJ3MQParY@00:00:45; C12K:1rRo1xYacGo@00:00:01
+  - rule: Keep the first ask proportional to trust and commitment; a small reply or permission step often fits cold outreach better than a high-friction meeting.
+    why: Cold prospects have little reason to accept a large commitment immediately.
+    source: C12K:1rRo1xYacGo@00:00:01; C12K:0NgynLGboX4@00:00:00
+  - rule: Use proof and specificity that match the recipient’s likely doubt rather than stacking generic credentials.
+    why: The strongest evidence is evidence that resolves the actual risk of responding.
+    source: C12K:0NgynLGboX4@00:00:00; C12K:XQ4hr48ikwY@00:00:55
+  sequencing_and_followup:
+  - rule: Design follow-ups to add a new reason to respond—evidence, angle, question, timing context, or useful artifact—instead of repeating “just following up.”
+    why: Repeated identical nudges consume goodwill without increasing information.
+    source: C12K:uSTGNHGFOAo@00:00:01; C12K:LzGJ3MQParY@00:00:45
+  - rule: Stop sequences when a recipient replies, opts out, becomes ineligible, or another channel has created a live conversation.
+    why: Automation should respect state changes rather than keep firing blindly.
+    source: C12K:LzGJ3MQParY@00:00:45; C12K:1rRo1xYacGo@00:00:01
+  - rule: Use spacing and sequence length as variables to test within channel constraints instead of encoding one universal cadence.
+    why: Appropriate persistence varies by market, channel, urgency, and trust.
+    source: C12K:1rRo1xYacGo@00:00:01; C12K:0NgynLGboX4@00:00:00
+  - rule: Route positive, neutral, objection, referral, out-of-office, and unsubscribe responses into different next states.
+    why: Reply quality matters more than a single reply-rate percentage.
+    source: C12K:0NgynLGboX4@00:00:00; C12K:XQ4hr48ikwY@00:00:55
+  measurement_and_economics:
+  - rule: Measure delivery, valid contact rate, positive reply, qualified conversation, opportunity, close, revenue, and complaint/opt-out—not only opens or replies.
+    why: Local email metrics can improve while economic outcomes worsen.
+    source: C12K:uSTGNHGFOAo@00:00:01; C12K:LzGJ3MQParY@00:00:45
+  - rule: 'Diagnose performance in order: data quality → targeting → message relevance → offer → follow-up → sales conversion.'
+    why: Changing copy when the list is wrong treats the symptom instead of the bottleneck.
+    source: C12K:LzGJ3MQParY@00:00:45; C12K:1rRo1xYacGo@00:00:01
+  - rule: Track results by list source, segment, trigger, message angle, sender identity, and offer so winning combinations are identifiable.
+    why: Aggregate averages hide where outbound actually works.
+    source: C12K:1rRo1xYacGo@00:00:01; C12K:0NgynLGboX4@00:00:00
+  - rule: Include labor, data, software, deliverability infrastructure, and sales time when calculating outbound acquisition cost.
+    why: A “free” channel can be expensive once operating cost is counted.
+    source: C12K:0NgynLGboX4@00:00:00; C12K:XQ4hr48ikwY@00:00:55
+  ethics_and_channel_fit:
+  - rule: Use truthful identity, claims, and reasons for contact; do not manufacture familiarity, urgency, or referrals.
+    why: Deception can increase short-term response while damaging reputation and trust.
+    source: C12K:uSTGNHGFOAo@00:00:01; C12K:LzGJ3MQParY@00:00:45
+  - rule: Respect opt-outs and applicable channel/legal requirements as hard system constraints.
+    why: Outbound systems should not optimize around evading recipient preferences or regulation.
+    source: C12K:LzGJ3MQParY@00:00:45; C12K:1rRo1xYacGo@00:00:01
+  - rule: Choose email, DM, phone, partner introduction, or another route based on how the segment actually communicates and the value of the opportunity.
+    why: One outbound channel is not universally optimal.
+    source: C12K:1rRo1xYacGo@00:00:01; C12K:0NgynLGboX4@00:00:00
+  - rule: Escalate high-value or ambiguous prospects to human judgment when automation would risk a valuable relationship.
+    why: The expected cost of a bad automated interaction rises with account value.
+    source: C12K:0NgynLGboX4@00:00:00; C12K:XQ4hr48ikwY@00:00:55

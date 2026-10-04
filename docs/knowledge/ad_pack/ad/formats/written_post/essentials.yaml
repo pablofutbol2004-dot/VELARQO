@@ -1,0 +1,136 @@
+schema_version: '1'
+pack: written_post
+kind: format
+title: Written Post
+categories:
+  format_fit_and_core_thought:
+  - rule: Use a written post when the primary experience should be carried by language itself and the reader benefits from
+      controlling reading speed, rereading, quoting, or scanning.
+    why: Text-first posts earn their format when wording and thought progression are the product rather than a transcript
+      substitute for media that needed to be seen or heard.
+    source: C12K:4iJY6n5Aiec@00:06:30; C12K:4iJY6n5Aiec@00:07:23
+  - rule: Give one written post one central thought, tension, lesson, or question and remove adjacent points that turn it
+      into several posts competing for attention.
+    why: Text feeds provide few external orientation cues; a post with several centers becomes harder to follow even when
+      every paragraph is individually clear.
+    source: C12K:4iJY6n5Aiec@00:03:16; C12K:4iJY6n5Aiec@00:04:12
+  - rule: Preserve the author-specific observation, experience, or point of view that makes the post worth reading instead
+      of sanding the text into interchangeable generic advice.
+    why: In a text-first format, distinctive perspective is a major part of what differentiates two posts about the same topic.
+    source: C12K:4iJY6n5Aiec@00:01:55; C12K:4iJY6n5Aiec@00:07:23
+  - rule: Decide what state the reader should reach by the end—understanding, reflection, identification, conversation, or
+      action—before arranging the body.
+    why: Without a destination, a written post can remain readable sentence by sentence while never producing a coherent cumulative
+      effect.
+    source: C12K:4iJY6n5Aiec@00:03:16; C12K:4iJY6n5Aiec@00:03:41
+  preview_and_opening:
+  - rule: 'Treat the visible feed preview as an entry surface: the opening must provide enough relevance or unresolved value
+      for the reader to continue into the body.'
+    why: A text post can contain excellent material that is never reached if the preview gives no reason to expand or keep
+      reading.
+    source: C12K:4iJY6n5Aiec@00:04:35; C12K:4iJY6n5Aiec@00:05:33
+  - rule: Make the opening intelligible without requiring hidden context from a previous conversation, image, or paragraph
+      that the feed reader has not seen.
+    why: Text feeds often surface posts independently; the reader should know enough to decide whether the post is relevant
+      before committing.
+    source: C12K:0H4uouOn7lI@00:09:33; C12K:4iJY6n5Aiec@00:05:33
+  - rule: Use the opening to start the actual post rather than spend several lines announcing that value is coming later.
+    why: The preview is scarce reading space, so meta-introduction consumes the exact area that should demonstrate relevance.
+    source: C12K:0H4uouOn7lI@00:09:49; C12K:4iJY6n5Aiec@00:04:35
+  - rule: Keep the first lines as simple as the idea allows; do not add controversy, exaggerated claims, or formulaic pattern
+      interrupts unless the substance genuinely requires them.
+    why: The format needs forward reading, not a hook style for its own sake, and overstatement creates expectation debt the
+      body must repay.
+    source: C12K:4iJY6n5Aiec@00:05:33; C12K:4iJY6n5Aiec@00:06:04
+  paragraph_and_reading_rhythm:
+  - rule: Use paragraph breaks to mark meaningful changes in beat, example, implication, or emphasis rather than treating
+      the post as one uninterrupted wall of text.
+    why: Text-only reading relies on spacing and paragraph boundaries for navigation that video, slides, or layout changes
+      would otherwise provide.
+    source: C12K:4iJY6n5Aiec@00:06:30; C12K:4iJY6n5Aiec@00:07:23
+  - rule: Keep each paragraph internally coherent enough that the reader can understand its job before moving to the next
+      one.
+    why: Short feed paragraphs help only when they clarify the progression; arbitrary one-line chopping can make the argument
+      choppy rather than readable.
+    source: C12K:4iJY6n5Aiec@00:07:23; C12K:0T55DRYqeeA@00:11:21
+  - rule: Use sentence and paragraph length variation to create natural reading rhythm instead of forcing every line into
+      identical short-form cadence.
+    why: Uniformly clipped prose can become as monotonous as a wall of text; rhythm should follow the thought and desired
+      emphasis.
+    source: C12K:4iJY6n5Aiec@00:06:30; C12K:4iJY6n5Aiec@00:06:54
+  - rule: Let punctuation, wording, and line breaks carry the pacing when the post has no spoken delivery to supply pauses
+      or emphasis.
+    why: A written post has to encode enough cadence on the page for the reader to reconstruct the intended flow without hearing
+      the author.
+    source: C12K:4iJY6n5Aiec@00:06:54; C12K:4iJY6n5Aiec@00:07:23
+  - rule: Use lists only when the information is genuinely parallel, sequential, or reference-like; do not convert every argument
+      into numbered bullets merely because lists scan quickly.
+    why: List structure clarifies comparable units, but it weakens causal or narrative progression when the underlying relationship
+      is not list-shaped.
+    source: C12K:0T55DRYqeeA@00:11:12; C12K:4iJY6n5Aiec@00:06:30
+  progression_and_length:
+  - rule: Set post length from the amount of useful thought required and keep removing repetition; do not optimize toward
+      a universal short or long post length.
+    why: Readers will spend time on relevant material, while padding remains costly regardless of the nominal format length.
+    source: C12K:4iJY6n5Aiec@00:06:30; C12K:4iJY6n5Aiec@00:06:54
+  - rule: Make each paragraph advance the reader by adding evidence, mechanism, example, contrast, consequence, or a genuine
+      next step in the thought.
+    why: Text can easily appear productive while restating the same claim in new words; progression is what earns continued
+      reading.
+    source: C12K:4iJY6n5Aiec@00:04:12; C12K:0H4uouOn7lI@00:10:11
+  - rule: Use explicit transitions when the relationship between paragraphs is not obvious, especially when moving from story
+      to lesson, claim to evidence, or problem to recommendation.
+    why: A feed reader cannot rely on editing, slides, or speaker tone to infer a structural turn that the text never states.
+    source: C12K:4iJY6n5Aiec@00:07:52; C12K:0T55DRYqeeA@00:11:32
+  - rule: End when the central thought has landed; do not append a second mini-post merely to use remaining ideas or force
+      another CTA.
+    why: A clean ending preserves the meaning of the main post and lets unrelated ideas become stronger separate assets later.
+    source: C12K:4iJY6n5Aiec@00:03:41; C12K:4iJY6n5Aiec@00:04:12
+  threads_and_multi_post_sequences:
+  - rule: Use a thread or multi-post sequence when the material contains several distinct units that benefit from separate
+      reading surfaces while still belonging to one ordered argument or tutorial.
+    why: A thread is useful when chunking improves navigation and continuation, not simply because one post feels long.
+    source: C12K:0T55DRYqeeA@00:11:12; C12K:0T55DRYqeeA@00:11:19
+  - rule: Make the first post of a thread establish the complete problem or promise strongly enough that the reader understands
+      what continuing will provide.
+    why: The entry post carries the discovery burden for the rest of the sequence; vague setup leaves later useful posts undiscovered.
+    source: C12K:0T55DRYqeeA@00:11:32; C12K:0T55DRYqeeA@00:11:40
+  - rule: Give each thread post a coherent local unit of meaning while preserving a clear dependency or open loop into the
+      next unit.
+    why: A sequence should be useful in chunks without becoming a pile of standalone posts whose order does not matter.
+    source: C12K:0T55DRYqeeA@00:11:12; C12K:0T55DRYqeeA@00:11:47
+  - rule: Break a thread at conceptual turns rather than filling each post to the platform character limit.
+    why: Character limits are implementation constraints, not information architecture; natural breakpoints make the sequence
+      easier to follow and reuse.
+    source: C12K:0T55DRYqeeA@00:11:12; C12K:0T55DRYqeeA@00:11:24
+  attachments_and_proof:
+  - rule: Use an attached image, graphic, screenshot, or document when it performs a visual job the text would explain less
+      clearly, not as a compulsory decoration for every written post.
+    why: A text-first post should remain coherent as writing while visual evidence or explanation is added only when it reduces
+      ambiguity or strengthens the reader experience.
+    source: C12K:0T55DRYqeeA@00:11:27; C12K:0H4uouOn7lI@00:11:46
+  - rule: Place the essential claim and interpretation in the text even when an attachment carries supporting data or proof.
+    why: The reader should not have to reverse-engineer why a screenshot or chart matters before understanding the post's
+      point.
+    source: C12K:0H4uouOn7lI@00:09:49; C12K:0T55DRYqeeA@00:11:27
+  - rule: Use concrete experience, examples, systems, or evidence to support text-post claims while leaving the canonical
+      evidence-selection logic in the Proof pack.
+    why: Written posts can make assertions cheaply; relevant evidence keeps the text from becoming unsupported opinion without
+      duplicating the proof taxonomy here.
+    source: C12K:0H4uouOn7lI@00:10:44; C12K:0H4uouOn7lI@00:10:59
+  continuation_and_measurement:
+  - rule: Treat replies and comments as a continuation surface for a written post when readers raise useful questions, counterexamples,
+      or applications; do not assume the published body must contain every possible branch.
+    why: Text posts naturally invite dialogue, and the conversation can reveal what the original post clarified, missed, or
+      made worth discussing.
+    source: C12K:4iJY6n5Aiec@00:08:22; C12K:4iJY6n5Aiec@00:08:46
+  - rule: Evaluate written posts against the intended outcome—such as qualified conversation, saves/reference use, profile
+      actions, leads, or useful reach—rather than treating impressions alone as success.
+    why: A high-reach text post can fail the business or relationship goal, while a narrower post can produce much stronger
+      downstream value.
+    source: C12K:0H4uouOn7lI@00:01:24; C12K:0H4uouOn7lI@00:02:40
+  - rule: Review patterns across your own strongest written posts and update the format system without copying the surface
+      formulas of one winner.
+    why: Repeated evidence can reveal useful opening, structure, topic, or depth patterns, but one successful post does not
+      establish a universal template.
+    source: C12K:0H4uouOn7lI@00:12:33; C12K:4iJY6n5Aiec@00:00:28

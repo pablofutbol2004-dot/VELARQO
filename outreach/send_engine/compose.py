@@ -14,6 +14,7 @@ import re
 
 SIGNATURE = "Pablo\nVelarqo, velarqo.com"
 OPT_OUT_LINE = "Reply \"no\" and I won't email again."
+MAX_WORDS = 80  # whole email, signature and opt-out included
 
 # First-email copy lives in config/experiments/*.json (one arm per variant),
 # so tests can change without code changes. Follow-ups are shared by all arms.
@@ -57,9 +58,10 @@ def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
     }
 
 
-def follow_up(step: int, row: dict, first_subject: str) -> dict:
+def follow_up(step: int, row: dict, first_subject: str, arm: dict | None = None) -> dict:
     subject = first_subject if first_subject.lower().startswith("re:") else f"Re: {first_subject}"
-    return {"subject": subject, "body": _finish(FOLLOW_UP_TEMPLATES[step].format(company=_company(row)))}
+    template = ((arm or {}).get("follow_ups") or {}).get(str(step)) or FOLLOW_UP_TEMPLATES[step]
+    return {"subject": subject, "body": _finish(template.format(company=_company(row)))}
 
 
 def problems(email: dict) -> list[str]:
@@ -72,6 +74,8 @@ def problems(email: dict) -> list[str]:
         issues.append("missing opt-out line")
     if "velarqo.com" not in email["body"]:
         issues.append("missing sender identity")
+    if word_count(email["body"]) > MAX_WORDS:
+        issues.append(f"over {MAX_WORDS} words")
     return issues
 
 

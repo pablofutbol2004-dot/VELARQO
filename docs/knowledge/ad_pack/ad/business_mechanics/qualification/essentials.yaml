@@ -1,0 +1,226 @@
+schema_version: '1'
+pack: qualification
+kind: business_mechanics
+title: Qualification
+categories:
+  qualification_definition_and_states:
+  - rule: 'Define qualification relative to a specific offer and delivery path: a prospect is qualified to advance when the
+      available evidence says the offer can plausibly help them and the conditions required for the next step are met.'
+    why: Qualification is not a universal trait of a person; it is a decision about fit for a particular commercial path.
+    source: C12K:w0H1-b044KY@01:12:21; C12K:wOIZv2Eef3Q@01:28:45
+  - rule: Separate offer fit, buying readiness, and follow-up priority instead of collapsing all three into one qualified/unqualified
+      flag.
+    why: A prospect can be a strong fit but not ready now, or highly engaged but fundamentally wrong for the offer; those
+      states need different actions.
+    source: C12K:0rJINbEwNKw@01:04:06; C12K:WYspdNXgMtM@00:10:24; C12K:NQduAt-MOGY@00:10:15
+  - rule: 'Treat qualification as a two-sided check: the prospect must be suitable for the offer, and the seller must be able
+      to create enough value for that prospect to justify proceeding.'
+    why: Filtering only for ability to buy can admit customers the business cannot serve successfully, while filtering only
+      for need can admit buyers who cannot proceed.
+    source: C12K:wOIZv2Eef3Q@01:28:45; C12K:sc1Rz1P0X18@00:25:35
+  - rule: Maintain an explicit unknown or review state when evidence is insufficient; do not silently convert uncertainty
+      into rejection.
+    why: Rigid rules can throw away viable buyers when the available data does not reveal enough to classify them confidently.
+    source: C12K:w0H1-b044KY@01:12:54; C12K:l5NbfgqRibo@01:16:53
+  - rule: A prospect who fits but is not ready now should usually move to a future-state or nurture path rather than being
+      treated as permanently unqualified.
+    why: Timing can change without the underlying offer fit changing, so permanent rejection destroys recoverable pipeline
+      value.
+    source: C12K:WYspdNXgMtM@00:10:24; C12K:jAGTr6A16MM@00:22:39
+  criteria_design_and_governance:
+  - rule: Derive qualification criteria from the conditions that materially determine customer success, deliverability, economics,
+      or the viability of the next step rather than adopting a sales acronym as a universal checklist.
+    why: Budget, authority, need, timing, company size, or any other field is useful only when it predicts whether this offer
+      should advance.
+    source: C12K:TwFTQ0J298Q@00:03:44; C12K:w0H1-b044KY@01:12:31
+  - rule: 'Separate hard constraints from soft signals: use hard disqualifiers only for conditions that genuinely prevent
+      service or progression, and score softer evidence instead of turning it into an absolute gate.'
+    why: Overly rigid rules create false negatives, while treating every weak signal as irrelevant overwhelms downstream capacity.
+    source: C12K:w0H1-b044KY@01:12:54; C12K:qayQaFDSP3I@00:06:30
+  - rule: Standardize qualification definitions and criteria across people who make the same decision.
+    why: When each rep decides what 'qualified' means independently, qualification rates become partly a measure of rep judgment
+      instead of lead quality.
+    source: C12K:TwFTQ0J298Q@00:03:44; C12K:jgkuFYLRLnA@00:08:20
+  - rule: Document the evidence and reason behind each qualification or disqualification decision rather than storing only
+      the final label.
+    why: Reason-level data makes disagreements auditable and allows the criteria to be recalibrated from real outcomes instead
+      of hearsay.
+    source: C12K:TwFTQ0J298Q@00:04:09; C12K:l5NbfgqRibo@02:26:17
+  - rule: Use the minimum set of qualification criteria needed to protect scarce downstream time and preserve decision quality;
+      do not add questions merely because more information is available.
+    why: Every extra gate creates friction and potential false negatives, while too little filtration can flood expensive
+      sales capacity with weak opportunities.
+    source: C12K:iDPreslY2Os@00:25:15; C12K:XhqDVGpyXFw@00:10:23
+  - rule: Add, remove, or tighten a criterion only when evidence shows that doing so improves routing, downstream outcomes,
+      or economics.
+    why: Qualification systems should evolve from observed lead quality and conversion behavior, not from permanent assumptions
+      made at setup.
+    source: C12K:iDPreslY2Os@00:25:39; C12K:l5NbfgqRibo@01:16:53
+  fit_dimensions:
+  - rule: Verify that the prospect has a problem, goal, or changed state that the offer is actually designed to address.
+    why: Without a relevant gap, the rest of the qualification process is evaluating a buyer for a solution they do not need.
+    source: C12K:45jQBJtQbEo@00:22:08; C12K:sc1Rz1P0X18@00:25:35
+  - rule: Assess the priority and severity of the problem separately from its mere existence; prior attempts, spending, consequences,
+      or explicit urgency can be useful evidence but should not become universal requirements.
+    why: A real problem can exist without being important enough to act on now, while a rigid 'must have tried before' rule
+      can reject valid first-time buyers.
+    source: C12K:sc1Rz1P0X18@00:25:35; C12K:TwFTQ0J298Q@00:03:49
+  - rule: Use serviceability criteria such as industry, company size, geography, technical environment, or case type only
+      when they materially change the business's ability to deliver the promised result.
+    why: Firmographic filters are useful when they represent real delivery constraints; otherwise they are arbitrary exclusions
+      disguised as ICP discipline.
+    source: C12K:w0H1-b044KY@01:12:31; C12K:qayQaFDSP3I@00:06:30
+  - rule: Treat financial capacity as its own dimension and judge it relative to the actual price, payment structure, and
+      required investment rather than using vague wealth stereotypes.
+    why: Cheap lead volume is irrelevant when prospects cannot support the economics of the offer, but crude proxies can also
+      create avoidable false negatives.
+    source: C12K:l5NbfgqRibo@02:26:49; C12K:w0H1-b044KY@01:12:54
+  - rule: 'Identify the real decision path: know who can authorize the purchase and what other stakeholders must participate
+      before treating authority as satisfied.'
+    why: A prospect with need and budget can still be unable to progress if the actual purchasing authority is elsewhere.
+    source: C12K:8RsyjIiZh84@00:14:43; C12K:sc1Rz1P0X18@00:25:35
+  - rule: Treat a non-decision-maker who can influence or introduce the buyer as a connector state rather than automatically
+      discarding them.
+    why: The wrong person for the final decision can still be the correct path to the person who owns it.
+    source: C12K:8RsyjIiZh84@00:14:43; C12K:8RsyjIiZh84@00:18:15
+  - rule: Capture timing as the prospect's realistic action window, not just a vague statement that they are interested someday.
+    why: Two equally suitable prospects can require different routing when one can act now and the other cannot act for months.
+    source: C12K:jAGTr6A16MM@00:22:39; C12K:WYspdNXgMtM@00:09:40
+  - rule: Check for operational constraints that could prevent success now—such as competing priorities, restructuring, unavailable
+      resources, or other obstacles—even when need and budget exist.
+    why: A prospect may be economically able to buy while lacking the current capacity to implement or benefit from the solution.
+    source: C12K:WYspdNXgMtM@00:09:46; C12K:45jQBJtQbEo@00:22:37
+  - rule: Reject or reroute prospects when the seller cannot realistically produce the promised result for their situation,
+      even if the prospect is eager and able to pay.
+    why: Customer success is a qualification constraint, not merely a fulfillment concern after the sale.
+    source: C12K:wOIZv2Eef3Q@01:28:45; C12K:w0H1-b044KY@01:12:27
+  evidence_and_question_design:
+  - rule: Ask a qualification question only when its answer maps to an explicit criterion, changes confidence, or changes
+      the next action.
+    why: Questions with no decision consequence add friction and data without improving qualification.
+    source: C12K:iDPreslY2Os@00:25:39; C12K:PwfuuokLx0o@00:19:08
+  - rule: Do not ask the prospect to restate information that is already reliably implied or known from the preceding action,
+      source, CRM, or form context.
+    why: Redundant questions waste effort and can lower completion without adding evidence.
+    source: C12K:jAGTr6A16MM@00:30:51; C12K:jAGTr6A16MM@00:31:27
+  - rule: Use structured answer choices when deterministic routing or scoring is required, and use open text when nuance must
+      be interpreted after submission.
+    why: Different question types support different decision mechanisms; forcing nuance into rigid choices or automation into
+      free text creates avoidable errors.
+    source: C12K:Bi5CZlHXQWA@00:09:40; C12K:PwfuuokLx0o@00:19:08
+  - rule: Collect sensitive or high-friction evidence only when it is material to the decision and cannot be obtained more
+      reliably another way.
+    why: Prematurely demanding invasive information can reduce completion without improving the classification enough to justify
+      the cost.
+    source: C12K:wOIZv2Eef3Q@01:27:17; C12K:iDPreslY2Os@00:25:15
+  - rule: Combine first-party answers with external or internal enrichment when it materially improves confidence, but keep
+      the qualification criteria separate from the tool used to obtain the evidence.
+    why: Research can fill gaps and reduce manual work, while tying the definition of fit to one vendor or data source makes
+      the system brittle.
+    source: C12K:w0H1-b044KY@01:13:28; C12K:l5NbfgqRibo@02:25:18
+  - rule: Prefer direct, observable evidence over rep impressions when both are available, while preserving room for human
+      review where the objective data is incomplete.
+    why: Subjective labels can vary materially between reps; measurable evidence improves consistency but does not eliminate
+      genuinely ambiguous cases.
+    source: C12K:jgkuFYLRLnA@00:08:20; C12K:l5NbfgqRibo@02:26:17
+  - rule: 'Design qualification inputs so they are difficult to game accidentally: ask for concrete facts, constraints, ranges,
+      or behavior rather than relying only on obvious ''yes, I am qualified'' self-identification.'
+    why: The more transparently a question reveals the desired answer, the less informative the answer becomes as evidence
+      of fit.
+    source: C12K:TwFTQ0J298Q@00:03:44; C12K:PwfuuokLx0o@00:18:55
+  scoring_and_uncertainty:
+  - rule: Use lead scores to prioritize and route when several soft signals matter; do not pretend a numerical score creates
+      certainty that the underlying evidence does not support.
+    why: Scoring is useful for ordering attention, but the number is only a compressed representation of assumptions about
+      fit or intent.
+    source: C12K:qayQaFDSP3I@00:06:36; C12K:NQduAt-MOGY@00:10:15
+  - rule: Keep static fit and behavioral intent as separate dimensions when possible so engagement does not turn a fundamentally
+      wrong-fit lead into a good-fit one.
+    why: Actions such as opens or visits indicate interest, while firmographic or problem constraints indicate whether the
+      offer is suitable; combining them blindly hides the reason for a high score.
+    source: C12K:qayQaFDSP3I@00:06:36; C12K:NQduAt-MOGY@00:10:23
+  - rule: Let a true hard disqualifier override a soft score only when that constraint genuinely blocks delivery or progression.
+    why: Otherwise a weighted model can be defeated by one arbitrary field and recreate the false-negative problem that scoring
+      was meant to reduce.
+    source: C12K:w0H1-b044KY@01:12:54; C12K:Bi5CZlHXQWA@00:09:48
+  - rule: Route borderline or conflicting evidence to manual review instead of forcing every case through a binary automation.
+    why: A deliberate review queue is cheaper than confidently discarding high-value exceptions or sending obviously weak
+      cases into expensive sales capacity.
+    source: C12K:w0H1-b044KY@01:12:54; C12K:Bi5CZlHXQWA@00:10:20
+  - rule: Calibrate score weights and thresholds from downstream results rather than copying arbitrary point values or universal
+      benchmark cutoffs.
+    why: The usefulness of a score depends on whether its inputs actually predict conversion, success, or economic value in
+      this specific business.
+    source: C12K:iDPreslY2Os@00:25:39; C12K:l5NbfgqRibo@02:27:00
+  routing_and_disqualification:
+  - rule: Map each qualification state to a deliberate next action such as immediate booking, human review, nurture, lower-tier
+      offer, stakeholder escalation, or rejection.
+    why: Qualification creates value only when the decision changes what happens next.
+    source: C12K:w0H1-b044KY@01:13:44; C12K:NQduAt-MOGY@00:10:23
+  - rule: Route fit-but-not-ready prospects to a timed follow-up or nurture path that reflects when their constraint may change.
+    why: A future-ready prospect should not consume current closing capacity, but they also should not disappear from the
+      system.
+    source: C12K:WYspdNXgMtM@00:10:24; C12K:NQduAt-MOGY@00:10:15
+  - rule: When authority is missing but the prospect can connect you to the buyer, route toward the decision-maker rather
+      than marking the entire opportunity dead.
+    why: Authority is often a routing problem, not a statement that the account lacks demand.
+    source: C12K:8RsyjIiZh84@00:14:43; C12K:8RsyjIiZh84@00:18:15
+  - rule: When disqualifying, communicate the result clearly and respectfully and provide an alternative path when one genuinely
+      exists.
+    why: A bad-fit prospect does not need to become a bad brand experience, and some may become future fits or valuable referrers.
+    source: C12K:w0H1-b044KY@01:14:03; C12K:WYspdNXgMtM@00:10:24
+  - rule: Do not optimize for the highest possible disqualification rate or the smallest possible sales calendar; optimize
+      for the best use of scarce downstream capacity without rejecting viable buyers.
+    why: Aggressive filtering can save time while simultaneously removing revenue-producing prospects.
+    source: C12K:l5NbfgqRibo@01:16:53; C12K:XhqDVGpyXFw@00:10:23
+  calibration_and_feedback:
+  - rule: Feed sales and fulfillment outcomes back into qualification so criteria are revised from what actually closes, succeeds,
+      churns, refunds, or fails rather than from front-end impressions alone.
+    why: Qualification is a prediction problem; prediction quality improves only when labels are compared with downstream
+      reality.
+    source: C12K:iDPreslY2Os@00:25:39; C12K:l5NbfgqRibo@02:27:00
+  - rule: 'Audit false positives and false negatives separately: inspect both weak prospects who were advanced and strong
+      prospects who were rejected or delayed.'
+    why: Only measuring accepted leads hides the revenue cost of over-qualification, while only measuring rejected leads hides
+      the capacity cost of under-qualification.
+    source: C12K:w0H1-b044KY@01:12:54; C12K:l5NbfgqRibo@01:16:53
+  - rule: Compare qualification behavior across reps or reviewers when the same lead sources and criteria are used.
+    why: Large reviewer-level differences can reveal inconsistent interpretation, confidence, incentives, or training rather
+      than true changes in lead quality.
+    source: C12K:jgkuFYLRLnA@00:08:39; C12K:TwFTQ0J298Q@00:03:44
+  - rule: When qualified prospects repeatedly fail to close, investigate sales execution, offer fit, and evidence quality
+      before simply tightening qualification.
+    why: A qualified lead that does not buy is not automatically proof that the lead was bad; downstream execution may be
+      the constrained variable.
+    source: C12K:l5NbfgqRibo@02:27:28; C12K:jgkuFYLRLnA@00:08:39
+  - rule: When unqualified volume rises after an acquisition change, diagnose upstream targeting and messaging as well as
+      the qualification layer.
+    why: Qualification can protect the calendar, but it should also expose when acquisition is attracting the wrong population
+      in the first place.
+    source: C12K:l5NbfgqRibo@02:26:49; C12K:XhqDVGpyXFw@00:10:23
+  measurement_and_economics:
+  - rule: Track raw lead volume, qualified volume, and qualification rate together; none of the three is interpretable alone.
+    why: A falling rate can coexist with more valuable qualified opportunities, while a high rate can reflect overly narrow
+      acquisition or permissive classification.
+    source: C12K:jAGTr6A16MM@01:03:27; C12K:XhqDVGpyXFw@00:10:03
+  - rule: Track cost per qualified opportunity or equivalent downstream-qualified unit alongside cost per raw lead or booked
+      call.
+    why: Cheap top-of-funnel volume can be economically worse when the people reaching sales cannot buy or cannot be served.
+    source: C12K:l5NbfgqRibo@02:26:49; C12K:jAGTr6A16MM@01:03:27
+  - rule: Track disqualification reasons as structured categories rather than one blended DQ count.
+    why: A rise in financial DQs requires a different fix from a rise in wrong-industry, no-authority, bad-timing, or no-need
+      DQs.
+    source: C12K:TwFTQ0J298Q@00:03:44; C12K:l5NbfgqRibo@02:26:27
+  - rule: Judge qualification changes by downstream revenue, margin, customer quality, and capacity use—not merely by show
+      rate, close rate, or a prettier sales calendar.
+    why: A filter that raises close rate by discarding profitable buyers is a local optimization, not a business improvement.
+    source: C12K:l5NbfgqRibo@01:16:53; C12K:XhqDVGpyXFw@00:10:23
+  - rule: Tighten qualification as downstream capacity becomes scarce and relax unnecessary gates when capacity is abundant,
+      provided customer-success constraints remain protected.
+    why: The economic value of filtration depends partly on the opportunity cost of the human or operational capacity it protects.
+    source: C12K:XhqDVGpyXFw@00:10:19; C12K:iDPreslY2Os@00:25:15
+  - rule: Treat exact qualified-rate, budget, timing, and lead-score thresholds from creators as contextual examples rather
+      than durable universal benchmarks.
+    why: Qualification thresholds depend on offer price, market, capacity, source, sales process, and the definition of each
+      criterion.
+    source: C12K:0rJINbEwNKw@01:04:06; C12K:jAGTr6A16MM@00:22:39

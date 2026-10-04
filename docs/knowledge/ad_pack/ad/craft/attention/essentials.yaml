@@ -1,0 +1,45 @@
+schema_version: '1'
+pack: attention
+kind: general
+title: Attention Craft
+categories:
+  relevance_and_orientation:
+  - rule: Make the audience understand the subject and why it matters before asking them to invest more attention.
+    why: Attention is easier to sustain when relevance is legible rather than implied.
+    source: B:kallaway/02_hooks-and-initial-retention; B:round_2/02_retention-hooks-pacing-and-story
+  - rule: Keep each segment centered on one active idea or question instead of making the audience decode several competing threads.
+    why: Lower cognitive load preserves comprehension and reduces attention leakage.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Make the audience the reference point for relevance by connecting information to a recognizable problem, desire, consequence, or identity.
+    why: People allocate more attention to information that maps onto their own situation.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/01_hooks-attention-and-open-loops
+  question_management:
+  - rule: Maintain a clear unanswered question when continued attention is needed, but keep the subject and stakes explicit.
+    why: A specific knowledge gap creates forward pull without becoming vague withholding.
+    source: B:kallaway/02_hooks-and-initial-retention; B:round_4/01_hooks-attention-and-open-loops
+  - rule: After resolving one meaningful question, either end or open the next relevant question instead of letting interest decay into filler.
+    why: Attention often drops after payoff unless the audience has a legitimate new reason to continue.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_2/02_retention-hooks-pacing-and-story
+  - rule: Give partial progress while an important question remains open; do not withhold all useful information until the end.
+    why: Progress proves the promise is real and prevents curiosity from feeling manipulative.
+    source: B:round_2/02_retention-hooks-pacing-and-story; B:round_4/01_hooks-attention-and-open-loops
+  - rule: Close every major curiosity debt with a real payoff.
+    why: Unpaid loops may win temporary attention but erode trust and future willingness to continue.
+    source: B:kallaway/01_psychology-and-viewer-behavior; B:round_4/09_round-4-action-playbooks-and-tensions
+  pattern_and_change:
+  - rule: Use change when attention needs renewal, but make the change carry meaning rather than stimulation alone.
+    why: Motivated novelty can refresh attention while gratuitous novelty competes with comprehension.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:round_2/03_visual-layout-typography-motion-and-b-roll
+  - rule: Vary intensity instead of sustaining maximum stimulation continuously.
+    why: Contrast between tension, release, motion, stillness, sound, and silence makes peaks perceptible.
+    source: B:kallaway/03_storytelling-and-scriptwriting; B:round_2/04_sound-design-music-and-silence
+  cognitive_load:
+  - rule: Reduce search cost by keeping the audience’s eye and mind oriented to the next important element.
+    why: Attention is lost when people must hunt for the focal point or reconstruct the argument.
+    source: B:round_2/03_visual-layout-typography-motion-and-b-roll; B:round_2/01_editing-philosophy-attention-emotion-and-clarity
+  - rule: Use visible structure when a sequence contains multiple parts.
+    why: Lists, stages, and frameworks reduce uncertainty and help the audience track progress.
+    source: B:kallaway/01_psychology-and-viewer-behavior
+  - rule: Simplify before adding stimulation when attention is weak.
+    why: Confusion cannot reliably be repaired by more motion, effects, or rhetorical intensity.
+    source: B:round_2/01_editing-philosophy-attention-emotion-and-clarity; B:kallaway/01_psychology-and-viewer-behavior

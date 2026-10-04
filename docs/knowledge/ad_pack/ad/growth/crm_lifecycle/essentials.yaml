@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: crm_lifecycle
+kind: growth
+title: CRM Lifecycle
+categories:
+  state_model_and_ownership:
+  - rule: Define CRM stages as observable business states with entry and exit criteria, not vague labels such as “warm” or “interested.”
+    why: Clear states make automation, reporting, and ownership deterministic.
+    source: C12K:LE2n7Aajsfg@00:30:59; C12K:xl5Jgp8SJHY@00:04:07
+  - rule: Separate lifecycle state from lead score; a high-priority lead and a late-stage opportunity are different concepts.
+    why: Priority predicts attention while stage describes what has actually happened.
+    source: C12K:xl5Jgp8SJHY@00:04:07; C12K:fBCpD4rIm5I@00:00:01
+  - rule: Assign one current owner and one next action for every active record that requires human work.
+    why: Unowned records silently decay.
+    source: C12K:fBCpD4rIm5I@00:00:01; C12K:cZuvJxmjdxU@00:02:27
+  - rule: Keep customer, account, contact, opportunity, and activity entities separate when their relationships matter.
+    why: Flattening different objects into one row creates duplicate and contradictory truth.
+    source: C12K:cZuvJxmjdxU@00:02:27; C12K:Mxs4erDxOEE@00:01:36
+  data_quality_and_identity:
+  - rule: Use stable identifiers and deduplication rules for people and accounts before automating lifecycle actions.
+    why: Duplicate records create repeated outreach, broken attribution, and conflicting state.
+    source: C12K:LE2n7Aajsfg@00:30:59; C12K:xl5Jgp8SJHY@00:04:07
+  - rule: Track source, timestamp, confidence, and verification for mutable contact and company fields.
+    why: CRM data decays and external enrichment is not equally reliable.
+    source: C12K:xl5Jgp8SJHY@00:04:07; C12K:fBCpD4rIm5I@00:00:01
+  - rule: Prefer validated structured fields for automation-critical decisions and preserve free-text notes as context rather than hidden logic.
+    why: Automation should not depend on inconsistent note wording.
+    source: C12K:fBCpD4rIm5I@00:00:01; C12K:cZuvJxmjdxU@00:02:27
+  - rule: Record the provenance of state changes—human, import, API, automation, or inferred—to make errors diagnosable.
+    why: Knowing how a field changed is essential when workflows misfire.
+    source: C12K:cZuvJxmjdxU@00:02:27; C12K:Mxs4erDxOEE@00:01:36
+  workflow_and_sla:
+  - rule: Trigger follow-up from state transitions and events instead of relying entirely on fixed calendar sequences.
+    why: Behavioral state is more relevant than time alone.
+    source: C12K:LE2n7Aajsfg@00:30:59; C12K:xl5Jgp8SJHY@00:04:07
+  - rule: Define response-time or handoff SLAs only where speed materially affects conversion or customer experience.
+    why: Universal urgency creates noise and false escalations.
+    source: C12K:xl5Jgp8SJHY@00:04:07; C12K:fBCpD4rIm5I@00:00:01
+  - rule: Stop or reroute automations when a record advances, disqualifies, opts out, becomes a customer, or changes owner.
+    why: Lifecycle-aware automation prevents contradictory messages.
+    source: C12K:fBCpD4rIm5I@00:00:01; C12K:cZuvJxmjdxU@00:02:27
+  - rule: Use exception queues for records that fail enrichment, routing, ownership, or automation checks.
+    why: Silent workflow failure creates invisible revenue leakage.
+    source: C12K:cZuvJxmjdxU@00:02:27; C12K:Mxs4erDxOEE@00:01:36
+  measurement_and_hygiene:
+  - rule: Measure stage conversion, time-in-stage, leakage, reactivation, and outcome by cohort/source rather than reporting only pipeline value.
+    why: Pipeline totals do not reveal where the lifecycle breaks.
+    source: C12K:LE2n7Aajsfg@00:30:59; C12K:xl5Jgp8SJHY@00:04:07
+  - rule: Flag stale records based on state-specific expected movement, not one universal inactivity threshold.
+    why: A 30-day pause can be normal in one stage and failure in another.
+    source: C12K:xl5Jgp8SJHY@00:04:07; C12K:fBCpD4rIm5I@00:00:01
+  - rule: Archive or suppress records that no longer support an active business purpose instead of keeping every historical contact operational forever.
+    why: Unlimited operational data creates cost, risk, and accidental contact.
+    source: C12K:fBCpD4rIm5I@00:00:01; C12K:cZuvJxmjdxU@00:02:27
+  - rule: Audit lifecycle definitions when teams repeatedly override automation or misuse stages.
+    why: Workarounds are evidence that the data model no longer matches reality.
+    source: C12K:cZuvJxmjdxU@00:02:27; C12K:Mxs4erDxOEE@00:01:36
+  automation_and_governance:
+  - rule: Make high-impact automated changes idempotent and reversible when possible.
+    why: Retries or duplicate events should not create duplicate deals, messages, or charges.
+    source: C12K:LE2n7Aajsfg@00:30:59; C12K:xl5Jgp8SJHY@00:04:07
+  - rule: Require stronger validation for state changes that trigger money movement, customer-facing commitments, or destructive actions.
+    why: The cost of a wrong transition rises with downstream consequence.
+    source: C12K:xl5Jgp8SJHY@00:04:07; C12K:fBCpD4rIm5I@00:00:01
+  - rule: Version automation logic and retain an audit trail of rule changes.
+    why: CRM behavior can change materially even when the data schema does not.
+    source: C12K:fBCpD4rIm5I@00:00:01; C12K:cZuvJxmjdxU@00:02:27
+  - rule: Treat the CRM as an operational source of truth only for fields it can actually observe and govern.
+    why: Declaring universal truth does not fix external systems or stale manual data.
+    source: C12K:cZuvJxmjdxU@00:02:27; C12K:Mxs4erDxOEE@00:01:36

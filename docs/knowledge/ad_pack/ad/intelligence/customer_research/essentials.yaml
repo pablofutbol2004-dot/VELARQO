@@ -1,0 +1,70 @@
+schema_version: '1'
+pack: customer_research
+kind: intelligence
+title: Customer Research
+categories:
+  research_question_and_scope:
+  - rule: Start research from a decision or uncertainty that needs reducing, not from a vague mandate to “learn about customers.”
+    why: A decision-shaped question makes evidence collection selective and prevents endless research that never changes action.
+    source: C12K:gtynGxXHxVo@00:03:15; C12K:f7IECetqDLY@01:09:55
+  - rule: Separate discovery research, which searches for unknown problems and language, from validation research, which tests a specific hypothesis or solution.
+    why: Mixing the two invites leading questions and makes exploratory evidence look more conclusive than it is.
+    source: C12K:f7IECetqDLY@01:09:55; C12K:QiYwAt9zM3I@00:25:45
+  - rule: Define the customer state being studied—buyer, user, non-buyer, churned customer, power user, employee, or adjacent stakeholder—before aggregating feedback.
+    why: Different states experience different problems and incentives; pooling them can erase the signal.
+    source: C12K:QiYwAt9zM3I@00:25:45; C12K:JWhICz1QR8M@00:09:31
+  - rule: Treat customer research as a recurring operating loop rather than a one-off launch phase.
+    why: Markets, products, competitors, and customer sophistication change, so old voice-of-customer data decays.
+    source: C12K:JWhICz1QR8M@00:09:31; C12K:DIeLJp2VT0Y@00:37:24
+  source_selection_and_sampling:
+  - rule: Triangulate direct conversations with behavioral traces such as reviews, support tickets, sales calls, search queries, comments, usage data, and churn reasons.
+    why: Stated preferences alone are noisy; multiple evidence types reveal where language and behavior agree or diverge.
+    source: C12K:gtynGxXHxVo@00:03:15; C12K:f7IECetqDLY@01:09:55
+  - rule: Sample deliberately across important segments and outcomes instead of interviewing only the easiest or happiest customers.
+    why: Convenience samples systematically overrepresent people who already engage with the company.
+    source: C12K:f7IECetqDLY@01:09:55; C12K:QiYwAt9zM3I@00:25:45
+  - rule: Include lost deals, churned customers, non-buyers, and competitor customers when the question concerns objections, alternatives, or failure to convert.
+    why: Current happy customers cannot explain every reason the market rejects or abandons the offer.
+    source: C12K:QiYwAt9zM3I@00:25:45; C12K:JWhICz1QR8M@00:09:31
+  - rule: Preserve raw source context and metadata when collecting snippets so synthesis can be traced back to who said what, when, and under what circumstances.
+    why: Detached quotes become easy to overgeneralize or reinterpret later.
+    source: C12K:JWhICz1QR8M@00:09:31; C12K:DIeLJp2VT0Y@00:37:24
+  interviews_and_observation:
+  - rule: Ask for specific past events, decisions, and sequences before asking for opinions about hypothetical future behavior.
+    why: Concrete behavior produces more reliable evidence than predictions about what someone imagines they would do.
+    source: C12K:gtynGxXHxVo@00:03:15; C12K:f7IECetqDLY@01:09:55
+  - rule: Use follow-up questions to uncover triggers, alternatives considered, tradeoffs, anxieties, and the consequence of doing nothing.
+    why: The first answer often names a surface problem rather than the decision mechanics underneath it.
+    source: C12K:f7IECetqDLY@01:09:55; C12K:QiYwAt9zM3I@00:25:45
+  - rule: Avoid teaching, pitching, defending the product, or inserting desired answers during discovery interviews.
+    why: Once the researcher signals the preferred answer, the conversation becomes contaminated.
+    source: C12K:QiYwAt9zM3I@00:25:45; C12K:JWhICz1QR8M@00:09:31
+  - rule: Distinguish the person’s own words from the researcher’s interpretation in notes and synthesis.
+    why: This preserves voice-of-customer language while keeping inference visibly separate from evidence.
+    source: C12K:JWhICz1QR8M@00:09:31; C12K:DIeLJp2VT0Y@00:37:24
+  voc_extraction_and_synthesis:
+  - rule: Capture repeated phrases, metaphors, objections, desired outcomes, workarounds, and comparison language verbatim before compressing them into abstractions.
+    why: Customer wording is useful input for messaging and content only if it is not sanitized into generic marketing language.
+    source: C12K:gtynGxXHxVo@00:03:15; C12K:f7IECetqDLY@01:09:55
+  - rule: Cluster evidence by underlying job, trigger, desired outcome, obstacle, alternative, and consequence rather than by whichever transcript it came from.
+    why: Mechanism-based clustering reveals patterns that generalize across sources.
+    source: C12K:f7IECetqDLY@01:09:55; C12K:QiYwAt9zM3I@00:25:45
+  - rule: Count recurrence as a signal of prevalence but preserve unusually consequential minority problems instead of discarding them automatically.
+    why: A rare issue can still be economically or strategically decisive.
+    source: C12K:QiYwAt9zM3I@00:25:45; C12K:JWhICz1QR8M@00:09:31
+  - rule: Turn synthesis into explicit hypotheses with supporting and contradicting evidence rather than a single confident persona narrative.
+    why: Research is more useful when it preserves uncertainty and competing explanations.
+    source: C12K:JWhICz1QR8M@00:09:31; C12K:DIeLJp2VT0Y@00:37:24
+  validation_and_refresh:
+  - rule: 'Validate important stated needs against behavior: purchases, retention, usage, response, switching, or willingness to incur real cost.'
+    why: People can sincerely report pain without treating it as important enough to act on.
+    source: C12K:gtynGxXHxVo@00:03:15; C12K:f7IECetqDLY@01:09:55
+  - rule: Treat research artifacts as versioned evidence with dates and freshness, especially for fast-changing markets or channels.
+    why: A durable system needs to know when a previously accurate insight may no longer be safe to reuse.
+    source: C12K:f7IECetqDLY@01:09:55; C12K:QiYwAt9zM3I@00:25:45
+  - rule: Track which research insights led to changed decisions and whether those decisions improved outcomes.
+    why: This closes the loop between research quality and business value instead of rewarding documentation volume.
+    source: C12K:QiYwAt9zM3I@00:25:45; C12K:JWhICz1QR8M@00:09:31
+  - rule: When evidence conflicts, segment the conflict or gather more targeted evidence instead of averaging incompatible customer states into a false consensus.
+    why: Contradictions often reveal meaningful segmentation rather than bad data.
+    source: C12K:JWhICz1QR8M@00:09:31; C12K:DIeLJp2VT0Y@00:37:24

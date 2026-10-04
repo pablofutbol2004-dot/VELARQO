@@ -1,0 +1,67 @@
+schema_version: "1"
+pack: carousel_covers
+kind: carousel
+title: Hooks, covers, and swipe mechanics
+categories:
+  cover_objective:
+  - rule: "Give the cover one job: make the right viewer decide the next slide is worth seeing, using relevant topic plus specific angle plus visual salience plus unresolved value."
+    why: "Weak covers miss at least two of those four."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#1"
+  - rule: "Do not make the cover explain the whole post; make it legible enough to categorize and interesting enough to enter."
+    why: "The cover is the acquisition layer, not the summary."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#1"
+  hook_families:
+  - rule: "Draw covers from hook families rather than memorized phrases: contrarian claim, mistake or danger, utility outcome, named framework, quantity collection, comparison, identity, curiosity, and visual-only."
+    why: "Families generate fresh wording for real topics."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#2"
+  - rule: "Store the psychological semantics behind hook templates (reversal, confession, hidden cause, unexpected constraint, counterfactual, transformation, avoided mistake) and regenerate wording per topic."
+    why: "Literal templates produce factory-slop covers."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#9"
+  - rule: "Use a named-system hook only when the system has distinct parts and the name improves recall or explanation; never brand obvious advice."
+    why: "A fake framework manufactures authority without value."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#2"
+  - rule: "Treat a visual-only hook as sufficient when the image itself carries the value; do not force a title onto a stronger image."
+    why: "Some posts hook by taste, novelty, or beauty alone."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#2"
+  visual_hook_mechanisms:
+  - rule: "Build covers from visual mechanisms: world (a feeling-scene), borrow (a recognizable person, object, or interface), cut (one color field plus a hard-edged subject), object (the real subject present), or shape (one typographic mass as the image)."
+    why: "A hook is the total perceptual event, not only a sentence."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#3"
+  cover_layout_primitives:
+  - rule: "Choose a cover layout primitive from the image geometry: stack, band, split, overlap, corner, low line, frame, or punch."
+    why: "Placement is chosen from the image, never from a memorized grid."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#4"
+  - rule: "Use the punch primitive (one very large word, everything else subordinate) for maximum salience, and the split or band when the image cannot comfortably host text."
+    why: "Layout must follow negative space and image busyness."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#4"
+  cover_composition:
+  - rule: "Pass the feed-size test: at roughly 15 to 20 percent of display size the topic is still categorizable and the dominant word or image still obvious."
+    why: "If the core idea vanishes small, the cover is fragile."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#5"
+  - rule: "Keep one dominant focal point per cover even when many elements exist."
+    why: "Competing focal points die in the feed."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#5"
+  - rule: "Make contrast survive compression through size, luminance, color, isolation, or type weight."
+    why: "Contrast is what keeps the cover legible small."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#5"
+  - rule: "Place copy where the image gives it room and do not restate what image and subtitle already communicate."
+    why: "Title redundancy wastes the cover's few words."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#5"
+  slide2_bridge:
+  - rule: "Give slide two one of five validation jobs: establish why it matters, prove it works, show exactly what is meant, map the components, or start the story."
+    why: "A slide two that only says swipe wastes the best slot."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#6"
+  continuation:
+  - rule: "Drive continuation with open loops, structural completion, progressive specificity, escalation, contrast chains, pattern anticipation, or visual novelty that keeps the same world."
+    why: "Continuation should be earned by genuine progression."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#7"
+  - rule: "Use a repeated structure for reference carousels but vary attention mode where content benefits."
+    why: "The goal is an experience of swiping, not identical slides."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#8"
+  cover_generation:
+  - rule: "Generate at least three cover concepts from different hook families and score each on relevance, specificity, visual clarity, curiosity, promise-payoff fit, originality, and small-size legibility."
+    why: "Choosing the most sensational title alone is a trap."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#10"
+  - rule: "Validate covers with the contextless test: someone who does not know the topic can still name its category and a reason to swipe."
+    why: "Category plus interest is enough; full comprehension is not required."
+    source: "CP:HOOKS_COVERS_AND_SWIPE.md#11"

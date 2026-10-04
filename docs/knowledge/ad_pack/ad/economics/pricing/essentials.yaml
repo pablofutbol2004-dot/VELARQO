@@ -1,0 +1,160 @@
+schema_version: '1'
+pack: pricing
+kind: economics
+title: Pricing
+categories:
+  pricing_role_and_bounds:
+  - rule: Treat pricing as a system for choosing what the buyer pays, what unit they pay against, and under what economic terms—not as a number chosen after the offer is built.
+    why: A price can be reasonable while the pricing model, metric, tier, or payment structure is wrong; separating these decisions makes diagnosis and iteration possible.
+    source: C12K:oWZbWzAyHAE@00:19:23; C12K:xRh2sVcNXQ8@00:46:02
+  - rule: Use cost to establish economic feasibility, market alternatives to establish context, and customer value or willingness to pay to establish upside; do not let any one of the three determine price alone.
+    why: Cost-plus ignores available value, pure willingness-to-pay can ignore delivery economics, and competitor copying can preserve somebody else’s mistake.
+    source: C12K:oWZbWzAyHAE@00:19:41; C12K:BMF2fWHyDrg@00:25:19
+  - rule: Find the correct order of magnitude before optimizing small pricing differences.
+    why: Being priced at 10 when customers reliably value the solution near 100 is a strategic error; debating 14 versus 16 is not.
+    source: C12K:oWZbWzAyHAE@00:19:00
+  - rule: Treat every initial price as provisional until real buying behavior, retention, delivery cost, and margin provide evidence.
+    why: Pricing is learned over time; early precision is usually false precision.
+    source: C12K:oWZbWzAyHAE@00:19:23; C12K:nGumOYISiv0@00:21:58
+  - rule: Do not encode universal target markups, close rates, commission percentages, or price-to-value ratios as pricing laws.
+    why: The economically correct number depends on segment, demand, competition, cost to serve, capacity, sales motion, and the value created.
+    source: C12K:noE1MQPMvAc@00:07:11; C12K:03iQTUd-F1k@00:00:44
+  - rule: Revisit pricing deliberately instead of allowing an old price to survive indefinitely because changing it feels uncomfortable.
+    why: Price, costs, product value, customer mix, and competition change; stale pricing can silently compress margin or leave value uncaptured.
+    source: C12K:noE1MQPMvAc@00:08:25; C12K:BMF2fWHyDrg@00:10:17
+  value_and_willingness_to_pay:
+  - rule: Price primarily against the value created for the buyer when that value can be understood, rather than against seller hours or production effort alone.
+    why: Efficiency should not automatically reduce compensation when the buyer receives the same or greater outcome.
+    source: C12K:TeT9Fi9CKiY@00:13:07; C12K:TeT9Fi9CKiY@00:28:06
+  - rule: Expect willingness to pay to vary by customer, use case, urgency, alternatives, and economic consequence; the same deliverable can rationally carry different value in different contexts.
+    why: A uniform job price can ignore large differences in the outcome or risk being changed for each client.
+    source: C12K:TeT9Fi9CKiY@00:28:06; C12K:bVMm5Qhy2iU@00:03:33
+  - rule: Translate buyer value into observable economic or operational consequences such as revenue gained, cost avoided, time compressed, risk reduced, or a strategically important outcome.
+    why: Concrete consequences create a stronger pricing basis than vague claims that the work is “valuable.”
+    source: C12K:oWZbWzAyHAE@00:21:47; C12K:TeT9Fi9CKiY@00:32:02
+  - rule: Use customer conversations to learn the problem, alternatives, consequence, and value language, but validate willingness to pay with actual purchase behavior.
+    why: People can describe pain and value without being willing to commit money at the proposed price.
+    source: C12K:oWZbWzAyHAE@00:21:07; C12K:nGumOYISiv0@00:21:58
+  - rule: For an unvalidated offer, use relevant comparables as a provisional starting range and then update from actual sales and delivery data.
+    why: Market references reduce arbitrary guessing without pretending competitor prices reveal the optimum for your offer.
+    source: C12K:nGumOYISiv0@00:21:44; C12K:nGumOYISiv0@00:21:58
+  - rule: Treat proven spending on the same problem or adjacent substitutes as evidence of willingness to pay, not proof of the exact price your product should command.
+    why: Existing spend validates that a budget and problem category exist, while differentiation and value still determine what your solution can capture.
+    source: C12K:bVMm5Qhy2iU@00:03:33; C12K:oWZbWzAyHAE@00:23:23
+  - rule: When buyers resist a higher price, diagnose whether the problem is insufficient value, a weak problem, the wrong segment, poor proof, or genuine affordability before defaulting to a discount.
+    why: Price resistance can reveal a product or positioning constraint rather than a need to make the same offer cheaper.
+    source: C12K:oWZbWzAyHAE@00:25:13; C12K:oWZbWzAyHAE@00:25:28
+  pricing_models_and_metrics:
+  - rule: Choose a pricing model that matches how value accrues, how usage varies, how costs are incurred, and which side can observe the priced event reliably.
+    why: A model is good only if it aligns buyer value with seller economics and can be administered without constant disputes.
+    source: C12K:xRh2sVcNXQ8@00:44:30; C12K:03iQTUd-F1k@00:04:01
+  - rule: Avoid defaulting to hourly pricing when the buyer is purchasing an outcome and seller efficiency can vary dramatically; use time-based pricing when time itself is a meaningful unit or uncertainty makes another model impractical.
+    why: Billing time can punish efficiency, but abandoning it blindly can shift unbounded scope risk to the seller.
+    source: C12K:TeT9Fi9CKiY@00:13:07; C12K:TeT9Fi9CKiY@00:33:27
+  - rule: Use cost-plus pricing as a floor or control mechanism when necessary, not as the default ceiling on what the market can rationally pay.
+    why: Adding a standard markup preserves a margin formula but can ignore large differences in customer value and willingness to pay.
+    source: C12K:oWZbWzAyHAE@00:20:04; C12K:BMF2fWHyDrg@00:25:19
+  - rule: Use fixed-fee pricing only with explicit scope, assumptions, change conditions, and risk ownership.
+    why: A fixed number transfers uncertainty to the seller unless the boundaries of what is included are controlled.
+    source: C12K:uFFVd3eZqxs@00:03:01; C12K:uFFVd3eZqxs@00:03:13
+  - rule: Use recurring subscription or retainer pricing when the customer receives recurring value or the seller carries recurring service obligations; do not choose recurring billing merely because SaaS or agencies commonly do.
+    why: A recurring model can create mismatch when the customer sees the value as one-time or when the product structure does not justify continuous payment.
+    source: C12K:hYW9YDwHE20@00:02:42; C12K:hYW9YDwHE20@00:03:45
+  - rule: Use one-time or lifetime pricing only when future variable costs, support obligations, product evolution, and foregone recurring revenue are economically supportable.
+    why: Pulling cash forward is attractive, but permanent service obligations can make a lifetime price destructive if ongoing costs remain high.
+    source: C12K:hYW9YDwHE20@00:03:45; C12K:hYW9YDwHE20@00:04:50
+  - rule: Use usage-based pricing when the usage unit is understandable and reasonably tracks customer value or seller cost; do not price by a convenient technical unit merely because it is measurable.
+    why: Customers can resent metering that is disconnected from outcomes, while a good usage metric lets spend scale with received value.
+    source: C12K:xRh2sVcNXQ8@00:42:11; C12K:xRh2sVcNXQ8@00:44:30
+  - rule: Use performance or revenue-share pricing only when the outcome is attributable, measurable, hard to manipulate, and paid at a stage the seller can finance and influence.
+    why: Outcome-based pricing transfers risk and can increase upside, but weak attribution, long payment lags, or dependence on the buyer’s sales process can make it unstable.
+    source: C12K:03iQTUd-F1k@00:04:01; C12K:03iQTUd-F1k@00:04:30
+  tiers_options_and_architecture:
+  - rule: Offer multiple price options only when each represents a materially different scope, service level, usage allowance, risk allocation, or outcome path.
+    why: Meaningful options let buyers self-select; cosmetic tiers create clutter and decoy behavior without serving a distinct need.
+    source: C12K:TeT9Fi9CKiY@00:28:35; C12K:oWZbWzAyHAE@00:28:22
+  - rule: Design tiers around real customer segments or value thresholds rather than splitting features arbitrarily to manufacture an upgrade path.
+    why: A tier should explain why a different buyer or usage pattern should rationally pay more.
+    source: C12K:TeT9Fi9CKiY@00:28:35; C12K:xRh2sVcNXQ8@00:45:34
+  - rule: Choose a pricing metric that moves with the value or economically meaningful usage the customer receives, while remaining easy enough to forecast and verify.
+    why: A metric that scales with value supports expansion; a metric customers cannot understand creates budgeting anxiety and disputes.
+    source: C12K:xRh2sVcNXQ8@00:44:53; C12K:xRh2sVcNXQ8@00:45:34
+  - rule: Keep the number of plans and pricing decisions small enough that the buyer can compare them without reconstructing the business model.
+    why: Complexity on the pricing surface increases decision cost and can hide the actual differences between plans.
+    source: C12K:oWZbWzAyHAE@00:28:22
+  - rule: Let the default or recommended tier correspond to the segment you most want to serve rather than automatically maximizing the visible price.
+    why: Pricing architecture should route the right buyer to the right economics, not merely push every buyer upward.
+    source: C12K:TeT9Fi9CKiY@00:28:35; C12K:TeT9Fi9CKiY@00:29:28
+  - rule: Create upgrade boundaries from real increments in value, cost, access, risk, or service intensity so expansion revenue remains explainable.
+    why: A buyer should be able to understand why crossing the boundary changes the price.
+    source: C12K:xRh2sVcNXQ8@00:45:15; C12K:TeT9Fi9CKiY@00:29:49
+  discounts_payment_and_terms:
+  - rule: When discounting, obtain something economically meaningful in return such as prepayment, longer commitment, reduced scope, volume, a strategic reference, or another reciprocal concession.
+    why: A one-sided discount lowers the reference price and margin without improving the economics of the deal.
+    source: C12K:unshZobTt6Q@00:26:03; C12K:unshZobTt6Q@00:27:04
+  - rule: Use payment timing to solve cash-flow or affordability friction before reducing the underlying price.
+    why: Installments, deposits, and staged payments can change when cash moves without changing the total value exchanged.
+    source: C12K:MPhvqxVGzkw@01:08:38; C12K:MPhvqxVGzkw@01:10:39
+  - rule: Price prepayment or longer commitments according to the cash-flow, retention, financing, and risk benefit they create rather than offering an arbitrary percentage off.
+    why: The discount should be smaller than the economic value the changed terms create for the seller.
+    source: C12K:MPhvqxVGzkw@01:08:38; C12K:DkmStHS8NP0@00:17:28
+  - rule: Treat free trials, freemium, and free entry tiers as pricing decisions with acquisition, support, conversion, and abuse economics—not as automatically safer ways to launch.
+    why: Zero initial price can reduce friction but can also attract low-intent usage and delay evidence of willingness to pay.
+    source: C12K:hYW9YDwHE20@00:02:42; C12K:DkmStHS8NP0@00:08:07
+  - rule: Separate temporary promotional pricing from the durable base price and define the eligibility and end condition before launch.
+    why: A promotion should solve a specific acquisition or timing objective without quietly becoming the expected normal price.
+    source: C12K:Grk2ayGFjX4@00:43:12; C12K:jq602uEhc3k@00:19:34
+  - rule: Avoid repeating the same discount or promotion so often that customers learn to wait for it.
+    why: Repeated discounting can reset the reference price downward and make full-price demand harder to sustain.
+    source: C12K:Grk2ayGFjX4@00:43:20
+  price_testing_and_elasticity:
+  - rule: Test price as a controlled business variable instead of treating the first acceptable price as permanent.
+    why: Pricing has unusually high leverage on revenue and margin, and real demand data is the only reliable way to learn the response curve.
+    source: C12K:noE1MQPMvAc@00:08:25; C12K:BMF2fWHyDrg@00:28:13
+  - rule: Use incremental price tests when uncertainty is high so you can observe response without confusing a major repositioning with ordinary elasticity.
+    why: Smaller changes make it easier to estimate how demand and profit respond to price.
+    source: C12K:oWZbWzAyHAE@00:22:26; C12K:BMF2fWHyDrg@00:26:03
+  - rule: Measure price tests on contribution or gross profit, revenue, retention, refunds, and downstream customer quality—not conversion rate alone.
+    why: A higher price can reduce units sold while increasing total profit and lowering service load.
+    source: C12K:noE1MQPMvAc@00:08:04; C12K:BMF2fWHyDrg@00:27:17
+  - rule: 'Estimate price elasticity explicitly: ask how much volume changes when price changes, then compare that loss or gain with the change in margin per customer.'
+    why: The correct decision depends on the shape of the demand response, not on whether fewer people buy.
+    source: C12K:BMF2fWHyDrg@00:27:17
+  - rule: Treat an unusually high close rate as a possible signal of underpricing, weak qualification, excessive scope, or unusually warm demand—not as proof that a fixed percentage increase is required.
+    why: Close rate is jointly determined by price, fit, sales skill, traffic quality, proof, and offer design.
+    source: C12K:noE1MQPMvAc@00:07:11; C12K:nGumOYISiv0@00:22:37
+  - rule: When demand exceeds good fulfillment capacity, consider price increases alongside tighter scope or qualification before simply accepting more customers.
+    why: Price can ration scarce capacity and protect service quality while improving unit economics.
+    source: C12K:nGumOYISiv0@00:23:13; C12K:noE1MQPMvAc@00:27:21
+  price_changes_and_migrations:
+  - rule: Treat a price increase for new customers and a migration of existing customers as separate decisions.
+    why: Installed customers have expectations, contracts, switching costs, and trust history that new buyers do not.
+    source: C12K:jq602uEhc3k@00:15:31; C12K:jq602uEhc3k@00:20:24
+  - rule: Honor contractual notice periods, commitments, and purchased entitlements when changing price.
+    why: A financially attractive repricing can create disputes or destroy trust if it violates the terms under which the customer originally committed.
+    source: C12K:jq602uEhc3k@00:15:31; C12K:DkmStHS8NP0@00:17:28
+  - rule: Choose grandfathering, phased migration, renewal repricing, or immediate migration based on the economics and relationship—not as a universal policy.
+    why: Different customer cohorts can have different acquisition promises, margins, and switching risks.
+    source: C12K:jq602uEhc3k@00:15:31; C12K:oWZbWzAyHAE@00:26:27
+  - rule: If an introductory or strategic discount is temporary, define the later renewal price or migration rule before the customer enters.
+    why: A known path avoids turning a temporary concession into an indefinite low-margin contract.
+    source: C12K:oWZbWzAyHAE@00:25:46; C12K:oWZbWzAyHAE@00:26:27
+  - rule: Expect price changes to alter behavior beyond conversion—customers may accelerate purchases before an increase, change plan mix, churn, or renegotiate.
+    why: Pricing changes create timing and inventory effects that can distort short-term results if they are interpreted as normal demand.
+    source: C12K:jq602uEhc3k@00:15:31; C12K:jq602uEhc3k@00:28:34
+  unit_economics_and_governance:
+  - rule: Require every price and plan to clear a sustainable cost-to-serve floor after variable delivery, support, payment, refund, and channel costs.
+    why: A price that converts but produces negative or fragile contribution cannot support scale.
+    source: C12K:oWZbWzAyHAE@00:20:25; C12K:oWZbWzAyHAE@00:20:46
+  - rule: Evaluate unit economics by plan, segment, and channel when their acquisition cost, service load, retention, or usage differs materially.
+    why: Blended averages can hide a profitable plan subsidizing a structurally bad one.
+    source: C12K:BMF2fWHyDrg@00:06:48; C12K:jq602uEhc3k@00:36:43
+  - rule: Recognize that higher prices can create strategic headroom by increasing margin available for acquisition, service, product quality, or sales effort.
+    why: Price is not only harvested profit; it can finance the capabilities required to win and serve customers.
+    source: C12K:oWZbWzAyHAE@00:23:52; C12K:oWZbWzAyHAE@00:24:38
+  - rule: Model recurring, usage, performance, and lifetime pricing on cash timing as well as nominal revenue.
+    why: Two models with the same expected revenue can have very different working-capital requirements and risk exposure.
+    source: C12K:DkmStHS8NP0@00:16:11; C12K:03iQTUd-F1k@00:04:30
+  - rule: Keep a pricing decision log containing the segment, model, metric, price, date, hypothesis, test population, and downstream result.
+    why: Pricing knowledge compounds only if the business can distinguish intentional tests from historical accidents and remember what happened.
+    source: C12K:noE1MQPMvAc@00:08:25; C12K:BMF2fWHyDrg@00:28:13

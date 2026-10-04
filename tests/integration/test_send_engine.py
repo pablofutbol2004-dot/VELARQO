@@ -91,7 +91,7 @@ ROW = {"id": "c1", "display_name": "Urg Windows & Doors", "email": "hello@urg.co
 COLD_ARMS = [
     (path.stem, i)
     for path in sorted(experiments.EXPERIMENTS_DIR.glob("*.json"))
-    if experiments.load(path.stem)["stage"] == "cold_email"
+    if experiments.load(path.stem)["stage"] == "cold_email" and experiments.load(path.stem).get("status") != "waiting"
     for i in range(len(experiments.load(path.stem)["arms"]))
 ]
 BANNED = ["campaign", "performance-based", "came across", "just bumping", "top of your inbox", "solution",
@@ -105,7 +105,7 @@ def test_every_cold_email_arm_is_clean_short_and_identifies_us(name, arm):
     assert compose.problems(email) == []
     assert body.rstrip().endswith(compose.OPT_OUT_LINE)
     assert "Pablo" in body and "velarqo.com" in body
-    assert compose.word_count(body) <= 90
+    assert compose.word_count(body) <= compose.MAX_WORDS
     assert not [w for w in BANNED if w in body], "agency talk, unbacked claim, or a price (pricing is undecided)"
     assert body.count("Urg Windows & Doors") <= 1
 
@@ -120,7 +120,7 @@ def test_price_arm_is_stable_per_company_and_spreads_across_arms():
     exp = experiments.load("pricing_p1")
     assert experiments.assigned_arm(exp, "company-1") == experiments.assigned_arm(exp, "company-1")
     keys = {experiments.assigned_arm(exp, f"company-{i}")["key"] for i in range(60)}
-    assert keys == {"low", "mid", "high"}
+    assert keys == {"low", "high"}
 
 
 def test_stats_are_honest_about_small_numbers():
@@ -155,3 +155,25 @@ def test_follow_ups_thread_and_identify_us(step):
 
 def test_placeholder_signature_is_caught():
     assert "unfilled placeholder" in compose.problems({"subject": "x", "body": "Hi [Your name] velarqo.com"})
+
+
+@pytest.mark.parametrize("name", ["cold_offer_v1"])
+def test_every_live_email_passes_checks(name):
+    exp = experiments.load(name)
+    for i, arm in enumerate(exp["arms"]):
+        first = compose.first_touch(ROW, exp, i)
+        assert compose.problems(first) == [], arm["key"]
+        for step in (2, 3):
+            assert compose.problems(compose.follow_up(step, ROW, first["subject"], arm)) == [], (arm["key"], step)
+
+
+def test_arm_follow_up_overrides_default():
+    arm = {"follow_ups": {"2": "Hi,\n\nArm specific."}}
+    assert "Arm specific." in compose.follow_up(2, ROW, "s", arm)["body"]
+    assert "Arm specific." not in compose.follow_up(3, ROW, "s", arm)["body"]
+
+
+def test_waiting_angle_test_cannot_be_sent_as_is():
+    exp = experiments.load("cold_angle_v1")
+    assert exp["status"] == "waiting"
+    assert "unfilled placeholder" in compose.problems(compose.first_touch(ROW, exp, 0))

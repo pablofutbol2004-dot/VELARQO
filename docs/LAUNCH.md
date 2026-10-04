@@ -69,4 +69,4 @@ obviously wrong (big manufacturer, commercial-only, not a window firm).
 - Any reply stops that company's follow-ups. Out-of-office replies don't.
 - A complaint, or a bounce rate over 5% (once 20+ emails have gone out), switches all sending off until you turn it back on.
 - Only Ltd/LLP companies (UK PECR corporate subscribers) are ever emailed.
-- Sequence: first email, follow-up after 3 business days, final one 5 business days later. All three are plain text, under 90 words, and include the opt-out line.
+- Sequence: first email, follow-up after 3 business days, final one 5 business days later. All three are plain text, under 80 words (signature and opt-out included), and include the opt-out line.
