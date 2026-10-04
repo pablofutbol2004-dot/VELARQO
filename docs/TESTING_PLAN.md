@@ -41,6 +41,15 @@ The offer test and the pricing test can run at the same time: they change
 different things at different stages, and the price arm is assigned
 independently of the email arm.
 
+## Later: second campaign to non-repliers (not built)
+
+About 60 days after a company's sequence ends with no reply, send them one
+email with a different offer, most likely speed-to-lead and quote follow-up on
+new enquiries. Keep about 10% of sends for new concepts like this once the
+offer test has a winner (Taylor Haren's 70/20/10). Other services (speed-to-lead,
+reviews, missed calls) are sold as upsells to reactivation clients, never mixed
+into the first sequence.
+
 ## Guardrails that stop any test
 
 - Any complaint pauses all sending automatically (built in).

@@ -17,22 +17,24 @@ OPT_OUT_LINE = "Reply \"no\" and I won't email again."
 MAX_WORDS = 80  # whole email, signature and opt-out included
 
 # First-email copy lives in config/experiments/*.json (one arm per variant),
-# so tests can change without code changes. Follow-ups are shared by all arms.
+# so tests can change without code changes. An arm can override a follow-up
+# with its own ("follow_ups": {"2": "..."}); otherwise these shared ones are used.
 FOLLOW_UP_TEMPLATES = {
-    # New reason to reply: what actually happens, in concrete steps (email 1
-    # already asked the "how many quotes" question, so don't repeat it).
+    # New reason to reply: answer the installer's real worry (annoying old
+    # customers) by showing the exact message, then a one-word sizing question.
     2: (
         "Hi,\n\n"
-        "To make it concrete: I'd send a short message in your company's name to homeowners you quoted in "
-        "the last year or two, asking if they're still thinking about it. Anyone who says yes gets a survey "
-        "booked into your diary. Anyone who says no is left alone.\n\n"
-        "Want a bit more detail?"
+        "The usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n"
+        "\"Hi, it's {company}. We quoted you for windows a while back. Did you ever get them sorted?\"\n\n"
+        "That's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\n"
+        "Roughly how many old quotes have you got: tens, hundreds?"
     ),
-    # Close the loop politely and leave the door open.
+    # Close the loop, and ask for the right person in case it's not them.
     3: (
         "Hi,\n\n"
-        "Last one from me. If chasing old quotes isn't on your list right now, fair enough.\n\n"
-        "If it ever is, just reply to this and I'll pick it up."
+        "Last one from me.\n\n"
+        "If old quotes aren't worth chasing right now, fair enough. "
+        "If someone else at {company} looks after quotes, who's best to speak to?"
     ),
 }
 

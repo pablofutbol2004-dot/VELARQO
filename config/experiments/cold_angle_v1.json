@@ -10,7 +10,7 @@
     "zero complaints"
   ],
   "min_sent_per_arm": 300,
-  "decision_rule": "Start only after cold_offer_v1 is decided: replace [OFFER] and the ask with the winning arm's, copy its follow_ups, set status to ready. Run on ~30% of the remaining list. Keep the arm with >= 90% probability of the higher positive-reply rate; otherwise keep the one with more booked calls.",
+  "decision_rule": "Superseded for now: the pain opener ('ring back months after a quote') is in cold_offer_v1 for both arms. Rewrite as a new opener test only after cold_offer_v1 is decided. Start only after cold_offer_v1 is decided: replace [OFFER] and the ask with the winning arm's, copy its follow_ups, set status to ready. Run on ~30% of the remaining list. Keep the arm with >= 90% probability of the higher positive-reply rate; otherwise keep the one with more booked calls.",
   "arms": [
     {
       "key": "A_question",

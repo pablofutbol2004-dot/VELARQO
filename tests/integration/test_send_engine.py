@@ -95,7 +95,7 @@ COLD_ARMS = [
     for i in range(len(experiments.load(path.stem)["arms"]))
 ]
 BANNED = ["campaign", "performance-based", "came across", "just bumping", "top of your inbox", "solution",
-          "leverage", "AI", "we've helped", "%", "£", "per survey", "only pay for", "guarantee", "results"]
+          "leverage", "AI", "we've helped", "%", "£", "per survey", "guarantee", "results"]
 
 
 @pytest.mark.parametrize("name, arm", COLD_ARMS)

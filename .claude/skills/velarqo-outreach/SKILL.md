@@ -10,7 +10,7 @@ These override generic copywriting advice when they conflict. Product truth live
 ## The offer (only say what is true)
 
 - Velarqo runs follow-up campaigns on a firm's old, unconverted quotes and books a share of those homeowners back in as appointments.
-- Performance-based: "nothing to pay unless it works". Terms agreed before anything starts.
+- Performance-based: "you only pay for surveys that get booked" (billing unit decided 2026-10-04; never state the price in writing). Cold test arm B offers to chase a firm's first 50 old quotes free. Terms agreed before anything starts.
 - Pricing model is **undecided**. Never state a price, per-appointment fee, or percentage until PRODUCT.md records one.
 - First vertical: UK window and door installers (ICP in `config/templates/icp-template.json`). Default offer line lives in `outreach/personalization/generator.py` (`DEFAULT_OFFER_LINE`).
 
