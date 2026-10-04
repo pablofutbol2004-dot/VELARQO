@@ -126,3 +126,28 @@ def test_unreachable_site_and_no_website():
     provider, _ = _provider({})
     assert provider.enrich({"website": "https://down.co.uk"}) == {"website_status": "unreachable"}
     assert provider.enrich({"website": None}) == {}
+
+
+def _cf_encode(email: str, key: int = 0x42) -> str:
+    return f"{key:02x}" + "".join(f"{ord(c) ^ key:02x}" for c in email)
+
+
+def test_cloudflare_protected_emails_are_decoded():
+    from prospecting.enrichment.website import decode_cfemail
+    assert decode_cfemail(_cf_encode("info@acme.co.uk")) == "info@acme.co.uk"
+    assert decode_cfemail("zz") is None
+
+
+def test_obfuscated_emails_are_found_without_eating_the_next_sentence():
+    from prospecting.enrichment.website import _deobfuscate
+    found = _deobfuscate("Email info [at] acme-windows [dot] co [dot] uk or sales(at)acme.co.uk. Meet us at the showroom.")
+    assert found == {"info@acme-windows.co.uk", "sales@acme.co.uk"}
+    assert _deobfuscate("We meet customers at home. Call us at 9am.") == set()
+
+
+def test_parser_picks_up_cloudflare_spans_and_links():
+    from prospecting.enrichment.website import _PageParser, _extract_emails
+    page = _PageParser()
+    page.feed(f'<p>Email: <span class="__cf_email__" data-cfemail="{_cf_encode("sales@acme.co.uk")}">[email&#160;protected]</span>'
+              f' <a href="/cdn-cgi/l/email-protection#{_cf_encode("info@acme.co.uk", 0x17)}">mail us</a></p>')
+    assert _extract_emails(page) == {"sales@acme.co.uk", "info@acme.co.uk"}

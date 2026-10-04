@@ -39,6 +39,14 @@ def is_corporate(company_category: str | None) -> bool:
     return (company_category or "") in CORPORATE_CATEGORIES
 
 
+def is_company_mailbox(email: str | None) -> bool:
+    """A Gmail/Hotmail-style account is subscribed by a person, not the
+    company, so under PECR it counts as an individual subscriber even when a
+    Ltd uses it. Only company-domain mailboxes are emailed."""
+    domain = email_domain(email)
+    return bool(domain) and domain not in FREE_MAIL_DOMAINS
+
+
 def email_domain(email: str | None) -> str:
     return (email or "").rsplit("@", 1)[-1].strip().lower() if "@" in (email or "") else ""
 

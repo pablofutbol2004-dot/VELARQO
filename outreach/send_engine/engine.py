@@ -110,12 +110,13 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
             from outreach_queue q
             join companies c on c.id = q.id
             where c.company_category = any(%s)
+              and not (lower(split_part(c.email, '@', 2)) = any(%s))
               and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
               {segment_sql}
             order by q.priority desc, c.id
             limit %s
             """,
-            (sorted(guards.CORPORATE_CATEGORIES), size),
+            (sorted(guards.CORPORATE_CATEGORIES), sorted(guards.FREE_MAIL_DOMAINS), size),
         ).fetchall()
         if not rows:
             return {"campaign_id": None, "messages": 0}
@@ -251,6 +252,8 @@ def _block_reason(conn, msg: dict) -> str | None:
     with conn.cursor(row_factory=dict_row) as cur:
         if _is_suppressed(cur, msg["to_email"]):
             return "suppressed"
+        if not guards.is_company_mailbox(msg["to_email"]):
+            return "free-mail address (individual subscriber)"
         if _company_has_replied(cur, msg["company_id"]):
             return "company replied"
         company = cur.execute("select company_category from companies where id = %s", (msg["company_id"],)).fetchone()

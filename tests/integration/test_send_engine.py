@@ -195,3 +195,9 @@ def test_long_company_names_never_break_the_word_cap(name):
     row = {"display_name": "Premier Double Glazing Windows Doors And Conservatories Of Greater Manchester"}
     for arm in range(len(exp["arms"])):
         assert compose.problems(compose.first_touch(row, exp, arm)) == []
+
+
+def test_free_mail_addresses_are_never_company_mailboxes():
+    assert not guards.is_company_mailbox("philipadamsglazing@gmail.com")
+    assert not guards.is_company_mailbox("a1glassmedway@yahoo.co.uk")
+    assert guards.is_company_mailbox("info@acornupvc.co.uk")

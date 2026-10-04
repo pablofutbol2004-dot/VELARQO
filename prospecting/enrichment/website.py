@@ -24,6 +24,9 @@ _JUNK_EMAIL_SUFFIXES = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".css"
 _JUNK_EMAIL_DOMAINS = {"example.com", "domain.com", "yourdomain.com", "email.com", "sentry.io", "wixpress.com"}
 _PREFERRED_LOCAL_PARTS = ["info", "enquiries", "enquiry", "sales", "hello", "contact", "office", "admin"]
 _CONTACT_LINK_HINTS = ("contact", "get-in-touch", "getintouch", "enquir")
+# Tried in order, at most _MAX_EXTRA_PAGES, only while no same-domain email is found.
+_FALLBACK_PATHS = ("/contact", "/contact-us", "/about", "/about-us")
+_MAX_EXTRA_PAGES = 2
 _MAX_TEXT_CHARS = 6000
 _BLOCKED_STATUS_CODES = {401, 403, 429, 503}
 
@@ -36,6 +39,7 @@ class _PageParser(HTMLParser):
         self.text_parts: list[str] = []
         self.links: list[tuple[str, str]] = []
         self.mailtos: set[str] = set()
+        self.cf_encoded: set[str] = set()
         self._skip_depth = 0
         self._in_title = False
         self._anchor_href: str | None = None
@@ -43,6 +47,11 @@ class _PageParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if attrs.get("data-cfemail"):
+            self.cf_encoded.add(attrs["data-cfemail"])
+        href = (attrs.get("href") or "") if tag == "a" else ""
+        if "/cdn-cgi/l/email-protection#" in href:
+            self.cf_encoded.add(href.rsplit("#", 1)[1])
         if tag in ("script", "style", "noscript", "svg"):
             self._skip_depth += 1
         elif tag == "title":
@@ -103,8 +112,39 @@ def _host(url: str) -> str:
     return (urlparse(url).hostname or "").lower().removeprefix("www.")
 
 
+# Spaces are only allowed around bracketed/word markers, never around a
+# real "." - otherwise "acme.co.uk. Meet us" swallows the next sentence.
+_AT = r"(?:\s*@\s*|\s*\[at\]\s*|\s*\(at\)\s*|\s*\{at\}\s*|\s+at\s+)"
+_DOT = r"(?:\.|\s*\[dot\]\s*|\s*\(dot\)\s*|\s*\{dot\}\s*|\s+dot\s+)"
+_OBFUSCATED_RE = re.compile(
+    rf"([A-Za-z0-9._%+-]+){_AT}([A-Za-z0-9-]+(?:{_DOT}[A-Za-z0-9-]+)*{_DOT}[A-Za-z]{{2,}})", re.IGNORECASE
+)
+_DOT_SPLIT_RE = re.compile(_DOT, re.IGNORECASE)
+
+
+def decode_cfemail(encoded: str) -> str | None:
+    """Cloudflare email protection: hex string, first byte is the XOR key."""
+    try:
+        data = bytes.fromhex(encoded)
+        return "".join(chr(b ^ data[0]) for b in data[1:]) if len(data) > 1 else None
+    except ValueError:
+        return None
+
+
+def _deobfuscate(text: str) -> set[str]:
+    """'info [at] acme [dot] co [dot] uk' -> 'info@acme.co.uk'. Only matches
+    when an explicit at-marker is present, so ordinary prose is left alone."""
+    found = set()
+    for local, domain in _OBFUSCATED_RE.findall(text):
+        if "@" in f"{local}{domain}":
+            continue
+        found.add(f"{local}@{'.'.join(_DOT_SPLIT_RE.split(domain))}")
+    return found
+
+
 def _extract_emails(page: _PageParser) -> set[str]:
-    candidates = set(page.mailtos) | set(_EMAIL_RE.findall(page.text))
+    candidates = set(page.mailtos) | set(_EMAIL_RE.findall(page.text)) | _deobfuscate(page.text)
+    candidates |= {e for e in (decode_cfemail(x) for x in page.cf_encoded) if e}
     emails = set()
     for candidate in candidates:
         email = normalize_email(candidate)
@@ -245,6 +285,19 @@ class WebsiteEnrichmentProvider:
                 contact_page, _ = contact
                 emails |= _extract_emails(contact_page)
                 texts.append(contact_page.text)
+
+        tried = 0
+        for path in _FALLBACK_PATHS:
+            if not self.fetch_contact_page or tried >= _MAX_EXTRA_PAGES or any(_is_same_domain(e, site_domain) for e in emails):
+                break
+            url = urljoin(final_url, path)
+            if url.rstrip("/") == final_url.rstrip("/"):
+                continue
+            tried += 1
+            if extra := self._fetch_page(url):
+                extra_page, _ = extra
+                emails |= _extract_emails(extra_page)
+                texts.append(extra_page.text)
 
         result = {
             "website_status": "ok",
