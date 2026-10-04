@@ -101,6 +101,13 @@ yes/no tests.
 Test weekly invoicing against a prepaid credit pack. Then test a retainer
 for ongoing follow-up once a client's backlog is used up.
 
+### Free first 50 (offer test, not a price)
+
+`cold_offer_v1` arm B offers to chase a firm's first 50 old quotes free.
+Anything after that is billed per booked survey at the firm's `pricing_p1`
+price. Max 3 free pilots at once; the continuation is agreed before the free
+batch starts (rules in `SALES_PLAYBOOK.md`, section 3).
+
 ## Rules we hold ourselves to
 
 - Judge prices on samples sent, pilots, margin and disputes, not on "they said yes on the call".

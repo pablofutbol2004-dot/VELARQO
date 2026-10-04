@@ -74,6 +74,23 @@ value. These answer the biggest open questions in the business.
 
 Export request detail: `docs/knowledge/pass_13_first_10_installers/handoff/export_request.md`.
 
+### Free first 50 (cold test arm B)
+
+Some firms reply to "I'll chase your first 50 for free". The close is the
+same as above, but the first batch is 50 quotes and costs them nothing.
+Three rules, because the risk is your time, not money:
+
+1. **Cap: at most 3 free pilots running at once.** Anyone else goes on an
+   honest waiting list: "I run a few at a time so each gets done properly.
+   I can start you on [date]."
+2. **Agree the next step before starting:** "If it books surveys, the rest
+   of your old quotes carry on at the per-survey price." Say it on the call
+   and in the confirmation email, so the free 50 leads into a paid deal.
+3. **Keep it light:** data-processing agreement, export of the 50, one
+   message template they approve, one calendar link, about 2 weeks. No full
+   GHL build until they agree to continue (GHL trial covers the first one
+   or two).
+
 ## 4. Objections
 
 | They say | You say |
