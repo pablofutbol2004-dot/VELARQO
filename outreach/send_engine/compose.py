@@ -53,16 +53,12 @@ def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
     index = variant_index % len(experiment["arms"])
     arm = experiment["arms"][index]
     company = _company(row)
-    body = _finish(arm["body"].format(company=company))
-    if word_count(body) > MAX_WORDS:
-        # A long trading name can push an otherwise-fine email over the cap.
-        company = "your company"
-        body = _finish(arm["body"].format(company=company))
     return {
         "variant_index": index,
         "arm": arm["key"],
+        "company": company,
         "subject": arm["subject"].format(company=company),
-        "body": body,
+        "body": _finish(arm["body"].format(company=company)),
     }
 
 
@@ -82,10 +78,15 @@ def problems(email: dict) -> list[str]:
         issues.append("missing opt-out line")
     if "velarqo.com" not in email["body"]:
         issues.append("missing sender identity")
-    if word_count(email["body"]) > MAX_WORDS:
+    if word_count(email["body"], email.get("company")) > MAX_WORDS:
         issues.append(f"over {MAX_WORDS} words")
     return issues
 
 
-def word_count(body: str) -> int:
-    return len(body.split())
+def word_count(body: str, company: str | None = None) -> int:
+    """Words the reader has to read. A company name counts as one word, so a
+    long trading name never pushes good copy over the cap."""
+    words = len(body.split())
+    if company and len(company.split()) > 1:
+        words -= body.count(company) * (len(company.split()) - 1)
+    return words

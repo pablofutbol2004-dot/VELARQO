@@ -126,7 +126,7 @@ def review(campaign_id, out):
         writer = csv.DictWriter(f, fieldnames=[*rows[0].keys(), "words"] if rows else ["message_id"])
         writer.writeheader()
         for row in rows:
-            writer.writerow({**row, "words": compose.word_count(row["body"])})
+            writer.writerow({**row, "words": compose.word_count(row["body"], row["display_name"])})
     click.echo(f"{len(rows)} emails written to {out}")
     for row in rows[:2]:
         click.echo(f"\n--- {row['display_name']} <{row['to_email']}> ---\nSubject: {row['subject']}\n\n{row['body']}")
