@@ -38,3 +38,12 @@ def test_company_row_maps_merged_lead_and_keeps_raw_out_of_the_main_row():
     raw = {r["source"]: r for r in lead["raw_sources"]}
     assert raw["osm"]["payload"]["opening_hours"] == "Mo-Fr 09:00-17:00"
     assert raw["companies_house"]["source_id"] == "01234567"
+
+
+def test_rebuild_keeps_verified_website_email_tier_and_extra():
+    from data.supabase_store import _update_expr
+    assert _update_expr("email") == "coalesce(email, %(email)s)"
+    assert _update_expr("website") == "coalesce(website, %(website)s)"
+    assert "tier in ('A', 'B') then tier" in _update_expr("tier")
+    assert _update_expr("extra") == "extra || %(extra)s::jsonb"
+    assert _update_expr("city") == "%(city)s"

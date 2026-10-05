@@ -122,6 +122,28 @@ def company_row(lead: dict, vertical: str, version: str) -> dict:
     }
 
 
+# A rebuild must not undo work done since the last one: websites and emails
+# verified by the daily refresh, Places lookup or grokbot imports, the tier
+# they earned, and markers kept in extra (e.g. places_checked_at). Column
+# names on the right of these expressions are the row's current values.
+_STICKY = {
+    "website": "coalesce(website, %(website)s)",
+    "email": "coalesce(email, %(email)s)",
+    "email_source": "case when email is not null then email_source else %(email_source)s end",
+    "website_status": "coalesce(%(website_status)s, website_status)",
+    "website_title": "coalesce(%(website_title)s, website_title)",
+    "emails_found": "case when cardinality(%(emails_found)s::text[]) > 0 then %(emails_found)s::text[] else emails_found end",
+    "enriched_at": "greatest(enriched_at, %(enriched_at)s::timestamptz)",
+    "icp_score": "greatest(icp_score, %(icp_score)s::numeric)",
+    "tier": "case when email is not null and tier in ('A', 'B') then tier else %(tier)s end",
+    "extra": "extra || %(extra)s::jsonb",
+}
+
+
+def _update_expr(column: str) -> str:
+    return _STICKY.get(column, f"%({column})s")
+
+
 def _existing_index(cur, vertical: str) -> tuple[dict, dict, dict]:
     cur.execute("select id, source_key, company_number, osm_ids from public.companies where vertical = %s", (vertical,))
     by_key, by_number, by_osm = {}, {}, {}
@@ -151,7 +173,7 @@ def push_universe(conn: psycopg.Connection, leads: list[dict], vertical: str, ic
             )
             (updates if existing else inserts).append((lead, row, existing))
 
-        set_clause = ", ".join(f"{c} = %({c})s" for c in COMPANY_COLUMNS if c != "vertical")
+        set_clause = ", ".join(f"{c} = {_update_expr(c)}" for c in COMPANY_COLUMNS if c != "vertical")
         cur.executemany(
             f"update public.companies set {set_clause} where id = %(id)s",
             [{**row, "id": existing} for _, row, existing in updates],
