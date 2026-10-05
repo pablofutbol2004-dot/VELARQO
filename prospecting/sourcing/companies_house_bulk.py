@@ -59,6 +59,36 @@ def _sic_codes(row: dict) -> list[str]:
     return codes
 
 
+# Other trades: (SIC codes that count on their own, name pattern that counts
+# with a construction SIC). Counted on the 2026-09 register, active non-dormant
+# Ltd/LLP/PLC: roofing ~13k, solar ~5k.
+OTHER_TRADES = {
+    "roofing": ({"43910": "Roofing activities"},
+                re.compile(r"(^|[^a-z])(roof\w*|fascias?|soffits?|guttering)([^a-z]|$)", re.IGNORECASE)),
+    "solar": ({"35110": "Production of electricity"},
+              re.compile(r"(^|[^a-z])(solar|photovoltaics?|pv|renewables?|battery storage)([^a-z]|$)", re.IGNORECASE)),
+}
+
+
+def trade_match_reason(row: dict, trade: str) -> str | None:
+    if row.get("CompanyStatus") != "Active":
+        return None
+    if (row.get("Accounts.AccountCategory") or "").upper() in _EXCLUDED_ACCOUNT_CATEGORIES:
+        return None
+    sic_codes, name_pattern = OTHER_TRADES[trade]
+    codes = _sic_codes(row)
+    name = row.get("CompanyName") or ""
+    if name_pattern.search(name) and any(c.startswith(_TRADE_SIC_PREFIXES) for c in codes):
+        return "name+trade_sic"
+    # A specific SIC alone is enough for roofing; "electricity production"
+    # (solar) also covers wind farms and SPVs, so it needs the name too.
+    if trade == "roofing" and (matched := [c for c in codes if c in sic_codes]):
+        return f"sic:{matched[0]}"
+    if trade == "solar" and name_pattern.search(name) and any(c in sic_codes for c in codes):
+        return "name+sic"
+    return None
+
+
 def match_reason(row: dict) -> str | None:
     """Why this company is a door/window candidate, or None if it isn't."""
     if row.get("CompanyStatus") != "Active":
@@ -99,7 +129,7 @@ def row_to_lead(row: dict) -> dict:
     }
 
 
-def iter_door_window_companies(zip_path: Path):
+def iter_door_window_companies(zip_path: Path, trade: str = "windows"):
     """Yields (lead, match_reason). Header names in the real file have
     stray leading spaces (" CompanyNumber") - stripped here."""
     with zipfile.ZipFile(zip_path) as archive:
@@ -109,7 +139,7 @@ def iter_door_window_companies(zip_path: Path):
             header = [h.strip() for h in next(reader)]
             for values in reader:
                 row = dict(zip(header, values))
-                reason = match_reason(row)
+                reason = match_reason(row) if trade == "windows" else trade_match_reason(row, trade)
                 if reason:
                     yield row_to_lead(row), reason
 
@@ -117,17 +147,18 @@ def iter_door_window_companies(zip_path: Path):
 @click.command()
 @click.argument("zip_path", type=click.Path(exists=True, path_type=Path))
 @click.option("--output", "output_path", type=click.Path(path_type=Path), required=True)
-def main(zip_path: Path, output_path: Path) -> None:
+@click.option("--trade", type=click.Choice(["windows", *OTHER_TRADES]), default="windows", show_default=True)
+def main(zip_path: Path, output_path: Path, trade: str) -> None:
     counts: dict[str, int] = {}
     output_path.parent.mkdir(parents=True, exist_ok=True)
     with output_path.open("w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=[*CSV_COLUMNS, "match_reason"])
         writer.writeheader()
-        for lead, reason in iter_door_window_companies(zip_path):
+        for lead, reason in iter_door_window_companies(zip_path, trade):
             writer.writerow({**lead, "ch_raw": json.dumps(lead["ch_raw"], ensure_ascii=False), "match_reason": reason})
             counts[reason] = counts.get(reason, 0) + 1
 
-    click.echo(f"{sum(counts.values())} active door/window candidate companies -> {output_path}")
+    click.echo(f"{sum(counts.values())} active {trade} candidate companies -> {output_path}")
     for reason, count in sorted(counts.items(), key=lambda kv: -kv[1]):
         label = DOOR_WINDOW_SIC_CODES.get(reason.removeprefix("sic:"), "")
         click.echo(f"  {reason:16} {count:6}  {label}")

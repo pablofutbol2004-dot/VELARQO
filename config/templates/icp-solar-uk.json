@@ -1,0 +1,102 @@
+{
+  "name": "Solar UK",
+  "vertical": "solar",
+  "country": "UK",
+  "company_size_min": 10,
+  "company_size_max": 500,
+  "revenue_min": 500000,
+  "revenue_max": 10000000,
+  "vertical_label": "solar and batteries",
+  "observation_label": "solar",
+  "trade_noun": "solar installers",
+  "core_terms": [
+    "solar",
+    "solar panel",
+    "solar pv",
+    "photovoltaic",
+    "pv",
+    "battery storage",
+    "home battery",
+    "mcs"
+  ],
+  "adjacent_terms": [
+    "renewable",
+    "renewables",
+    "ev charger",
+    "heat pump",
+    "inverter",
+    "energy"
+  ],
+  "negative_terms": [
+    "solar farm",
+    "wind farm",
+    "utility scale",
+    "spv"
+  ],
+  "strong_negative_terms": [
+    "solar farm developer",
+    "wind turbine",
+    "solarium",
+    "tanning",
+    "sunbed"
+  ],
+  "known_chains": [
+    "octopus",
+    "eon",
+    "e.on",
+    "british gas",
+    "sunsave",
+    "otovo"
+  ],
+  "chain_penalty": 0.5,
+  "osm_category_weights": {
+    "craft=electrician": 0.3,
+    "shop=energy": 0.5
+  },
+  "sic_code_weights": {
+    "35110": 0.6,
+    "43210": 0.5,
+    "43220": 0.4,
+    "43290": 0.4,
+    "43999": 0.2
+  },
+  "min_vertical_fit": 0.5,
+  "required_channel": "email",
+  "excluded_keywords": [
+    "reseller",
+    "distributor",
+    "manufacturer"
+  ],
+  "offer_line": "We run follow-up campaigns on those old quotes for {trade} and turn a share of them into booked surveys. It's performance-based, so there's nothing to pay unless it works.",
+  "sender_name": "[Your name]",
+  "enrichment_priority": [
+    "linkedin",
+    "email",
+    "phone"
+  ],
+  "qualification_score_threshold": 65,
+  "personalization_fields": [
+    "recent_news",
+    "company_size",
+    "deal_value",
+    "last_contacted"
+  ],
+  "sequence_length": 7,
+  "sequence_interval_days": [
+    0,
+    3,
+    5,
+    7,
+    10,
+    14,
+    21
+  ],
+  "optimal_send_time": "09:00",
+  "optimal_send_day": "Tuesday",
+  "reply_classification_model": "domain_specific",
+  "target_metrics": {
+    "appointments_per_100_leads": 8,
+    "close_rate": 0.25,
+    "average_deal_value": 5000
+  }
+}

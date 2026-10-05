@@ -1,0 +1,101 @@
+{
+  "name": "Roofing UK",
+  "vertical": "roofing",
+  "country": "UK",
+  "company_size_min": 10,
+  "company_size_max": 500,
+  "revenue_min": 500000,
+  "revenue_max": 10000000,
+  "vertical_label": "roofing",
+  "observation_label": "roofing",
+  "trade_noun": "roofers",
+  "core_terms": [
+    "roofing",
+    "roofer",
+    "roofers",
+    "re-roof",
+    "reroof",
+    "flat roof",
+    "pitched roof",
+    "slate",
+    "tiling",
+    "roof repair",
+    "new roof"
+  ],
+  "adjacent_terms": [
+    "fascia",
+    "soffit",
+    "guttering",
+    "roofline",
+    "chimney",
+    "lead work",
+    "leadwork",
+    "epdm",
+    "grp",
+    "felt"
+  ],
+  "negative_terms": [
+    "roof rack",
+    "roof box",
+    "roof tent",
+    "carport"
+  ],
+  "strong_negative_terms": [
+    "roof garden",
+    "rooftop bar",
+    "rooftop restaurant",
+    "roof tent",
+    "vehicle",
+    "industrial cladding only"
+  ],
+  "known_chains": [],
+  "chain_penalty": 0.5,
+  "osm_category_weights": {
+    "craft=roofer": 1.0
+  },
+  "sic_code_weights": {
+    "43910": 0.9,
+    "43999": 0.3,
+    "43390": 0.3,
+    "41202": 0.2
+  },
+  "min_vertical_fit": 0.5,
+  "required_channel": "email",
+  "excluded_keywords": [
+    "reseller",
+    "distributor",
+    "manufacturer"
+  ],
+  "offer_line": "We run follow-up campaigns on those old quotes for {trade} and turn a share of them into booked surveys. It's performance-based, so there's nothing to pay unless it works.",
+  "sender_name": "[Your name]",
+  "enrichment_priority": [
+    "linkedin",
+    "email",
+    "phone"
+  ],
+  "qualification_score_threshold": 65,
+  "personalization_fields": [
+    "recent_news",
+    "company_size",
+    "deal_value",
+    "last_contacted"
+  ],
+  "sequence_length": 7,
+  "sequence_interval_days": [
+    0,
+    3,
+    5,
+    7,
+    10,
+    14,
+    21
+  ],
+  "optimal_send_time": "09:00",
+  "optimal_send_day": "Tuesday",
+  "reply_classification_model": "domain_specific",
+  "target_metrics": {
+    "appointments_per_100_leads": 8,
+    "close_rate": 0.25,
+    "average_deal_value": 5000
+  }
+}
