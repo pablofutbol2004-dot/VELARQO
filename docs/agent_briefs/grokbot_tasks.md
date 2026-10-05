@@ -68,7 +68,7 @@ plus a short `trade_sic_codes.txt` listing SIC code, description and trade.
 **Input:** `D:\velarqo\data\agent_tasks\find_websites_batch1.csv`: 300
 UK window/door limited companies (30 per city, 10 cities). We have their
 Companies House record but no website. Fill in the empty columns of the same
-file and save it as `find_websites_batch1_result.csv`.
+file and save it as `find_websites_batchN_result.csv`.
 
 **For each row:**
 1. Search Google for the company name plus town (drop "Limited"/"Ltd" if

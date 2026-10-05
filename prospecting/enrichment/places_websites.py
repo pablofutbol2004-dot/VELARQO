@@ -76,7 +76,9 @@ def _todo(conn, limit: int, check: list[str] | None):
         f"""select c.id, c.company_number, c.legal_name, c.city, coalesce(c.postcode, c.registered_postcode),
                    c.tier, c.icp_score, c.website
             from companies c where c.vertical = 'windows' and {where}
-            order by c.icp_score desc, c.incorporation_date asc nulls last limit %s""",
+            order by (c.legal_name ~* '(window|door|double glaz|upvc|conservator|sash|bifold|bi-fold)') desc,
+                     (c.legal_name ~* '(glass merchant|marine|commercial|wholesale|trade frames)') asc,
+                     c.icp_score desc, c.incorporation_date asc nulls last limit %s""",
         (*params, limit),
     ).fetchall()
 
