@@ -65,7 +65,7 @@ plus a short `trade_sic_codes.txt` listing SIC code, description and trade.
 
 ## Task 3: Find the website and email for registered window companies
 
-**Input:** `D:\velarqo\data\agent_tasks\find_websites_batch1.csv`: 300
+**Input:** `D:\velarqo\data\agent_tasks\find_websites_batchN.csv` (batch1, batch2, ...): 300
 UK window/door limited companies (30 per city, 10 cities). We have their
 Companies House record but no website. Fill in the empty columns of the same
 file and save it as `find_websites_batchN_result.csv`.
@@ -89,6 +89,6 @@ file and save it as `find_websites_batchN_result.csv`.
 Leave website/email empty if you can't find them. An empty row is better
 than a wrong one. Spend at most ~2 minutes per company.
 
-**Output:** `D:\velarqo\data\agent_tasks\find_websites_batch1_result.csv`,
+**Output:** `D:\velarqo\data\agent_tasks\find_websites_batchN_result.csv`,
 same columns as the input:
 `company_number,company_name,town,postcode,website,email,email_source_url,number_on_site,note`
