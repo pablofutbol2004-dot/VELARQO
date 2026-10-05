@@ -1,0 +1,24 @@
+# Velarqo's own Postgres. Same file runs on the PC now and on the VPS later
+# (copy this folder + a pg_dump, `docker compose up -d`, restore).
+# Never published beyond localhost: reach it from elsewhere over SSH/Tailscale.
+#   docker compose --env-file ../.env -f deploy/docker-compose.yml up -d
+services:
+  velarqo-postgres:
+    image: postgres:17
+    container_name: velarqo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: velarqo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${VELARQO_PG_ADMIN_PASSWORD:?set VELARQO_PG_ADMIN_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5437:5432"
+    volumes:
+      - velarqo_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d velarqo"]
+      interval: 10s
+      retries: 5
+
+volumes:
+  velarqo_pgdata:

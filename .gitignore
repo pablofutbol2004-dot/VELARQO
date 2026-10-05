@@ -19,3 +19,4 @@ data/*.txt
 # Client homeowner data never goes in git
 clients/
 data/agent_tasks/
+data/db_move/
