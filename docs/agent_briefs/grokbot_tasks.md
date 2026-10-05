@@ -6,7 +6,10 @@ CSV in exactly the format given, saved into `D:\velarqo\data\agent_tasks\`.
 Rules for every task:
 - Only public pages. Never log into anything, never create accounts, never
   solve CAPTCHAs, never fill in contact forms or send messages.
-- Do not scrape Google Maps. Use company websites, Companies House
+- Do not bulk-copy Google Maps listings (reviews, ratings, hours, photos).
+  Looking up one named business on Google or Maps to find its website is
+  fine. Emails only ever come from the business's own website.
+  Otherwise use company websites, Companies House
   (find-and-update.company-information.service.gov.uk) and the directories
   named in the task.
 - If a site's terms forbid copying its listings, note that and skip it.
@@ -57,3 +60,35 @@ businesses for each.
 **Output:** `D:\velarqo\data\agent_tasks\trade_sources.csv` with columns:
 `trade,source_name,url,approx_uk_listings,shows_website,shows_email,shows_phone,terms_allow_reuse,terms_quote,notes`
 plus a short `trade_sic_codes.txt` listing SIC code, description and trade.
+
+---
+
+## Task 3: Find the website and email for registered window companies
+
+**Input:** `D:\velarqo\data\agent_tasks\find_websites_batch1.csv`: 300
+UK window/door limited companies (30 per city, 10 cities). We have their
+Companies House record but no website. Fill in the empty columns of the same
+file and save it as `find_websites_batch1_result.csv`.
+
+**For each row:**
+1. Search Google for the company name plus town (drop "Limited"/"Ltd" if
+   needed). The trading name can differ from the registered name.
+2. Open the website you think is theirs. It counts as theirs only if one of
+   these is true: the site shows the same company number, the site shows
+   the registered company name, or the address/postcode matches.
+3. `website`: the homepage, e.g. `acmewindows.co.uk`.
+4. `email`: the main business email shown on that website (contact page,
+   footer). Prefer info@/sales@/enquiries@. Never guess an address and
+   never take one from a directory.
+5. `email_source_url`: the exact page where the email appears.
+6. `number_on_site`: `yes` if the company number appears on the site,
+   otherwise `no`.
+7. `note`: anything odd ("no website found", "only a Facebook page",
+   "site says closed", "only a contact form").
+
+Leave website/email empty if you can't find them. An empty row is better
+than a wrong one. Spend at most ~2 minutes per company.
+
+**Output:** `D:\velarqo\data\agent_tasks\find_websites_batch1_result.csv`,
+same columns as the input:
+`company_number,company_name,town,postcode,website,email,email_source_url,number_on_site,note`
