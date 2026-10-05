@@ -18,7 +18,7 @@ import requests
 API = "places_text_search_enterprise"
 URL = "https://places.googleapis.com/v1/places:searchText"
 FIELDS = "places.id,places.displayName,places.formattedAddress,places.websiteUri"
-DAILY_LIMIT = 30
+DAILY_LIMIT = 32
 MONTHLY_LIMIT = 950
 
 

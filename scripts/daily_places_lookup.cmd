@@ -1,4 +1,4 @@
 @echo off
-rem Daily Places lookup: finds websites for registered window companies, inside Google's free allowance. Safe to re-run.
+rem Daily Places town sweep: up to 20 businesses per free lookup, matched to Companies House via their own websites. Safe to re-run.
 cd /d D:\velarqo
-.venv\Scripts\python.exe -m prospecting.enrichment.places_websites --limit 30 >> data\places_lookup.log 2>&1
+.venv\Scripts\python.exe -m prospecting.enrichment.places_sweep --limit 32 >> data\places_lookup.log 2>&1
