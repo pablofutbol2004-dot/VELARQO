@@ -32,12 +32,10 @@ it's needed. Tell Claude when one is done.
 
 ## Optional / later
 
-- [ ] **Google Places API** (Google reviews count + websites for firms we
-  only have a name and address for). Needs a Google Cloud billing account
-  with a card, even if usage stays inside the free monthly allowance.
-  Claude estimated ~€130-150 if it went past the free tier for ~8,500
-  lookups. Tell Claude before turning it on so it can check current free
-  limits first.
+- [x] **Google Places API** (done 5 Oct 2026). Key "velarqo-places" in the
+  Default Gemini Project, restricted to Places. Free allowance only: Google
+  quota caps text search and place details at 32/day each, and our code stops
+  at 30/day / 950 a month. Runs daily at 10:15.
 - [ ] **UK Ltd company**: only once clients are paying; ask the gestor about
   Spanish tax residency first.
 
