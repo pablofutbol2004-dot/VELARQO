@@ -75,10 +75,10 @@ def main(path, dry_run):
     for row in rows:
         found = conn.execute(
             "select id, company_number, legal_name, city, coalesce(postcode, registered_postcode), tier, icp_score, email "
-            "from companies where company_number = %s and vertical = 'windows'", (row["company_number"],)
+            "from companies where company_number = %s and vertical = 'windows' and website is null", (row["company_number"],)
         ).fetchone()
         if not found:
-            continue
+            continue  # unknown company, or already has a website (e.g. a re-run after an interruption)
         company = dict(zip(["id", "company_number", "legal_name", "city", "postcode", "tier", "icp_score", "email"], found))
         website = clean_url(row["website"].strip() if "://" in row["website"] else f"https://{row['website'].strip()}")
         site = provider.enrich({"website": website})

@@ -1,0 +1,33 @@
+{
+  "name": "cold_roofing_v1",
+  "stage": "cold_email",
+  "vertical": "roofing",
+  "hypothesis": "Domestic roofers reply to the old-quotes offer at least as well as window installers, and the free-first-50 offer beats pay-per-booked-survey for them too. Same two offers as cold_offer_v1 so the trades can be compared like for like.",
+  "variable": "offer paragraph and ask in the first email (subject, opener and follow-ups identical); trade compared against cold_offer_v1",
+  "primary_metric": "positive_reply_rate",
+  "guardrails": [
+    "bounce_rate < 3%",
+    "unsubscribe_or_complaint_rate < 2%",
+    "zero complaints"
+  ],
+  "min_sent_per_arm": 150,
+  "decision_rule": "After min_sent_per_arm first emails per arm: compare the trade's overall positive-reply rate with windows (cold_offer_v1). If roofing is not clearly worse, keep sending roofers and keep the better arm (>= 90% probability); if neither arm reaches 90%, keep the one with more booked calls.",
+  "arms": [
+    {
+      "key": "A_pay_per_booked_survey",
+      "subject": "last year's roof quotes",
+      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, usually after the next leak?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?",
+      "follow_ups": {
+        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nThat's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
+      }
+    },
+    {
+      "key": "B_first_50_free",
+      "subject": "last year's roof quotes",
+      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, usually after the next leak?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI'll chase your first 50 for free, in your name, and put anyone still keen in your diary. Costs you nothing either way.\n\nWorth a go?",
+      "follow_ups": {
+        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nThat's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
+      }
+    }
+  ]
+}

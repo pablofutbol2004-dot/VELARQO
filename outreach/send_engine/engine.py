@@ -110,13 +110,14 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
             from outreach_queue q
             join companies c on c.id = q.id
             where c.company_category = any(%s)
+              and c.vertical = %s
               and not (lower(split_part(c.email, '@', 2)) = any(%s))
               and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
               {segment_sql}
             order by q.priority desc, c.id
             limit %s
             """,
-            (sorted(guards.CORPORATE_CATEGORIES), sorted(guards.FREE_MAIL_DOMAINS), size),
+            (sorted(guards.CORPORATE_CATEGORIES), experiment.get("vertical", "windows"), sorted(guards.FREE_MAIL_DOMAINS), size),
         ).fetchall()
         if not rows:
             return {"campaign_id": None, "messages": 0}
@@ -131,7 +132,7 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
         }
         campaign_id = cur.execute(
             "insert into campaigns (name, vertical, settings, status) values (%s, %s, %s, 'draft') returning id",
-            (name, icp.get("vertical", "windows"), Jsonb(json.loads(json.dumps(settings, default=str)))),
+            (name, experiment.get("vertical", "windows"), Jsonb(json.loads(json.dumps(settings, default=str)))),
         ).fetchone()["id"]
 
         # Blocked randomisation: walk the priority-sorted list in blocks of
