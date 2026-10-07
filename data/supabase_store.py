@@ -156,8 +156,21 @@ def _existing_index(cur, vertical: str) -> tuple[dict, dict, dict]:
     return by_key, by_number, by_osm
 
 
+def _strip_nul(value):
+    """Postgres text can't hold NUL (0x00); some scraped pages contain it."""
+    if isinstance(value, str):
+        return value.replace("\x00", "")
+    if isinstance(value, dict):
+        return {k: _strip_nul(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_strip_nul(v) for v in value]
+    return value
+
+
 def push_universe(conn: psycopg.Connection, leads: list[dict], vertical: str, icp: dict) -> dict:
     version = icp_version(icp)
+    for lead in leads:
+        lead.update(_strip_nul(dict(lead)))
     stats = {"inserted": 0, "updated": 0, "source_records": 0, "snapshots_new": 0, "scores_new": 0}
 
     with conn.transaction(), conn.cursor() as cur:
