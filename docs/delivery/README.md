@@ -9,7 +9,7 @@ client hits it. Status: ✅ done · 🛠 to build. Step numbers match
 | 1 | "Send me info" reply | 2.6 | ✅ `01_send_info_email.md` |
 | 2 | Old-quotes sample request | 3.5 | ✅ `02_export_request_email.md` |
 | 3 | Client folder + sample intake (outside git) | 4.2 | 🛠 |
-| 4 | Sample check script: column mapping, counts by age/product/status, eligibility (opt-outs, won jobs, area, unknown source) | 4.3-4.4 | 🛠 |
+| 4 | Sample check script: column mapping, counts by age/product/status, eligibility (won, opt-outs, too recent, too old) | 4.3-4.4 | ✅ `python -m client_onboarding.sample_audit` (area + data-source checks still to add) |
 | 5 | One-page audit result for the installer | 4.5 | 🛠 |
 | 6 | Pilot agreement: what counts as a booked survey, no-show credit, cap, weekly invoice, holdout | 5.1 | 🛠 draft, lawyer checks |
 | 7 | Data processing agreement (they control the data, we process it) | 5.2 | 🛠 draft, lawyer checks |
