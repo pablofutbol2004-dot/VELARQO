@@ -325,8 +325,9 @@ class WebsiteEnrichmentProvider:
 
         result = {
             "website_status": "ok",
-            "website_title": re.sub(r"\s+", " ", home.title).strip() or None,
-            "website_text": " ".join(t for t in texts if t)[:_MAX_TEXT_CHARS],
+            "website_title": re.sub(r"\s+", " ", home.title.replace("\x00", "")).strip() or None,
+            # Postgres text can't hold NUL bytes; a few sites have them.
+            "website_text": " ".join(t for t in texts if t).replace("\x00", "")[:_MAX_TEXT_CHARS],
             "emails_found": sorted(emails),
             "ad_tags": sorted(home.ad_tags),
         }
