@@ -24,8 +24,8 @@ small sample export. Goal of the sample: a bounded pilot.
 > job's worth to you, so it's easier on a quick 15-minute call. When suits?
 
 **"Send me info"**
-Send `docs/knowledge/pass_12_launch_evidence_pack/client_handoff/pilot_one_pager.md`
-(trim it to half a page first) and end with one question: *"Roughly how many
+Send `docs/delivery/01_send_info_email.md`
+(already half a page; it ends with: *"Roughly how many
 quotes from the last 12-24 months never turned into a job?"*
 
 **"We already follow up"**
@@ -72,7 +72,7 @@ value. These answer the biggest open questions in the business.
 > looks good, we agree what counts as a booked survey, you approve the
 > messages, and we run a small first batch."
 
-Export request detail: `docs/knowledge/pass_13_first_10_installers/handoff/export_request.md`.
+Export request email: `docs/delivery/02_export_request_email.md`.
 
 ### Free first 50 (cold test arm B)
 
