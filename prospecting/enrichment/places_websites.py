@@ -32,7 +32,7 @@ from prospecting.enrichment.website_refresh import ICP_PATH, USER_AGENT, _new_ti
 
 ROOT = Path(__file__).parents[2]
 # Rows already handed to grokbot (Task 3): don't spend lookups twice.
-GROKBOT_BATCHES = sorted((ROOT / "data" / "agent_tasks").glob("find_websites_batch*.csv"))
+GROKBOT_BATCHES = sorted((ROOT / "data" / "agent_tasks").rglob("find_websites_batch*.csv"))
 CORPORATE = ("Private Limited Company", "Limited Liability Partnership", "Public Limited Company")
 
 

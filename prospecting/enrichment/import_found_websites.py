@@ -27,6 +27,8 @@ from prospecting.enrichment.places_websites import clean_url, number_on_page
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 from prospecting.enrichment.website_refresh import ICP_PATH, USER_AGENT, _new_tier
 
+ICP_PATHS = {"windows": ICP_PATH, "roofing": ICP_PATH.with_name("icp-roofing-uk.json")}
+
 
 def _host(url: str) -> str:
     return (urlsplit(url if "://" in url else f"https://{url}").hostname or "").lower().removeprefix("www.")
@@ -61,25 +63,31 @@ def check_row(row: dict, company: dict, site: dict, vertical_terms) -> tuple[boo
 
 
 @click.command()
-@click.argument("path", type=click.Path(exists=True, path_type=Path))
+@click.argument("paths", nargs=-1, required=True, type=click.Path(exists=True, path_type=Path))
 @click.option("--dry-run", is_flag=True)
-def main(path, dry_run):
-    icp = json.loads(ICP_PATH.read_text())
-    vertical_terms = [*(icp.get("core_terms") or []), *(icp.get("adjacent_terms") or [])]
+def main(paths, dry_run):
+    """One or more result files, e.g. data/agent_tasks/batch5/*_result.csv"""
+    icps = {v: json.loads(path.read_text()) for v, path in ICP_PATHS.items()}
+    terms = {v: [*(i.get("core_terms") or []), *(i.get("adjacent_terms") or [])] for v, i in icps.items()}
     conn = connect()
     conn.autocommit = True
     provider = WebsiteEnrichmentProvider(user_agent=USER_AGENT)
-    with path.open(encoding="utf-8-sig") as f:
-        rows = [r for r in csv.DictReader(f) if (r.get("website") or "").strip()]
+    rows = []
+    for path in paths:
+        with path.open(encoding="utf-8-sig") as f:
+            rows += [(path, r) for r in csv.DictReader(f) if (r.get("website") or "").strip()]
     stats = {"rows_with_website": len(rows), "website_ok": 0, "email_ok": 0, "rejected": 0, "already_had_email": 0}
-    for row in rows:
+    for path, row in rows:
         found = conn.execute(
-            "select id, company_number, legal_name, city, coalesce(postcode, registered_postcode), tier, icp_score, email "
-            "from companies where company_number = %s and vertical = 'windows' and website is null", (row["company_number"],)
+            "select id, company_number, legal_name, city, coalesce(postcode, registered_postcode), tier, icp_score, email, vertical "
+            "from companies where company_number = %s and vertical = any(%s) and website is null "
+            "order by (vertical = %s) desc limit 1",
+            (row["company_number"], list(ICP_PATHS), row.get("trade") or "windows"),
         ).fetchone()
         if not found:
             continue  # unknown company, or already has a website (e.g. a re-run after an interruption)
-        company = dict(zip(["id", "company_number", "legal_name", "city", "postcode", "tier", "icp_score", "email"], found))
+        company = dict(zip(["id", "company_number", "legal_name", "city", "postcode", "tier", "icp_score", "email", "vertical"], found))
+        icp, vertical_terms = icps[company["vertical"]], terms[company["vertical"]]
         website = clean_url(row["website"].strip() if "://" in row["website"] else f"https://{row['website'].strip()}")
         site = provider.enrich({"website": website})
         ok, email, reason = check_row({**row, "website": website}, company, site, vertical_terms)
