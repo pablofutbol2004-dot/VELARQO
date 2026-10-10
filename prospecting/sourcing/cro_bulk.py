@@ -307,8 +307,10 @@ def find_websites_cmd(sample: int, seed: int, workers: int, cache_path: Path, cs
         from psycopg.types.json import Jsonb
 
         conn = connect()
+        conn.autocommit = True  # the write below is its own transaction; a read-opened one would never commit
         rows = conn.execute(
-            """select id, vertical, legal_name, display_name, company_number, city, postcode, email, phone, sic_codes, industry, tier
+            """select id, vertical, legal_name, display_name, company_number, city, postcode, email, phone, sic_codes,
+                      extra->>'industry', tier
                from companies where country = %s and website is null and tier <> 'reject'""", (COUNTRY,)).fetchall()
         leads = [{"company_id": r[0], "vertical": r[1], "legal_name": r[2], "company_name": r[2], "display_name": r[3],
                   "company_number": r[4], "city": r[5], "postcode": r[6], "email": r[7], "phone": r[8],

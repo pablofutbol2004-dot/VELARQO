@@ -17,6 +17,7 @@ Research with sources: docs/knowledge/web_research/2026-10-11_ireland.md.
 | Country in the database | migration `20261012020000_country.sql` | `companies.country` ('UK' default, 'IE' for these rows); company-number uniqueness is per country; `outreach_queue` gets `c.country = 'UK'` in its base filter (patched from the live definition so it can't undo other sessions' view changes). UK rows unchanged. |
 | UK-only enrichment stays UK-only | `free_facts.py`, `places_sweep.py`, `places_websites.py` | Companies House API and Google Places (30/day cap) never see Irish rows. The website refresh does run on them (useful, free). |
 | Scoring | `cro_bulk.py push --trade …` | Same ICPs as the UK (country swapped); NACE stored as its UK SIC equivalent so `sic_code_weights` apply. |
+| Loaded | database (10 Oct 2026) | 2,615 Irish rows (`country = 'IE'`): windows 1,525 / roofing 675 / kitchens 415 incl. rejects; 27 already tier A/B with an email after the 200-company finder pass. `outreach_queue` shows 0 of them. Migration `20261012030000_source_records_cro.sql` allows `cro` as a raw-record source. |
 | Website finder for .ie | `prospecting/enrichment/domain_finder.py` (`COUNTRY_TLDS`) | Name → `.ie`/`.com` guesses, verified against the page; `cro_bulk.py find-websites --sample N`. |
 | Eircodes | `lib/normalization/normalize.py` | Kept as "A92 D720"; UK postcodes untouched. |
 | Tests | `test_sourcing_cro.py`, `test_country_guard.py` | 10 offline tests; the guard fails if a later view rewrite drops the UK filter. |
