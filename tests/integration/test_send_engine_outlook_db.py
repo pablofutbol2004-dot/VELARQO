@@ -73,7 +73,7 @@ def test_outlook_mailbox_end_to_end(conn):
 
     # The mailbox now holds a "no" (threaded, same conversation), an Exchange
     # NDR for another company, and an unrelated newsletter.
-    graph.receive(replier, "Re: old quotes", "No thanks\n\nOn Tue, Pablo wrote:\n> Reply \"no\"",
+    graph.receive(replier, "Re: old quotes", "No\n\nOn Tue, Pablo wrote:\n> Reply \"no\"",
                   conversation_id=first[replier]["conv"])
     graph.receive(f"postmaster@{MAILBOX.split('@')[1]}", "Undeliverable: old quotes",
                   f"Your message to {bouncer} couldn't be delivered. 550 5.1.1 Recipient not found")
