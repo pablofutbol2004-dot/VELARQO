@@ -34,6 +34,7 @@ QUOTE_ALIASES = {
     "quote_date": ["date", "quote date", "quoted", "created", "created date", "enquiry date", "date quoted", "quote created"],
     "product": ["product", "products", "service", "job type", "job", "description", "type", "work type"],
     "quote_status": ["status", "stage", "quote status", "outcome", "result"],
+    "record_id": ["id", "record id", "quote id", "quote ref", "quote reference", "reference", "ref", "quote number", "quote no", "job number", "job ref"],
     "quote_value": ["value", "price", "total", "amount", "quote total", "quote price"],
     "opt_out": ["opt out", "opted out", "do not contact", "dnc", "unsubscribed", "marketing opt out", "no marketing"],
 }
