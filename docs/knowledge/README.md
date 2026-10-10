@@ -12,6 +12,8 @@ the zip, outside git.
 | `pass_13_first_10_installers/` | 7-day first-10-installers sprint, 20-min call script, outreach angles, reply router, outbound readiness gate (20 checks) |
 | `pass_14_acquisition_factory/` | Reference design for the prospect pipeline + acquisition-factory gate (30 checks) |
 | `youtube_research/` | Verified digests from the YouTube library (pricing, sales, speed-to-lead, infrastructure, reviews/referrals, agency ops, channel digests); its README lists conflicts with `docs/PRICING.md` |
+| `chat_research/` | Key answers saved from Pablo's ChatGPT chats (DBR pilot design and compliance, revenue-recovery offers, no-sales-call funnel, tax). Unverified; see its README |
+| `INBOX.md` | **New research that has arrived from KNOWLEDGE_BASE and hasn't been acted on yet. Check it at the start of a session.** |
 | `CURRENT_STATE.md` | Where the ChatGPT project stopped |
 | `GAP_ANALYSIS.md` | Pass 14 design vs what this repo already does |
 

@@ -8,6 +8,11 @@
   - Oliver Rasmussen: 20 emails per inbox per day [GExjqEBXKN4]
   - "This is a cold call, but a well-researched one" opener (30 Minutes to President's Club, enterprise SaaS) [xe0MqfuKAZk]
   - **NOT verified:** Aaron Shepherd's "each follow-up must make sense without email #1" doesn't appear in his transcripts as worded. Likely a paraphrase; the principle is still sound.
+- **Second verification (Claude, 2026-10-05), searched the bundle texts in `chatgpt/cold-outreach-leadgen/`:**
+  - **Taylor Haren, "Cold email is officially dead"** [0RZ4b2cIw9Q]: confirmed. It announces "Halo" (full-HTML sends through a partner platform he won't name) and claims "as high as 96%" opens and a 55.4 figure. It's a product pitch, and the numbers are his own.
+  - **Inbox limits:** "15 to 20 emails per inbox" is the most common figure across many videos (e.g. Aaron Shepherd, Nick Saraev) and "20 to 25" the second most common. Operator folklore, as the digest says.
+  - **Aaron Shepherd on subject lines:** confirmed, "I will repeat this until the day I die, but they really don't matter" [XZtkfPDsU88 ~20:10].
+  - **Jordan Platten:** only half confirmed. He says to send "a minimum of a thousand emails per day" [aYTX4cfK64U@48:16]. I did not find him recommending 10,000 a day. The 10,000/day pitches are Aaron Shepherd's live experiment [Ayz5ML_DkSY] and Leon Matschke [AMzjqCGgV3k], so drop that attribution.
 
 ## The core conclusion
 Cold outreach still works. The edge is no longer the script. It's **market × offer × delivery × message × follow-up × sales conversion**, and if any of those is near zero, more volume won't save you. AI makes each part cheaper; it doesn't rescue a weak offer.
