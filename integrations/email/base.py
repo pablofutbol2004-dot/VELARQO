@@ -10,6 +10,12 @@ class EmailRateLimitError(Exception):
     pass
 
 
+class EmailAuthError(Exception):
+    """401/403 from the provider: the token expired, was revoked or belongs
+    to the wrong account. Nothing is wrong with the email itself, so the
+    caller puts it back in the queue and stops that mailbox."""
+
+
 class EmailProvider(Protocol):
     def send_email(
         self,

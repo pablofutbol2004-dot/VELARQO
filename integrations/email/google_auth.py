@@ -64,6 +64,14 @@ def access_token_for(mailbox: str, session: requests.Session | None = None) -> s
     return refresh_access_token(client_id, client_secret, refresh_token, session)
 
 
+def account_email(access_token: str, session=None) -> str:
+    """The Gmail address an access token belongs to."""
+    response = (session or requests).get("https://gmail.googleapis.com/gmail/v1/users/me/profile",
+                                         headers={"Authorization": f"Bearer {access_token}"}, timeout=30)
+    response.raise_for_status()
+    return (response.json().get("emailAddress") or "").lower()
+
+
 def authorize_mailbox(mailbox: str) -> None:
     """Interactive consent flow; stores the refresh token in .env."""
     client_id, client_secret = _client()
@@ -115,8 +123,15 @@ def authorize_mailbox(mailbox: str) -> None:
         "redirect_uri": redirect_uri,
     }, timeout=30)
     response.raise_for_status()
-    refresh_token = response.json().get("refresh_token")
+    tokens = response.json()
+    refresh_token = tokens.get("refresh_token")
     if not refresh_token:
         raise RuntimeError("Google returned no refresh token; remove the app's access at myaccount.google.com and retry")
+    # login_hint doesn't force the account: with several mailboxes signed in
+    # to one browser, Google may hand back a token for the wrong one.
+    actual = account_email(tokens["access_token"])
+    if actual != mailbox.lower():
+        raise RuntimeError(f"Google signed in as {actual}, not {mailbox}. Nothing saved. "
+                           f"Sign out of {actual} (or use a private window) and run authorize-mailbox again.")
     set_key(str(ENV_PATH), refresh_env_key(mailbox), refresh_token)
     print(f"Saved refresh token for {mailbox} to .env as {refresh_env_key(mailbox)}")

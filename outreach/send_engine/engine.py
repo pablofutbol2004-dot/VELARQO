@@ -28,7 +28,7 @@ import psycopg
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 
-from integrations.email.base import EmailRateLimitError
+from integrations.email.base import EmailAuthError, EmailRateLimitError
 from outreach.reply_classifier.classify import categorize_reply
 from outreach.send_engine import compose, guards
 
@@ -51,6 +51,18 @@ def _event(cur, type_: str, company_id, message_id=None, payload: dict | None = 
 def controls(conn) -> dict:
     with conn.cursor(row_factory=dict_row) as cur:
         return cur.execute("select sending_enabled, paused_reason, updated_at from send_controls").fetchone()
+
+
+def note_problem(conn, mailbox: str, problem: str) -> None:
+    with conn.transaction():
+        conn.execute("insert into outbound_problems (mailbox, problem) values (%s, %s)", (mailbox, problem[:1000]))
+
+
+def recent_problems(conn, hours: int = 24) -> list[dict]:
+    with conn.cursor(row_factory=dict_row) as cur:
+        return cur.execute(
+            "select mailbox, problem, created_at from outbound_problems where created_at > now() - make_interval(hours => %s) "
+            "order by created_at desc limit 20", (hours,)).fetchall()
 
 
 def set_sending(conn, enabled: bool, reason: str | None = None) -> None:
@@ -104,20 +116,29 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
     split across the experiment's arms."""
     segment_sql = _segment_filter(experiment)
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
+        # One email address = one recipient, across every batch and trade:
+        # several company rows can share an inbox (group companies, the same
+        # firm in windows and roofing), and it must get one sequence only.
         rows = cur.execute(
             f"""
-            select c.id, c.display_name, c.email, c.city, c.extra, c.company_category, q.priority
-            from outreach_queue q
-            join companies c on c.id = q.id
-            where c.company_category = any(%s)
-              and c.vertical = %s
-              and not (lower(split_part(c.email, '@', 2)) = any(%s))
-              and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
-              {segment_sql}
-            order by q.priority desc, c.id
+            select * from (
+              select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category, q.priority
+              from outreach_queue q
+              join companies c on c.id = q.id
+              where c.company_category = any(%s)
+                and c.vertical = %s
+                and not (lower(split_part(c.email, '@', 2)) = any(%s))
+                and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
+                and not exists (select 1 from messages m where lower(m.to_email) = lower(c.email) and m.status <> 'cancelled')
+                and not exists (select 1 from replies r where lower(r.from_email) = lower(c.email))
+                {segment_sql}
+              order by lower(c.email), q.priority desc, c.id
+            ) one_per_address
+            order by priority desc, id
             limit %s
             """,
-            (sorted(guards.CORPORATE_CATEGORIES), experiment.get("vertical", "windows"), sorted(guards.FREE_MAIL_DOMAINS), size),
+            (sorted(guards.CORPORATE_CATEGORIES), experiment.get("vertical", "windows"),
+             sorted(guards.FREE_MAIL_DOMAINS | guards.PLATFORM_DOMAINS), size),
         ).fetchall()
         if not rows:
             return {"campaign_id": None, "messages": 0}
@@ -219,10 +240,22 @@ def _is_suppressed(cur, email: str) -> bool:
     ).fetchone() is not None
 
 
-def _company_has_replied(cur, company_id) -> bool:
+def _company_has_replied(cur, company_id, address: str | None = None) -> bool:
+    """A person (not an auto-reply) answered, from this company or this address."""
     return cur.execute(
-        "select 1 from replies where company_id = %s and coalesce(category, '') <> 'out_of_office' limit 1",
-        (company_id,),
+        "select 1 from replies where (company_id = %s or lower(from_email) = lower(%s)) "
+        "and coalesce(category, '') not in ('out_of_office', 'bounce') limit 1",
+        (company_id, address or ""),
+    ).fetchone() is not None
+
+
+def _address_taken(cur, msg: dict) -> bool:
+    """Another sequence (other campaign or company row) already emailed this
+    exact address: one inbox gets one sequence."""
+    return cur.execute(
+        "select 1 from messages where lower(to_email) = lower(%s) and status in ('sent', 'sending') "
+        "and (campaign_id <> %s or company_id <> %s) and id <> %s limit 1",
+        (msg["to_email"], msg["campaign_id"], msg["company_id"], msg["id"]),
     ).fetchone() is not None
 
 
@@ -254,9 +287,11 @@ def _block_reason(conn, msg: dict) -> str | None:
         if _is_suppressed(cur, msg["to_email"]):
             return "suppressed"
         if not guards.is_company_mailbox(msg["to_email"]):
-            return "free-mail address (individual subscriber)"
-        if _company_has_replied(cur, msg["company_id"]):
+            return "free-mail or platform address (not a company mailbox)"
+        if _company_has_replied(cur, msg["company_id"], msg["to_email"]):
             return "company replied"
+        if _address_taken(cur, msg):
+            return "address already emailed in another sequence"
         company = cur.execute("select company_category from companies where id = %s", (msg["company_id"],)).fetchone()
         if not company or not guards.is_corporate(company["company_category"]):
             return "not a corporate subscriber"
@@ -289,6 +324,8 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
              require_enabled: bool = True, respect_window: bool = True, campaign_statuses=("active",),
              pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now) -> dict:
     summary = {"mailbox": mailbox, "sent": 0, "skipped": 0, "failed": 0, "stopped": None}
+    if not conn.autocommit and not conn.info.transaction_status:  # dry_run wraps us in a rolled-back transaction on purpose
+        raise RuntimeError("send_due needs an autocommit connection: the 'sending' claim must be committed before Gmail is called")
     if respect_window and not guards.in_send_window(now()):
         summary["stopped"] = "outside UK send window"
         return summary
@@ -324,6 +361,11 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
         except EmailRateLimitError:
             _finish(conn, msg, "queued", "note", skip_reason="rate limited, will retry")
             summary["stopped"] = "provider rate limit"
+            break
+        except EmailAuthError as exc:
+            # The token, not the email, is the problem: put it back and stop this mailbox.
+            _finish(conn, msg, "queued", "note", skip_reason="mailbox login refused, will retry")
+            summary["stopped"] = f"mailbox login refused ({exc}); re-run authorize-mailbox"
             break
         except Exception as exc:  # noqa: BLE001 - any provider error must be recorded, not crash the run
             _finish(conn, msg, "failed", "failed", skip_reason=f"{type(exc).__name__}: {exc}"[:500])
@@ -412,14 +454,26 @@ def _match(cur, mailbox: str, inbound: dict) -> dict | None:
         ).fetchone()
         if row:
             return row
-    return cur.execute(
+    row = cur.execute(
         "select id, company_id, to_email from messages where mailbox = %s and status = 'sent' "
         "and lower(to_email) = %s order by sent_at desc limit 1", (mailbox, inbound["from_email"]),
     ).fetchone()
+    if row:
+        return row
+    # Someone else at the same firm wrote back (info@ forwarded to dave@):
+    # match on the sender's company domain, never on shared/free-mail domains.
+    domain = guards.email_domain(inbound["from_email"])
+    if guards.domain_suppressible(domain):
+        return cur.execute(
+            "select id, company_id, to_email from messages where mailbox = %s and status = 'sent' "
+            "and lower(split_part(to_email, '@', 2)) = %s order by sent_at desc limit 1", (mailbox, domain),
+        ).fetchone()
+    return None
 
 
 def record_inbound(conn, mailbox: str, inbound: dict) -> dict:
-    verdict = categorize_reply(inbound["from_email"], inbound["subject"], inbound["body"])
+    verdict = categorize_reply(inbound["from_email"], inbound["subject"], inbound["body"],
+                               auto_submitted=inbound.get("auto_submitted", False))
     category = verdict["category"]
     received_at = (datetime.fromtimestamp(inbound["internal_date_ms"] / 1000, timezone.utc)
                    if inbound.get("internal_date_ms") else _now())
@@ -446,40 +500,64 @@ def record_inbound(conn, mailbox: str, inbound: dict) -> dict:
              inbound["body"][:20000], verdict["sentiment"], Jsonb(verdict), inbound["provider_message_id"],
              mailbox, category, needs_human, received_at),
         ).fetchone()
-        if reply is None or msg is None:
-            return {"category": category, "matched": msg is not None, "new": reply is not None}
+        if reply is None:
+            return {"category": category, "matched": msg is not None, "new": False}
+        if msg is None:
+            # Can't tie it to an email we sent, but an opt-out is an opt-out:
+            # honour it for the sender (and their company domain).
+            if verdict["suppress"] and category != "bounce":
+                reason = {"complaint": "complained", "not_interested": "dnd"}.get(category, "unsubscribed")
+                suppress(cur, inbound["from_email"], reason, f"reply-unmatched:{category}", domain_too=True)
+                domain = guards.email_domain(inbound["from_email"])
+                cur.execute(
+                    "update messages set status = 'cancelled', skip_reason = %s where status = 'queued' "
+                    "and (lower(to_email) = %s or (%s and lower(split_part(to_email, '@', 2)) = %s))",
+                    (f"inbound {category} (unmatched)", inbound["from_email"], guards.domain_suppressible(domain), domain),
+                )
+            if category != "complaint":
+                return {"category": category, "matched": False, "new": True}
+        else:
+            company_id, message_id = msg["company_id"], msg["id"]
+            if category == "bounce":
+                cur.execute("update messages set bounced_at = coalesce(bounced_at, %s) where id = %s", (received_at, message_id))
+                _event(cur, "bounced", company_id, message_id)
+                suppress(cur, msg["to_email"], "bounced", f"bounce:{mailbox}")
+            elif verdict["stops_sequence"]:
+                cur.execute(
+                    "update messages set replied_at = coalesce(replied_at, %s), reply_sentiment = %s where id = %s",
+                    (received_at, verdict["sentiment"], message_id),
+                )
+                _event(cur, "replied", company_id, message_id, {"category": category})
 
-        company_id, message_id = msg["company_id"], msg["id"]
-        if category == "bounce":
-            cur.execute("update messages set bounced_at = coalesce(bounced_at, %s) where id = %s", (received_at, message_id))
-            _event(cur, "bounced", company_id, message_id)
-            suppress(cur, msg["to_email"], "bounced", f"bounce:{mailbox}")
-        elif verdict["stops_sequence"]:
-            cur.execute(
-                "update messages set replied_at = coalesce(replied_at, %s), reply_sentiment = %s where id = %s",
-                (received_at, verdict["sentiment"], message_id),
-            )
-            _event(cur, "replied", company_id, message_id, {"category": category})
-
-        if verdict["stops_sequence"]:
-            cur.execute(
-                "update messages set status = 'cancelled', skip_reason = %s where company_id = %s and status = 'queued'",
-                (f"inbound {category}", company_id),
-            )
-        if verdict["suppress"] and category != "bounce":
-            reason = {"complaint": "complained", "not_interested": "dnd"}.get(category, "unsubscribed")
-            for address in {inbound["from_email"], msg["to_email"].lower()}:
-                suppress(cur, address, reason, f"reply:{category}", domain_too=True)
-            _event(cur, "unsubscribed" if category == "unsubscribe" else "suppressed", company_id, message_id,
-                   {"category": category})
+            if verdict["stops_sequence"]:
+                cur.execute(
+                    "update messages set status = 'cancelled', skip_reason = %s where status = 'queued' "
+                    "and (company_id = %s or lower(to_email) = lower(%s))",
+                    (f"inbound {category}", company_id, msg["to_email"]),
+                )
+            if verdict["suppress"] and category != "bounce":
+                reason = {"complaint": "complained", "not_interested": "dnd"}.get(category, "unsubscribed")
+                for address in {inbound["from_email"], msg["to_email"].lower()}:
+                    suppress(cur, address, reason, f"reply:{category}", domain_too=True)
+                _event(cur, "unsubscribed" if category == "unsubscribe" else "suppressed", company_id, message_id,
+                       {"category": category})
 
     if category == "complaint":
         set_sending(conn, False, f"complaint received from {inbound['from_email']} - review before re-enabling")
-    return {"category": category, "matched": True, "new": True}
+    return {"category": category, "matched": msg is not None, "new": True}
 
 
-def sync_inbox(conn, provider, mailbox: str, query: str = "in:inbox newer_than:7d") -> dict:
-    ids = provider.list_inbox(query)
+# Everything received in the last 30 days, wherever it was filed (archived,
+# spam, labels): a "no" read and archived before the tick must still count,
+# and so must one that arrived while the PC was off for a week.
+INBOX_QUERY = "in:anywhere -in:sent -in:drafts -in:chats newer_than:30d"
+
+
+def sync_inbox(conn, provider, mailbox: str, query: str = INBOX_QUERY) -> dict:
+    try:
+        ids = provider.list_inbox(query, max_results=1000)
+    except TypeError:                     # fakes/older providers without max_results
+        ids = provider.list_inbox(query)
     with conn.cursor() as cur:
         known = {r[0] for r in cur.execute(
             "select provider_message_id from replies where mailbox = %s and provider_message_id = any(%s)",
@@ -489,12 +567,30 @@ def sync_inbox(conn, provider, mailbox: str, query: str = "in:inbox newer_than:7
     for message_id in ids:
         if message_id in known:
             continue
-        inbound = provider.get_message(message_id)
+        inbound = provider.get_message(message_id)   # a fetch error fails the sync: the tick then doesn't send from this mailbox
         if inbound["from_email"] == mailbox.lower():
             continue
-        result = record_inbound(conn, mailbox, inbound)
+        try:
+            result = record_inbound(conn, mailbox, inbound)
+        except Exception as exc:  # noqa: BLE001 - one unreadable message must not block the mailbox forever
+            _park_unreadable(conn, mailbox, inbound, exc)
+            result = {"category": "unreadable (for a human)"}
         counts[result["category"]] = counts.get(result["category"], 0) + 1
     return counts
+
+
+def _park_unreadable(conn, mailbox: str, inbound: dict, exc: Exception) -> None:
+    """Stores a message we couldn't process as a needs-human reply, so it's
+    seen by a person and not retried (and crashing) every tick."""
+    with conn.transaction():
+        conn.execute(
+            "insert into replies (from_email, subject, body, provider_message_id, mailbox, category, needs_human, received_at) "
+            "values (%s, %s, %s, %s, %s, 'unknown', true, now()) on conflict do nothing",
+            (str(inbound.get("from_email") or "")[:320], str(inbound.get("subject") or "")[:500].replace("\x00", ""),
+             f"(Velarqo couldn't process this message automatically: {type(exc).__name__}. Read it in Gmail.)",
+             inbound.get("provider_message_id"), mailbox),
+        )
+    note_problem(conn, mailbox, f"could not process message {inbound.get('provider_message_id')}: {type(exc).__name__}: {exc}"[:500])
 
 
 # --- Stop rules and status ----------------------------------------------

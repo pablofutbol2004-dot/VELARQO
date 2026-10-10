@@ -55,7 +55,8 @@ def test_get_message_extracts_sender_subject_and_plain_text():
     msg = gmail.get_message("m1")
 
     assert msg == {"provider_message_id": "m1", "thread_id": "t1", "from_email": "dave@acme.co.uk",
-                   "subject": "Re: old quotes", "body": "Yes call me", "internal_date_ms": 1791000000000}
+                   "subject": "Re: old quotes", "body": "Yes call me", "internal_date_ms": 1791000000000,
+                   "auto_submitted": False}
 
 
 def test_list_inbox_pages_through_results():

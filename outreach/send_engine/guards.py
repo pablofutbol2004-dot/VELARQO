@@ -24,6 +24,19 @@ FREE_MAIL_DOMAINS = {
     "protonmail.com", "proton.me", "mail.com", "gmx.com", "gmx.co.uk", "blueyonder.co.uk", "tiscali.co.uk",
 }
 
+# Website-builder / directory / placeholder domains: an address here is
+# scraped junk, not the company's mailbox (e.g. blog@wordpress.com).
+PLATFORM_DOMAINS = {
+    "wordpress.com", "wix.com", "wixsite.com", "squarespace.com", "godaddy.com", "weebly.com", "example.com",
+    "example.co.uk", "domain.com", "yourdomain.com", "sentry.io", "yell.com", "checkatrade.com", "mybuilder.com",
+    "ratedpeople.com", "trustatrader.com", "bark.com", "facebook.com", "google.com",
+}
+# Business ISP mail: one firm saying no must not suppress every firm on it.
+SHARED_ISP_DOMAINS = {
+    "btconnect.com", "talk21.com", "virgin.net", "plus.net", "plusnet.com", "orange.net", "freeserve.co.uk",
+    "tesco.net", "o2.co.uk", "zen.co.uk", "onetel.com", "fsmail.net", "supanet.com", "uwclub.net", "lineone.net",
+}
+
 SEND_DAYS = range(0, 5)  # Mon-Fri
 SEND_START, SEND_END = time(8, 30), time(17, 0)
 
@@ -44,7 +57,7 @@ def is_company_mailbox(email: str | None) -> bool:
     company, so under PECR it counts as an individual subscriber even when a
     Ltd uses it. Only company-domain mailboxes are emailed."""
     domain = email_domain(email)
-    return bool(domain) and domain not in FREE_MAIL_DOMAINS
+    return bool(domain) and domain not in FREE_MAIL_DOMAINS and domain not in PLATFORM_DOMAINS
 
 
 def email_domain(email: str | None) -> str:
@@ -52,7 +65,7 @@ def email_domain(email: str | None) -> str:
 
 
 def domain_suppressible(domain: str) -> bool:
-    return bool(domain) and domain not in FREE_MAIL_DOMAINS
+    return bool(domain) and domain not in FREE_MAIL_DOMAINS | SHARED_ISP_DOMAINS | PLATFORM_DOMAINS
 
 
 def in_send_window(now: datetime) -> bool:

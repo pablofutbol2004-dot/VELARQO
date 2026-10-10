@@ -6,7 +6,8 @@ reply suppresses the sender, stops the sequence, or needs a human.
 
 Always classify the *new* text only: our own email sits quoted underneath
 most replies and contains "Reply 'no'", which would otherwise read as an
-opt-out on every reply.
+opt-out on every reply. Signatures and disclaimers are cut off too: they
+contain words like "spam", "ICO" and "GDPR" in perfectly friendly replies.
 """
 
 import re
@@ -27,9 +28,14 @@ _UNSUBSCRIBE_PHRASES = [
     "stop emailing", "stop contacting", "do not contact", "don't contact",
     "do not email", "don't email", "opt out", "opt-out",
 ]
-_COMPLAINT_PHRASES = [
-    "spam", "reported", "report you", "ico", "gdpr", "data protection",
-    "how did you get", "where did you get", "harass",
+# Explicit accusations only. Bare words like "spam", "ICO", "GDPR" or "data
+# protection" appear in ordinary footers ("scanned for spam", "ICO
+# registration Z123", "in line with GDPR") and must not trigger a complaint.
+_COMPLAINT_PATTERNS = [
+    r"this is spam", r"\bspamm(ing|er)\b", r"\bspam (email|mail|message)s?\b", r"\breport(ed|ing)? (you|this)\b",
+    r"complain(t|ing)? to the ico", r"(report|refer)\w* (it |this |you )?to the (ico|information commissioner)",
+    r"how did you get (my|our|this) (email|address|details)", r"where did you get (my|our|this)",
+    r"\bharass", r"unsolicited (email|mail|marketing)", r"breach of (gdpr|pecr|the regulations)",
 ]
 _OUT_OF_OFFICE_PHRASES = [
     "out of office", "out of the office", "automatic reply", "auto-reply", "autoreply",
@@ -40,6 +46,15 @@ _BOUNCE_SENDERS = ("mailer-daemon@", "postmaster@")
 _BOUNCE_SUBJECTS = (
     "undeliverable", "delivery status notification", "mail delivery failed",
     "returned mail", "delivery has failed", "failure notice", "undelivered mail",
+)
+# "Delivery Status Notification (Delay)" is a warning, not a failure.
+_NOT_A_BOUNCE = ("delay", "delayed", "warning", "will retry", "still trying")
+# Where a reply's own words end and the signature/disclaimer starts.
+_SIGNATURE_START = re.compile(
+    r"^\s*(--\s*$|kind regards|best regards|warm regards|regards\b|many thanks|thanks,?\s*$|cheers,?\s*$|"
+    r"registered (in|office|company)|company (registration|reg)|this (e-?mail|message) (and any|is confidential|may)|"
+    r"disclaimer|confidentiality|vat (no|number|reg))",
+    re.IGNORECASE,
 )
 # A one-word "no" / "stop" is exactly what our footer asks people to send.
 _BARE_OPT_OUT = re.compile(r"^\W*(no|nope|stop|unsubscribe|remove)\W*$")
@@ -73,24 +88,41 @@ def strip_quoted(body: str) -> str:
     return "\n".join(lines).strip()
 
 
+def own_words(new_text: str) -> str:
+    """The message before the signature/disclaimer (always keeps line one)."""
+    lines = new_text.splitlines()
+    for i, line in enumerate(lines):
+        if i > 0 and _SIGNATURE_START.match(line):
+            return "\n".join(lines[:i]).strip()
+    return new_text
+
+
 def _has(text: str, phrases) -> bool:
     return any(re.search(rf"(?<![a-z]){re.escape(p)}(?![a-z])", text) for p in phrases)
 
 
-def categorize_reply(from_email: str, subject: str, body: str) -> dict:
-    """-> {"category", "sentiment", "suppress", "stops_sequence", "needs_human"}"""
+def categorize_reply(from_email: str, subject: str, body: str, auto_submitted: bool = False) -> dict:
+    """-> {"category", "sentiment", "suppress", "stops_sequence", "needs_human"}
+
+    Opt-outs and complaints are checked before out-of-office, so "I'm away,
+    but please remove us" is an opt-out. `auto_submitted` comes from the
+    Auto-Submitted / X-Autoreply / Precedence headers (helpdesk auto-acks)."""
     sender = (from_email or "").lower()
     subj = (subject or "").lower()
-    new_text = strip_quoted(body).lower()
+    new_text = own_words(strip_quoted(body).lower())
+    first_line = new_text.splitlines()[0] if new_text else ""
 
-    if sender.startswith(_BOUNCE_SENDERS) or any(s in subj for s in _BOUNCE_SUBJECTS):
+    bounce_like = sender.startswith(_BOUNCE_SENDERS) or any(s in subj for s in _BOUNCE_SUBJECTS)
+    if bounce_like and not any(w in subj for w in _NOT_A_BOUNCE):
         category = "bounce"
-    elif _has(f"{subj} {new_text}", _OUT_OF_OFFICE_PHRASES):
-        category = "out_of_office"
-    elif _has(new_text, _COMPLAINT_PHRASES):
+    elif bounce_like:
+        category = "out_of_office"            # a delay warning: an automatic notice, not a person
+    elif any(re.search(p, new_text) for p in _COMPLAINT_PATTERNS):
         category = "complaint"
-    elif _BARE_OPT_OUT.match(new_text) or _has(new_text, _UNSUBSCRIBE_PHRASES):
+    elif _BARE_OPT_OUT.match(new_text) or _BARE_OPT_OUT.match(first_line) or _has(new_text, _UNSUBSCRIBE_PHRASES):
         category = "unsubscribe"
+    elif auto_submitted or _has(f"{subj} {new_text}", _OUT_OF_OFFICE_PHRASES):
+        category = "out_of_office"
     elif _has(new_text, _NEGATIVE_PHRASES):
         category = "not_interested"
     elif _has(new_text, _POSITIVE_PHRASES):
@@ -107,5 +139,7 @@ def categorize_reply(from_email: str, subject: str, body: str) -> dict:
         "suppress": category in ("bounce", "unsubscribe", "complaint", "not_interested"),
         # an auto-reply is not a person answering, so the sequence carries on
         "stops_sequence": category not in ("out_of_office",),
-        "needs_human": category in ("positive", "unknown", "complaint"),
+        # a person reads every human reply (volume is tiny), so a wrong
+        # automatic opt-out of an interested firm is caught the same day
+        "needs_human": category not in ("bounce", "out_of_office"),
     }

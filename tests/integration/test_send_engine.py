@@ -73,11 +73,43 @@ def test_our_quoted_opt_out_line_never_reads_as_an_opt_out():
 
 def test_reply_actions():
     unsub = categorize_reply("a@b.co.uk", "Re: x", "stop")
-    assert unsub["suppress"] and unsub["stops_sequence"] and not unsub["needs_human"]
+    assert unsub["suppress"] and unsub["stops_sequence"] and unsub["needs_human"]   # a person sees every opt-out
     ooo = categorize_reply("a@b.co.uk", "Out of office", "back Monday")
     assert not ooo["suppress"] and not ooo["stops_sequence"]
     complaint = categorize_reply("a@b.co.uk", "Re: x", "reported to the ICO")
     assert complaint["suppress"] and complaint["needs_human"]
+
+
+import pytest
+
+
+@pytest.mark.parametrize("body,category", [
+    ("Yes please, give me a call\n\nKind regards\nDave\nICO registration Z123. Scanned for spam and viruses", "positive"),
+    ("Sounds good, ring me Monday\nRegards\nAll data processed in line with GDPR", "positive"),
+    ("Interested.\n\nData Protection: see our privacy notice", "positive"),
+    ("I'm currently away until Monday but please remove us from your list", "unsubscribe"),
+    ("No\n\nDave\nAcme Ltd", "unsubscribe"),
+    ("This is spam, how did you get my email?", "complaint"),
+    ("I will report you to the ICO", "complaint"),
+    ("Back in the office Monday", "out_of_office"),
+])
+def test_footers_dont_make_complaints_and_opt_outs_beat_out_of_office(body, category):
+    assert categorize_reply("dave@acme.co.uk", "Re: last year's quotes", body)["category"] == category
+
+
+def test_delay_notices_and_auto_acks_are_not_bounces_or_replies():
+    assert categorize_reply("mailer-daemon@googlemail.com", "Delivery Status Notification (Delay)", "x")["category"] == "out_of_office"
+    assert categorize_reply("mailer-daemon@googlemail.com", "Delivery Status Notification (Failure)", "x")["category"] == "bounce"
+    ack = categorize_reply("help@acme.co.uk", "Re: x", "Thanks for your email, we'll be in touch", auto_submitted=True)
+    assert ack["category"] == "out_of_office" and not ack["stops_sequence"]
+
+
+def test_platform_and_shared_isp_domains():
+    from outreach.send_engine import guards
+    assert not guards.is_company_mailbox("blog@wordpress.com")
+    assert guards.is_company_mailbox("info@acme.co.uk")
+    assert not guards.domain_suppressible("btconnect.com")      # one firm's "no" mustn't block 16 others
+    assert guards.domain_suppressible("acme.co.uk")
 
 
 def test_strip_quoted_keeps_only_new_text():

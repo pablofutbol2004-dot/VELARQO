@@ -124,3 +124,45 @@ def test_full_cycle(conn):
     assert sum(r["calls"] for r in rows) == 1 and sum(r["samples"] for r in rows) == 1
     assert sum(r["complaints"] for r in rows) == 1
     assert engine.pricing_results(conn, "pricing_p1")[0]["samples"] == 1
+
+
+def test_one_sequence_per_inbox_and_unmatched_opt_outs(conn):
+    """Review fixes: rows sharing an email get one sequence; an address already
+    emailed is never picked again (any trade); a colleague at the same firm
+    who replies from another address is matched by domain; an opt-out from an
+    address we can't match is still honoured."""
+    from outreach.send_engine import engine, experiments
+
+    icp = load_icp(DEFAULT_ICP_PATH)
+    shared = conn.execute(
+        "select lower(q.email) from outreach_queue q join companies c on c.id = q.id where q.vertical = 'windows' "
+        "and c.company_category = 'Private Limited Company' group by 1 having count(*) > 1 limit 1").fetchone()
+    if not shared:
+        pytest.skip("no shared email addresses in the current data")
+    exp = experiments.load("cold_offer_v1")
+    exp.pop("exclude_segments", None)
+    cohort = engine.create_cohort(conn, "pytest shared", 2000, exp, icp, "test")
+    rows = engine.review_rows(conn, cohort["campaign_id"])
+    addresses = [r["to_email"].lower() for r in rows]
+    assert len(addresses) == len(set(addresses)), "every inbox appears once"
+    again = engine.create_cohort(conn, "pytest shared 2", 2000, exp, icp, "test")
+    assert again["messages"] == 0 or not set(addresses) & {r["to_email"].lower() for r in engine.review_rows(conn, again["campaign_id"])}
+
+    # Send one, then a colleague at the same domain says "take us off your list".
+    engine.set_campaign_status(conn, cohort["campaign_id"], "active")
+    engine.set_sending(conn, True)
+    provider = FakeMailbox()
+    engine.send_due(conn, provider, MAILBOX, daily_cap=1, max_this_run=1, respect_window=False, pause_seconds=(0, 0))
+    sent_to = provider.sent[0]["to"]
+    domain = sent_to.split("@")[1]
+    result = engine.record_inbound(conn, MAILBOX, {
+        "provider_message_id": "colleague1", "thread_id": None, "from_email": f"dave.colleague@{domain}",
+        "subject": "your email", "body": "Please take us off your list", "internal_date_ms": None})
+    assert result["matched"] and result["category"] == "unsubscribe"
+    assert engine._is_suppressed(conn.cursor(), sent_to)
+
+    # Unknown sender, unknown domain: still suppressed.
+    result = engine.record_inbound(conn, MAILBOX, {
+        "provider_message_id": "stranger1", "thread_id": None, "from_email": "someone@neverheardof-example.co.uk",
+        "subject": "stop", "body": "unsubscribe", "internal_date_ms": None})
+    assert not result["matched"] and engine._is_suppressed(conn.cursor(), "someone@neverheardof-example.co.uk")

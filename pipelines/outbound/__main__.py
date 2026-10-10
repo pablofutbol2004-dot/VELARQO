@@ -58,7 +58,11 @@ def _mailboxes() -> list[dict]:
 def _provider(mailbox: dict):
     if mailbox.get("provider", "gmail") != "gmail":
         raise click.ClickException(f"{mailbox['email']}: only gmail mailboxes are supported for now")
-    return GmailProvider(access_token=access_token_for(mailbox["email"]), sender_email=mailbox["email"])
+    provider = GmailProvider(access_token=access_token_for(mailbox["email"]), sender_email=mailbox["email"])
+    actual = provider.profile_email()
+    if actual != mailbox["email"].lower():
+        raise click.ClickException(f"token for {mailbox['email']} belongs to {actual}; re-run authorize-mailbox")
+    return provider
 
 
 class FakeMailbox:
@@ -95,6 +99,11 @@ def status():
     for row in s["sent_today"]:
         click.echo(f"  sent today from {row['mailbox']}: {row['n']}")
     click.echo(f"Replies needing you: {s['replies']['needs_human']} (of {s['replies']['total']} total)")
+    problems = engine.recent_problems(_conn())
+    if problems:
+        click.echo("PROBLEMS in the last 24h (a mailbox with a problem doesn't send):")
+        for p in problems:
+            click.echo(f"  {p['created_at']:%a %H:%M} {p['mailbox']}: {p['problem'][:160]}")
 
 
 @cli.command("create-cohort")
@@ -176,7 +185,7 @@ def sending(state, reason):
 
 @cli.command()
 @click.option("--dry-run", is_flag=True, help="Fake mailbox, ignore kill switch/send window, include draft campaigns, roll back")
-@click.option("--max-per-mailbox", default=8, show_default=True, help="Max emails per mailbox in this tick")
+@click.option("--max-per-mailbox", default=2, show_default=True, help="Max emails per mailbox in this tick (2 x ~34 ticks a day covers a 20-30 cap and keeps ticks short)")
 def run(dry_run, max_per_mailbox):
     """One tick: read replies/bounces, queue due follow-ups, check stop rules, send due emails."""
     conn = _conn()
@@ -185,27 +194,55 @@ def run(dry_run, max_per_mailbox):
     else:
         mailboxes = _mailboxes()
 
+    fakes = {m["email"]: FakeMailbox(m["email"]) for m in mailboxes} if dry_run else {}
+
+    def provider_for(m):
+        # Built just before use: a fresh access token per mailbox, so a long
+        # tick never sends with a token that expired mid-way.
+        return fakes[m["email"]] if dry_run else _provider(m)
+
     def tick():
-        report = {}
-        providers = {m["email"]: (FakeMailbox(m["email"]) if dry_run else _provider(m)) for m in mailboxes}
-        for email, provider in providers.items():
-            report[f"inbox {email}"] = engine.sync_inbox(conn, provider, email)
+        report, synced = {}, set()
+        for m in mailboxes:
+            try:
+                report[f"inbox {m['email']}"] = engine.sync_inbox(conn, provider_for(m), m["email"])
+                synced.add(m["email"])
+            except Exception as exc:  # noqa: BLE001 - one broken mailbox must not stop the others
+                report[f"inbox {m['email']}"] = f"ERROR {type(exc).__name__}: {str(exc)[:200]} (not sending from it this tick)"
+                engine.note_problem(conn, m["email"], f"inbox sync failed: {type(exc).__name__}: {str(exc)[:300]}")
         statuses = ("draft", "active") if dry_run else ("active",)
         report["follow-ups queued"] = engine.schedule_followups(conn, campaign_statuses=statuses)
         report["stop rule"] = engine.check_stop_rules(conn)
         for m in mailboxes:
-            report[f"send {m['email']}"] = engine.send_due(
-                conn, providers[m["email"]], m["email"], m.get("daily_cap", 20), max_per_mailbox,
-                require_enabled=not dry_run, respect_window=not dry_run, campaign_statuses=statuses,
-                pause_seconds=(0, 0) if dry_run else (45, 120),
-            )
+            if m["email"] not in synced:
+                continue                     # unread replies might include a "stop": don't send blind
+            try:
+                report[f"send {m['email']}"] = engine.send_due(
+                    conn, provider_for(m), m["email"], m.get("daily_cap", 20), max_per_mailbox,
+                    require_enabled=not dry_run, respect_window=not dry_run, campaign_statuses=statuses,
+                    pause_seconds=(0, 0) if dry_run else (45, 120),
+                )
+            except Exception as exc:  # noqa: BLE001
+                report[f"send {m['email']}"] = f"ERROR {type(exc).__name__}: {str(exc)[:200]}"
+                engine.note_problem(conn, m["email"], f"sending failed: {type(exc).__name__}: {str(exc)[:300]}")
         if dry_run:
-            for provider in providers.values():
+            for provider in fakes.values():
                 for sent in provider.sent[:3]:
                     click.echo(f"\n[dry run] to {sent['to']}\nSubject: {sent['subject']}\n\n{sent['body']}")
         return report
 
-    report = engine.dry_run(conn, tick) if dry_run else tick()
+    if dry_run:
+        report = engine.dry_run(conn, tick)
+    else:
+        # One tick at a time: an overlapping manual run would get a second
+        # daily budget per mailbox.
+        if not conn.execute("select pg_try_advisory_lock(hashtext('outbound-tick'))").fetchone()[0]:
+            click.echo(f"{datetime.now(timezone.utc).isoformat(timespec='seconds')} another tick is running; skipped")
+            return
+        try:
+            report = tick()
+        finally:
+            conn.execute("select pg_advisory_unlock(hashtext('outbound-tick'))")
     stamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
     click.echo(f"{stamp} {'DRY RUN (rolled back) ' if dry_run else ''}{json.dumps(report, default=str)}")
 

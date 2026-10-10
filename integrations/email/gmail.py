@@ -20,8 +20,25 @@ from email.utils import parseaddr
 
 import requests
 
-from integrations.email.base import EmailRateLimitError
+from integrations.email.base import EmailAuthError, EmailRateLimitError
 from lib.rate_limiter import RateLimiter
+
+MAX_RETRY_AFTER_SECONDS = 60.0
+
+
+def _retry_after(response, attempt: int) -> float:
+    """Retry-After may be seconds or an HTTP date; never let it crash or
+    stall a tick for long."""
+    try:
+        value = float(response.headers.get("Retry-After", 2**attempt))
+    except (TypeError, ValueError):
+        value = 2.0**attempt
+    return min(max(value, 0.0), MAX_RETRY_AFTER_SECONDS)
+
+
+def _check_auth(response) -> None:
+    if response.status_code in (401, 403):
+        raise EmailAuthError(f"Gmail refused the token: HTTP {response.status_code}")
 
 GMAIL_API_BASE = "https://gmail.googleapis.com"
 
@@ -84,10 +101,9 @@ class GmailProvider:
             if response.status_code == 429:
                 if attempt == self.max_retries:
                     raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
-                retry_after = float(response.headers.get("Retry-After", 2**attempt))
-                self._sleep(retry_after)
+                self._sleep(_retry_after(response, attempt))
                 continue
-
+            _check_auth(response)
             response.raise_for_status()
             data = response.json()
             return {"message_id": data.get("id"), "thread_id": data.get("threadId")}
@@ -103,10 +119,11 @@ class GmailProvider:
                 "GET", f"{GMAIL_API_BASE}/gmail/v1/users/me/{path}", headers=self._headers(), params=params, timeout=30
             )
             if response.status_code == 429 and attempt < self.max_retries:
-                self._sleep(float(response.headers.get("Retry-After", 2**attempt)))
+                self._sleep(_retry_after(response, attempt))
                 continue
             if response.status_code == 429:
                 raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
+            _check_auth(response)
             response.raise_for_status()
             return response.json()
         raise EmailRateLimitError(f"Gmail rate limited after {self.max_retries} retries")
@@ -130,6 +147,10 @@ class GmailProvider:
                 break
         return ids
 
+    def profile_email(self) -> str:
+        """The address this token really belongs to."""
+        return (self._get("profile").get("emailAddress") or "").lower()
+
     def get_message(self, message_id: str) -> dict:
         data = self._get(f"messages/{message_id}", {"format": "full"})
         payload = data.get("payload", {})
@@ -138,9 +159,18 @@ class GmailProvider:
             "thread_id": data.get("threadId"),
             "from_email": _address(_header(payload, "From")),
             "subject": _header(payload, "Subject") or "",
-            "body": _plain_text(payload) or data.get("snippet", ""),
+            "body": (_plain_text(payload) or data.get("snippet", "")).replace("\x00", ""),
             "internal_date_ms": int(data.get("internalDate", 0)),
+            "auto_submitted": _auto_submitted(payload),
         }
+
+
+def _auto_submitted(payload: dict) -> bool:
+    """Helpdesk acknowledgements and auto-replies flag themselves (RFC 3834)."""
+    auto = (_header(payload, "Auto-Submitted") or "no").strip().lower()
+    precedence = (_header(payload, "Precedence") or "").strip().lower()
+    return (auto != "no" or precedence in ("auto_reply", "bulk", "junk")
+            or _header(payload, "X-Autoreply") is not None or _header(payload, "X-Autorespond") is not None)
 
 
 def _header(payload: dict, name: str) -> str | None:
