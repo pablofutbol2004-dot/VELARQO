@@ -275,6 +275,30 @@ def freeze(pilot_id):
     click.echo(f"frozen: {counts['treatment']} to contact, {counts['holdout']} held back for comparison")
 
 
+@cli.command("send-wave")
+@click.argument("pilot_id")
+@click.argument("wave")
+@click.option("--size", type=int, required=True, help="Homeowners in this wave (canary: 20-30)")
+def send_wave_cmd(pilot_id, wave, size):
+    """Claims up to SIZE treatment homeowners into WAVE and enrols them in
+    GoHighLevel. Safe to re-run: finishes a half-sent wave without resending."""
+    import os
+
+    from delivery.ghl_push import claim_wave, send_wave
+    from integrations.ghl.client import GHLClient
+
+    conn = connect()
+    slug = conn.execute("select client_slug from pilots where id = %s", (pilot_id,)).fetchone()[0]
+    env = slug.upper().replace("-", "_")
+    token, location = os.environ.get(f"GHL_TOKEN_{env}"), os.environ.get(f"GHL_LOCATION_{env}")
+    if not token or not location:
+        raise PilotError(f"set GHL_TOKEN_{env} and GHL_LOCATION_{env} in .env (that client's sub-account)")
+    wave_id = f"{pilot_id}-{wave}"
+    claimed = claim_wave(conn, pilot_id, wave_id, size)
+    stats = send_wave(conn, GHLClient(token, location), pilot_id, wave_id, os.environ.get(f"GHL_KEYFIELD_{env}"))
+    click.echo(f"{wave_id}: {claimed} newly claimed; {json.dumps(stats)}")
+
+
 @cli.command()
 @click.argument("pilot_id")
 def status(pilot_id):

@@ -7,6 +7,7 @@ a real GHL account. Do not point it at a real Location without a Private
 Integration Token supplied explicitly by whoever operates that account.
 """
 
+import random
 import time
 
 import requests
@@ -19,6 +20,10 @@ API_VERSION = "v3"
 
 class GHLRateLimitError(Exception):
     pass
+
+
+class GHLTemporaryError(Exception):
+    """5xx or network failure that survived the retries: safe to try again later."""
 
 
 class GHLClient:
@@ -52,7 +57,13 @@ class GHLClient:
 
         for attempt in range(self.max_retries + 1):
             self.rate_limiter.acquire()
-            response = self.session.request(method, url, headers=self._headers(), json=json, params=params, timeout=30)
+            try:
+                response = self.session.request(method, url, headers=self._headers(), json=json, params=params, timeout=30)
+            except (requests.Timeout, requests.ConnectionError) as exc:
+                if attempt == self.max_retries:
+                    raise GHLTemporaryError(f"{method} {path}: {type(exc).__name__}") from exc
+                self._sleep(self._backoff(attempt))
+                continue
 
             if response.status_code == 429:
                 if attempt == self.max_retries:
@@ -60,11 +71,24 @@ class GHLClient:
                 retry_after = float(response.headers.get("Retry-After", 2**attempt))
                 self._sleep(retry_after)
                 continue
+            if response.status_code >= 500:
+                if attempt == self.max_retries:
+                    raise GHLTemporaryError(f"{method} {path}: HTTP {response.status_code}")
+                self._sleep(self._backoff(attempt))
+                continue
 
-            response.raise_for_status()
+            response.raise_for_status()  # 4xx: our request is wrong; retrying won't help
             return response.json()
 
         raise GHLRateLimitError(f"Rate limited after {self.max_retries} retries: {method} {path}")
+
+    @staticmethod
+    def _backoff(attempt: int) -> float:
+        """2s, 4s, 8s... with +/-50% jitter so retries don't line up."""
+        return 2 ** (attempt + 1) * random.uniform(0.5, 1.5)
+
+    def add_tags(self, contact_id: str, tags: list[str]) -> dict:
+        return self._request("POST", f"/contacts/{contact_id}/tags", json={"tags": tags})
 
     def upsert_contact(self, contact: dict) -> dict:
         body = {**contact, "locationId": self.location_id}

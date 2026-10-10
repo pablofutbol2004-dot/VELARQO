@@ -16,7 +16,7 @@ client hits it. Status: ✅ done · 🛠 to build. Step numbers match
 | 8 | Intake form: area, products, survey slots, who replies, sender name, data source + opt-out list | 5.3, 6.1 | 🛠 |
 | 9 | Holdout split (10-20% not contacted) + stable homeowner IDs | 7.3-7.4 | ✅ `python -m delivery.pilot import / freeze` (tables in `20261010000000_pilots.sql`) |
 | 10 | Homeowner messages (3 texts + email, from the installer's name), approval sheet | 8.1, 6.5 | 🛠 |
-| 11 | GoHighLevel campaign: send → stop on reply → STOP opt-out → booking → reminders | 8.2-8.5 | 🛠 (GHL trial starts at first sample) |
+| 11 | GoHighLevel campaign: send → stop on reply → STOP opt-out → booking → reminders | 8.2-8.5 | 🔧 our side built: `python -m delivery.pilot send-wave` (claim, push, enrol, crash-safe, stops on pause). GHL workflow itself to build at first sample. **GHL setting required: "allow duplicate contacts" OFF; workflow re-entry OFF.** |
 | 12 | Outcomes back into our database, weekly report, invoice | 11-13 | 🛠 |
 
 Rules for anything in this folder:
