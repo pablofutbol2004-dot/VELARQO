@@ -1,6 +1,7 @@
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from pipelines.database_reactivation.pipeline import run_pipeline
+from pipelines.database_reactivation.pipeline import load_records_from_csv, run_pipeline, run_pipeline_on_records
 
 FIXTURE = Path(__file__).parents[1] / "fixtures" / "synthetic_reactivation.csv"
 
@@ -23,7 +24,13 @@ def test_pipeline_segments_records():
 
 
 def test_pipeline_suppresses_invalid_and_unsubscribed_and_recent():
-    records = run_pipeline(FIXTURE)
+    # "Recently contacted" is relative to today, so pin Jane's last contact to
+    # 5 days ago instead of a fixed date that eventually stops being recent.
+    raw = load_records_from_csv(FIXTURE)
+    for record in raw:
+        if record.get("name") == "Jane Doe":
+            record["last_contact"] = (datetime.now(timezone.utc) - timedelta(days=5)).isoformat()
+    records = run_pipeline_on_records(raw)
     by_name = {r["name"]: r for r in records if not r.get("duplicate_of")}
 
     assert by_name["Dave Green"]["suppressed"] is True
