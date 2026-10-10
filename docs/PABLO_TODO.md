@@ -3,6 +3,54 @@
 Claude keeps this list up to date. Each item says why it matters and when
 it's needed. Tell Claude when one is done.
 
+## Tomorrow (11 Oct): Microsoft 365 tenant, 8 inboxes
+
+Claude does all DNS; you do the clicks. Paste every record Microsoft shows
+into the chat and Claude adds it in Cloudflare.
+
+1. **Create the tenant:** microsoft.com/microsoft-365/business → Business
+   Basic → Buy now (not the trial: lower sending limits). Admin email = your
+   Gmail, tenant name e.g. `velarqo.onmicrosoft.com`, 8 licences (~£5 each).
+2. **Add the domains** at admin.microsoft.com → Settings → Domains → Add
+   domain: `usevelarqo.com`, `hellovelarqo.com`, `meetvelarqo.com`. For
+   each: paste the TXT verification record (`MS=ms...`) to Claude → Verify
+   → choose "I'll add the DNS records myself" → paste the MX / Autodiscover
+   CNAME / SPF page to Claude.
+3. **Create 8 users** (Users → Active users → Add a user): Pablo Garcia,
+   `pablo` / `pablo.garcia` / `pablo.g` at usevelarqo (3), hellovelarqo (3),
+   meetvelarqo (2); assign Business Basic; set passwords.
+4. **DKIM:** security.microsoft.com → Email & collaboration → Policies &
+   rules → Threat policies → DKIM → each domain → Create DKIM keys → paste
+   the two CNAMEs (selector1/selector2) to Claude → Enable. Claude adds
+   DMARC `p=none` for each domain.
+5. **Each inbox once:** sign in at outlook.office.com, set up MFA
+   (Authenticator app), add photo, name, signature.
+6. **Instantly:** Add account → Microsoft 365 → sign in with each mailbox.
+   Tell Claude when the 8 are in; warm-up gets set by API (limit 10,
+   +1/day, 30%, slow warm-up on, campaign limit 1).
+
+Warm-up from ~11 Oct → cold sends from ~25 Oct at the earliest, 1 Nov safer.
+
+## Open items (as of 10 Oct evening)
+
+- [ ] Google Admin → Apps → Google Workspace → Gmail → Authenticate email →
+      tryvelarqo.com → **Start authentication** (DNS is live).
+- [ ] Sign into the 4 new Google inboxes once: 2FA, photo, name, signature
+      (pablo.g@getvelarqo.com, pablo.g@velarqohq.com, pablo@tryvelarqo.com,
+      pablo.garcia@tryvelarqo.com). Warm-up is already running.
+- [ ] **Roll the Cloudflare API token** (dash.cloudflare.com → My Profile →
+      API Tokens → the DNS token → Roll); it passed through chat. Delete the
+      R2 token created by mistake. Give Claude the new value via
+      `notepad D:elarqo\.cf_token.txt` (paste, save, close, say "saved").
+- [ ] Photo for the website; confirm "Pablo Garcia" as the public name.
+- [ ] UK phone number for the site and signature (~£5/month): yes or no.
+- [ ] Google Cloud OAuth client (docs/LAUNCH.md step 5), so the engine can
+      send through the inboxes.
+- [ ] Approve or edit the v2 cold email (`docs/COLD_EMAIL_V2.md`).
+- [ ] Tell Claude the heavy uni weeks (exams, entregas) until June, so the
+      floor rules are pre-set.
+- [ ] Read and sign the LIA (`docs/legal/LIA_cold_email.md`).
+
 ## Before the first real email (25 Oct)
 
 - [ ] **Google Cloud OAuth client** (free, ~10 min): needed so the sending
