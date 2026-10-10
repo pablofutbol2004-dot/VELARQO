@@ -12,13 +12,16 @@ Two ways a request is trusted (one must pass):
 
 Returns 200 only after the event is committed (or recognised as a duplicate),
 so GHL retries anything we failed to store. Untrusted → 401, malformed → 400.
-After storing, pending opt-outs for that pilot are pushed to GHL (best effort;
-`check` retries). No third-party web framework: stdlib only, one route.
+After replying, pending opt-outs for that pilot are pushed to GHL in a
+background thread (best effort, one at a time; `check` retries), so a slow
+GHL never delays the webhook response. No third-party web framework: stdlib
+only, one route.
 """
 
 import json
 import logging
 import os
+import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import click
@@ -73,8 +76,6 @@ def make_handler(get_conn, secret: str | None = None, after=None):
             try:
                 conn = get_conn()  # one autocommit connection per request: threads never share a transaction
                 outcome = handle_event(conn, event)
-                if after:
-                    after(conn, event)
             except Exception:  # noqa: BLE001 - non-200 makes GHL retry later
                 log.exception("failed to store webhook %s", event.get("type"))
                 return self._reply(500, "retry later")
@@ -82,12 +83,35 @@ def make_handler(get_conn, secret: str | None = None, after=None):
                 if conn is not None:
                     conn.close()
             log.info("%s %s -> %s", event.get("type"), event.get("locationId"), outcome)
-            return self._reply(200, outcome)
+            self._reply(200, outcome)
+            if after:      # GHL calls happen after the reply, never delaying it
+                threading.Thread(target=run_after, args=(get_conn, after, event), daemon=True).start()
+            return None
 
         def log_message(self, fmt, *args):  # route http.server's noise through logging
             log.debug(fmt, *args)
 
     return Handler
+
+
+_after_lock = threading.Lock()
+
+
+def run_after(get_conn, after, event: dict) -> None:
+    """Background follow-up on its own connection. One at a time: if one is
+    already running, skip (it, or the next `check`, picks this up)."""
+    if not _after_lock.acquire(blocking=False):
+        return
+    conn = None
+    try:
+        conn = get_conn()
+        after(conn, event)
+    except Exception:  # noqa: BLE001 - background best effort; `check` retries
+        log.exception("after-webhook work failed")
+    finally:
+        if conn is not None:
+            conn.close()
+        _after_lock.release()
 
 
 def push_opt_outs_after(conn, event: dict) -> None:

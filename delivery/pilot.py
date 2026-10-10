@@ -18,9 +18,11 @@ the pilot's state themselves, so running one at the wrong time does nothing.
 
 import csv
 import hashlib
+import hmac
 import json
 import os
 import re
+import secrets
 import uuid
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -32,16 +34,17 @@ from client_onboarding.field_mapping.mapper import apply_mapping
 from client_onboarding.sample_audit import age_bucket, classify, load, map_columns, parse_date
 from data.supabase_store import connect
 from delivery.contacts import email as norm_email
-from delivery.contacts import person_key, uk_mobile
+from delivery.contacts import group_people, person_key, uk_mobile
 from delivery.split import split
-from delivery.states import GATES, allowed_pilot_moves
+from delivery.states import GATES, PERSON_WIDE_REASONS, allowed_pilot_moves
 from lib.normalization.normalize import normalize_postcode
 
-RULES_VERSION = "eligibility-v2"
+RULES_VERSION = "eligibility-v3"
 CANARY_MAX = 30
 DATA_RETENTION_DAYS = 30
-# A person excluded for one of these on ANY of their quotes is excluded on all.
-PERSON_WIDE_REASONS = ("opted out", "on client's do-not-contact list", "already won/booked")
+DIRECT_BOOKING_DAYS = 14             # agreement section 4: booked directly within 14 days of our last message
+ENV_PATH = Path(__file__).parents[1] / ".env"
+KEY_SECRET_VAR = "VELARQO_KEY_SECRET"
 DUPLICATE_REASON = "another quote for the same person"
 
 
@@ -80,15 +83,35 @@ def pilot_row(conn, pilot_id: str, lock: bool = False) -> dict:
     return pilot
 
 
+def key_secret(env_path: Path | None = None) -> bytes:
+    """Secret for homeowner keys (env VELARQO_KEY_SECRET). A plain hash of a
+    UK mobile can be reversed by trying every number; a keyed one can't.
+    If unset, one is generated once and saved to .env (never printed). Keep
+    it: a new secret gives new keys, so re-importing an unfrozen pilot would
+    add every row again."""
+    secret = os.environ.get(KEY_SECRET_VAR)
+    if not secret:
+        from dotenv import dotenv_values, set_key
+
+        path = env_path or ENV_PATH
+        secret = dotenv_values(path).get(KEY_SECRET_VAR) if path.exists() else None
+        if not secret:
+            secret = secrets.token_hex(32)
+            path.touch(exist_ok=True)
+            set_key(str(path), KEY_SECRET_VAR, secret, quote_mode="never")
+        os.environ[KEY_SECRET_VAR] = secret
+    return secret.encode()
+
+
 def homeowner_key(client_slug: str, record: dict) -> str:
     """Stable per quote row: the export's own record ID if it has one, else
-    mobile/email, else name + postcode + quote date."""
+    mobile/email, else name + postcode + quote date. HMAC'd with key_secret()."""
     basis = (
         str(record.get("record_id") or "").strip()
         or uk_mobile(record.get("phone")) or norm_email(record.get("email"))
         or "|".join(str(record.get(k) or "").strip().lower() for k in ("name", "postcode", "quote_date"))
     )
-    return hashlib.sha256(f"{client_slug}:{basis}".encode()).hexdigest()[:32]
+    return hmac.new(key_secret(), f"{client_slug}:{basis}".encode(), hashlib.sha256).hexdigest()[:32]
 
 
 def postcode_area(postcode: str | None) -> str | None:
@@ -233,6 +256,22 @@ def _number(value):
         return None
 
 
+def assign_person_keys(conn, pilot_id: str) -> int:
+    """Rows sharing any phone OR email (even through a chain) get one
+    person_key, so an opt-out/won/do-not-contact on one quote reaches every
+    quote of that person and GHL (which merges by phone/email) never gets two
+    of our rows as one contact. Re-run on every import. Returns rows changed."""
+    rows = conn.execute("select homeowner_key, phone, email from pilot_homeowners where pilot_id = %s",
+                        (pilot_id,)).fetchall()
+    groups = group_people(rows)
+    keys = list(groups)
+    return conn.execute(
+        """update pilot_homeowners h set person_key = u.person_key
+           from unnest(%s::text[], %s::text[]) as u(homeowner_key, person_key)
+           where h.pilot_id = %s and h.homeowner_key = u.homeowner_key and h.person_key is distinct from u.person_key""",
+        (keys, [groups[k] for k in keys], pilot_id)).rowcount
+
+
 def apply_person_rules(conn, pilot_id: str) -> dict:
     """One person = one contactable row. If any of a person's quotes is
     opted out / on the do-not-contact list / already won, all of them are
@@ -291,6 +330,7 @@ def import_records(conn, pilot_id: str, records: list[dict], dnc: set[str], run_
         ).fetchone()
         if inserted:
             stats["new" if inserted[0] else "updated"] += 1
+    assign_person_keys(conn, pilot_id)
     stats |= apply_person_rules(conn, pilot_id)
     stats["eligible"] = conn.execute("select count(*) from pilot_homeowners where pilot_id = %s and state = 'eligible'",
                                      (pilot_id,)).fetchone()[0]
@@ -385,10 +425,14 @@ def opt_out_people(conn, pilot_id: str, identifiers: set[str], run_id, why: str)
     the do-not-disturb push to GoHighLevel. Call inside a transaction."""
     from delivery.states import can_move_homeowner
 
+    ids = list(identifiers)
     rows = conn.execute(
-        "select homeowner_key, state, ghl_contact_id from pilot_homeowners where pilot_id = %s "
-        "and (person_key = any(%s) or phone = any(%s) or email = any(%s)) for update",
-        (pilot_id, list(identifiers), list(identifiers), list(identifiers))).fetchall()
+        """select homeowner_key, state, ghl_contact_id from pilot_homeowners
+           where pilot_id = %(p)s and (person_key = any(%(ids)s) or phone = any(%(ids)s) or email = any(%(ids)s)
+             or person_key in (select person_key from pilot_homeowners where pilot_id = %(p)s and person_key is not null
+                               and (phone = any(%(ids)s) or email = any(%(ids)s))))
+           order by homeowner_key for update""",
+        {"p": pilot_id, "ids": ids}).fetchall()
     moved = 0
     for key, state, contact in rows:
         if not can_move_homeowner(state, "opted_out"):
@@ -417,19 +461,31 @@ def optout(pilot_id, phone, mail, path):
     conn = db()
     with conn.transaction():
         moved = opt_out_people(conn, pilot_id, ids, uuid.uuid4(), "reported by installer")
-    pushed = _push_opt_outs_quietly(conn, pilot_id)
+    pushed, _ = _push_opt_outs_quietly(conn, pilot_id)
     click.echo(f"{moved} opted out; {pushed}")
 
 
-def _push_opt_outs_quietly(conn, pilot_id: str) -> str:
+def _push_opt_outs_quietly(conn, pilot_id: str) -> tuple[str, bool]:
+    """(message, ok). Not ok if GHL refused any do-not-disturb push."""
     from delivery.ghl_push import push_opt_outs
 
     try:
         client, _ = ghl_client_for(conn, pilot_id)
     except PilotError as exc:
-        return f"GHL not updated yet ({exc.message})"
+        return f"GHL not updated yet ({exc.message})", True
     result = push_opt_outs(conn, client, pilot_id)
-    return f"GHL do-not-disturb: {result}"
+    return f"GHL do-not-disturb: {result}", not result["failed"]
+
+
+def pilots_with_pending_dnd(conn) -> list[str]:
+    """Any pilot, whatever its state (completed, cancelled...), with an
+    opted-out homeowner whose do-not-disturb hasn't reached GHL yet."""
+    return [p for (p,) in conn.execute(
+        """select distinct h.pilot_id from pilot_homeowners h join pilots p on p.id = h.pilot_id
+           where h.state = 'opted_out' and h.ghl_contact_id is not null and p.ghl_location_id is not null
+             and not exists (select 1 from pilot_events c where c.pilot_id = h.pilot_id
+                             and c.homeowner_key = h.homeowner_key and c.type = 'dnd_confirmed')
+           order by 1""").fetchall()]
 
 
 @cli.command("set")
@@ -467,42 +523,104 @@ def log_cmd(pilot_id, what, minutes, phone, note):
     booked directly with the installer within the attribution window."""
     conn = db()
     with conn.transaction():
-        key = None
-        if what != "manual_minutes":
-            row = conn.execute("select homeowner_key from pilot_homeowners where pilot_id = %s and phone = %s "
-                               "order by state = 'excluded' limit 1", (pilot_id, uk_mobile(phone))).fetchone()
-            if not row:
-                raise PilotError("no homeowner with that phone in this pilot")
-            key = row[0]
-        elif minutes is None:
-            raise PilotError("--minutes is required")
-        log(conn, pilot_id, uuid.uuid4(), what, {"minutes": minutes, "note": note}, key)
+        log_manual(conn, pilot_id, what, minutes, phone, note)
     click.echo("logged")
+
+
+def log_manual(conn, pilot_id: str, what: str, minutes=None, phone=None, note: str = "",
+               now: datetime | None = None) -> str | None:
+    """The `log` command's work; returns the homeowner key (if any). Call inside a transaction."""
+    key = None
+    if what == "manual_minutes":
+        if minutes is None:
+            raise PilotError("--minutes is required")
+    else:
+        row = conn.execute("select homeowner_key from pilot_homeowners where pilot_id = %s and phone = %s "
+                           "order by state = 'excluded', homeowner_key limit 1", (pilot_id, uk_mobile(phone))).fetchone()
+        if not row:
+            raise PilotError("no homeowner with that phone in this pilot")
+        key = row[0]
+        if what == "direct_booking":
+            key = direct_booking_key(conn, pilot_id, key, now or datetime.now(timezone.utc))
+    log(conn, pilot_id, uuid.uuid4(), what, {"minutes": minutes, "note": note}, key)
+    return key
+
+
+def direct_booking_key(conn, pilot_id: str, key: str, now: datetime) -> str:
+    """A direct booking counts only for a treatment homeowner we actually
+    messaged, within DIRECT_BOOKING_DAYS of our last message to them (the
+    latest 'enrolled' state change or GHL outbound message, on any of the
+    person's rows). Returns the key of the person's contacted row."""
+    from delivery.monitor import CONTACTED_STATES
+
+    row = conn.execute(
+        """select h.homeowner_key, max(e.created_at) from pilot_homeowners h
+           left join pilot_events e on e.pilot_id = h.pilot_id and e.homeowner_key = h.homeowner_key
+             and ((e.type = 'homeowner_state' and e.payload->>'to' = 'enrolled') or e.type = 'ghl:OutboundMessage')
+           where h.pilot_id = %(p)s and h.arm = 'treatment' and h.state = any(%(states)s)
+             and (h.homeowner_key = %(k)s or h.person_key = (select person_key from pilot_homeowners
+                                                              where pilot_id = %(p)s and homeowner_key = %(k)s))
+           group by h.homeowner_key order by 2 desc nulls last limit 1""",
+        {"p": pilot_id, "k": key, "states": CONTACTED_STATES}).fetchone()
+    if not row:
+        raise PilotError("that homeowner was never messaged by this pilot (not enrolled), so a direct booking doesn't count")
+    if not row[1]:
+        raise PilotError("no record of a message to that homeowner, so the 14-day window can't be checked")
+    if now - row[1] > timedelta(days=DIRECT_BOOKING_DAYS):
+        raise PilotError(f"our last message to that homeowner was {row[1]:%Y-%m-%d}, more than "
+                         f"{DIRECT_BOOKING_DAYS} days ago; a direct booking doesn't count")
+    return row[0]
 
 
 @cli.command()
 @click.option("--pilot", "pilot_id", help="One pilot; default: every sending or paused pilot")
 def check(pilot_id):
-    """Stop conditions + pending GoHighLevel do-not-disturb pushes. Schedule
-    every 15 minutes while any pilot is running. Exit code 2 if anything paused."""
-    from delivery.monitor import check_pilot
-
+    """Stop conditions + pending GoHighLevel do-not-disturb pushes (for any
+    pilot, whatever its state). Schedule every 15 minutes while any pilot is
+    running. Each pilot is checked on its own, so one failure doesn't skip the
+    others. Exit code 2 if anything paused (or is paused), 1 if anything failed."""
     conn = db()
-    ids = [pilot_id] if pilot_id else [p for (p,) in conn.execute(
-        "select id from pilots where state in ('canary_running', 'live', 'paused')").fetchall()]
-    paused_any = False
-    for pid in ids:
-        click.echo(f"{pid}: {_push_opt_outs_quietly(conn, pid)}")
-        breaches = check_pilot(conn, pid)
-        if breaches:
-            paused_any = True
-            click.echo(f"PAUSED {pid}:")
-            for b in breaches:
-                click.echo(f"  - {b.rule}: {b.detail}")
-        else:
-            click.echo(f"ok {pid}")
+    if pilot_id:
+        ids = [pilot_id]
+    else:
+        running = [p for (p,) in conn.execute(
+            "select id from pilots where state in ('canary_running', 'live', 'paused') order by 1").fetchall()]
+        ids = sorted(set(running) | set(pilots_with_pending_dnd(conn)))
+    paused_any, failed_any = run_checks(conn, ids, click.echo)
     if paused_any:
         raise SystemExit(2)
+    if failed_any:
+        raise SystemExit(1)
+
+
+def run_checks(conn, ids: list[str], echo) -> tuple[bool, bool]:
+    """Each pilot on its own: a failure (GHL, database) is reported and the
+    next pilot is still checked. Returns (anything paused, anything failed)."""
+    from delivery import monitor
+
+    paused_any = failed_any = False
+    for pid in ids:
+        try:
+            message, ok = _push_opt_outs_quietly(conn, pid)
+            echo(f"{pid}: {message}")
+            failed_any |= not ok
+        except Exception as exc:  # noqa: BLE001 - report, keep checking the other pilots
+            failed_any = True
+            echo(f"FAILED {pid}: do-not-disturb push: {exc}")
+        try:
+            breaches = monitor.check_pilot(conn, pid)
+        except Exception as exc:  # noqa: BLE001
+            failed_any = True
+            echo(f"FAILED {pid}: stop-condition check: {exc}")
+            continue
+        if breaches:
+            paused_any = True
+            echo(f"PAUSED {pid}:")
+            for b in breaches:
+                echo(f"  - {b.rule}: {b.detail}")
+        else:
+            echo(f"ok {pid}")
+    return paused_any, failed_any
 
 
 @cli.command()
@@ -521,7 +639,8 @@ def invoice(pilot_id, week):
 def purge_pilot(conn, pilot_id: str, run_id) -> dict:
     """Deletes homeowner personal data (names, contact details, message
     bodies) for a pilot that ended more than DATA_RETENTION_DAYS ago; keeps
-    anonymous counts. Call inside a transaction."""
+    anonymous counts. Also unlinks the GHL location, so new webhooks for that
+    sub-account are ignored instead of stored. Call inside a transaction."""
     pilot = pilot_row(conn, pilot_id, lock=True)
     ended = conn.execute("select max(created_at) from pilot_events where pilot_id = %s and type = 'state' "
                          "and payload->>'to' in ('completed', 'cancelled')", (pilot_id,)).fetchone()[0]
@@ -536,6 +655,8 @@ def purge_pilot(conn, pilot_id: str, run_id) -> dict:
     events = conn.execute(
         "update pilot_events set payload = payload - 'body' - 'note' where pilot_id = %s and (payload ? 'body' or payload ? 'note')",
         (pilot_id,)).rowcount
+    # Unlink the GHL sub-account so webhooks for it stop being stored here.
+    conn.execute("update pilots set ghl_location_id = null, updated_at = now() where id = %s", (pilot_id,))
     log(conn, pilot_id, run_id, "purged", {"homeowners": people, "events": events})
     return {"homeowners": people, "events": events}
 

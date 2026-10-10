@@ -149,6 +149,43 @@ commit for real and read back from a second connection:
 - Only needed fields of GHL events are stored; `pilot purge` deletes
   personal data 30 days after a pilot ends.
 
+**Second review fixes (2026-10-11)**, each with a regression test:
+1. One person = every row sharing ANY phone or email, even through a chain
+   (quote A: phone + email, quote B: same email only). Grouped at every
+   import; the claim also refuses a row whose person (person_key, phone or
+   email) is opted out / on the do-not-contact list / already won, and never
+   claims two rows of one person. `+44 (0)7700 900123` is a valid mobile.
+   Installer and webhook opt-outs reach every quote of the person.
+2. No double charge: one claimed row per person, invoices one per person
+   AND one per GHL contact (safety net). Stop conditions count people.
+3. A credited no-show who rebooks or attends is charged again (new line
+   kind `credit_reversal`, migration `20261011100000`); a further no-show is
+   credited again.
+4. Caps: credited no-shows don't use up `max_billable`; the weekly cap counts
+   the ISO week the survey was booked (`invoice_lines.booked_at`); free /
+   over-cap is decided in booking order; "first N free" counts only people
+   actually texted (enrolled or beyond), by claim order.
+5. After the GHL upsert, the row and pilot are re-read under lock; the wave
+   tag (= texts) is only added if the row is still `pushing` and the pilot
+   still sending (`tag_skipped` event otherwise). The contact id is kept so
+   the do-not-disturb still reaches GHL.
+6. Pending do-not-disturb pushes are retried for every pilot, whatever its
+   state (completed/cancelled too). `check` handles each pilot on its own;
+   exit 2 if anything paused, 1 if anything failed.
+7. STOP classifier: complaint and wrong-person are always recorded, even in
+   "STOP ICO" / "Stop. Wrong number"; "Stop by Tuesday?", "Don't stop",
+   "stop round" aren't opt-outs; bare "cancel" goes to a person; a STOP from
+   someone with a booked survey also asks for a human answer.
+8. Personal data: no message body kept for contacts that aren't our
+   homeowners; `homeowner_key` is an HMAC with `VELARQO_KEY_SECRET` (generated
+   into `.env` on first use if missing — keep it: a new secret means new keys);
+   `pilot purge` also unlinks the GHL location.
+Also: the webhook server replies 200 before pushing opt-outs (background,
+one at a time); after a resume, rates use people contacted since the resume,
+and a reply that arrived during the pause still has to be answered;
+`log direct_booking` needs a treatment homeowner we messaged within 14 days;
+the canary claims at most 30 people across all its waves.
+
 **Verify on the real GoHighLevel before the first homeowner is texted**
 (test with your own phone and a dead number at step 8.6):
 1. Which webhooks a Private-Integration sub-account actually sends: signed

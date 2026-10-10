@@ -142,10 +142,15 @@ def test_pausing_mid_wave_stops_further_sends():
             if n == 2:
                 other.execute("update pilots set state = 'paused' where id = %s", (pilot_id,))
 
-        result = send_wave(conn, FakeGHL(on_upsert=pause_after_two), pilot_id, "w1")
+        ghl = FakeGHL(on_upsert=pause_after_two)
+        result = send_wave(conn, ghl, pilot_id, "w1")
         other.close()
-        assert result["stopped"] and result["enrolled"] == 2
-        assert states(pilot_id)["queued"] == 3
+        # the pause landed while GHL was upserting #2: its tag (= texts) is not added
+        assert result["stopped"] and result["enrolled"] == 1 and result["skipped"] == 1 and len(ghl.tags) == 1
+        assert states(pilot_id)["queued"] == 3 and states(pilot_id)["pushing"] == 1
+        why = conn.execute("select payload->>'why' from pilot_events where pilot_id = %s and type = 'tag_skipped'",
+                           (pilot_id,)).fetchone()[0]
+        assert "paused" in why
 
 
 def test_opt_out_after_queueing_is_never_sent():
@@ -192,3 +197,90 @@ def test_opt_outs_are_pushed_to_ghl_once():
         assert push_opt_outs(conn, ghl, pilot_id) == {"confirmed": 1, "failed": 0}
         assert ghl.dnd == {contacts[0]} and ghl.removed[contacts[0]] == [f"vq-w1"]
         assert push_opt_outs(conn, ghl, pilot_id) == {"confirmed": 0, "failed": 0}           # done once
+
+
+# ---------- second review (2026-10-11) ----------
+
+def test_finding2_two_quotes_sharing_an_email_are_never_claimed_together():
+    from delivery.ghl_push import claim_wave
+    rows = [
+        {"Ref": "A", "Quote Date": "01/05/2026", "Status": "Lost", "Phone": "07700900001", "Email": "fam@x.com", "Postcode": "LS1 1AA"},
+        {"Ref": "B", "Quote Date": "01/06/2026", "Status": "Lost", "Phone": None, "Email": "fam@x.com", "Postcode": "LS1 1AA"},
+    ]
+    with pilot(rows=rows, holdout=0.0) as (conn, pilot_id, _, _):
+        assert claim_wave(conn, pilot_id, "w1", 30) == 1
+        assert claim_wave(conn, pilot_id, "w2", 30) == 0
+
+
+def test_finding5_opt_out_while_ghl_upserts_never_gets_the_wave_tag():
+    import uuid
+
+    from delivery.ghl_push import claim_wave, push_opt_outs, send_wave
+    from delivery.pilot import opt_out_people
+    with pilot(20) as (conn, pilot_id, _, _):
+        claim_wave(conn, pilot_id, "w1", 3)
+        phones = [p for (p,) in conn.execute("select phone from pilot_homeowners where pilot_id = %s and wave_id = 'w1' "
+                                             "order by homeowner_key", (pilot_id,))]
+        other = autocommit()
+
+        def opt_out_first(n):              # the STOP lands while GHL is creating contact #1
+            if n == 1:
+                with other.transaction():
+                    opt_out_people(other, pilot_id, {phones[0]}, uuid.uuid4(), "installer")
+
+        ghl = FakeGHL(on_upsert=opt_out_first)
+        result = send_wave(conn, ghl, pilot_id, "w1")
+        other.close()
+        assert result["enrolled"] == 2 and result["skipped"] == 1 and not result["stopped"]
+        assert f"c-{phones[0]}" not in ghl.tags                                     # never enrolled = never texted
+        assert conn.execute("select payload->>'why' from pilot_events where pilot_id = %s and type = 'tag_skipped'",
+                            (pilot_id,)).fetchone()[0] == "homeowner is now 'opted_out'"
+        # the contact id was kept, so GHL still gets the do-not-disturb
+        assert push_opt_outs(conn, ghl, pilot_id)["confirmed"] == 1 and ghl.dnd == {f"c-{phones[0]}"}
+
+
+def test_canary_claims_at_most_30_people_across_all_waves():
+    from delivery.ghl_push import claim_wave
+    with pilot(60, holdout=0.0) as (conn, pilot_id, _, _):
+        assert claim_wave(conn, pilot_id, "w1", 20) == 20
+        assert claim_wave(conn, pilot_id, "w2", 20) == 10
+        assert claim_wave(conn, pilot_id, "w3", 5) == 0
+        conn.execute("update pilots set state = 'live' where id = %s", (pilot_id,))
+        assert claim_wave(conn, pilot_id, "w4", 20) == 20                           # live: no canary cap
+
+
+def test_finding6_opt_outs_are_pushed_for_a_completed_pilot_and_check_keeps_going(monkeypatch):
+    import uuid
+
+    from click.testing import CliRunner
+
+    from delivery import monitor
+    from delivery import pilot as pilot_module
+    from delivery.pilot import opt_out_people, pilots_with_pending_dnd, run_checks
+    with pilot(20, wave_size=5) as (conn, pilot_id, _, contacts):
+        phone = conn.execute("select phone from pilot_homeowners where pilot_id = %s and ghl_contact_id = %s",
+                             (pilot_id, contacts[0])).fetchone()[0]
+        with conn.transaction():
+            opt_out_people(conn, pilot_id, {phone}, uuid.uuid4(), "after the pilot ended")
+        conn.execute("update pilots set state = 'completed' where id = %s", (pilot_id,))
+        assert pilot_id in pilots_with_pending_dnd(conn)
+        ghl = FakeGHL()
+        monkeypatch.setattr(pilot_module, "ghl_client_for", lambda c, p: (ghl, None))
+        result = CliRunner().invoke(pilot_module.cli, ["check", "--pilot", pilot_id])
+        assert result.exit_code == 0, result.output
+        assert ghl.dnd == {contacts[0]} and pilot_id not in pilots_with_pending_dnd(conn)
+
+        # one pilot failing doesn't skip the stop checks of the others; still a non-zero exit
+        checked = []
+
+        def fake_check(c, pid):
+            checked.append(pid)
+            if pid == "boom":
+                raise RuntimeError("database hiccup")
+            return []
+
+        monkeypatch.setattr(monitor, "check_pilot", fake_check)
+        lines = []
+        paused, failed = run_checks(conn, ["boom", pilot_id], lines.append)
+        assert checked == ["boom", pilot_id] and failed and not paused
+        assert any(line.startswith("ok " + pilot_id) for line in lines)

@@ -2,7 +2,10 @@
 pilot is running. Any breach moves a sending pilot to 'paused' (no new waves;
 the wave code also stops mid-way) and records why. Resuming needs a new
 'resume' approval given after the pause; after a resume only events newer
-than the resume count, so an old, reviewed breach doesn't re-pause forever.
+than the resume count, so an old, reviewed breach doesn't re-pause forever
+(rates: people contacted since the resume and their events; an unanswered
+reply always counts until answered). Everything is counted in people
+(person_key), not quote rows.
 
 Thresholds are the ones proposed in WORKFLOW.md. Pablo confirms them before
 the first pilot; they must not be loosened mid-pilot.
@@ -81,39 +84,60 @@ def wave_breaches(counts: dict) -> list[Breach]:
     return breaches_for(counts, "wave")
 
 
+PERSON = "coalesce(h.person_key, h.homeowner_key)"
+# When a row was first contacted: its first move into a contacted state
+# (enrolled, or replied/booked if a webhook beat the enrol step), else its
+# claim time (e.g. opted out while being pushed).
+CONTACTED_AT = """coalesce((select min(c.created_at) from pilot_events c where c.pilot_id = h.pilot_id
+                              and c.homeowner_key = h.homeowner_key and c.type = 'homeowner_state'
+                              and c.payload->>'to' = any(%(states)s)), h.claimed_at)"""
+
+
 def counts_for(conn, pilot_id: str, wave_id: str | None, since: datetime, now: datetime) -> dict:
-    """Counts for one wave (or the whole pilot if wave_id is None), only from
-    events after `since` (the last resume). The denominator is everyone ever
-    contacted in that scope."""
+    """Counts of PEOPLE (person_key), for one wave or the whole pilot.
+
+    Rates use one cohort for numerator and denominator: the people contacted
+    after `since` (the last resume; ever, before any pause), and their
+    opt-outs / failures / wrong-person replies after `since`. Count rules
+    (complaints, ICO, installer misses) count everyone's events after `since`.
+    Replies are late if received after `since` and answered late, or still
+    unanswered whenever received (a reply that came in during a pause
+    still has to be answered)."""
     scope = "h.pilot_id = %(p)s" + (" and h.wave_id = %(w)s" if wave_id else " and h.wave_id is not null")
     params = {"p": pilot_id, "w": wave_id, "since": since, "states": CONTACTED_STATES}
 
     def one(sql):
         return conn.execute(sql, params).fetchone()[0]
 
-    counts = {"contacted": one(f"select count(*) from pilot_homeowners h where {scope} "
-                               "and (h.state = any(%(states)s) or (h.state = 'opted_out' and h.ghl_contact_id is not null))")}
-    in_scope = f"e.homeowner_key in (select h.homeowner_key from pilot_homeowners h where {scope})"
-    counts["opted_out"] = one(
-        f"select count(distinct e.homeowner_key) from pilot_events e where e.pilot_id = %(p)s and {in_scope} "
-        "and e.type = 'homeowner_state' and e.payload->>'to' = 'opted_out' and e.created_at > %(since)s")
-    for name, key in (("complaint", "complaints"), ("delivery_failed", "delivery_failed"),
-                      ("wrong_person", "wrong_person"), ("installer_missed", "installer_missed")):
-        counts[key] = one(f"select count(distinct e.homeowner_key) from pilot_events e where e.pilot_id = %(p)s "
-                          f"and {in_scope} and e.type = '{name}' and e.created_at > %(since)s")
+    contacted_rows = (f"from pilot_homeowners h where {scope} and (h.state = any(%(states)s) "
+                      "or (h.state = 'opted_out' and h.ghl_contact_id is not null))")
+    cohort = f"select {PERSON} {contacted_rows} and {CONTACTED_AT} > %(since)s"
+    counts = {"contacted": one(f"select count(*) from ({cohort}) x")}
+    in_scope = f"from pilot_events e join pilot_homeowners h on h.pilot_id = e.pilot_id and h.homeowner_key = e.homeowner_key " \
+               f"where e.pilot_id = %(p)s and {scope} and e.created_at > %(since)s"
+    in_cohort = f"{in_scope} and {PERSON} in ({cohort})"
+    counts["opted_out"] = one(f"select count(distinct {PERSON}) {in_cohort} "
+                              "and e.type = 'homeowner_state' and e.payload->>'to' = 'opted_out'")
+    for name, key in (("delivery_failed", "delivery_failed"), ("wrong_person", "wrong_person")):
+        counts[key] = one(f"select count(distinct {PERSON}) {in_cohort} and e.type = '{name}'")
+    for name, key in (("complaint", "complaints"), ("installer_missed", "installer_missed")):
+        counts[key] = one(f"select count(distinct {PERSON}) {in_scope} and e.type = '{name}'")
     counts["regulator_mentions"] = one(
-        f"select count(*) from pilot_events e where e.pilot_id = %(p)s and {in_scope} and e.type = 'complaint' "
-        "and e.payload->>'body' ~* '(\\mico\\M|information commissioner|regulator)' and e.created_at > %(since)s")
+        f"select count(distinct {PERSON}) {in_scope} and e.type = 'complaint' "
+        "and e.payload->>'body' ~* '(\\mico\\M|information commissioner|regulator)'")
     # A reply is late if the first human answer after it came after the deadline, or hasn't come and the deadline passed.
     late = 0
     for received, answered in conn.execute(
         f"""select e.created_at,
                    (select min(a.created_at) from pilot_events a where a.pilot_id = e.pilot_id and a.homeowner_key = e.homeowner_key
                       and a.type = 'answered' and a.created_at > e.created_at)
-            from pilot_events e where e.pilot_id = %(p)s and {in_scope} and e.type = 'needs_answer' and e.created_at > %(since)s""",
+            from pilot_events e join pilot_homeowners h on h.pilot_id = e.pilot_id and h.homeowner_key = e.homeowner_key
+            where e.pilot_id = %(p)s and {scope} and e.type = 'needs_answer'""",
         params).fetchall():
         deadline = reply_deadline(received)
-        if (answered and answered > deadline) or (not answered and now > deadline):
+        if not answered and now > deadline:
+            late += 1
+        elif answered and answered > deadline and received > since:
             late += 1
     counts["late_replies"] = late
     return counts

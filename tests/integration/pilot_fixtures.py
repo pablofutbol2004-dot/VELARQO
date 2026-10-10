@@ -10,6 +10,9 @@ import pytest
 
 DB = pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
 TODAY = date(2026, 10, 10)
+# Homeowner keys are HMAC'd with this; set here so tests never generate a
+# secret into the real .env.
+os.environ.setdefault("VELARQO_KEY_SECRET", "test-only-key-secret")
 
 
 def autocommit():
@@ -62,7 +65,7 @@ def pilot(n_records=30, holdout=0.2, state="canary_running", wave_size=None, row
         if wave_size:
             claim_wave(conn, pilot_id, "w1", wave_size)
             with conn.transaction():
-                conn.execute("update pilot_homeowners set state = 'enrolled', ghl_contact_id = 'c-' || phone "
+                conn.execute("update pilot_homeowners set state = 'enrolled', ghl_contact_id = 'c-' || coalesce(phone, email) "
                              "where pilot_id = %s and wave_id = 'w1'", (pilot_id,))
             contacts = [c for (c,) in conn.execute(
                 "select ghl_contact_id from pilot_homeowners where pilot_id = %s and wave_id = 'w1' order by 1", (pilot_id,))]

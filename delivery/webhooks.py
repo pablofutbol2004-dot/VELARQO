@@ -9,7 +9,10 @@ delivery/webhook_server.py with an autocommit connection. Rules:
 - Homeowner states only move forward (delivery/states.py); opted_out beats
   everything; a person with several rows is updated on all of them.
 - Only the fields we need are stored (ids, status, a trimmed message body),
-  never GHL's full payload with names and addresses.
+  never GHL's full payload with names and addresses; for contacts that
+  aren't our homeowners not even the message body.
+- An opt-out (STOP, complaint, wrong person, DND) reaches every quote of
+  that person (person_key), not only the row GHL knows.
 - Opt-outs we detect (complaints, DND) are queued as 'dnd_pending' and pushed
   to GHL by delivery.ghl_push.push_opt_outs (webhook server + `check`).
 """
@@ -49,7 +52,9 @@ REPLAY_WINDOW = timedelta(hours=24)
 BODY_KEEP = 500
 
 # Opt-out keyword only when it is the whole message ("STOP", "stop.", "Unsubscribe").
-_STOP = re.compile(r"^\s*(stop|stop all|stopall|unsubscribe|end|quit|cancel|opt ?out|remove me)\s*[.!]*\s*$", re.I)
+# Bare "cancel" is NOT here: a booked homeowner may be cancelling the survey,
+# so it goes to a person.
+_STOP = re.compile(r"^\s*(stop|stop all|stopall|unsubscribe|end|quit|opt[ -]?out|remove me)\s*[.!]*\s*$", re.I)
 _COMPLAINT = re.compile(
     r"how did you get (my|this) (number|email|details)|where did you get (my|this)|\bico\b|information commissioner|"
     r"\breport(ing)? you\b|harass|leave me alone|stop (texting|messaging|contacting|emailing) me|"
@@ -100,23 +105,42 @@ def check_fresh(event: dict, now: datetime | None = None) -> None:
         raise BadSignature("timestamp outside the replay window")
 
 
-_SHORT_STOP = re.compile(r"\b(stop|unsubscribe|opt ?out|remove me)\b", re.I)
+_SHORT_STOP = re.compile(r"\b(stop|unsubscribe|opt[ -]?out|remove me)\b", re.I)
+_SHORT_OPT_OUT_PHRASE = re.compile(r"\b(remove my (number|details)|no more (texts|messages))\b", re.I)
+# "Stop by Tuesday?", "Yes stop by", "stop round", "Don't stop": not opt-outs.
+_NOT_A_STOP = re.compile(r"\bstop\s+(by|round|over|off|in|past)\b|"
+                         r"\b(don'?t|do not|dont|never|not|won'?t|can'?t)\s+stop\b", re.I)
+
+
+def reply_signals(body: str) -> set[str]:
+    """Every signal in a homeowner's reply: any of 'opt_out', 'complaint',
+    'wrong_person' (empty = an ordinary reply). Complaint and wrong-person are
+    always checked, so "STOP ICO" or "Stop. Wrong number" record both.
+    Opt-out = the whole message is a stop word, or a short message (3 words or
+    fewer) containing stop/unsubscribe ("stop please"), or a short "remove my
+    number" / "no more texts"; but not "stop by"/"don't stop". Longer
+    messages go to a person, so "End of the month works" isn't lost."""
+    text = (body or "").strip()
+    words = len(re.findall(r"[A-Za-z']+", text))
+    found = set()
+    if _STOP.match(text) or (
+            not _NOT_A_STOP.search(text)
+            and ((words <= 3 and _SHORT_STOP.search(text)) or (words <= 5 and _SHORT_OPT_OUT_PHRASE.search(text)))):
+        found.add("opt_out")
+    if _COMPLAINT.search(text):
+        found.add("complaint")
+    if _WRONG_PERSON.search(text):
+        found.add("wrong_person")
+    return found
 
 
 def classify_homeowner_reply(body: str) -> str:
-    """'opt_out' | 'complaint' | 'wrong_person' | 'reply'. Opt-out = the whole
-    message is a stop word, or a short message (3 words or fewer) containing
-    stop/unsubscribe ("stop please"). Longer messages go to a person, so
-    "End of the month works" or "Cancel that, Tuesday is better" aren't lost."""
-    text = (body or "").strip()
-    if _STOP.match(text):
-        return "opt_out"
-    if len(re.findall(r"[A-Za-z']+", text)) <= 3 and _SHORT_STOP.search(text):
-        return "opt_out"
-    if _COMPLAINT.search(text):
-        return "complaint"
-    if _WRONG_PERSON.search(text):
-        return "wrong_person"
+    """The main verdict: 'complaint' > 'wrong_person' > 'opt_out' > 'reply'
+    (all three of the first opt the person out; see reply_signals)."""
+    found = reply_signals(body)
+    for verdict in ("complaint", "wrong_person", "opt_out"):
+        if verdict in found:
+            return verdict
     return "reply"
 
 
@@ -170,13 +194,17 @@ def handle_event(conn, event: dict) -> str:
             return "ignored: unknown location"
         pilot_id, calendar_id = pilot
         rows = conn.execute(
-            "select homeowner_key, state from pilot_homeowners where pilot_id = %s and ghl_contact_id = %s for update",
+            "select homeowner_key, state from pilot_homeowners where pilot_id = %s and ghl_contact_id = %s "
+            "order by homeowner_key for update",
             (pilot_id, contact_id)).fetchall() if contact_id else []
+        kept = minimal(event)
+        if not rows:
+            kept.pop("body", None)          # not one of our homeowners: don't keep what they wrote
         stored = conn.execute(
             "insert into pilot_events (pilot_id, homeowner_key, run_id, type, source_event_id, payload) "
             "values (%s, %s, %s, %s, %s, %s) on conflict (source_event_id) do nothing returning id",
             (pilot_id, rows[0][0] if rows else None, run_id, f"ghl:{kind}" if rows else f"ghl:unmatched:{kind}",
-             event_id(event), Jsonb(minimal(event))),
+             event_id(event), Jsonb(kept)),
         ).fetchone()
         if not stored:
             return "duplicate"
@@ -189,8 +217,17 @@ def handle_event(conn, event: dict) -> str:
                              (pilot_id, key, run_id, name, Jsonb(extra or {})))
 
         def move(new, why):
+            targets = list(rows)
+            if new == "opted_out":      # every quote of the same person, not only the row GHL knows
+                targets += conn.execute(
+                    """select homeowner_key, state from pilot_homeowners
+                       where pilot_id = %s and homeowner_key <> all(%s) and person_key in (
+                         select person_key from pilot_homeowners where pilot_id = %s and ghl_contact_id = %s
+                           and person_key is not null)
+                       order by homeowner_key for update""",
+                    (pilot_id, [k for k, _ in rows], pilot_id, contact_id)).fetchall()
             moved = False
-            for key, current in rows:
+            for key, current in targets:
                 if can_move_homeowner(current, new):
                     conn.execute("update pilot_homeowners set state = %s, updated_at = now() where pilot_id = %s and homeowner_key = %s",
                                  (new, pilot_id, key))
@@ -204,19 +241,20 @@ def handle_event(conn, event: dict) -> str:
 
         body = event.get("body") or ""
         if kind == "InboundMessage" and (event.get("direction") or "inbound") == "inbound":
-            verdict = classify_homeowner_reply(body)
-            if verdict == "opt_out":
-                move("opted_out", "replied with a stop word")
-                return "opted out"
-            signal("needs_answer", {"message_id": event.get("messageId")})   # a person reads every other reply
-            if verdict == "complaint":
+            found = reply_signals(body)
+            booked = any(state == "booked" for _, state in rows)
+            if found != {"opt_out"} or booked:
+                # A person reads every reply except a plain STOP; a STOP from
+                # someone with a booked survey may also be cancelling it.
+                signal("needs_answer", {"message_id": event.get("messageId")})
+            if "complaint" in found:
                 signal("complaint", {"body": body[:BODY_KEEP]})
-                move("opted_out", "complaint")                                    # never message them again
-                return "complaint"
-            if verdict == "wrong_person":
+            if "wrong_person" in found:
                 signal("wrong_person", {"body": body[:BODY_KEEP]})
-                move("opted_out", "wrong person")                                 # not who the installer quoted
-                return "wrong_person"
+            if found:                                                         # never message them again
+                verdict = classify_homeowner_reply(body)
+                move("opted_out", {"complaint": "complaint", "wrong_person": "wrong person"}.get(verdict, "replied with a stop word"))
+                return {"complaint": "complaint", "wrong_person": "wrong_person"}.get(verdict, "opted out")
             move("replied", "inbound message")
             return "replied"
 

@@ -7,6 +7,8 @@ PILOT_FLOW = [
     "canary_reviewed", "live", "completed",
 ]
 SENDING = ("canary_running", "live")
+# A person excluded for one of these on ANY of their quotes is excluded on all.
+PERSON_WIDE_REASONS = ("opted out", "on client's do-not-contact list", "already won/booked")
 
 # Moves that need an approval row first: (from, to) -> gate.
 GATES = {
