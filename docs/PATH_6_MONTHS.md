@@ -121,6 +121,18 @@ cooperativas de facturación.
 - Start the monthly product with pilot client #1 (GHL trial → paid).
 - Kitchens batch starts.
 
+**January side-door: white-label to agencies.** 20-30 UK agencies and
+lead vendors that already serve installers get a hand-written email (not
+from the cold inboxes): they sell the reactivation under their name, you run
+it, you keep 50-70% of the per-booking fee or a flat fee per batch, first
+batch free so they can see it. Same delivery as Velarqo, so it costs no
+second business. Purpose: a proof engine if your own emails are slow to
+produce the first client, not the business. Recruitment for trades ("three
+vetted fitters in 7 days, pay on hire") stays parked as offer #3: a real
+second business, only after reactivation has a client or has clearly
+failed, and only ever tested as "sell before sourcing" (500 emails, no
+candidates until 5+ say yes).
+
 **February: repeat.**
 - Pilots #2 and #3. Price test P2 (deposit, per attended).
 - Ireland list from CRO open data (free, CC-BY).
