@@ -145,6 +145,26 @@ stay, the final invoice covers surveys booked up to the end date less
 credits, and data is deleted or returned within 30 days (see `05`). We keep
 only totals (counts) that don't identify anyone.
 
+## 9A. After the pilot
+
+*(Draft clause, added 2026-10-10; for the UK lawyer with the rest of this
+agreement. Client wording and open points in `11_monthly_terms.md`.)*
+
+Nothing continues automatically. When the pilot ends we send you the
+results and, if you want it, a one-page monthly terms sheet. That sheet
+covers follow-up on your new quotes as they come in (and, if you choose,
+answering missed calls and enquiries), for a monthly fee plus a smaller
+fee per booked survey, ending on 30 days' notice by either of us.
+
+If you sign the sheet within 30 days of the pilot ending: there is no
+setup fee; the messages you approved for the pilot carry over; and
+sections 3, 4, 6, 7, 8, 10, 11 and 12 of this agreement, and the data
+processing agreement, continue to apply unless the sheet says otherwise.
+Where the sheet and this agreement differ on price, cap or notice, the
+sheet wins.
+
+If you don't sign, section 9 applies as written and nothing more is owed.
+
 ## 10. Data and ownership
 
 You own your quote data and are responsible for it (the controller). We

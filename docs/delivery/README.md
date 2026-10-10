@@ -18,6 +18,8 @@ client hits it. Status: ✅ done · 📝 draft · 🛠 to build. Step numbers ma
 | 10 | Homeowner messages (3 texts + email, from the installer's name), approval sheet | 8.1, 6.5 | ✅ `08_homeowner_messages.md` (sequence, replies, escalation) + `09_message_approval_sheet.md` (store with `pilot approve ... messages --messages-file`) |
 | 11 | GoHighLevel campaign: send → stop on reply → STOP opt-out → booking → reminders | 8.2-8.5 | 🔧 our side built: `python -m delivery.pilot send-wave` (claim, push, enrol, crash-safe, stops on pause). GHL workflow itself to build at first sample. **GHL setting required: "allow duplicate contacts" OFF; workflow re-entry OFF.** |
 | 12 | Outcomes back into our database, weekly report, invoice | 11-13 | 🛠 report template ✅ `10_weekly_report_template.md`; outcome import + invoice script to build |
+| 13 | Monthly terms sheet (Chase / Chase + Answer) sent after the results call, plus the continuation clause 9A in `04` | after 13 | 📝 draft, lawyer checks: `11_monthly_terms.md` (prices from `docs/PRICING.md`, anchors under test) |
+| 14 | Monthly setup in GoHighLevel per client: snapshot, UK number, STOP, quiet hours, quote intake, booking link, caps, booked-survey log; plan cost per client count | after 13 | 🛠 checklist ✅ `12_monthly_setup_checklist.md`; build at first monthly client |
 
 Rules for anything in this folder:
 - House style (see `.claude/skills/velarqo-outreach`): plain, short, no
