@@ -58,7 +58,7 @@ def test_free_mail_domains_are_never_domain_suppressed():
     ("info@acme.co.uk", "Re: old quotes", "Not interested thanks", "not_interested"),
     ("info@acme.co.uk", "Re: old quotes", "Where did you get my email? This is spam", "complaint"),
     ("info@acme.co.uk", "Re: old quotes", "Sounds good, give me a call tomorrow", "positive"),
-    ("info@acme.co.uk", "Re: old quotes", "What does it cost?", "unknown"),
+    ("info@acme.co.uk", "Re: old quotes", "What does it cost?", "positive"),   # "how much" is an engaged reply (playbook 1)
 ])
 def test_reply_categories(sender, subject, body, category):
     assert categorize_reply(sender, subject, body + OUR_EMAIL_QUOTED)["category"] == category
