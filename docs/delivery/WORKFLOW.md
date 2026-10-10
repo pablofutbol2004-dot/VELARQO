@@ -1,0 +1,121 @@
+# Client pilot workflow: export → homeowner messages → bookings → invoice
+
+Design for delivery pieces 3-12 in `README.md`, written before building so
+nothing that touches real homeowners or money is improvised. Our database is
+the record of truth; GoHighLevel (GHL) does the homeowner sending, replies
+and booking calendar.
+
+## 1. Identity
+
+| Thing | ID | Rule |
+|---|---|---|
+| Pilot | `pilot_id` = `<client_slug>-<yyyymm>-<n>` | One per agreement. Every event carries it (correlation ID). |
+| Wave | `wave_id` = `<pilot_id>-w<n>` | A batch of homeowners released together (canary = w1). |
+| Homeowner | `homeowner_key` = sha256(`client_slug` + their own record ID, or + normalised phone/email if no ID) | Stable across re-exports, so the same person is never imported twice. |
+| Run | `run_id` (uuid) per script/webhook execution | Logged on every event, so "what ran" is answerable. |
+
+## 2. Pilot states (one row per pilot)
+
+```
+draft → sample_received → audited → agreement_signed → data_received
+      → eligibility_frozen → messages_approved → canary_ready
+      → canary_running → canary_reviewed → live ⇄ paused → completed
+any state → cancelled
+```
+
+Gates are explicit **approval** records (who, when, what exactly, decision):
+
+| Gate | Approver | What is stored |
+|---|---|---|
+| agreement_signed | installer + Pablo | signed PDFs (pilot terms + DPA) path, version, date |
+| messages_approved | installer | exact text of every message + its hash; any edit = new approval |
+| canary_ready → canary_running | Pablo | eligibility counts, holdout counts, test send to own phone done |
+| canary_reviewed → live | Pablo | canary results vs stop conditions; written yes/no |
+| paused → live | Pablo | which stop condition fired, what changed |
+
+Nothing moves past a gate without its approval row. Code checks the state
+before every side effect, not just at the start.
+
+## 3. Homeowner states (one row per homeowner per pilot)
+
+```
+imported → excluded(reason)                       [terminal]
+imported → eligible → holdout                     [never contacted; terminal for sending]
+imported → eligible → treatment → queued(wave) → pushing → enrolled
+        → replied → booked → attended | no_show → requoted → won | lost
+        → no_response (sequence finished)          [terminal]
+any contactable state → opted_out                 [terminal, overrides everything]
+```
+
+Rules: states only move forward (a late webhook can't move `won` back to
+`replied`); `opted_out` beats everything; `holdout` can never be queued
+(enforced by a database check, not only the code).
+
+## 4. Steps and side effects
+
+| # | Step | Side effect | Idempotency | Retry | On crash midway |
+|---|---|---|---|---|---|
+| 1 | Import export file | DB inserts | unique (`pilot_id`, `homeowner_key`) → re-import is a no-op | none (local) | re-run whole import |
+| 2 | Eligibility (won, opt-out, age 3-24 months, area, unknown source, client's do-not-contact list, our suppression) | DB updates | pure function of the frozen data + rules version | none | re-run |
+| 3 | Freeze + holdout split | DB updates | deterministic: hash(`homeowner_key`+`pilot_id`) within quote-age strata; frozen once, never re-drawn | none | re-run gives same split |
+| 4 | Push wave to GHL (create/update contact) | **remote write** | GHL upsert keyed on `homeowner_key` stored in a custom field; we store `ghl_contact_id` after | 429/5xx/timeout: 3 tries, exponential backoff with jitter (2s, 4s, 8s ± 50%); 4xx validation: no retry, mark homeowner `push_failed` with the error | state `pushing` is written *before* the call; on restart, `pushing` rows are reconciled by looking the contact up in GHL by `homeowner_key` |
+| 5 | Enrol in the GHL workflow (add tag `vq-<wave_id>`) | **starts real texts** | tag is per wave; GHL workflow has re-entry **off**, so a repeated tag does not resend | same as 4 | `enrolled` only after GHL confirms; reconcile by reading the contact's tags |
+| 6 | Re-check before enrolling | read | opt-out + suppression + pilot state checked *at enrol time*, not only at import | none | n/a |
+| 7 | Webhooks in (reply, STOP, booking, outcome) | DB updates | unique GHL event ID → duplicates ignored; out-of-order events can't regress state | GHL retries on our non-200; we return 200 only after commit | event table is the log; replay is safe |
+| 8 | STOP / opt-out | DB + GHL DND | idempotent set | as 4 | next enrol re-checks suppression anyway |
+| 9 | Weekly invoice | invoice record + PDF | one invoice per (`pilot_id`, ISO week); lines = booked surveys not yet invoiced; marking lines invoiced is in the same transaction as creating the invoice | none (local); sending the invoice email is manual | re-run finds the existing invoice for that week |
+| 10 | No-show credit | credit line | one credit per booking; applied on the next invoice | none | idempotent by booking ID |
+
+Billing rule (pricing P1): one charge per **booked survey**; a homeowner
+no-show is credited. Price comes from the signed agreement, never from code
+defaults.
+
+## 5. Stop conditions (checked after every wave and daily while live)
+
+Proposed thresholds for client 1. **Pablo to confirm before launch**; they
+can't be loosened afterwards to make the pilot "pass":
+
+| Signal | Pause if |
+|---|---|
+| Opt-out/STOP rate | > 8% of contacted homeowners in a wave |
+| Complaints (angry reply, "how did you get my number", mention of ICO) | ≥ 2 in a wave, or any mention of ICO/regulator |
+| Text delivery failures | > 10% of a wave |
+| Wrong-person replies | > 5% of a wave (bad data, not bad copy) |
+| Installer can't cover booked surveys | any survey unattended because of the installer |
+| Pablo's manual time | > 60 min per 100 homeowners contacted |
+| Replies lost or not answered within 1 working hour | any |
+
+A breach moves the pilot to `paused` automatically (no new waves enrolled)
+and alerts Pablo. Messages already in flight finish their current step.
+
+## 6. Failure cases, reasoned through
+
+| Case | What happens |
+|---|---|
+| Same export imported twice | unique key → second import changes nothing |
+| Script crashes between "push contact" and "enrol" | homeowner sits in `pushing`/`pushed`; next run reconciles with GHL, then enrols once |
+| GHL times out after it actually created the contact | upsert by `homeowner_key` finds it; no duplicate |
+| Same webhook delivered 3 times | event ID unique → processed once |
+| Booking webhook arrives before the reply webhook | state can only move forward; `booked` stands |
+| Malformed export (no dates, merged cells) | audit reports it; nothing becomes `eligible` without a usable date |
+| GHL down for a day | waves wait in `queued`; nothing is lost; pilot can be `paused` |
+| Homeowner opts out after being queued | enrol-time re-check skips them |
+| Client cancels | pilot → `cancelled`; GHL workflow tag removed; data deleted per DPA within 30 days |
+
+## 7. Data kept, and for how long
+
+- Our DB: homeowner name, phone, email, quote date/product/value/status,
+  state history. Needed to push to GHL and to prove results.
+- Never in git or `data/`; raw export files only under `clients/<slug>/`.
+- Deleted 30 days after the pilot ends unless the installer continues
+  (DPA wording). Aggregated counts kept.
+
+## 8. What gets built, in order
+
+1. Tables: `pilots`, `pilot_approvals`, `pilot_homeowners`, `pilot_events`,
+   `invoices`, `invoice_lines` (one migration).
+2. Import + eligibility + freeze/holdout script (reuses `sample_audit`).
+3. GHL push/enrol with the reconcile step (extends `integrations/ghl`).
+4. Webhook receiver (needs the cloud/VPS, or a tunnel, to be reachable).
+5. Stop-condition check + daily status.
+6. Weekly invoice.
