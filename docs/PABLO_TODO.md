@@ -29,6 +29,14 @@ it's needed. Tell Claude when one is done.
 
 ## For more tests (soon, not blocking the first send)
 
+- [ ] **Approve the letter test** (`docs/LETTERS.md`): read the sample
+  (`docs/letters/sample_letter.pdf`), send Claude your surname, UK number,
+  legal address line and photo, then order 50 letters on Stannp (about
+  £44 + VAT) the same week as the first email batch. Also add a Cloudflare
+  Email Routing rule `post@velarqo.com` -> your Gmail so letter replies
+  are counted separately. *Why:* a cheap channel nobody else uses; the
+  list, letter and PDFs are ready.
+
 - [ ] **Buy 6 more domains** on Cloudflare: tryvelarqo.com, usevelarqo.com,
   hellovelarqo.com, teamvelarqo.com, joinvelarqo.com, meetvelarqo.com.
   Claude does all DNS + redirects. *Why:* 16 mailboxes = faster tests.
