@@ -157,7 +157,14 @@ Daily: the 1-3 output tasks picked the night before; the scoreboard line
 (sent / replies / positive / calls / samples / pilots) at 20:00. Sunday:
 20-minute review. Mid-week panic goes in `parking.md`.
 
-## 7. Decision dates (the only days you're allowed to change the plan)
+## 7. Decision points (the only moments you're allowed to change the plan)
+
+The trigger is the sample, not the calendar. The date is a backstop so the
+decision can't drift: decide at whichever comes first, the sample or the
+date. (15 Dec ≈ 1,500 companies through all three emails; 31 Jan ≈ the
+first pilot has had four weeks; 31 Mar ≈ 2,000 companies through two
+offers; 30 Apr: master, Switzerland or Velarqo full-time, on the 31 Mar
+numbers.)
 
 | Date | Question | If no | If yes |
 |---|---|---|---|
