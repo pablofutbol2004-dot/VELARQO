@@ -51,7 +51,11 @@ class Client:
                 raise StopIteration
             self.remaining -= 1
             time.sleep(PAUSE_SECONDS)
-            r = self.session.get(API + path, auth=(self.key, ""), timeout=30)
+            try:
+                r = self.session.get(API + path, auth=(self.key, ""), timeout=30)
+            except requests.RequestException:      # SSL/connection blips: wait and retry, don't kill the run
+                time.sleep(10 * (attempt + 1))
+                continue
             if r.status_code == 429:
                 time.sleep(60 * (attempt + 1))
                 continue

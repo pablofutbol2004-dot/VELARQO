@@ -54,6 +54,15 @@ def add_company(conn, number: str, website: str, site: dict, icp: dict, source: 
     lead = lead_from_profile(profile or {}, website, site, source)
     if not lead:
         return None
+    # A number on a page proves nothing on its own: finance disclosures,
+    # web designers and parent companies print theirs too. The company's own
+    # name must also be on the site.
+    from prospecting.enrichment.domain_finder import verify_site
+
+    terms = [*(icp.get("core_terms") or []), *(icp.get("adjacent_terms") or [])]
+    if not verify_site({"company_name": profile.get("company_name"), "city": lead.get("city"), "postcode": lead.get("postcode")},
+                       {**site, "website_status": "ok"}, terms):
+        return None
     result = evaluate_lead(lead, icp)
     lead.update(icp_score=result["score"], tier=result["tier"], vertical_fit=result["vertical_fit"],
                 score_breakdown=result["breakdown"], score_reasons=result["reasons"])

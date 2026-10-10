@@ -27,6 +27,7 @@ from dotenv import load_dotenv
 from data.supabase_store import connect
 from integrations.places.client import FreeAllowanceUsed, PlacesClient, usage
 from prospecting.enrichment.domain_finder import verify_site
+from prospecting.enrichment.site_guard import website_taken
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 from prospecting.enrichment.website_refresh import ICP_PATH, USER_AGENT, _new_tier
 
@@ -122,6 +123,8 @@ def main(limit, check, dry_run):
         except FreeAllowanceUsed as exc:
             click.echo(f"stopping: free allowance reached ({exc})")
             break
+        if website and website_taken(conn, website, company_id):
+            site, website = None, None          # another company already has this site: doubtful match
         stats["looked_up"] += 1
         email = (site or {}).get("email")
         click.echo(f"{legal_name[:45]:45} {city or '':15} -> {website or '-'} {email or ''}"

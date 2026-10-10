@@ -36,6 +36,7 @@ from prospecting.enrichment.ch_add import add_company
 from prospecting.enrichment.domain_finder import verify_site
 from prospecting.enrichment.free_facts import Client
 from prospecting.enrichment.places_websites import clean_url
+from prospecting.enrichment.site_guard import website_taken
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 from prospecting.enrichment.website_refresh import ICP_PATH, USER_AGENT, _new_tier
 
@@ -45,6 +46,11 @@ SKIP_HOSTS = re.compile(r"facebook\.com|instagram\.com|checkatrade\.com|yell\.co
 _NUMBER = re.compile(
     r"(?:company|registration|reg\.?|registered)\s*(?:no\.?|number|num\.?)?[\s:.#]*((?:SC|NI|OC)?\d{6,8})\b", re.I
 )
+
+
+_NOT_OURS = re.compile(
+    r"financ|credit|lender|\bfca\b|financial conduct|authorised and regulated|consumer credit|broker|"
+    r"website (design|by)|designed by|web design|hosted by|powered by", re.I)
 
 
 def host(url: str) -> str:
@@ -58,7 +64,16 @@ def numbers_on_site(url: str) -> set[str]:
     except requests.RequestException:
         return set()
     text = re.sub(r"<[^>]+>", " ", html)
-    return {n.upper() if not n.isdigit() else n.zfill(8) for n in _NUMBER.findall(text)}
+    numbers = set()
+    for match in _NUMBER.finditer(text):
+        # Skip numbers printed in finance/credit disclosures (the lender's,
+        # not the installer's) and web-designer credits.
+        context = text[max(0, match.start() - 200):match.end() + 60].lower()
+        if _NOT_OURS.search(context):
+            continue
+        n = match.group(1)
+        numbers.add(n.upper() if not n.isdigit() else n.zfill(8))
+    return numbers
 
 
 def towns_todo(conn, limit: int) -> list[tuple[str, str]]:
@@ -166,7 +181,7 @@ def main(limit, dry_run):
             if not company:
                 continue
             company_id, number, legal_name, city, postcode, tier, score, email_before, website_before = company
-            if website_before:
+            if website_before or website_taken(conn, uri, company_id):
                 continue
             email = site.get("email")
             matched_here += 1

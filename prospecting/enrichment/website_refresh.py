@@ -44,9 +44,12 @@ def _todo(conn, limit: int):
           from website_snapshots s where s.company_id = c.id
         ) w on true
         where c.tier in ('A', 'B', 'C') and c.website is not null
-          and (w.last is null or w.last < %s or (c.email is null and w.last < now() - interval '1 day')
+          and (w.last is null or w.last < %s or (c.email is null and w.last < now() - interval '14 days')
                or (c.tier in ('A', 'B') and not coalesce(w.ads_checked, false) and w.last < %s))
-        order by (c.email is null) desc, coalesce(w.ads_checked, false), w.last nulls first, c.icp_score desc nulls last
+        -- Sendable companies (A/B) first, so a parked or dead site is caught
+        -- before we email it; then never-fetched; then oldest. No-email
+        -- sites are retried every 14 days, not daily.
+        order by (c.tier in ('A', 'B')) desc, (w.last is null) desc, w.last nulls first, c.icp_score desc nulls last
         limit %s
         """,
         (cutoff, AD_TAGS_SINCE, limit),
@@ -83,31 +86,43 @@ def main(limit, workers):
         for (company_id, website, email, tier, score), result in pool.map(fetch, todo):
             stats["fetched"] += 1
             status = result.get("website_status") or "unknown"
-            with conn.transaction():
-                conn.execute(
-                    "insert into website_snapshots (company_id, url, status, title, text, emails_found, ad_tags) "
-                    "values (%s, %s, %s, %s, %s, %s, %s)",
-                    (company_id, website, status, result.get("website_title"), result.get("website_text"),
-                     result.get("emails_found") or [], result.get("ad_tags")),
-                )
-                conn.execute(
-                    "update companies set website_status = %s, enriched_at = now(), "
-                    "emails_found = coalesce(%s, emails_found) where id = %s",
-                    (status, result.get("emails_found"), company_id),
-                )
-                if status == "ok":
-                    stats["ok"] += 1
-                if result.get("email") and not email:
-                    tier_after = _new_tier(tier, score, icp)
+            try:
+                _save(conn, company_id, website, email, tier, score, status, result, icp, stats)
+            except Exception as exc:  # noqa: BLE001 - one odd site must not stop (or block) every future run
+                stats["errors"] = stats.get("errors", 0) + 1
+                with conn.transaction():
                     conn.execute(
-                        "update companies set email = %s, email_source = 'website', tier = %s where id = %s",
-                        (result["email"], tier_after, company_id),
-                    )
-                    stats["new_email"] += 1
-                    stats["promoted"] += tier_after != tier
+                        "insert into website_snapshots (company_id, url, status) values (%s, %s, %s)",
+                        (company_id, website, f"error: {type(exc).__name__}"[:60]))
             if stats["fetched"] % 100 == 0:
                 click.echo(f"{datetime.now():%H:%M} {stats}", err=True)
     click.echo(f"{datetime.now():%Y-%m-%d %H:%M} website refresh done: {stats}")
+
+
+def _save(conn, company_id, website, email, tier, score, status, result, icp, stats) -> None:
+    """One company's snapshot + updates, in its own transaction."""
+    with conn.transaction():
+        conn.execute(
+            "insert into website_snapshots (company_id, url, status, title, text, emails_found, ad_tags) "
+            "values (%s, %s, %s, %s, %s, %s, %s)",
+            (company_id, website, status, result.get("website_title"), result.get("website_text"),
+             result.get("emails_found") or [], result.get("ad_tags")),
+        )
+        conn.execute(
+            "update companies set website_status = %s, enriched_at = now(), "
+            "emails_found = coalesce(%s, emails_found) where id = %s",
+            (status, result.get("emails_found"), company_id),
+        )
+        if status == "ok":
+            stats["ok"] += 1
+        if result.get("email") and not email:
+            tier_after = _new_tier(tier, score, icp)
+            conn.execute(
+                "update companies set email = %s, email_source = 'website', tier = %s where id = %s",
+                (result["email"], tier_after, company_id),
+            )
+            stats["new_email"] += 1
+            stats["promoted"] += tier_after != tier
 
 
 if __name__ == "__main__":

@@ -53,6 +53,10 @@ def _claim_call(conn, today: date) -> None:
 
 class PlacesClient:
     def __init__(self, api_key: str, conn, session: requests.Session | None = None):
+        if not conn.autocommit:
+            # The usage count must be committed BEFORE the request is sent, or a
+            # later rollback would "forget" calls Google already billed.
+            raise ValueError("PlacesClient needs an autocommit connection")
         self.api_key, self.conn = api_key, conn
         self.session = session or requests.Session()
 

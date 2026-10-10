@@ -126,13 +126,26 @@ def company_row(lead: dict, vertical: str, version: str) -> dict:
 # verified by the daily refresh, Places lookup or grokbot imports, the tier
 # they earned, and markers kept in extra (e.g. places_checked_at). Column
 # names on the right of these expressions are the row's current values.
+# Site-derived fields only follow the rebuild when it looked at the SAME site
+# we already have (or we had none); otherwise a guessed domain's email/status
+# would sit next to our verified website.
+_SAME_SITE = "(website is null or website = %(website)s)"
 _STICKY = {
     "website": "coalesce(website, %(website)s)",
-    "email": "coalesce(email, %(email)s)",
-    "email_source": "case when email is not null then email_source else %(email_source)s end",
-    "website_status": "coalesce(%(website_status)s, website_status)",
-    "website_title": "coalesce(%(website_title)s, website_title)",
-    "emails_found": "case when cardinality(%(emails_found)s::text[]) > 0 then %(emails_found)s::text[] else emails_found end",
+    "email": f"coalesce(email, case when {_SAME_SITE} then %(email)s end)",
+    "email_source": f"case when email is not null then email_source when {_SAME_SITE} then %(email_source)s end",
+    "website_status": f"case when {_SAME_SITE} then coalesce(%(website_status)s, website_status) else website_status end",
+    "website_title": f"case when {_SAME_SITE} then coalesce(%(website_title)s, website_title) else website_title end",
+    "emails_found": (f"case when {_SAME_SITE} and cardinality(%(emails_found)s::text[]) > 0 "
+                     "then %(emails_found)s::text[] else emails_found end"),
+    # A rebuild from fewer sources must not wipe what other sources gave us.
+    "phone": "coalesce(%(phone)s, phone)",
+    "display_name": "coalesce(%(display_name)s, display_name)",
+    "brand": "coalesce(%(brand)s, brand)",
+    "lat": "coalesce(%(lat)s, lat)",
+    "lon": "coalesce(%(lon)s, lon)",
+    "osm_ids": "array(select distinct unnest(osm_ids || %(osm_ids)s::text[]))",
+    "sources": "array(select distinct unnest(sources || %(sources)s::text[]))",
     "enriched_at": "greatest(enriched_at, %(enriched_at)s::timestamptz)",
     "icp_score": "greatest(icp_score, %(icp_score)s::numeric)",
     "tier": "case when email is not null and tier in ('A', 'B') then tier else %(tier)s end",

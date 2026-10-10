@@ -24,6 +24,7 @@ import requests
 from data.supabase_store import connect
 from prospecting.enrichment.domain_finder import verify_site
 from prospecting.enrichment.places_websites import clean_url, number_on_page
+from prospecting.enrichment.site_guard import website_taken
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 from prospecting.enrichment.website_refresh import ICP_PATH, USER_AGENT, _new_tier
 
@@ -49,7 +50,10 @@ def check_row(row: dict, company: dict, site: dict, vertical_terms) -> tuple[boo
     same_domain = bool(email) and (email.split("@")[-1] == _host(website) or email.split("@")[-1].endswith("." + _host(website)))
     if site.get("website_status") != "ok":
         return False, None, "site did not load"
-    if number_on_page(website, number) or (source and number_on_page(source, number)):
+    # The email's source page only counts if it's on the company's own site:
+    # a directory or Companies House page always shows the number.
+    source_on_site = bool(source) and _host(source) == _host(website)
+    if number_on_page(website, number) or (source_on_site and number_on_page(source, number)):
         reason = "number on site"
     elif verify_site({"company_name": company["legal_name"], "city": company["city"], "postcode": company["postcode"]}, site, vertical_terms):
         reason = "name/town on site"
@@ -91,6 +95,8 @@ def main(paths, dry_run):
         website = clean_url(row["website"].strip() if "://" in row["website"] else f"https://{row['website'].strip()}")
         site = provider.enrich({"website": website})
         ok, email, reason = check_row({**row, "website": website}, company, site, vertical_terms)
+        if ok and website_taken(conn, website, company["id"]):
+            ok, email, reason = False, None, "website already belongs to another company"
         click.echo(f"{'OK ' if ok else '-- '}{company['legal_name'][:42]:42} {website[:40]:40} {email or '':35} {reason}")
         if not ok:
             stats["rejected"] += 1

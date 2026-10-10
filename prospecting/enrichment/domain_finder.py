@@ -21,6 +21,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 from lib.scoring.matching import find_terms, normalize_text
 from prospecting.deduplication.merge import match_name
+from prospecting.enrichment.uk_places import PLACE_WORDS
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 
 _TLDS = ("co.uk", "com", "uk")
@@ -41,8 +42,11 @@ _GENERIC_WORDS = {
 }
 
 
-def _is_generic(word: str, vertical_terms: list[str]) -> bool:
-    return word in _GENERIC_WORDS or len(word) <= 2 or bool(find_terms(word, vertical_terms))
+def _is_generic(word: str, vertical_terms: list[str], places: set[str] = frozenset()) -> bool:
+    """Words that don't identify a company on their own, including UK place
+    names (a competitor's site can mention the same county or town)."""
+    return (word in _GENERIC_WORDS or word in PLACE_WORDS or word in places or len(word) <= 2
+            or bool(find_terms(word, vertical_terms)))
 
 
 def candidate_domains(company_name: str) -> list[str]:
@@ -78,9 +82,9 @@ def verify_site(lead: dict, site: dict, vertical_terms: list[str]) -> str | None
         return None
 
     words = match_name(lead.get("company_name")).split()
-    distinctive = [w for w in words if not _is_generic(w, vertical_terms)]
     district = str(lead.get("postcode") or "").upper().split(" ")[0]
     town = normalize_text(lead.get("city"))
+    distinctive = [w for w in words if not _is_generic(w, vertical_terms, set(town.split()))]
     local = (district and district.lower() in normalized.split()) or (town and f" {town} " in normalized)
 
     if distinctive:

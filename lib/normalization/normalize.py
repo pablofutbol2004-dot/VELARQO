@@ -4,7 +4,9 @@ _COMPANY_SUFFIXES = re.compile(
     r"\b(ltd|limited|llc|inc|incorporated|plc|llp|corp|corporation|co)\b\.?",
     re.IGNORECASE,
 )
-_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+# Printable ASCII only: scraped mailto links can carry NULs and control
+# characters that Postgres rejects (and that no real address contains).
+_EMAIL_RE = re.compile(r"[A-Za-z0-9._%+'-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 _UK_POSTCODE_RE = re.compile(r"^([A-Z]{1,2}\d[A-Z\d]?)\s*(\d[A-Z]{2})$", re.IGNORECASE)
 
 
@@ -21,8 +23,8 @@ def normalize_company_name(name: str) -> str:
 def normalize_email(email: str) -> str | None:
     if not email:
         return None
-    cleaned = email.strip().lower()
-    return cleaned if _EMAIL_RE.match(cleaned) else None
+    cleaned = str(email).strip().lower()
+    return cleaned if _EMAIL_RE.fullmatch(cleaned) else None
 
 
 _MIN_PHONE_DIGITS = 9

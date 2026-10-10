@@ -180,8 +180,16 @@ def _extract_emails(page: _PageParser) -> set[str]:
     return emails
 
 
+# Website builders and blog hosts: a site at acme.wordpress.com doesn't make
+# x@wordpress.com the company's address.
+_HOSTING_PLATFORMS = ("wordpress.com", "wixsite.com", "wix.com", "blogspot.com", "squarespace.com", "weebly.com",
+                      "godaddysites.com", "webs.com", "jimdo.com", "site123.me", "yolasite.com", "business.site")
+
+
 def _is_same_domain(email: str, site_domain: str) -> bool:
     domain = email.split("@", 1)[1]
+    if domain in _HOSTING_PLATFORMS:
+        return False
     return domain == site_domain or domain.endswith(f".{site_domain}") or site_domain.endswith(f".{domain}")
 
 

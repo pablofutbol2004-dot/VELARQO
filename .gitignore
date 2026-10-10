@@ -20,3 +20,10 @@ data/*.txt
 clients/
 data/agent_tasks/
 data/db_move/
+
+# data/ is local only: ignore everything except the code and schemas tracked on purpose.
+data/*
+!data/__init__.py
+!data/db.py
+!data/supabase_store.py
+!data/schemas/
