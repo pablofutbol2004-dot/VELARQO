@@ -23,7 +23,7 @@ from psycopg.types.json import Jsonb
 from prospecting.deduplication.merge import match_name
 
 COMPANY_COLUMNS = [
-    "vertical", "source_key", "display_name", "legal_name", "match_name", "company_number",
+    "vertical", "country", "source_key", "display_name", "legal_name", "match_name", "company_number",
     "osm_ids", "sources", "sic_codes", "accounts_category", "company_category", "incorporation_date",
     "brand", "website", "email", "email_source", "phone", "address", "city", "postcode",
     "registered_postcode", "lat", "lon", "website_status", "website_title", "emails_found",
@@ -76,15 +76,18 @@ def _float(value):
 
 
 def _date(value) -> date | None:
-    try:
-        return datetime.strptime(str(value), "%d/%m/%Y").date() if value else None
-    except ValueError:
-        return None
+    for fmt in ("%d/%m/%Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(str(value), fmt).date() if value else None
+        except ValueError:
+            continue
+    return None
 
 
-def company_row(lead: dict, vertical: str, version: str) -> dict:
+def company_row(lead: dict, vertical: str, version: str, country: str = "UK") -> dict:
     return {
         "vertical": vertical,
+        "country": country,
         "source_key": source_key(lead),
         "display_name": lead.get("display_name") or lead.get("company_name"),
         "legal_name": lead.get("legal_name"),
@@ -157,8 +160,9 @@ def _update_expr(column: str) -> str:
     return _STICKY.get(column, f"%({column})s")
 
 
-def _existing_index(cur, vertical: str) -> tuple[dict, dict, dict]:
-    cur.execute("select id, source_key, company_number, osm_ids from public.companies where vertical = %s", (vertical,))
+def _existing_index(cur, vertical: str, country: str = "UK") -> tuple[dict, dict, dict]:
+    cur.execute("select id, source_key, company_number, osm_ids from public.companies where vertical = %s and country = %s",
+                (vertical, country))
     by_key, by_number, by_osm = {}, {}, {}
     for company_id, key, number, osm_ids in cur.fetchall():
         by_key[key] = company_id
@@ -180,15 +184,18 @@ def _strip_nul(value):
     return value
 
 
-def push_universe(conn: psycopg.Connection, leads: list[dict], vertical: str, icp: dict) -> dict:
+def push_universe(conn: psycopg.Connection, leads: list[dict], vertical: str, icp: dict, country: str = "UK") -> dict:
+    """`country` is the register/law the rows fall under (ISO 3166-1 alpha-2:
+    'UK' Companies House + PECR, 'IE' CRO + S.I. 336/2011). Rows are matched
+    to existing ones within the same vertical and country only."""
     version = icp_version(icp)
     for lead in leads:
         lead.update(_strip_nul(dict(lead)))
     stats = {"inserted": 0, "updated": 0, "source_records": 0, "snapshots_new": 0, "scores_new": 0}
 
     with conn.transaction(), conn.cursor() as cur:
-        by_key, by_number, by_osm = _existing_index(cur, vertical)
-        rows = [company_row(lead, vertical, version) for lead in leads]
+        by_key, by_number, by_osm = _existing_index(cur, vertical, country)
+        rows = [company_row(lead, vertical, version, country) for lead in leads]
 
         updates, inserts = [], []
         for lead, row in zip(leads, rows):
@@ -199,7 +206,7 @@ def push_universe(conn: psycopg.Connection, leads: list[dict], vertical: str, ic
             )
             (updates if existing else inserts).append((lead, row, existing))
 
-        set_clause = ", ".join(f"{c} = {_update_expr(c)}" for c in COMPANY_COLUMNS if c != "vertical")
+        set_clause = ", ".join(f"{c} = {_update_expr(c)}" for c in COMPANY_COLUMNS if c not in ("vertical", "country"))
         cur.executemany(
             f"update public.companies set {set_clause} where id = %(id)s",
             [{**row, "id": existing} for _, row, existing in updates],

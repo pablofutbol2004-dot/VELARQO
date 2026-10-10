@@ -81,7 +81,7 @@ def towns_todo(conn, limit: int) -> list[tuple[str, str]]:
     window companies first."""
     towns = conn.execute(
         """select initcap(city) as town, count(*) from companies
-           where vertical = 'windows' and tier = 'C' and email is null and city is not null
+           where country = 'UK' and vertical = 'windows' and tier = 'C' and email is null and city is not null
            group by 1 order by 2 desc"""
     ).fetchall()
     done = {q for (q,) in conn.execute("select query from places_sweep").fetchall()}
@@ -99,7 +99,7 @@ def find_company(conn, numbers: set[str], name: str, town: str, site: dict, vert
     domain finder's name/town check."""
     if numbers:
         row = conn.execute(
-            f"select {_COLUMNS} from companies where vertical = 'windows' and company_number = any(%s) and tier <> 'reject' limit 1",
+            f"select {_COLUMNS} from companies where country = 'UK' and vertical = 'windows' and company_number = any(%s) and tier <> 'reject' limit 1",
             (sorted(numbers),),
         ).fetchone()
         if row:
@@ -108,13 +108,13 @@ def find_company(conn, numbers: set[str], name: str, town: str, site: dict, vert
     key = match_name(name)
     if key:
         candidates += [(r, "name match") for r in conn.execute(
-            f"select {_COLUMNS} from companies where vertical = 'windows' and match_name = %s and tier <> 'reject' "
+            f"select {_COLUMNS} from companies where country = 'UK' and vertical = 'windows' and match_name = %s and tier <> 'reject' "
             "order by (initcap(city) = %s) desc limit 3", (key, town)).fetchall()]
     text = f"{site.get('website_title') or ''} {site.get('website_text') or ''}".upper()
     postcodes = sorted({p.replace(" ", "") for p in _POSTCODE.findall(text)})[:10]
     if postcodes:
         candidates += [(r, "postcode + name on site") for r in conn.execute(
-            f"select {_COLUMNS} from companies where vertical = 'windows' and tier <> 'reject' and "
+            f"select {_COLUMNS} from companies where country = 'UK' and vertical = 'windows' and tier <> 'reject' and "
             "(replace(upper(postcode), ' ', '') = any(%s) or replace(upper(registered_postcode), ' ', '') = any(%s)) limit 20",
             (postcodes, postcodes)).fetchall()]
     for row, reason in candidates:

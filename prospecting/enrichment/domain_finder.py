@@ -25,6 +25,14 @@ from prospecting.enrichment.uk_places import PLACE_WORDS
 from prospecting.enrichment.website import WebsiteEnrichmentProvider
 
 _TLDS = ("co.uk", "com", "uk")
+# Per-country guesses, most common first. An Irish installer is on .ie or
+# .com; trying .co.uk for it would mostly find a UK namesake.
+COUNTRY_TLDS = {"UK": _TLDS, "IE": ("ie", "com")}
+# A .com is global: "Atlas Roofing" resolves to a US shingle brand. For
+# these TLDs the page must also show the country (or the company's own
+# town/county), otherwise the guess is rejected. .ie is Irish by definition.
+COUNTRY_STRICT_TLDS = {"IE": ("com",)}
+COUNTRY_MARKERS = {"IE": ("ireland", "353", "eircode")}
 # Phrases, not brand names: a real installer's footer can say "hosted by
 # GoDaddy", and "coming soon" can be a new product range.
 _PARKED_MARKERS = [
@@ -49,7 +57,7 @@ def _is_generic(word: str, vertical_terms: list[str], places: set[str] = frozens
             or bool(find_terms(word, vertical_terms)))
 
 
-def candidate_domains(company_name: str) -> list[str]:
+def candidate_domains(company_name: str, tlds: tuple[str, ...] = _TLDS) -> list[str]:
     words = match_name(company_name).split()
     if not words:
         return []
@@ -61,7 +69,7 @@ def candidate_domains(company_name: str) -> list[str]:
     if len(without_and) != len(words):
         labels.append("".join(without_and))
     labels = [l for l in dict.fromkeys(labels) if len(l) <= 63]
-    return [f"{label}.{tld}" for label in labels for tld in _TLDS]
+    return [f"{label}.{tld}" for label in labels for tld in tlds]
 
 
 def _resolves(domain: str) -> bool:
@@ -99,19 +107,31 @@ def verify_site(lead: dict, site: dict, vertical_terms: list[str]) -> str | None
 
 
 class DomainFinder:
-    def __init__(self, user_agent: str, vertical_terms: list[str], resolve=_resolves, provider: WebsiteEnrichmentProvider | None = None):
+    def __init__(self, user_agent: str, vertical_terms: list[str], resolve=_resolves, provider: WebsiteEnrichmentProvider | None = None,
+                 tlds: tuple[str, ...] = _TLDS, strict_tlds: tuple[str, ...] = (), local_markers: tuple[str, ...] = ()):
         self.vertical_terms = vertical_terms
+        self.tlds = tlds
+        self.strict_tlds = strict_tlds
+        self.local_markers = local_markers
         self._resolve = resolve
         self._provider = provider or WebsiteEnrichmentProvider(user_agent=user_agent, fetch_contact_page=True)
 
+    def _local_evidence(self, lead: dict, site: dict) -> bool:
+        page = f"{site.get('website_title') or ''} {site.get('website_text') or ''}"
+        text = f" {normalize_text(page)} "
+        needles = [*self.local_markers, lead.get("city"), lead.get("county")]
+        return any(n and f" {normalize_text(n)} " in text for n in needles)
+
     def find(self, lead: dict) -> dict:
         tried = []
-        for domain in candidate_domains(lead.get("legal_name") or lead.get("company_name") or ""):
+        for domain in candidate_domains(lead.get("legal_name") or lead.get("company_name") or "", self.tlds):
             if not self._resolve(domain):
                 continue
             tried.append(domain)
             site = self._provider.enrich({"website": domain})
             confidence = verify_site(lead, site, self.vertical_terms)
+            if confidence and domain.rsplit(".", 1)[-1] in self.strict_tlds and not self._local_evidence(lead, site):
+                confidence = None
             if confidence:
                 return {
                     **site,
@@ -135,6 +155,9 @@ def find_websites(
     workers: int = 16,
     cache_path: Path | None = None,
     on_progress=None,
+    tlds: tuple[str, ...] = _TLDS,
+    strict_tlds: tuple[str, ...] = (),
+    local_markers: tuple[str, ...] = (),
 ) -> list[dict]:
     """Runs DomainFinder for every lead that has no website yet. One finder
     per worker thread (each has its own session/robots cache). Results -
@@ -157,7 +180,8 @@ def find_websites(
     def run(i: int) -> tuple[int, dict]:
         key = threading.get_ident()
         if key not in finders:
-            finders[key] = DomainFinder(user_agent, vertical_terms)
+            finders[key] = DomainFinder(user_agent, vertical_terms, tlds=tlds, strict_tlds=strict_tlds,
+                                        local_markers=local_markers)
         try:
             return i, finders[key].find(leads[i])
         except Exception as exc:  # one odd company must not stop a 12k-lead batch
