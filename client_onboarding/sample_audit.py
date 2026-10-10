@@ -17,8 +17,9 @@ homeowner details.
 """
 
 import re
+import warnings
 from collections import Counter
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import click
@@ -35,7 +36,8 @@ QUOTE_ALIASES = {
     "product": ["product", "products", "service", "job type", "job", "description", "type", "work type"],
     "quote_status": ["status", "stage", "quote status", "outcome", "result"],
     "record_id": ["id", "record id", "quote id", "quote ref", "quote reference", "reference", "ref", "quote number", "quote no", "job number", "job ref"],
-    "quote_value": ["value", "price", "total", "amount", "quote total", "quote price"],
+    "quote_value": ["value", "price", "total", "amount", "quote total", "quote price", "quote", "quote value", "job value", "quoted", "est", "estimate"],
+    "name": ["customer", "client", "homeowner", "customer name", "client name", "contact", "name"],
     "opt_out": ["opt out", "opted out", "do not contact", "dnc", "unsubscribed", "marketing opt out", "no marketing"],
 }
 WON = re.compile(r"\b(won|sold|accepted|ordered|booked|installed|complete|completed|deposit|signed|invoiced)\b", re.I)
@@ -48,10 +50,17 @@ def load(path: Path) -> list[dict]:
     return frame.to_dict(orient="records")
 
 
+def _header(header: str) -> str:
+    """'Quote (£)' -> 'quote', 'Date_Quoted' -> 'date quoted'."""
+    text = header.strip().lower().replace("_", " ").replace("-", " ")
+    text = re.sub(r"[£$€()\[\]:]", " ", text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def map_columns(headers: list[str]) -> dict[str, str]:
     mapping = build_column_mapping(headers)
     for header in headers:
-        normalized = header.strip().lower().replace("_", " ").replace("-", " ")
+        normalized = _header(header)
         for field, aliases in QUOTE_ALIASES.items():
             if normalized in aliases and field not in mapping.values():
                 mapping[header] = field
@@ -62,27 +71,37 @@ def months_between(earlier: date, later: date) -> int:
     return (later.year - earlier.year) * 12 + later.month - earlier.month - (later.day < earlier.day)
 
 
+_EXCEL_EPOCH = date(1899, 12, 30)
+
+
 def parse_date(value) -> date | None:
     if value in (None, ""):
         return None
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        # A CSV saved from Excel can carry the serial number instead of the date.
+        return _EXCEL_EPOCH + timedelta(days=int(value)) if 20000 <= value <= 80000 else None
+    # ISO (2026-03-12, from CRMs) is year-first; day-first parsing would read it as 3 December.
+    iso = isinstance(value, str) and re.match(r"^\s*\d{4}-\d{1,2}-\d{1,2}", value)
     try:
-        parsed = pd.to_datetime(value, dayfirst=True, errors="coerce")  # UK exports are day-first
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            parsed = pd.to_datetime(value, dayfirst=not iso, errors="coerce")  # UK exports are day-first
     except (ValueError, TypeError):
         return None
     return None if pd.isna(parsed) else parsed.date()
 
 
 def classify(record: dict, today: date) -> tuple[str, int | None]:
-    """('worth chasing' or a reason it isn't, age in months)."""
+    """('worth chasing' or a reason it isn't, age in months when the date is usable)."""
+    quoted = parse_date(record.get("quote_date"))
+    age = months_between(quoted, today) if quoted else None
     status = str(record.get("quote_status") or "")
     if WON.search(status):
-        return "already won/booked", None
+        return "already won/booked", age
     if YES.match(str(record.get("opt_out") or "")):
-        return "opted out", None
-    quoted = parse_date(record.get("quote_date"))
+        return "opted out", age
     if not quoted:
         return "no usable date", None
-    age = months_between(quoted, today)
     if age < MIN_AGE_MONTHS:
         return "too recent (under 3 months)", age
     if age > MAX_AGE_MONTHS:

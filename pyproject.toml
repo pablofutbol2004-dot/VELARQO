@@ -5,6 +5,7 @@ description = "Niche-agnostic intelligence platform for B2B outreach, lead manag
 requires-python = ">=3.11"
 dependencies = [
     "pandas>=2.2",
+    "openpyxl>=3.1",
     "python-dotenv>=1.0",
     "pydantic>=2.7",
     "click>=8.1",

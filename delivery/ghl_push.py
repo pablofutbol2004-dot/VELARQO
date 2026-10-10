@@ -105,9 +105,24 @@ def claim_wave(conn, pilot_id: str, wave_id: str, size: int) -> int:
         return len(claimed)
 
 
+def split_name(name: str | None) -> tuple[str | None, str | None]:
+    """'Gary Johnson' -> ('Gary', 'Johnson'); 'Johnson, Gary' -> ('Gary', 'Johnson');
+    'MR G JOHNSON' -> ('G', 'JOHNSON'). The first name goes into "Hi [first name]",
+    so a wrong split would be read by the homeowner."""
+    text = " ".join(str(name or "").split()).strip(" .")
+    if "," in text:
+        last, _, first = text.partition(",")
+        first, last = first.strip(), last.strip()
+    else:
+        first, _, last = text.partition(" ")
+    if first.lower().rstrip(".") in ("mr", "mrs", "ms", "miss", "dr", "mr&mrs", "mr/mrs") and last:
+        first, _, last = last.partition(" ")
+    return first.strip(" ,.") or None, last.strip(" ,.") or None
+
+
 def _contact(row: dict, key_field_id: str | None) -> dict:
-    first, _, last = (row["name"] or "").strip().partition(" ")
-    contact = {"firstName": first or None, "lastName": last or None, "phone": row["phone"], "email": row["email"],
+    first, last = split_name(row["name"])
+    contact = {"firstName": first, "lastName": last, "phone": row["phone"], "email": row["email"],
                "postalCode": row["postcode"], "source": "velarqo pilot"}
     if key_field_id:  # our stable ID on their contact, so outcomes map back exactly
         contact["customFields"] = [{"id": key_field_id, "value": row["homeowner_key"]}]

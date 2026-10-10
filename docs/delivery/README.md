@@ -17,7 +17,8 @@ client hits it. Status: ✅ done · 📝 draft · 🛠 to build. Step numbers ma
 | 9 | Holdout split (10-20% not contacted) + stable homeowner IDs | 7.3-7.4 | ✅ `python -m delivery.pilot import / freeze` (tables in `20261010000000_pilots.sql`) |
 | 10 | Homeowner messages (3 texts + email, from the installer's name), approval sheet | 8.1, 6.5 | ✅ `08_homeowner_messages.md` (sequence, replies, escalation) + `09_message_approval_sheet.md` (store with `pilot approve ... messages --messages-file`) |
 | 11 | GoHighLevel campaign: send → stop on reply → STOP opt-out → booking → reminders | 8.2-8.5 | 🔧 our side built: `python -m delivery.pilot send-wave` (claim, push, enrol, crash-safe, stops on pause). GHL workflow itself to build at first sample. **GHL setting required: "allow duplicate contacts" OFF; workflow re-entry OFF.** |
-| 12 | Outcomes back into our database, weekly report, invoice | 11-13 | 🛠 report template ✅ `10_weekly_report_template.md`; outcome import + invoice script to build |
+| 12 | Outcomes back into our database, weekly report, invoice | 11-13 | ✅ outcomes via webhooks (`delivery/webhooks.py`); `python -m delivery.pilot invoice` + `pilot report` fill `10_weekly_report_template.md` from the database |
+| 13 | Dry run of the whole path on made-up data (fake export → audit → pilot → waves to a fake GHL → webhooks → pause → invoice → report), timed, with what's still missing and a day 0 → day 7 checklist | all | ✅ `DRY_RUN_2026-10.md`; `python -m delivery.dry_run` (30 s); `GHL_DRY_RUN=1` mode only for `dry-` locations |
 
 Rules for anything in this folder:
 - House style (see `.claude/skills/velarqo-outreach`): plain, short, no
