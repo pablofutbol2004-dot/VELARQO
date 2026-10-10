@@ -299,6 +299,80 @@ def send_wave_cmd(pilot_id, wave, size):
     click.echo(f"{wave_id}: {claimed} newly claimed; {json.dumps(stats)}")
 
 
+@cli.command("set")
+@click.argument("pilot_id")
+@click.option("--price", type=float, help="Price per booked survey, from the SIGNED agreement")
+@click.option("--ghl-location", help="The client's GoHighLevel sub-account (location) id")
+def set_cmd(pilot_id, price, ghl_location):
+    conn = connect()
+    with conn.transaction():
+        pilot_row(conn, pilot_id, lock=True)
+        if price is not None:
+            conn.execute("update pilots set price_per_booked_gbp = %s, updated_at = now() where id = %s", (price, pilot_id))
+        if ghl_location:
+            conn.execute("update pilots set ghl_location_id = %s, updated_at = now() where id = %s", (ghl_location, pilot_id))
+        log(conn, pilot_id, uuid.uuid4(), "settings", {"price": price, "ghl_location": ghl_location})
+    click.echo("saved")
+
+
+@cli.command("log")
+@click.argument("pilot_id")
+@click.argument("what", type=click.Choice(["manual_minutes", "installer_missed", "answered"]))
+@click.option("--minutes", type=float, help="For manual_minutes")
+@click.option("--phone", help="Homeowner's phone, for installer_missed / answered")
+@click.option("--note", default="")
+def log_cmd(pilot_id, what, minutes, phone, note):
+    """Things only a person knows: time spent, a survey the installer missed,
+    a reply answered outside GoHighLevel."""
+    conn = connect()
+    with conn.transaction():
+        key = None
+        if what != "manual_minutes":
+            row = conn.execute("select homeowner_key from pilot_homeowners where pilot_id = %s and phone = %s",
+                               (pilot_id, normalize_phone(phone or ""))).fetchone()
+            if not row:
+                raise PilotError("no homeowner with that phone in this pilot")
+            key = row[0]
+        elif minutes is None:
+            raise PilotError("--minutes is required")
+        log(conn, pilot_id, uuid.uuid4(), what, {"minutes": minutes, "note": note}, key)
+    click.echo("logged")
+
+
+@cli.command()
+@click.option("--pilot", "pilot_id", help="One pilot; default: every sending pilot")
+def check(pilot_id):
+    """Stop-condition check. Schedule every 15 minutes while pilots are sending."""
+    from delivery.monitor import check_pilot
+
+    conn = connect()
+    conn.autocommit = True
+    ids = [pilot_id] if pilot_id else [p for (p,) in conn.execute(
+        "select id from pilots where state in ('canary_running', 'live')").fetchall()]
+    for pid in ids:
+        breaches = check_pilot(conn, pid)
+        if breaches:
+            click.echo(f"PAUSED {pid}:")
+            for b in breaches:
+                click.echo(f"  - {b.rule}: {b.detail}")
+        else:
+            click.echo(f"ok {pid}")
+
+
+@cli.command()
+@click.argument("pilot_id")
+@click.option("--week", help="ISO week like 2026-W44; default: last week")
+def invoice(pilot_id, week):
+    from delivery.invoices import build_invoice, last_week, write_invoice_file
+
+    conn = connect()
+    conn.autocommit = True
+    result = build_invoice(conn, pilot_id, week or last_week())
+    path = write_invoice_file(conn, result["invoice_id"])
+    click.echo(json.dumps(result))
+    click.echo(f"-> {path}")
+
+
 @cli.command()
 @click.argument("pilot_id")
 def status(pilot_id):
