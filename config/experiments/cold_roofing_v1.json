@@ -16,17 +16,17 @@
     {
       "key": "A_pay_per_booked_survey",
       "subject": "last year's roof quotes",
-      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, usually after the next leak?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?",
+      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, ready to go?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?",
       "follow_ups": {
-        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nThat's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
+        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's how the first text would read, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nUp to three short reminders. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
       }
     },
     {
       "key": "B_first_50_free",
       "subject": "last year's roof quotes",
-      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, usually after the next leak?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI'll chase your first 50 for free, in your name, and put anyone still keen in your diary. Costs you nothing either way.\n\nWorth a go?",
+      "body": "Hi,\n\nEver had a homeowner ring back months after a roof quote, ready to go?\n\nThe ones who never ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, the trip out, the pricing.\n\nI'll chase your first 50 for free, in your name, and put anyone still keen in your diary. Costs you nothing either way.\n\nWorth a go?",
       "follow_ups": {
-        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nThat's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
+        "2": "Hi,\n\nThe usual worry is annoying old customers, so here's how the first text would read, from your name:\n\n\"Hi, it's {company}. We quoted you for your roof a while back. Did you ever get it sorted?\"\n\nUp to three short reminders. Anyone who says no is left alone.\n\nRoughly how many old quotes have you got: tens, hundreds?"
       }
     }
   ]

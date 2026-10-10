@@ -24,9 +24,9 @@ FOLLOW_UP_TEMPLATES = {
     # customers) by showing the exact message, then a one-word sizing question.
     2: (
         "Hi,\n\n"
-        "The usual worry is annoying old customers, so here's exactly what they'd get, from your name:\n\n"
-        "\"Hi, it's {company}. We quoted you for windows a while back. Did you ever get them sorted?\"\n\n"
-        "That's it. Anyone who says not yet gets offered a survey. Anyone who says no is left alone.\n\n"
+        "The usual worry is annoying old customers, so here's how the first text would read, from your name:\n\n"
+        "\"Hi, it's {company}. We quoted you for your windows or doors a while back. Did you ever get that sorted?\"\n\n"
+        "Up to three short reminders. Anyone who says no is left alone.\n\n"
         "Roughly how many old quotes have you got: tens, hundreds?"
     ),
     # Close the loop, and ask for the right person in case it's not them.
