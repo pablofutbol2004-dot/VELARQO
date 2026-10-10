@@ -146,20 +146,19 @@ def test_reimport_with_a_do_not_contact_list_applies_it_and_optout_works_after_f
 
 
 @pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
-def test_purge_removes_personal_data_only_after_the_retention_period():
+def test_purge_removes_personal_data_once_the_pilot_has_ended():
     from tests.integration.pilot_fixtures import pilot
     from delivery.pilot import PilotError, purge_pilot
 
-    with pilot(10, state="completed") as (conn, pilot_id, _, _):
-        with conn.transaction():
-            conn.execute("insert into pilot_events (pilot_id, type, payload, created_at) values (%s, 'state', %s, now())",
-                         (pilot_id, '{"from": "live", "to": "completed"}'))
+    with pilot(10, state="live") as (conn, pilot_id, _, _):
         with pytest.raises(PilotError):
             with conn.transaction():
-                purge_pilot(conn, pilot_id, uuid.uuid4())                       # too soon
+                purge_pilot(conn, pilot_id, uuid.uuid4())                       # still running: refused
         with conn.transaction():
-            conn.execute("update pilot_events set created_at = now() - interval '31 days' where pilot_id = %s and type = 'state'", (pilot_id,))
-            purge_pilot(conn, pilot_id, uuid.uuid4())
+            conn.execute("update pilots set state = 'completed' where id = %s", (pilot_id,))
+            conn.execute("insert into pilot_events (pilot_id, type, payload, created_at) values (%s, 'state', %s, now())",
+                         (pilot_id, '{"from": "live", "to": "completed"}'))
+            purge_pilot(conn, pilot_id, uuid.uuid4())                           # allowed straight away after the end
         left = conn.execute("select count(*) from pilot_homeowners where pilot_id = %s and (name is not null or phone is not null)",
                             (pilot_id,)).fetchone()[0]
         assert left == 0
@@ -268,3 +267,10 @@ def test_finding1_installer_optout_reaches_every_quote_of_the_person():
             assert opt_out_people(conn, pid, {"+447700900800"}, uuid.uuid4(), "test") == 2   # by phone: both quotes
         assert {s for (s,) in conn.execute("select state from pilot_homeowners where pilot_id = %s "
                                            "and source_record_id in ('X1', 'X2')", (pid,)).fetchall()} == {"opted_out"}
+
+
+def test_blank_source_is_excluded_only_when_the_export_has_a_source_column():
+    base = {"quote_date": "01/05/2026", "quote_status": "Lost", "phone": "07700900123"}
+    assert eligibility({**base, "lead_source": "  "}, [], set(), TODAY)[0] == "unknown source"
+    assert eligibility({**base, "lead_source": "Website form"}, [], set(), TODAY)[0] is None
+    assert eligibility(base, [], set(), TODAY)[0] is None          # no source column at all: confirmed on the intake form

@@ -93,7 +93,11 @@ schedule more messages ourselves in the pilot. If they say leave it: close
 and don't contact again.
 
 **"Who is this?" / "How did you get my number?"**
-> It's [sender] at [Installer] in [town]. You asked us for a quote for [product] [when], and we're just checking if you're still interested. If you'd rather we didn't contact you again, reply STOP and we won't.
+> It's the team at [Installer] in [town]. You asked [Installer] for a quote for [product] [when], and we're just checking if you're still interested. We're a small service that follows up [Installer]'s old quotes for them. If you'd rather not hear from us again, reply STOP and we won't.
+
+(Answer truthfully: whoever types the reply is not [sender]. Say "the team at
+[Installer]" and mention the follow-up service, never pretend to be a named
+person at the installer.)
 
 If they ask whether a company is sending it for [Installer]:
 > Yes, [Installer] uses a small follow-up service, Velarqo, to send these messages for them. Your details came from your own quote request to [Installer]; they haven't been sold or passed on for anyone else to market to you.

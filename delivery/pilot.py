@@ -145,6 +145,11 @@ def eligibility(record: dict, areas: list[str], dnc: set[str], today: date) -> t
         return verdict, age
     if _LEAD_SITE.search(str(record.get("lead_source") or "")):
         return "came from a lead site or bought list", age
+    # If the export has a source column, a blank source is unknown: leave it
+    # out (06 compliance notes). If it has none, the installer confirms the
+    # source for the whole list on the intake form instead.
+    if "lead_source" in record and not str(record.get("lead_source") or "").strip():
+        return "unknown source", age
     phone, mail = uk_mobile(record.get("phone")), norm_email(record.get("email"))
     if not phone and not mail:
         return "no UK mobile or email", age
@@ -638,7 +643,7 @@ def invoice(pilot_id, week):
 
 def purge_pilot(conn, pilot_id: str, run_id) -> dict:
     """Deletes homeowner personal data (names, contact details, message
-    bodies) for a pilot that ended more than DATA_RETENTION_DAYS ago; keeps
+    bodies) for a pilot that has ended (due within DATA_RETENTION_DAYS); keeps
     anonymous counts. Also unlinks the GHL location, so new webhooks for that
     sub-account are ignored instead of stored. Call inside a transaction."""
     pilot = pilot_row(conn, pilot_id, lock=True)
@@ -646,8 +651,8 @@ def purge_pilot(conn, pilot_id: str, run_id) -> dict:
                          "and payload->>'to' in ('completed', 'cancelled')", (pilot_id,)).fetchone()[0]
     if pilot["state"] not in ("completed", "cancelled") or not ended:
         raise PilotError("only completed or cancelled pilots can be purged")
-    if datetime.now(timezone.utc) - ended < timedelta(days=DATA_RETENTION_DAYS):
-        raise PilotError(f"pilot ended {ended:%Y-%m-%d}; purge after {DATA_RETENTION_DAYS} days unless the installer asks sooner")
+    # The agreement promises deletion WITHIN 30 days of the end: purging any
+    # time after the end is allowed (and `status` can remind when it's due).
     people = conn.execute(
         "update pilot_homeowners set name = null, phone = null, email = null, postcode = left(postcode, 2), "
         "person_key = null, source_record_id = null, raw = '{}'::jsonb, updated_at = now() where pilot_id = %s",

@@ -86,7 +86,7 @@ can't be loosened afterwards to make the pilot "pass":
 | Replies lost or not answered within 1 working hour | any |
 
 A breach moves the pilot to `paused` automatically (no new waves enrolled)
-and alerts Pablo. Messages already in flight finish their current step.
+and alerts Pablo. Homeowners already enrolled may still get the rest of their GHL sequence; for serious breaches (e.g. an ICO mention) Pablo also removes the wave tags so those stop too. Opt-outs stop at once.
 
 ## 6. Failure cases, reasoned through
 

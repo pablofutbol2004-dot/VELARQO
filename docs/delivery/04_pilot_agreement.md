@@ -57,8 +57,10 @@ It is **not** a booked survey if:
 
 **Edge cases:**
 - **Rebooks.** A booking that's moved or rebooked is still one booked survey.
-- **Same household.** One charge per address per pilot, even if two people
-  or two old quotes at that address reply.
+- **Same person.** One charge per person per pilot, even if they had two
+  old quotes or reply twice. (We recognise the same person by their mobile
+  number or email. Two different people at one address, with different
+  numbers, would count as two.)
 - **Homeowner contacts you directly.** If a homeowner we messaged books a
   survey with you directly (phone, website) within [14] days of our last
   message to them, it counts as a booked survey and you tell us. After
@@ -113,7 +115,10 @@ It is **not** a booked survey if:
 ## 8. Pausing and stopping
 
 We pause the pilot (no new homeowners contacted) if any of these happen.
-Messages already sent finish their current step.
+Homeowners already contacted may still get the rest of their short
+sequence (up to 3 more messages over about 12 days), unless the problem is
+serious enough to stop those too (for example a complaint to the ICO), in
+which case we stop them as well. Anyone who opts out is stopped at once.
 
 | Signal | Pause if |
 |---|---|
