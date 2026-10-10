@@ -1,19 +1,22 @@
 """GoHighLevel → our database: replies, opt-outs, bookings, outcomes
 (WORKFLOW.md section 4, steps 7-8).
 
-`handle_event(conn, event)` is the whole logic and is called by the small
-HTTP server in delivery/webhook_server.py. Rules:
-- Routed by locationId → pilot; contacts we didn't send are ignored.
-- Each event is processed once: its id goes into pilot_events.source_event_id
-  (unique). A retry from GHL finds it and does nothing.
-- Homeowner states only move forward (delivery/states.py), so events arriving
-  out of order can't undo progress. opted_out beats everything.
-- Signals the pause check needs (complaints, wrong person, failed delivery)
-  are stored as events, not guessed later.
+`handle_event(conn, event)` is the whole logic, called by the HTTP server in
+delivery/webhook_server.py with an autocommit connection. Rules:
+- Routed by locationId → pilot. Events for a known location but an unknown
+  contact are stored (not dropped) so nothing is silently lost.
+- Each event is processed once (pilot_events.source_event_id is unique).
+- Homeowner states only move forward (delivery/states.py); opted_out beats
+  everything; a person with several rows is updated on all of them.
+- Only the fields we need are stored (ids, status, a trimmed message body),
+  never GHL's full payload with names and addresses.
+- Opt-outs we detect (complaints, DND) are queued as 'dnd_pending' and pushed
+  to GHL by delivery.ghl_push.push_opt_outs (webhook server + `check`).
 """
 
 import base64
 import hashlib
+import hmac
 import json
 import re
 import uuid
@@ -39,14 +42,20 @@ HULgCsnuDJHcrGNd5/Ddm5hxGQ0ASitgHeMZ0kcIOwKDOzOU53lDza6/Y09T7sYJ
 PQe7z0cvj7aE4B+Ax1ZoZGPzpJlZtGXCsu9aTEGEnKzmsFqwcSsnw3JB31IGKAyk
 T1hhTiaCeIY/OwwwNUY2yvcCAwEAAQ==
 -----END PUBLIC KEY-----"""
-REPLAY_WINDOW = timedelta(minutes=5)
+# Replays are already blocked by the unique event id; the window only stops
+# very old captured requests. Wide enough that GHL retries after an outage
+# (which may keep the original timestamp) still get in.
+REPLAY_WINDOW = timedelta(hours=24)
+BODY_KEEP = 500
 
-_STOP = re.compile(r"^\s*(stop|stopall|unsubscribe|end|quit|cancel|opt ?out)\b", re.I)
+# Opt-out keyword only when it is the whole message ("STOP", "stop.", "Unsubscribe").
+_STOP = re.compile(r"^\s*(stop|stop all|stopall|unsubscribe|end|quit|cancel|opt ?out|remove me)\s*[.!]*\s*$", re.I)
 _COMPLAINT = re.compile(
-    r"how did you get (my|this) (number|email)|where did you get|\bico\b|information commissioner|"
-    r"\breport(ing)? you\b|harass|leave me alone|stop (texting|messaging|contacting) me|\bscam\b|gdpr", re.I)
-_WRONG_PERSON = re.compile(r"wrong (number|person)|not me\b|don'?t know (you|who)|never (asked|enquired|had a quote)|who is this\b", re.I)
-# GHL appointment statuses → our homeowner states (unknown statuses are logged only).
+    r"how did you get (my|this) (number|email|details)|where did you get (my|this)|\bico\b|information commissioner|"
+    r"\breport(ing)? you\b|harass|leave me alone|stop (texting|messaging|contacting|emailing) me|"
+    r"don'?t (text|message|contact) me|\bscam\b|\bgdpr\b", re.I)
+_WRONG_PERSON = re.compile(r"wrong (number|person)|\bnot me\b|never (asked|enquired|had a quote)|don'?t know (you|any)", re.I)
+# GHL appointment statuses → our homeowner states (others are logged only).
 _APPOINTMENT_STATE = {"new": "booked", "confirmed": "booked", "booked": "booked",
                       "showed": "attended", "noshow": "no_show", "cancelled": "no_show"}
 
@@ -70,20 +79,39 @@ def verify_signature(raw_body: bytes, signature_b64: str | None, public_key_pem:
         raise BadSignature("signature does not match") from exc
 
 
+def verify_secret(given: str | None, expected: str | None) -> None:
+    """For GHL *workflow* webhook actions (unsigned): a long random secret we
+    put in the action's header. Constant-time compare."""
+    if not expected or not given or not hmac.compare_digest(given.encode(), expected.encode()):
+        raise BadSignature("missing or wrong shared secret")
+
+
 def check_fresh(event: dict, now: datetime | None = None) -> None:
     stamp = event.get("timestamp")
     if not stamp:
         return
-    sent = datetime.fromisoformat(stamp.replace("Z", "+00:00"))
+    try:
+        sent = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+        if sent.tzinfo is None:
+            sent = sent.replace(tzinfo=timezone.utc)
+    except ValueError as exc:
+        raise BadSignature("unreadable timestamp") from exc
     if abs((now or datetime.now(timezone.utc)) - sent) > REPLAY_WINDOW:
-        raise BadSignature("timestamp outside the 5-minute window (possible replay)")
+        raise BadSignature("timestamp outside the replay window")
+
+
+_SHORT_STOP = re.compile(r"\b(stop|unsubscribe|opt ?out|remove me)\b", re.I)
 
 
 def classify_homeowner_reply(body: str) -> str:
-    """'opt_out' | 'complaint' | 'wrong_person' | 'reply'. Opt-out wins over
-    everything (an angry STOP is still a STOP); a complaint is flagged too."""
+    """'opt_out' | 'complaint' | 'wrong_person' | 'reply'. Opt-out = the whole
+    message is a stop word, or a short message (3 words or fewer) containing
+    stop/unsubscribe ("stop please"). Longer messages go to a person, so
+    "End of the month works" or "Cancel that, Tuesday is better" aren't lost."""
     text = (body or "").strip()
     if _STOP.match(text):
+        return "opt_out"
+    if len(re.findall(r"[A-Za-z']+", text)) <= 3 and _SHORT_STOP.search(text):
         return "opt_out"
     if _COMPLAINT.search(text):
         return "complaint"
@@ -100,103 +128,135 @@ def event_id(event: dict) -> str:
     entity = event.get("appointment") or event
     basis = json.dumps([event.get("type"), entity.get("id") or event.get("messageId"),
                         entity.get("appointmentStatus") or event.get("status"),
-                        entity.get("dateUpdated") or event.get("dateAdded")], sort_keys=True)
+                        entity.get("dateUpdated") or event.get("dateAdded"), (event.get("body") or "")[:200]],
+                       sort_keys=True, default=str)
     return "ghl:" + hashlib.sha256(basis.encode()).hexdigest()[:40]
 
 
-def _homeowner(conn, location_id: str, contact_id: str):
-    return conn.execute(
-        """select h.pilot_id, h.homeowner_key, h.state from pilot_homeowners h
-           join pilots p on p.id = h.pilot_id
-           where p.ghl_location_id = %s and h.ghl_contact_id = %s for update of h""",
-        (location_id, contact_id),
-    ).fetchone()
+def minimal(event: dict) -> dict:
+    """What we keep of a GHL event: no names, addresses or full payloads."""
+    appointment = event.get("appointment") or {}
+    keep = {
+        "type": event.get("type"), "contactId": event.get("contactId") or appointment.get("contactId"),
+        "messageId": event.get("messageId"), "messageType": event.get("messageType"), "direction": event.get("direction"),
+        "status": event.get("status"), "userId": event.get("userId"), "source": event.get("source"),
+        "body": (event.get("body") or "")[:BODY_KEEP] or None,
+        "appointmentId": appointment.get("id"), "appointmentStatus": appointment.get("appointmentStatus"),
+        "calendarId": appointment.get("calendarId"), "startTime": appointment.get("startTime"),
+        "dnd": event.get("dnd"), "monetaryValue": event.get("monetaryValue"),
+    }
+    return {k: v for k, v in keep.items() if v not in (None, "")}
 
 
-def _move(conn, pilot_id, key, current, new, run_id, why) -> bool:
-    if not can_move_homeowner(current, new):
-        return False
-    conn.execute("update pilot_homeowners set state = %s, updated_at = now() where pilot_id = %s and homeowner_key = %s",
-                 (new, pilot_id, key))
-    conn.execute(
-        "insert into pilot_events (pilot_id, homeowner_key, run_id, type, payload) values (%s, %s, %s, 'homeowner_state', %s)",
-        (pilot_id, key, run_id, Jsonb({"from": current, "to": new, "why": why})),
-    )
-    return True
+def _is_dnd(event: dict) -> bool:
+    if event.get("dnd"):
+        return True
+    settings = event.get("dndSettings") or {}
+    return any(str((settings.get(ch) or {}).get("status", "")).lower() == "active" for ch in ("SMS", "Email", "Call"))
 
 
 def handle_event(conn, event: dict) -> str:
-    """Processes one GHL webhook. Returns a short outcome for logs/tests."""
+    """Processes one GHL webhook with an autocommit connection. Returns a short
+    outcome for logs/tests."""
     kind = event.get("type")
-    contact_id = event.get("contactId") or (event.get("appointment") or {}).get("contactId") or (
-        event.get("id") if kind == "ContactDndUpdate" else None)
-    if not kind or not contact_id or not event.get("locationId"):
-        return "ignored: not a contact event"
+    appointment = event.get("appointment") or {}
+    contact_id = event.get("contactId") or appointment.get("contactId") or (event.get("id") if kind == "ContactDndUpdate" else None)
+    if not kind or not event.get("locationId"):
+        return "ignored: no type or location"
     run_id = uuid.uuid4()
     with conn.transaction():
-        found = _homeowner(conn, event["locationId"], contact_id)
-        if not found:
-            return "ignored: not one of our homeowners"
-        pilot_id, key, state = found
-        source_id = event_id(event)
-        inserted = conn.execute(
+        pilot = conn.execute("select id, ghl_calendar_id from pilots where ghl_location_id = %s", (event["locationId"],)).fetchone()
+        if not pilot:
+            return "ignored: unknown location"
+        pilot_id, calendar_id = pilot
+        rows = conn.execute(
+            "select homeowner_key, state from pilot_homeowners where pilot_id = %s and ghl_contact_id = %s for update",
+            (pilot_id, contact_id)).fetchall() if contact_id else []
+        stored = conn.execute(
             "insert into pilot_events (pilot_id, homeowner_key, run_id, type, source_event_id, payload) "
             "values (%s, %s, %s, %s, %s, %s) on conflict (source_event_id) do nothing returning id",
-            (pilot_id, key, run_id, f"ghl:{kind}", source_id, Jsonb(event)),
+            (pilot_id, rows[0][0] if rows else None, run_id, f"ghl:{kind}" if rows else f"ghl:unmatched:{kind}",
+             event_id(event), Jsonb(minimal(event))),
         ).fetchone()
-        if not inserted:
+        if not stored:
             return "duplicate"
+        if not rows:
+            return "stored: contact not in this pilot"
 
         def signal(name, extra=None):
-            conn.execute(
-                "insert into pilot_events (pilot_id, homeowner_key, run_id, type, payload) values (%s, %s, %s, %s, %s)",
-                (pilot_id, key, run_id, name, Jsonb(extra or {})),
-            )
+            for key, _ in rows:
+                conn.execute("insert into pilot_events (pilot_id, homeowner_key, run_id, type, payload) values (%s, %s, %s, %s, %s)",
+                             (pilot_id, key, run_id, name, Jsonb(extra or {})))
 
+        def move(new, why):
+            moved = False
+            for key, current in rows:
+                if can_move_homeowner(current, new):
+                    conn.execute("update pilot_homeowners set state = %s, updated_at = now() where pilot_id = %s and homeowner_key = %s",
+                                 (new, pilot_id, key))
+                    conn.execute("insert into pilot_events (pilot_id, homeowner_key, run_id, type, payload) values (%s, %s, %s, 'homeowner_state', %s)",
+                                 (pilot_id, key, run_id, Jsonb({"from": current, "to": new, "why": why})))
+                    if new == "opted_out":
+                        conn.execute("insert into pilot_events (pilot_id, homeowner_key, run_id, type, payload) values (%s, %s, %s, 'dnd_pending', %s)",
+                                     (pilot_id, key, run_id, Jsonb({"contact_id": contact_id})))
+                    moved = True
+            return moved
+
+        body = event.get("body") or ""
         if kind == "InboundMessage" and (event.get("direction") or "inbound") == "inbound":
-            verdict = classify_homeowner_reply(event.get("body") or "")
+            verdict = classify_homeowner_reply(body)
             if verdict == "opt_out":
-                _move(conn, pilot_id, key, state, "opted_out", run_id, "replied STOP")
-                if _COMPLAINT.search(event.get("body") or ""):
-                    signal("complaint", {"body": (event.get("body") or "")[:500]})
+                move("opted_out", "replied with a stop word")
                 return "opted out"
-            if verdict in ("complaint", "wrong_person"):
-                signal(verdict, {"body": (event.get("body") or "")[:500]})
-                if verdict == "complaint":
-                    _move(conn, pilot_id, key, state, "opted_out", run_id, "complaint")  # never message them again
-                return verdict
-            _move(conn, pilot_id, key, state, "replied", run_id, "inbound message")
-            signal("needs_answer", {"message_id": event.get("messageId")})
+            signal("needs_answer", {"message_id": event.get("messageId")})   # a person reads every other reply
+            if verdict == "complaint":
+                signal("complaint", {"body": body[:BODY_KEEP]})
+                move("opted_out", "complaint")                                    # never message them again
+                return "complaint"
+            if verdict == "wrong_person":
+                signal("wrong_person", {"body": body[:BODY_KEEP]})
+                move("opted_out", "wrong person")                                 # not who the installer quoted
+                return "wrong_person"
+            move("replied", "inbound message")
             return "replied"
 
-        if kind == "OutboundMessage" and (event.get("status") or "").lower() in ("failed", "undelivered"):
-            signal("delivery_failed", {"message_id": event.get("messageId"), "status": event.get("status")})
-            return "delivery failed"
+        if kind == "OutboundMessage":
+            status = (event.get("status") or "").lower()
+            if status in ("failed", "undelivered"):
+                signal("delivery_failed", {"message_id": event.get("messageId"), "status": status})
+                return "delivery failed"
+            if event.get("userId"):                                              # typed by a person, not the workflow
+                signal("answered", {"message_id": event.get("messageId")})
+                return "answered"
+            return "logged"
 
-        if kind == "ContactDndUpdate" and event.get("dnd"):
-            _move(conn, pilot_id, key, state, "opted_out", run_id, "DND switched on in GHL")
+        if kind == "ContactDndUpdate" and _is_dnd(event):
+            move("opted_out", "DND switched on in GHL")
             return "opted out"
 
         if kind in ("AppointmentCreate", "AppointmentUpdate"):
-            appointment = event.get("appointment") or {}
+            if calendar_id and appointment.get("calendarId") and appointment["calendarId"] != calendar_id:
+                return "appointment on another calendar: logged only"
             status = (appointment.get("appointmentStatus") or "").lower()
             new = _APPOINTMENT_STATE.get(status)
             if not new:
                 return f"appointment status '{status}' logged only"
-            if new == "booked":
-                # A booked survey counts once per appointment id (billing key).
+            seen = conn.execute(
+                "select 1 from pilot_events where pilot_id = %s and type = 'survey_booked' and payload->>'appointment_id' = %s",
+                (pilot_id, appointment.get("id"))).fetchone()
+            if new == "booked" and not seen:
                 signal("survey_booked", {"appointment_id": appointment.get("id"), "start": appointment.get("startTime")})
             if new == "no_show":
                 signal("survey_not_held", {"appointment_id": appointment.get("id"), "reason": status})
-            moved = _move(conn, pilot_id, key, state, new, run_id, f"appointment {status}")
-            return f"{new}" if moved else f"{new} (state unchanged: {state})"
+            moved = move(new, f"appointment {status}")
+            return new if moved else f"{new} (state unchanged)"
 
         if kind in ("OpportunityStatusUpdate", "OpportunityStageUpdate"):
             status = (event.get("status") or "").lower()
             new = {"won": "won", "lost": "lost", "abandoned": "lost"}.get(status)
             if new:
                 signal("outcome", {"status": status, "value": event.get("monetaryValue")})
-                _move(conn, pilot_id, key, state, new, run_id, f"opportunity {status}")
+                move(new, f"opportunity {status}")
                 return new
             return "opportunity update logged"
 

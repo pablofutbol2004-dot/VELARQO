@@ -119,3 +119,51 @@ and alerts Pablo. Messages already in flight finish their current step.
 4. Webhook receiver (needs the cloud/VPS, or a tunnel, to be reachable).
 5. Stop-condition check + daily status.
 6. Weekly invoice.
+
+## 9. Review fixes (2026-10-10) and what must be checked on the real GoHighLevel
+
+An independent review found these; all fixed and covered by tests that
+commit for real and read back from a second connection:
+- CLI commands ran inside an uncommitted transaction (texts would go out,
+  nothing saved). Every command now uses an autocommit connection.
+- Our opt-outs (complaints, DND, `pilot optout`) are pushed to GHL as
+  do-not-disturb + wave tag removed (`dnd_pending` → `dnd_confirmed`,
+  retried by `check`).
+- `send-wave` refuses unless the pilot's GHL location matches `.env`;
+  events for unknown contacts are stored, not dropped.
+- One person = one contactable row (`person_key` = UK mobile or email):
+  opt-out / do-not-contact / already-won on any quote excludes all their
+  quotes; only their newest eligible quote is kept; holdout and claims are
+  checked per person.
+- Only UK mobiles count as textable (Excel's `7700900123` and `.0` fixed).
+- Re-import re-applies the rules (e.g. a do-not-contact list added later).
+- STOP = whole message, or 3 words or fewer containing stop/unsubscribe;
+  every other reply is flagged for a human answer.
+- Resume returns to the state it was paused from and only new events count.
+- Manual time and rates are also checked pilot-wide.
+- Billing: survey calendar only; one charge per person; cancellations
+  credited only if not rebooked within 14 days; installer-caused misses
+  charged; caps and "first N free" applied; direct bookings can be logged.
+- Two `send-wave` runs can't overlap (advisory lock); 401/403 stops the run
+  without blaming rows; a fast webhook no longer aborts a wave.
+- Only needed fields of GHL events are stored; `pilot purge` deletes
+  personal data 30 days after a pilot ends.
+
+**Verify on the real GoHighLevel before the first homeowner is texted**
+(test with your own phone and a dead number at step 8.6):
+1. Which webhooks a Private-Integration sub-account actually sends: signed
+   (`x-wh-signature`; possibly a newer header) or workflow "Webhook" actions
+   (unsigned; we then use `x-velarqo-secret` and define the payload fields
+   ourselves). Confirm GHL signs exactly the bytes it sends.
+2. Whether GHL retries on 5xx (or only 429), and how long.
+3. What SMS STOP does: sets `dnd`, or only `dndSettings.SMS.status`.
+4. Whether failed texts produce `OutboundMessage` with status failed.
+5. Settings the no-double-text logic relies on: "allow duplicate contacts"
+   OFF (and the matching order), workflow re-entry OFF, exit on reply.
+   Check the upsert doesn't overwrite the installer's own contact data.
+6. Real `appointmentStatus` values, and whether a reschedule is an update
+   or cancel + new booking.
+7. Manual replies typed in GHL carry `userId` (that's how "answered" is
+   detected).
+Still open (by design, manual for now): removing GHL tags when a pilot is
+cancelled; "one charge per street address" (we do one per person).

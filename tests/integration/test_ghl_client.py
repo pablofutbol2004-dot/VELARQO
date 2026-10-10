@@ -96,10 +96,20 @@ def test_exhausts_retries_raises_rate_limit_error():
 
 
 def test_non_429_error_status_raises_http_error():
-    session = FakeSession([FakeResponse(401, {})])
+    session = FakeSession([FakeResponse(422, {})])
     client = GHLClient(
-        api_token="bad-token", location_id="loc-1", session=session, rate_limiter=_no_op_rate_limiter()
+        api_token="token", location_id="loc-1", session=session, rate_limiter=_no_op_rate_limiter()
     )
 
     with pytest.raises(requests.HTTPError):
         client.upsert_contact({"email": "a@b.com"})
+
+
+def test_auth_errors_are_their_own_kind_so_runs_stop_instead_of_blaming_rows():
+    from integrations.ghl.client import GHLAuthError
+
+    for status in (401, 403):
+        client = GHLClient(api_token="bad", location_id="loc-1", session=FakeSession([FakeResponse(status, {})]),
+                           rate_limiter=_no_op_rate_limiter())
+        with pytest.raises(GHLAuthError):
+            client.upsert_contact({"email": "a@b.com"})

@@ -52,7 +52,7 @@ def test_homeowner_key_is_stable_and_prefers_the_record_id():
 def test_eligibility_adds_contact_area_and_do_not_contact_checks():
     base = {"quote_date": "01/05/2026", "quote_status": "Lost", "phone": "07700900123", "postcode": "LS12 4JS"}
     assert eligibility(base, ["LS"], set(), TODAY) == (None, 5)
-    assert eligibility({**base, "phone": None}, ["LS"], set(), TODAY)[0] == "no phone or email"
+    assert eligibility({**base, "phone": None}, ["LS"], set(), TODAY)[0] == "no UK mobile or email"
     assert eligibility(base, ["BD"], set(), TODAY)[0] == "outside service area"
     assert eligibility(base, [], {"+447700900123"}, TODAY)[0] == "on client's do-not-contact list"
     assert eligibility({**base, "quote_status": "Sold"}, [], set(), TODAY)[0] == "already won/booked"
@@ -84,7 +84,7 @@ def test_import_freeze_and_the_database_blocks_contacting_the_holdout():
             stats = import_records(conn, pilot_id, records, set(), run, TODAY)
             assert stats["new"] == 41 and stats["eligible"] == 40 and stats["excluded"] == {"already won/booked": 1}
             again = import_records(conn, pilot_id, records, set(), run, TODAY)
-            assert again["new"] == 0 and again["already_imported"] == 41          # re-import changes nothing
+            assert again["new"] == 0 and again["updated"] == 41 and again["eligible"] == 40   # re-import re-checks, adds nobody
 
             counts = freeze_pilot(conn, pilot_id, run)
             assert counts == {"treatment": 30, "holdout": 10}
@@ -108,3 +108,56 @@ def test_lead_site_and_bought_leads_are_excluded(source, excluded):
     base = {"quote_date": "01/05/2026", "quote_status": "Lost", "phone": "07700900123", "lead_source": source}
     reason, _ = eligibility(base, [], set(), TODAY)
     assert (reason == "came from a lead site or bought list") is excluded
+
+
+@pytest.mark.parametrize("raw,expected", [
+    ("07700 900123", "+447700900123"), ("7700900123", "+447700900123"), ("7700900123.0", "+447700900123"),
+    (7700900123.0, "+447700900123"), ("+44 7700 900123", "+447700900123"), ("0044 7700 900123", "+447700900123"),
+    ("447700900123", "+447700900123"), ("0113 318 8299", None), ("+1 415 555 0100", None), ("", None), (None, None),
+])
+def test_only_uk_mobiles_count_as_textable(raw, expected):
+    from delivery.contacts import uk_mobile
+    assert uk_mobile(raw) == expected
+
+
+@pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
+def test_reimport_with_a_do_not_contact_list_applies_it_and_optout_works_after_freeze():
+    from tests.integration.pilot_fixtures import autocommit, cleanup, records
+    from delivery.pilot import import_records, opt_out_people
+
+    conn = autocommit()
+    pilot_id = f"test-{uuid.uuid4().hex[:8]}"
+    try:
+        with conn.transaction():
+            conn.execute("insert into pilots (id, client_slug, vertical, state) values (%s, 'test', 'windows', 'data_received')", (pilot_id,))
+            first = import_records(conn, pilot_id, records(10), set(), uuid.uuid4(), TODAY)
+            assert first["eligible"] == 10
+            second = import_records(conn, pilot_id, records(10), {"+447700900003"}, uuid.uuid4(), TODAY)
+            assert second["eligible"] == 9 and second["excluded"] == {"on client's do-not-contact list": 1}
+        with conn.transaction():
+            assert opt_out_people(conn, pilot_id, {"+447700900004"}, uuid.uuid4(), "test") == 1
+        assert conn.execute("select state from pilot_homeowners where pilot_id = %s and phone = '+447700900004'",
+                            (pilot_id,)).fetchone()[0] == "opted_out"
+    finally:
+        conn.close()
+        cleanup(pilot_id)
+
+
+@pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
+def test_purge_removes_personal_data_only_after_the_retention_period():
+    from tests.integration.pilot_fixtures import pilot
+    from delivery.pilot import PilotError, purge_pilot
+
+    with pilot(10, state="completed") as (conn, pilot_id, _, _):
+        with conn.transaction():
+            conn.execute("insert into pilot_events (pilot_id, type, payload, created_at) values (%s, 'state', %s, now())",
+                         (pilot_id, '{"from": "live", "to": "completed"}'))
+        with pytest.raises(PilotError):
+            with conn.transaction():
+                purge_pilot(conn, pilot_id, uuid.uuid4())                       # too soon
+        with conn.transaction():
+            conn.execute("update pilot_events set created_at = now() - interval '31 days' where pilot_id = %s and type = 'state'", (pilot_id,))
+            purge_pilot(conn, pilot_id, uuid.uuid4())
+        left = conn.execute("select count(*) from pilot_homeowners where pilot_id = %s and (name is not null or phone is not null)",
+                            (pilot_id,)).fetchone()[0]
+        assert left == 0

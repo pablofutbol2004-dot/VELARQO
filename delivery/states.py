@@ -6,6 +6,7 @@ PILOT_FLOW = [
     "eligibility_frozen", "messages_approved", "canary_ready", "canary_running",
     "canary_reviewed", "live", "completed",
 ]
+SENDING = ("canary_running", "live")
 
 # Moves that need an approval row first: (from, to) -> gate.
 GATES = {
@@ -13,20 +14,23 @@ GATES = {
     ("eligibility_frozen", "messages_approved"): "messages",
     ("canary_ready", "canary_running"): "canary_go",
     ("canary_reviewed", "live"): "go_live",
+    ("paused", "canary_running"): "resume",
     ("paused", "live"): "resume",
 }
 
 
-def allowed_pilot_moves(state: str) -> set[str]:
+def allowed_pilot_moves(state: str, paused_from: str | None = None) -> set[str]:
+    """A paused pilot can only go back to the sending state it was paused
+    from (so a paused canary can't skip the go-live gate), or end."""
     if state in ("completed", "cancelled"):
         return set()
     moves = {"cancelled"}
     if state == "paused":
-        return moves | {"live", "completed"}
+        return moves | {"completed", paused_from or "live"}
     i = PILOT_FLOW.index(state)
     if i + 1 < len(PILOT_FLOW):
         moves.add(PILOT_FLOW[i + 1])
-    if state in ("canary_running", "live"):
+    if state in SENDING:
         moves.add("paused")
     return moves
 
@@ -38,6 +42,7 @@ _RANK = {s: i for i, s in enumerate([
     "replied", "booked", "no_show", "attended", "requoted", "lost", "won",
 ])}
 TERMINAL = {"excluded", "holdout", "no_response", "opted_out", "won", "lost"}
+PAST_ENROLLED = {"replied", "booked", "no_show", "attended", "requoted", "won", "lost", "no_response", "opted_out"}
 
 
 def can_move_homeowner(current: str, new: str) -> bool:
@@ -53,6 +58,8 @@ def can_move_homeowner(current: str, new: str) -> bool:
         return current == "enrolled"
     if current == "push_failed" and new == "pushing":
         return True                                   # retry after a fixed error
-    if current in ("no_response",) or new not in _RANK or current not in _RANK:
+    if current == "no_show" and new == "booked":
+        return True                                   # rebooked after a no-show or cancellation
+    if current == "no_response" or new not in _RANK or current not in _RANK:
         return False
     return _RANK[new] > _RANK[current]

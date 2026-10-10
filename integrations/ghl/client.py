@@ -26,6 +26,11 @@ class GHLTemporaryError(Exception):
     """5xx or network failure that survived the retries: safe to try again later."""
 
 
+class GHLAuthError(Exception):
+    """401/403: the token is wrong, expired or lacks a scope. Nothing about
+    the contact is wrong, so callers stop the run instead of blaming rows."""
+
+
 class GHLClient:
     def __init__(
         self,
@@ -77,7 +82,9 @@ class GHLClient:
                 self._sleep(self._backoff(attempt))
                 continue
 
-            response.raise_for_status()  # 4xx: our request is wrong; retrying won't help
+            if response.status_code in (401, 403):
+                raise GHLAuthError(f"{method} {path}: HTTP {response.status_code}")
+            response.raise_for_status()  # other 4xx: our request is wrong; retrying won't help
             return response.json()
 
         raise GHLRateLimitError(f"Rate limited after {self.max_retries} retries: {method} {path}")
@@ -86,6 +93,13 @@ class GHLClient:
     def _backoff(attempt: int) -> float:
         """2s, 4s, 8s... with +/-50% jitter so retries don't line up."""
         return 2 ** (attempt + 1) * random.uniform(0.5, 1.5)
+
+    def set_dnd(self, contact_id: str) -> dict:
+        """Do-not-disturb on every channel: GHL stops all messages to them."""
+        return self._request("PUT", f"/contacts/{contact_id}", json={"dnd": True})
+
+    def remove_tags(self, contact_id: str, tags: list[str]) -> dict:
+        return self._request("DELETE", f"/contacts/{contact_id}/tags", json={"tags": tags})
 
     def add_tags(self, contact_id: str, tags: list[str]) -> dict:
         return self._request("POST", f"/contacts/{contact_id}/tags", json={"tags": tags})
