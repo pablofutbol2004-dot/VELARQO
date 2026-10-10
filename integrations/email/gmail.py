@@ -13,14 +13,13 @@ a fake HTTP session, never exercised against a real Gmail account.
 """
 
 import base64
-import re
 import time
 from email.message import EmailMessage as MimeEmailMessage
 from email.utils import parseaddr
 
 import requests
 
-from integrations.email.base import EmailAuthError, EmailRateLimitError
+from integrations.email.base import EmailAuthError, EmailRateLimitError, html_to_text
 from lib.rate_limiter import RateLimiter
 
 MAX_RETRY_AFTER_SECONDS = 60.0
@@ -199,8 +198,4 @@ def _plain_text(payload: dict) -> str:
             return text
         if part.get("mimeType") == "text/html" and html is None:
             html = text
-    if html is None:
-        return ""
-    html = re.sub(r"(?is)<(blockquote|style|script).*?</\1>", "", html)
-    html = re.sub(r"(?i)<br\s*/?>|</p>|</div>", "\n", html)
-    return re.sub(r"<[^>]+>", "", html)
+    return html_to_text(html) if html is not None else ""

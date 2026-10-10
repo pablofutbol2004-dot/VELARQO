@@ -316,7 +316,7 @@ def _thread_of(conn, message_id) -> dict:
         return {}
     with conn.cursor(row_factory=dict_row) as cur:
         return cur.execute(
-            "select provider_thread_id, rfc_message_id from messages where id = %s", (message_id,)
+            "select provider_thread_id, rfc_message_id, provider_message_id from messages where id = %s", (message_id,)
         ).fetchone() or {}
 
 
@@ -325,7 +325,7 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
              pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now) -> dict:
     summary = {"mailbox": mailbox, "sent": 0, "skipped": 0, "failed": 0, "stopped": None}
     if not conn.autocommit and not conn.info.transaction_status:  # dry_run wraps us in a rolled-back transaction on purpose
-        raise RuntimeError("send_due needs an autocommit connection: the 'sending' claim must be committed before Gmail is called")
+        raise RuntimeError("send_due needs an autocommit connection: the 'sending' claim must be committed before the provider is called")
     if respect_window and not guards.in_send_window(now()):
         summary["stopped"] = "outside UK send window"
         return summary
@@ -353,11 +353,12 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
             continue
 
         thread = _thread_of(conn, msg["in_reply_to_message_id"])
+        send_kwargs = dict(to=msg["to_email"], subject=msg["subject"], body=msg["body"],
+                           thread_id=thread.get("provider_thread_id"), in_reply_to_message_id=thread.get("rfc_message_id"))
+        if thread.get("provider_message_id") and getattr(provider, "THREADS_BY_PARENT_ID", False):
+            send_kwargs["parent_provider_message_id"] = thread["provider_message_id"]   # Outlook: reply to the parent
         try:
-            result = provider.send_email(
-                to=msg["to_email"], subject=msg["subject"], body=msg["body"],
-                thread_id=thread.get("provider_thread_id"), in_reply_to_message_id=thread.get("rfc_message_id"),
-            )
+            result = provider.send_email(**send_kwargs)
         except EmailRateLimitError:
             _finish(conn, msg, "queued", "note", skip_reason="rate limited, will retry")
             summary["stopped"] = "provider rate limit"
@@ -376,8 +377,8 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
                 break
             continue
 
-        rfc_id = None
-        if hasattr(provider, "rfc_message_id") and result.get("message_id"):
+        rfc_id = result.get("rfc_message_id")
+        if not rfc_id and hasattr(provider, "rfc_message_id") and result.get("message_id"):
             try:
                 rfc_id = provider.rfc_message_id(result["message_id"])
             except Exception:  # noqa: BLE001 - threading info is nice-to-have
@@ -481,7 +482,7 @@ def record_inbound(conn, mailbox: str, inbound: dict) -> dict:
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         msg = _match(cur, mailbox, inbound)
         if msg is None and category == "bounce":
-            # Non-Gmail bounce notices aren't threaded: find our recipient in the notice text.
+            # Some bounce notices (Outlook NDRs, other MTAs) aren't threaded: find our recipient in the notice text.
             mentioned = sorted({e.lower() for e in _EMAIL.findall(inbound["body"])})
             msg = cur.execute(
                 "select id, company_id, to_email from messages where mailbox = %s and status = 'sent' "
@@ -549,7 +550,8 @@ def record_inbound(conn, mailbox: str, inbound: dict) -> dict:
 
 # Everything received in the last 30 days, wherever it was filed (archived,
 # spam, labels): a "no" read and archived before the tick must still count,
-# and so must one that arrived while the PC was off for a week.
+# and so must one that arrived while the PC was off for a week. Gmail search
+# syntax; the Outlook provider reads only the newer_than:<N>d part of it.
 INBOX_QUERY = "in:anywhere -in:sent -in:drafts -in:chats newer_than:30d"
 
 
@@ -587,7 +589,7 @@ def _park_unreadable(conn, mailbox: str, inbound: dict, exc: Exception) -> None:
             "insert into replies (from_email, subject, body, provider_message_id, mailbox, category, needs_human, received_at) "
             "values (%s, %s, %s, %s, %s, 'unknown', true, now()) on conflict do nothing",
             (str(inbound.get("from_email") or "")[:320], str(inbound.get("subject") or "")[:500].replace("\x00", ""),
-             f"(Velarqo couldn't process this message automatically: {type(exc).__name__}. Read it in Gmail.)",
+             f"(Velarqo couldn't process this message automatically: {type(exc).__name__}. Read it in the mailbox.)",
              inbound.get("provider_message_id"), mailbox),
         )
     note_problem(conn, mailbox, f"could not process message {inbound.get('provider_message_id')}: {type(exc).__name__}: {exc}"[:500])

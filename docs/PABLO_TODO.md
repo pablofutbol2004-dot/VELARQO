@@ -35,6 +35,14 @@ it's needed. Tell Claude when one is done.
 - [ ] **Create 12 mailboxes** in Google Admin (pablo@ and pablo.garcia@ on each
   new domain), log into each once (mail.google.com), then connect each in
   Instantly. Claude turns on warm-up.
+- [ ] **Microsoft 365 Business Basic tenant, 8 users** (the other half of
+  the 16 mailboxes, decided 10 Oct so one provider can't stop all sending):
+  buy it, add 4 of the new domains, create 8 users, register the sign-in
+  app and grant consent. Every click is in `docs/LAUNCH.md`, section
+  "Microsoft 365: the second 8 mailboxes", parts A and B (about an hour).
+  Claude then does the DNS, DKIM, `authorize-mailbox`, test sends and
+  Instantly. *Why:* these inboxes need 14-21 days of warm-up before they
+  can send, so the tenant is needed ~10 Oct for a 31 Oct start.
 - [ ] **Buy a VPS** when you're ready to pay for it. It will host the
   database, the sending engine and the webhook server, so sending doesn't
   depend on your PC being on. Until then everything runs on your PC.

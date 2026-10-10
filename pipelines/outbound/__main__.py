@@ -13,20 +13,24 @@
     python -m pipelines.outbound outcome info@acme.co.uk call_held --reaction ok
     python -m pipelines.outbound results cold_offer_v1       # how a test is going, in plain English
 
-Mailboxes live in config/mailboxes.json (see mailboxes.example.json);
-their OAuth tokens live in .env (authorize-mailbox writes them).
+Mailboxes live in config/mailboxes.json (see mailboxes.example.json); each
+has a "provider" (gmail or outlook). Their OAuth tokens live in .env
+(authorize-mailbox writes them).
 """
 
 import csv
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
 import click
 
 from data.supabase_store import connect, icp_version
+from integrations.email import google_auth, microsoft_auth
+from integrations.email.base import PROVIDERS
 from integrations.email.gmail import GmailProvider
-from integrations.email.google_auth import access_token_for, authorize_mailbox
+from integrations.email.outlook import OutlookProvider
 from outreach.reply_classifier.classify import strip_quoted
 from outreach.send_engine import compose, engine, experiments
 
@@ -47,22 +51,50 @@ def _icp() -> dict:
     return json.loads(ICP_PATH.read_text())
 
 
-def _mailboxes() -> list[dict]:
+def _all_mailboxes() -> list[dict]:
     if not MAILBOXES_PATH.exists():
         raise click.ClickException(
             f"{MAILBOXES_PATH} not found. Copy config/mailboxes.example.json and list your sending mailboxes."
         )
-    return [m for m in json.loads(MAILBOXES_PATH.read_text()) if m.get("enabled", True)]
+    boxes = json.loads(MAILBOXES_PATH.read_text())
+    for m in boxes:
+        m["provider"] = _provider_name(m)
+    return boxes
+
+
+def _mailboxes() -> list[dict]:
+    return [m for m in _all_mailboxes() if m.get("enabled", True)]
+
+
+def _provider_name(mailbox: dict) -> str:
+    name = (mailbox.get("provider") or "gmail").lower()
+    if name not in PROVIDERS:
+        raise click.ClickException(f"{mailbox['email']}: provider must be one of {', '.join(PROVIDERS)}, not '{name}'")
+    return name
+
+
+# Per provider: the auth module (authorize_mailbox, access_token_for,
+# refresh_env_key) and how to build the API client from a token.
+_AUTH = {"gmail": google_auth, "outlook": microsoft_auth}
+_CLIENT = {"gmail": GmailProvider, "outlook": OutlookProvider}
 
 
 def _provider(mailbox: dict):
-    if mailbox.get("provider", "gmail") != "gmail":
-        raise click.ClickException(f"{mailbox['email']}: only gmail mailboxes are supported for now")
-    provider = GmailProvider(access_token=access_token_for(mailbox["email"]), sender_email=mailbox["email"])
+    """API client for a configured mailbox, after checking that the stored
+    token really belongs to that address (works for both providers)."""
+    name = _provider_name(mailbox)
+    token = _AUTH[name].access_token_for(mailbox["email"])
+    provider = _CLIENT[name](access_token=token, sender_email=mailbox["email"])
     actual = provider.profile_email()
     if actual != mailbox["email"].lower():
         raise click.ClickException(f"token for {mailbox['email']} belongs to {actual}; re-run authorize-mailbox")
     return provider
+
+
+def _has_token(mailbox: dict) -> bool:
+    from dotenv import load_dotenv
+    load_dotenv(ROOT / ".env")
+    return bool(os.environ.get(_AUTH[_provider_name(mailbox)].refresh_env_key(mailbox["email"])))
 
 
 class FakeMailbox:
@@ -86,8 +118,21 @@ def cli():
 
 
 @cli.command()
-def status():
-    """Kill switch, campaigns, today's sends, replies waiting."""
+@click.option("--check-mailboxes", is_flag=True, help="Also sign in to every mailbox and confirm its token is for that address")
+def status(check_mailboxes):
+    """Kill switch, campaigns, today's sends, replies waiting, mailboxes."""
+    if MAILBOXES_PATH.exists():
+        click.echo("Mailboxes (config/mailboxes.json):")
+        for m in _all_mailboxes():
+            line = f"  {m['email']:40} {m['provider']:8} cap {m.get('daily_cap', 20):3}"
+            line += "  disabled " if not m.get("enabled", True) else ("  token ok " if _has_token(m) else "  NO TOKEN (run authorize-mailbox)")
+            if check_mailboxes and m.get("enabled", True):
+                try:
+                    _provider(m)
+                    line += " signed in"
+                except Exception as exc:  # noqa: BLE001 - report, keep going
+                    line += f" SIGN-IN FAILED: {str(exc)[:120]}"
+            click.echo(line)
     s = engine.status(_conn())
     c = s["controls"]
     click.echo(f"Sending: {'ON' if c['sending_enabled'] else 'OFF'}"
@@ -366,24 +411,44 @@ def suppress_cmd(address, reason):
 
 @cli.command("authorize-mailbox")
 @click.argument("email")
-def authorize(email):
-    """One-time Google sign-in for a sending mailbox; stores its token in .env."""
-    authorize_mailbox(email)
+@click.option("--provider", type=click.Choice(PROVIDERS), default=None,
+              help="gmail or outlook (defaults to the mailbox's entry in config/mailboxes.json)")
+def authorize(email, provider):
+    """One-time Google or Microsoft sign-in for a sending mailbox; stores its token in .env."""
+    if provider is None:
+        config = next((m for m in _all_mailboxes() if m["email"].lower() == email.lower()), None) if MAILBOXES_PATH.exists() else None
+        if config is None:
+            raise click.ClickException(f"{email} is not in config/mailboxes.json; add it there or pass --provider")
+        provider = config["provider"]
+    _AUTH[provider].authorize_mailbox(email)
 
 
 @cli.command("test-send")
 @click.argument("to")
 @click.option("--mailbox", required=True, help="Sending mailbox from config/mailboxes.json")
-def test_send(to, mailbox):
+@click.option("--with-follow-up", is_flag=True, help="Also send the step-2 follow-up threaded under the first email")
+def test_send(to, mailbox, with_follow_up):
     """Send one sample first email to yourself through a real mailbox (no database writes)."""
-    config = next((m for m in _mailboxes() if m["email"] == mailbox), None)
+    config = next((m for m in _mailboxes() if m["email"].lower() == mailbox.lower()), None)
     if not config:
-        raise click.ClickException(f"{mailbox} is not in config/mailboxes.json")
+        raise click.ClickException(f"{mailbox} is not in config/mailboxes.json (or is disabled)")
     sample = {"id": "test", "display_name": "Example Windows Ltd", "email": to, "city": "Leeds",
               "extra": {"website_signals": ["free quotes"], "accreditations": ["FENSA registered"]}}
-    email = compose.first_touch(sample, experiments.load(DEFAULT_EXPERIMENT), 0)
-    result = _provider(config).send_email(to=to, subject=f"[TEST] {email['subject']}", body=email["body"])
-    click.echo(f"Sent test email, Gmail id {result['message_id']}")
+    exp = experiments.load(DEFAULT_EXPERIMENT)
+    email = compose.first_touch(sample, exp, 0)
+    provider = _provider(config)
+    result = provider.send_email(to=to, subject=f"[TEST] {email['subject']}", body=email["body"])
+    click.echo(f"Sent test email from {config['email']} ({config['provider']}), id {result['message_id']}")
+    if not with_follow_up:
+        return
+    rfc_id = result.get("rfc_message_id") or (provider.rfc_message_id(result["message_id"]) if result.get("message_id") else None)
+    follow = compose.follow_up(2, sample, f"[TEST] {email['subject']}", exp["arms"][0])
+    kwargs = dict(to=to, subject=follow["subject"], body=follow["body"],
+                  thread_id=result.get("thread_id"), in_reply_to_message_id=rfc_id)
+    if getattr(provider, "THREADS_BY_PARENT_ID", False):
+        kwargs["parent_provider_message_id"] = result["message_id"]
+    second = provider.send_email(**kwargs)
+    click.echo(f"Sent follow-up, id {second['message_id']}: it should appear under the first email in {to}'s inbox")
 
 
 if __name__ == "__main__":

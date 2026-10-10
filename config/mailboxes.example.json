@@ -1,3 +1,4 @@
 [
-  {"email": "pablo@getvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true}
+  {"email": "pablo@getvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true},
+  {"email": "pablo@velarqomail.com", "provider": "outlook", "daily_cap": 20, "enabled": true}
 ]
