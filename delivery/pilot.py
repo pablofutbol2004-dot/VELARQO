@@ -82,11 +82,20 @@ def load_dnc(path: Path | None) -> set[str]:
     return blocked
 
 
+# Leads bought from lead sites: the homeowner gave their details to the
+# site, not to the installer, so the installer's soft opt-in doesn't cover
+# them (docs/delivery/06_compliance_notes.md). Same for bought/rented lists.
+_LEAD_SITE = re.compile(r"checkatrade|\bbark\b|bark\.com|mybuilder|my builder|rated ?people|trustatrader|trust a trader|"
+                        r"which\??\s*trusted|houzz|\byell\b|yell\.com|\bbought\b|purchased|rented list|lead ?gen|third.?party", re.I)
+
+
 def eligibility(record: dict, areas: list[str], dnc: set[str], today: date) -> tuple[str | None, int | None]:
     """(exclusion reason or None, quote age in months)."""
     verdict, age = classify(record, today)
     if verdict != "worth chasing":
         return verdict, age
+    if _LEAD_SITE.search(str(record.get("lead_source") or "")):
+        return "came from a lead site or bought list", age
     phone, email = normalize_phone(str(record.get("phone") or "")), normalize_email(str(record.get("email") or ""))
     if not phone and not email:
         return "no phone or email", age

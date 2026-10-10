@@ -98,3 +98,13 @@ def test_import_freeze_and_the_database_blocks_contacting_the_holdout():
             raise psycopg.Rollback()
     finally:
         conn.close()
+
+
+@pytest.mark.parametrize("source,excluded", [
+    ("Checkatrade", True), ("bark.com", True), ("Bought leads", True), ("MyBuilder", True),
+    ("Website form", False), ("Phone", False), ("Barking showroom", False), ("Yellow pages ad", False), (None, False),
+])
+def test_lead_site_and_bought_leads_are_excluded(source, excluded):
+    base = {"quote_date": "01/05/2026", "quote_status": "Lost", "phone": "07700900123", "lead_source": source}
+    reason, _ = eligibility(base, [], set(), TODAY)
+    assert (reason == "came from a lead site or bought list") is excluded

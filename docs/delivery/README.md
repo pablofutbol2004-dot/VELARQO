@@ -1,7 +1,7 @@
 # Delivery: what happens after an installer says yes
 
 Everything here is client-facing or handles client data. Order = the order a
-client hits it. Status: ✅ done · 🛠 to build. Step numbers match
+client hits it. Status: ✅ done · 📝 draft · 🛠 to build. Step numbers match
 `docs/OPERATING_MAP.md`.
 
 | # | Piece | Map step | Status |
@@ -10,14 +10,14 @@ client hits it. Status: ✅ done · 🛠 to build. Step numbers match
 | 2 | Old-quotes sample request | 3.5 | ✅ `02_export_request_email.md` |
 | 3 | Client folder + sample intake (outside git) | 4.2 | ✅ pilot record + states + approval gates: `python -m delivery.pilot create / approve / advance / status` |
 | 4 | Sample check script: column mapping, counts by age/product/status, eligibility (won, opt-outs, too recent, too old) | 4.3-4.4 | ✅ `python -m client_onboarding.sample_audit` (area + data-source checks still to add) |
-| 5 | One-page audit result for the installer | 4.5 | 🛠 |
-| 6 | Pilot agreement: what counts as a booked survey, no-show credit, cap, weekly invoice, holdout | 5.1 | 🛠 draft, lawyer checks |
-| 7 | Data processing agreement (they control the data, we process it) | 5.2 | 🛠 draft, lawyer checks |
-| 8 | Intake form: area, products, survey slots, who replies, sender name, data source + opt-out list | 5.3, 6.1 | 🛠 |
+| 5 | One-page audit result for the installer | 4.5 | ✅ `03_audit_result_template.md` |
+| 6 | Pilot agreement: what counts as a booked survey, no-show credit, cap, weekly invoice, holdout | 5.1 | 📝 draft, lawyer checks: `04_pilot_agreement.md` |
+| 7 | Data processing agreement (they control the data, we process it) | 5.2 | 📝 draft, lawyer checks: `05_data_processing_agreement.md` (+ `06_compliance_notes.md`, internal: lawful basis, open legal questions) |
+| 8 | Intake form: area, products, survey slots, who replies, sender name, data source + opt-out list | 5.3, 6.1 | ✅ `07_intake_form.md` |
 | 9 | Holdout split (10-20% not contacted) + stable homeowner IDs | 7.3-7.4 | ✅ `python -m delivery.pilot import / freeze` (tables in `20261010000000_pilots.sql`) |
-| 10 | Homeowner messages (3 texts + email, from the installer's name), approval sheet | 8.1, 6.5 | 🛠 |
+| 10 | Homeowner messages (3 texts + email, from the installer's name), approval sheet | 8.1, 6.5 | ✅ `08_homeowner_messages.md` (sequence, replies, escalation) + `09_message_approval_sheet.md` (store with `pilot approve ... messages --messages-file`) |
 | 11 | GoHighLevel campaign: send → stop on reply → STOP opt-out → booking → reminders | 8.2-8.5 | 🔧 our side built: `python -m delivery.pilot send-wave` (claim, push, enrol, crash-safe, stops on pause). GHL workflow itself to build at first sample. **GHL setting required: "allow duplicate contacts" OFF; workflow re-entry OFF.** |
-| 12 | Outcomes back into our database, weekly report, invoice | 11-13 | 🛠 |
+| 12 | Outcomes back into our database, weekly report, invoice | 11-13 | 🛠 report template ✅ `10_weekly_report_template.md`; outcome import + invoice script to build |
 
 Rules for anything in this folder:
 - House style (see `.claude/skills/velarqo-outreach`): plain, short, no
