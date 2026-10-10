@@ -15,7 +15,7 @@ it's needed. Tell Claude when one is done.
   details. *Why:* Spanish law expects it on commercial emails, and a
   sceptical installer will look. Needed before the first cold email, not
   just before the first pilot.
-- [ ] **Write the legitimate interests assessment (LIA)** for cold emailing
+- [ ] **Read and agree the legitimate interests assessment (LIA)** (draft: `docs/legal/LIA_cold_email.md`) for cold emailing
   named directors. Claude can draft it; you read and agree it. *Why:* UK
   GDPR needs it written down, and the legal checklist in
   `.claude/skills/velarqo-outreach/SKILL.md` (item 3) requires it. None
