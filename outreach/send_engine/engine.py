@@ -193,13 +193,12 @@ def review_rows(conn, campaign_id: str) -> list[dict]:
     with conn.cursor(row_factory=dict_row) as cur:
         return cur.execute(
             """
-            select m.id as message_id, c.display_name, m.to_email, c.city, c.website, q.priority,
+            select m.id as message_id, c.display_name, m.to_email, c.city, c.website,
                    m.sequence_step, m.variant_index, m.status, m.subject, m.body
             from messages m
             join companies c on c.id = m.company_id
-            left join outreach_queue q on q.id = c.id
             where m.campaign_id = %s
-            order by q.priority desc nulls last, m.sequence_step
+            order by m.sequence_step, c.display_name, m.id
             """,
             (campaign_id,),
         ).fetchall()
