@@ -155,7 +155,61 @@ Daily: the 1-3 output tasks picked the night before; the scoreboard line
 
 Nothing in this plan ends with "quit". It ends with "change one thing".
 
-## 8. What I need from you (in order)
+## 8. Pre-mortem: how this plan breaks by week 2, and the fix built in now
+
+| How it breaks | Fix (done before it happens) |
+|---|---|
+| Replies come, but nobody sends data. The ask "send me your old quotes" is the scariest step for a stranger. | A **no-export start**: on the call, they read you 5 quotes from their system; or they forward 20 quote emails to a Velarqo address; or you work from a screenshot. Data agreement comes after they see the first list of "still keen" names. Add it to the playbook close. |
+| "What would you actually send my customers?" and the call stalls. | Put the exact homeowner texts (`docs/delivery/08`) on the website as "what your customers receive", and in follow-up 2. Costs nothing, answers the fear. |
+| Google suspends the Workspace tenant (its policy bans bulk unsolicited mail) and all 16 inboxes die at once. | **Split providers now:** 8 inboxes on Google, 8 on Microsoft 365 (or a second Google tenant). The engine already supports Outlook (`integrations/email/`). One suspension then costs half, not all. |
+| A pilot books surveys, the installer doesn't attend or doesn't report, and the invoice is disputed. | Weekly booking cap and attended-survey definition in the agreement; shared booking log; move to per-attended billing on pilot #2. |
+| Homeowner messages go to people from Checkatrade/Bark lists (no soft opt-in). | The intake form (`07`) already asks provenance; refuse marketplace-sourced rows in the audit. |
+| Uni week eats the sell block; three quiet days become "it doesn't work". | Floor: 5 emails + replies even in exam weeks. Decision dates only. Mid-week doubt → `parking.md`. |
+| The first 500 sends get 0-1 positive replies. | Expected at the low end. The rule says change the offer or trade, not the channel: second arm ready (mini-estimate to the 50 best-fit firms), kitchens list ready. |
+
+## 9. The cheat codes (distribution)
+
+Cold email is one installer at a time. These reach hundreds at once:
+
+1. **Fabricators.** They sell frames to hundreds of installers each and already
+   spend money helping them sell (Sternfenster built its own quote-chasing
+   tool, EasyAdmin+; Eurocell runs a "Select" installer programme). Pitch:
+   "your installers lose quotes after you've already made the frames; I
+   recover them, you offer it as a member benefit, I pay you per installer
+   who signs." One fabricator yes = a warm intro to its whole network.
+2. **Lead vendors** (Lead Pronto, Leads 2 Trade, the ad agencies in the Ad
+   Library). Their clients buy leads that go quiet, which makes the vendor
+   look bad. Pitch: "I work your clients' old quotes under your brand or
+   mine; you keep a share; your retention goes up." They have 60-100+
+   clients each.
+3. **Glazing CRM / quoting software** (Glazepoint, Business Pilot, Tradify
+   UK). They hold the quote data and the export. A partner programme or
+   even a "recommended partner" listing.
+4. **Trade bodies' member benefits** (FENSA, Certass, GGF, NFRC): slow,
+   formal, but one listing reaches thousands.
+5. **Your first three clients**: two names each, every time.
+
+Partner outreach is the same engine: a list, a short plain email, a call.
+Start 10 Nov with 20 names; it's covered by the partner-list session.
+
+## 10. What "rich" looks like on this path (so you know what you're building)
+
+The compounding assets, in the order they appear:
+
+1. **A sales record**: calls → samples → pilots, with your own numbers.
+   Transferable to any business you ever run.
+2. **A client base on monthly fees** in a trade you know better than anyone.
+3. **Reactivation outcome data** across clients (quote age × value × trade ×
+   opener → booked). After 20 pilots you can say "contact these 300 of your
+   2,000", which nobody else in the UK can. That's the moat your own
+   research named.
+4. **A partner network** that sends clients without you emailing.
+5. **Demand you own** (ads for clients on performance) once 1-4 exist.
+
+Each one makes the next cheaper. None of them exists until you send the
+first batch.
+
+## 11. What I need from you (in order)
 
 1. Tonight: domains and inboxes bought and created; tell me when, I do DNS.
 2. This week: full legal name, a photo, yes/no on a £5/month UK number,
