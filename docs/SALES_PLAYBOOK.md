@@ -12,21 +12,21 @@ small sample export. Goal of the sample: a bounded pilot.
 **Interested / "tell me more"**
 > Thanks {name}. Simple version: you send me a list of quotes that went
 > quiet, I follow those homeowners up in your company's name, and anyone
-> who's still interested gets booked back in for a survey. Nothing to pay
-> unless surveys get booked.
+> who's still interested gets booked back in for a survey. You only pay for
+> surveys that get booked.
 >
 > Easiest is a 15-minute call so I can see if your old quotes are worth
 > doing. What day suits, or what's the best number to ring you on?
 
-**"How much?"** (no price in writing. Prices are tested on calls, see `docs/PRICING.md`)
-> No setup fee, and nothing to pay unless it gets surveys in your diary.
+**"How much?"** (no price in marketing copy or emails. Prices are tested on calls, see `docs/PRICING.md`. The price goes in the signed agreement and invoices only.)
+> No setup fee, and you only pay for surveys that get booked.
 > The exact number depends on how many old quotes you've got and what a
 > job's worth to you, so it's easier on a quick 15-minute call. When suits?
 
 **"Send me info"**
 Send `docs/delivery/01_send_info_email.md`
 (already half a page; it ends with: *"Roughly how many
-quotes from the last 12-24 months never turned into a job?"*
+quotes from the last 1-2 years never turned into a job?"*
 
 **"We already follow up"**
 > Good, a lot don't. Out of interest, what happens after the second or
@@ -95,9 +95,9 @@ Three rules, because the risk is your time, not money:
 
 | They say | You say |
 |---|---|
-| "They're my leads, I'd have got them anyway." (the biggest objection, per the YouTube research) | "Only if someone was still chasing them. We only touch quotes that have had no contact for 3-6 months, the ones you've written off. And we keep a slice of them uncontacted, so you can see what we added compared with doing nothing." |
+| "They're my leads, I'd have got them anyway." (the biggest objection, per the YouTube research) | "Only if someone was still chasing them. We only touch quotes that are 3-24 months old and weren't won, and anyone who's opted out is left alone. These are the ones you've written off. And we keep a slice of them uncontacted, so you can see what we added compared with doing nothing." |
 | "We're booked up for months." (good installers often run 8-12 week lead times) | "Good problem. This isn't about this week: it fills next season and the gaps when a job falls through, from people who already know your prices. We can pace it to your diary." |
-| "How do I know it works?" | "You don't yet, and neither do I on your data. That's why it's a small pilot and you only pay for booked surveys." |
+| "How do I know it works?" | "You don't yet, and neither do I on your data. That's why it's a small pilot and you only pay for surveys that get booked. Be clear that this means booked, not sold: they pay for a booked survey even if the job doesn't follow." |
 | "Why not call them ourselves?" | "You can. If your team already works every old quote, you don't need me. This is for the quotes nobody gets round to." |
 | "I don't want to annoy old customers." | "Neither do I. Short messages from your business, anyone who says no is never contacted again, and you approve the wording." |
 | "Our data's a mess." | "Most is. Send a small sample and I'll tell you if it's usable before anything goes out." |
@@ -110,6 +110,15 @@ Three rules, because the risk is your time, not money:
 - Mention clients, results or case studies (there are none yet).
 - Give a legal verdict on their data before seeing it.
 - Ask for the full homeowner database on day one.
+
+## After the sample
+
+Audit the sample with `python -m client_onboarding.sample_audit`, then send
+the audit result (`docs/delivery/03_audit_result_template.md`). If they want
+to go ahead, the pilot agreement and data processing agreement are
+`docs/delivery/04_pilot_agreement.md` and `05_data_processing_agreement.md`.
+Both are **drafts**: a UK lawyer must check them before a client signs.
+Everything after that is in `docs/delivery/README.md`.
 
 ## Pricing on calls
 

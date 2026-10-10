@@ -10,9 +10,11 @@ These override generic copywriting advice when they conflict. Product truth live
 ## The offer (only say what is true)
 
 - Velarqo runs follow-up campaigns on a firm's old, unconverted quotes and books a share of those homeowners back in as appointments.
-- Performance-based: "you only pay for surveys that get booked" (billing unit decided 2026-10-04; never state the price in writing). Cold test arm B offers to chase a firm's first 50 old quotes free. Terms agreed before anything starts.
-- Pricing model is **undecided**. Never state a price, per-appointment fee, or percentage until PRODUCT.md records one.
-- First vertical: UK window and door installers (ICP in `config/templates/icp-template.json`). Default offer line lives in `outreach/personalization/generator.py` (`DEFAULT_OFFER_LINE`).
+- Performance-based: "You only pay for surveys that get booked" (billing unit decided 2026-10-04). Cold test arm B offers to chase a firm's first 50 old quotes free. Terms agreed before anything starts.
+- Never write "nothing to pay unless it works" or "pay only if it works". It is misleading: they pay per booked survey even if no sale follows.
+- **No price in marketing copy or emails.** Never state a price, per-survey fee, or percentage in cold emails, replies in writing, or website copy. The price is tested on calls and lives in the signed agreement and invoices only. This rule is about marketing and emails, not contracts or invoices, which must state the price.
+- Verticals: UK window and door installers (ICP in `config/templates/icp-template.json`) and domestic roofing (`cold_roofing_v1`). Default offer line lives in `outreach/personalization/generator.py` (`DEFAULT_OFFER_LINE`).
+- Old quotes we work: 3-24 months old, not won, not opted out.
 
 ## Honesty limits (hard rules)
 
@@ -33,8 +35,8 @@ Status as of 2026-10-01: **founder decision: proceed with cold email to UK corpo
 
 1. **Spain (LSSI art. 21)**: the founder operates as an autónomo established in Spain. LSSI art. 21 bans unsolicited commercial email without prior consent, and the AEPD applies it to business recipients (legal persons) too, not only individuals. This directly conflicts with cold email. Needs a Spanish lawyer/gestor's answer on: does it apply to emails sent to UK businesses; would a UK Ltd managed from Spain change it; which channels are safe.
 2. **UK PECR**: B2B email to *corporate subscribers* (Ltd companies, LLPs, public bodies) is allowed without consent if we identify ourselves and offer an opt-out. Sole traders and ordinary partnerships count as individuals and need prior consent: exclude them (Companies House-sourced Ltd firms are fine; OSM/website-only firms may be sole traders).
-3. **UK GDPR / EU GDPR**: legitimate-interests basis for named directors' work emails, with a documented LIA, privacy notice at velarqo.com/privacy.html, opt-out list honoured forever (suppression list).
-4. Every email: real sender identity, physical/legal identity available on the site, working opt-out.
+3. **UK GDPR / EU GDPR**: legitimate-interests basis for named directors' work emails, with a documented LIA, privacy notice at velarqo.com/privacy.html, opt-out list honoured forever (suppression list). **Open: no LIA has been written yet.** It must exist before the first send (~25 Oct).
+4. Every email: real sender identity, physical/legal identity available on the site, working opt-out. **Open:** the founder's full legal name and address are not on velarqo.com yet; add them before the first cold email.
 
 ## Before handing copy back
 
