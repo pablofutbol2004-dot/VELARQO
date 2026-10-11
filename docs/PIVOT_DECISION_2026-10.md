@@ -79,7 +79,7 @@ The generic appointment-setting row scores close. What separates our pick is the
 
 | Date | Pass | Fail → do this |
 |---|---|---|
-| 20 Nov | Bounces under 3%; at least 5 positive replies from 1,000; at least 3 firms say 20+ open proposals | Check deliverability first. Then change the ask (lead with outbound walk-throughs instead of old proposals), not the niche |
+| 20 Nov | Bounces under 3%; at least 5 positive replies from 1,000; at least 3 firms say 20+ open proposals | Check deliverability first. An arm with 1-4 positive replies runs to 3,000 sends before it's judged. An arm with 0 from 1,000 is stopped: change the hook, not the niche |
 | 4 Dec | At least 3 calls held, at least 1 pilot export received | Same offer to the next 1,000 (facilities management + larger cleaning firms) |
 | 15 Dec | At least 1 pilot showing booked walk-throughs over the holdout | If replies say "we only win by tender or price": test the AEC/tender slice in January |
 
@@ -92,6 +92,28 @@ Building work is limited to what the first pilot needs: a proposal-list importer
 - **No records.** Small firms may not keep proposal lists. The first-email question checks this before we build anything.
 - **Zero proof.** We've never booked a meeting for anyone. The first case study is the whole game, which is why the first two pilots are free.
 - **Founder drift.** This is the third direction in a week. The research freeze applies again from the day Pablo decides. Only replies change the plan after that.
+
+## 7. Changes after 11 more transcripts (11 Oct evening)
+
+Source: `D:\knowledge_base\wl_reviews\2026-10-11_batch_offers_sales_coldemail.md`. The niche stands, with five adjustments.
+
+1. **Two hooks in the first emails, not one.**
+   - **Hook A** asks about old proposals. Nobody sells that, which could mean an opening or could mean there's no demand. In an empty niche, ask why it's empty (Danes).
+   - **Hook B** offers booked walk-throughs with local offices. Buyers for that are proven: the US appointment-setting market for cleaning firms is crowded at about $130 per appointment.
+   - Each niche gets both hooks: 4 cells of about 250 firms. Whichever hook wins becomes the way in; the other becomes part of the monthly service.
+2. **Bigger jobs first.** Danes' rule is that the client should make at least $2,500 profit per deal, up front. A small office cleaning contract makes about £1.2-2.5k a year, so it fails.
+   - Cleaning firms are limited to non-micro accounts, and we prefer sites that mention schools, healthcare, multi-site or contract cleaning.
+   - Fire & security stays as the second niche: installation jobs plus recurring maintenance.
+3. **A trust page before the first send.** One page per niche. It shows Pablo's real name and face, the demo (a sample follow-up sequence and a sample renewal calendar), plain prices for the pilot, and no fake proof. Cold emails link to it only in the signature. It's needed by 30 Oct.
+4. **Engine upgrades before the first send** (Nowoslawski):
+   - Per-inbox weekly reply rate: an inbox with 100+ sends and under 1% replies is paused.
+   - An auto-reply seed test.
+   - Word-level spintax, including the signature and the opt-out line.
+   - A sudden-drop alert.
+   - Partner outreach (trade bodies, cleaning software vendors) from the same inboxes from week 3. It's a "positive" campaign that also keeps the inboxes healthy.
+5. **The offer gets an easy first yes.** "Send us 10 proposals that went quiet and we'll write the follow-ups free; you send them or we do." This is a free sample before a pilot (Nowoslawski's free sample, Siu's work up front). Any guarantee gets built from the objections on the first 5 calls (Danes, Mills), not invented now.
+
+**Income check (honest):** at £400-600 a month and 3-5 clients, this is £1.5-3k a month by summer if it works. Getting bigger means one of two things. Either per-walk-through pricing at the bottom of the UK B2B range (£150+ per walk-through, against the £150-600 per appointment UK agencies charge), or a move to bigger-ticket niches once there's a case study. Decide prices after the first 3 calls, not now.
 
 ## 6. Still open (for Pablo)
 
