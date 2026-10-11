@@ -76,10 +76,15 @@ obviously wrong (big manufacturer, commercial-only, not a window firm).
 
 ## Daily (5 minutes)
 
-- `python -m pipelines.outbound replies`: answer positives the same day
+- Positive replies, questions and complaints ping your phone and Gmail
+  within 15 minutes (set up in `docs/FIRST_WEEK_REPLY_ROUTINE.md`; test
+  with `python -m pipelines.outbound alert-test`). Answer within the hour.
+- `python -m pipelines.outbound replies`: everything still waiting
   (`docs/SALES_PLAYBOOK.md` has the reply templates, call script and
   pilot close), then `handled <id>`.
 - `python -m pipelines.outbound status`: sends, bounces, anything stuck.
+- 20:00: the scoreboard (sent / bounces / replies / positive / calls /
+  samples / pilots) arrives the same way; `scoreboard --csv` any time.
 
 ## Before the first email: open items
 

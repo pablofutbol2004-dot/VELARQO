@@ -12,6 +12,9 @@
     python -m pipelines.outbound call-sheet info@acme.co.uk  # before a call: history + price to quote
     python -m pipelines.outbound outcome info@acme.co.uk call_held --reaction ok
     python -m pipelines.outbound results cold_offer_v1       # how a test is going, in plain English
+    python -m pipelines.outbound scoreboard [--csv] [--notify]  # sent/bounces/replies/positive/calls/samples/pilots
+    python -m pipelines.outbound alert-test                  # a sample alert to your phone/Gmail (see outreach/alerts)
+    python -m pipelines.outbound alerts                      # ping now for replies not yet alerted (the tick does this)
 
 Mailboxes live in config/mailboxes.json (see mailboxes.example.json);
 their OAuth tokens live in .env (authorize-mailbox writes them).
@@ -27,8 +30,11 @@ import click
 from data.supabase_store import connect, icp_version
 from integrations.email.gmail import GmailProvider
 from integrations.email.google_auth import access_token_for, authorize_mailbox
-from outreach.reply_classifier.classify import strip_quoted
+from outreach.alerts import replies as reply_alerts
+from outreach.alerts.channels import Notifier
+from outreach.reply_classifier.classify import label, strip_quoted
 from outreach.send_engine import compose, engine, experiments
+from reporting.scoreboard import scoreboard as scoreboard_cmd
 
 ROOT = Path(__file__).parents[2]
 ICP_PATH = ROOT / "config" / "templates" / "icp-template.json"
@@ -210,6 +216,10 @@ def run(dry_run, max_per_mailbox):
             except Exception as exc:  # noqa: BLE001 - one broken mailbox must not stop the others
                 report[f"inbox {m['email']}"] = f"ERROR {type(exc).__name__}: {str(exc)[:200]} (not sending from it this tick)"
                 engine.note_problem(conn, m["email"], f"inbox sync failed: {type(exc).__name__}: {str(exc)[:300]}")
+        if dry_run:
+            report["alerts"] = "skipped (dry run)"
+        else:
+            report["alerts"] = _alerts(conn, mailboxes, provider_for)
         statuses = ("draft", "active") if dry_run else ("active",)
         report["follow-ups queued"] = engine.schedule_followups(conn, campaign_statuses=statuses)
         report["stop rule"] = engine.check_stop_rules(conn)
@@ -247,14 +257,53 @@ def run(dry_run, max_per_mailbox):
     click.echo(f"{stamp} {'DRY RUN (rolled back) ' if dry_run else ''}{json.dumps(report, default=str)}")
 
 
+def _alerts(conn, mailboxes, provider_for) -> str:
+    """Push + email for replies that need answering, and the 20:00 summary.
+    Never raises: a dead alert channel must not stop the tick."""
+    try:
+        notifier = Notifier(send_email=reply_alerts.email_sender(provider_for, mailboxes))
+        result = reply_alerts.send_pending(conn, notifier)
+        daily = reply_alerts.send_daily_summary(conn, notifier)
+        return f"{result['alerted']} sent, {result['failed']} failed" + (" (no channel configured)" if result["no_channel"] else "") + f"; daily: {daily}"
+    except Exception as exc:  # noqa: BLE001
+        engine.note_problem(conn, "alerts", f"alerting failed: {type(exc).__name__}: {str(exc)[:300]}")
+        return f"ERROR {type(exc).__name__}: {str(exc)[:200]}"
+
+
+@cli.command()
+def alerts():
+    """Ping now for replies not yet alerted (the 15-minute tick does this by itself)."""
+    conn = _conn()
+    notifier = Notifier(send_email=reply_alerts.email_sender())
+    if not notifier.channels:
+        raise click.ClickException("No alert channel configured: set NTFY_TOPIC or TELEGRAM_BOT_TOKEN+TELEGRAM_CHAT_ID "
+                                   "and/or VELARQO_ALERT_EMAIL in .env (python scripts/set_secret.py NAME)")
+    result = reply_alerts.send_pending(conn, notifier)
+    click.echo(f"channels {', '.join(notifier.channels)}: {result['alerted']} alerted, {result['failed']} failed")
+
+
+@cli.command("alert-test")
+def alert_test():
+    """Send one sample positive-reply alert through every configured channel."""
+    notifier = Notifier(send_email=reply_alerts.email_sender())
+    if not notifier.channels:
+        raise click.ClickException("No alert channel configured: set NTFY_TOPIC or TELEGRAM_BOT_TOKEN+TELEGRAM_CHAT_ID "
+                                   "and/or VELARQO_ALERT_EMAIL in .env (python scripts/set_secret.py NAME)")
+    for d in reply_alerts.test_alert(notifier):
+        click.echo(f"  {d.channel}: {'ok' if d.ok else 'FAILED ' + d.detail}")
+
+
 @cli.command()
 def replies():
     """Replies waiting for you (positive, unclear, complaints, unmatched)."""
-    rows = engine.open_replies(_conn())
+    conn = _conn()
+    rows = engine.open_replies(conn)
     if not rows:
         click.echo("Nothing waiting.")
+    intents = dict(conn.execute("select id, classification->>'intent' from replies where id = any(%s)",
+                                ([r["id"] for r in rows],)).fetchall()) if rows else {}
     for r in rows:
-        click.echo(f"\n[{r['category']}] {r['received_at']:%a %d %b %H:%M}  {r['display_name'] or '(unmatched)'} "
+        click.echo(f"\n[{label(r['category'], intents.get(r['id']))}] {r['received_at']:%a %d %b %H:%M}  {r['display_name'] or '(unmatched)'} "
                    f"<{r['from_email']}>  {r['phone'] or ''}\n  id {r['id']}\n  Subject: {r['subject']}\n  "
                    + strip_quoted(r["body"])[:600].replace("\n", "\n  "))
 
@@ -384,6 +433,9 @@ def test_send(to, mailbox):
     email = compose.first_touch(sample, experiments.load(DEFAULT_EXPERIMENT), 0)
     result = _provider(config).send_email(to=to, subject=f"[TEST] {email['subject']}", body=email["body"])
     click.echo(f"Sent test email, Gmail id {result['message_id']}")
+
+
+cli.add_command(scoreboard_cmd)
 
 
 if __name__ == "__main__":
