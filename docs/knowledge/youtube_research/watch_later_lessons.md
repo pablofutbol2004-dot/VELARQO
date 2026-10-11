@@ -67,6 +67,7 @@ Actionable lessons kept from Watch Later reviews, newest first. Full per-video r
 - **Tracker per tactic:** tactic / expected result / actual result / decision (Noah Kagan via Jay Yang [5:15]). Use it for email variants, list sources and the Spain test.
 - **The four offer levers** (Dan Koe, XqS7kIWMIDE [9:24]): dream outcome, mechanism, speed, guarantee. Velarqo's weak lever is **speed**, so state "first appointments within X days".
 - **Performance pricing lands client #1** (roasbrez [8:22]: 10% of a Black Friday drop). Consistent with `offers_pricing.md`.
+- **Sell money first, time second** (John Danes, `wl_reviews/2026-10-11_john_danes_hybrid_offer.md`). Small owners who haven't solved getting clients won't pay much to save time, and time-saving setups commoditise fast. The strongest offer is a hybrid: one chain of 3-5 pieces where each fixes the problem the last one created (leads → follow-up → booked calls), sold only as a whole. His revenue claims are unverified, and the video is a pitch for his mastermind.
 - **Don't automate what doesn't exist yet** (Dan Koe [34:44]). Run the first reactivations by hand, then turn the process into prompts by feeding the AI real good examples and your actual steps.
 
 ### Content (for later)

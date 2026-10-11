@@ -18,6 +18,7 @@ Deadline: pick by **Fri 16 Oct**. First send ~1 Nov.
 | D2 | No big software build and no paid tools before the first sale | Free-tier rule; ship fast |
 | D3 | Pablo (plus AI) can do it well enough to get a result in a 30-day pilot | Otherwise no case study |
 | M1 | The buyer **loses money from this problem every month** and knows it | Vitamins don't get replies |
+| M1b | The core of the offer **adds money** (more clients, more deals). Saving time can be part of it, but not the whole offer | Owners who haven't solved getting clients won't pay much to save time, and time-saving setups commoditise fast (John Danes review, ledger 39) |
 | M2 | Can be **monthly, ≥£300/month** | One-offs don't build income |
 | M3 | Someone already pays for it today (competitor with public prices, job ads, Upwork/agency offers) | Proves budget exists; no competitor usually means no market |
 | R1 | We can build **≥3,000 firms** from free sources (Companies House SIC codes, Google Places) | The engine needs volume to test |

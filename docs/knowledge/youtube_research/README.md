@@ -18,6 +18,7 @@ These are verified digests from the YouTube library in `D:\KNOWLEDGE_BASE`: abou
 | `cold_outreach.md` | Cold email mechanics and offer-first outreach |
 | `content_acquisition.md`, `faceless_content.md` | Content as proof for outbound (later), and its limits for B2B |
 | `jp_middleton.md`, `corey_ganim.md`, `taylor_haren.md` | Channel digests: the reactivation agency model, diagnosis-first offer ladder, experimental outbound (70/20/10) |
+| `2026-10-11_john_danes_hybrid_offer.md` | Addition vs subtraction vs hybrid offers; owners pay for money before time; one chain of 3-5 pieces sold as a whole (claims self-reported) |
 | `watch_later_lessons.md` | Running lessons from Watch Later reviews: funnel-by-step tracking, competitor "prospect" calls, kill criteria, security pass before client data, execution rules |
 
 ## Digging deeper (raw library)
