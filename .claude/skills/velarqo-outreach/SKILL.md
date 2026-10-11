@@ -40,6 +40,7 @@ Status as of 2026-10-01: **founder decision: proceed with cold email to UK corpo
 
 ## Before handing copy back
 
+- Run the `humanizer:humanizer` skill over the draft (removes AI-sounding phrasing), then re-check the rules below: humanizer must not add claims, prices or urgency.
 - Check each claim against PRODUCT.md "Evidence on Hand". If it isn't there, cut it.
 - Count words; read it aloud as a window fitter would hear it.
 - State which checklist items are still open.
