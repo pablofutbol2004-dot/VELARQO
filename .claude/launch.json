@@ -3,14 +3,27 @@
   "configurations": [
     {
       "name": "website",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8791", "--directory", "website"],
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "--yes",
+        "serve",
+        "-l",
+        "8791",
+        "--no-clipboard",
+        "website"
+      ],
       "port": 8791
     },
     {
       "name": "mocks",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8792", "--directory", ".impeccable/mocks"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8792",
+        "--directory",
+        ".impeccable/mocks"
+      ],
       "port": 8792
     }
   ]

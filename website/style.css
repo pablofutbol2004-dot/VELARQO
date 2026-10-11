@@ -143,3 +143,32 @@ a:focus-visible { outline: 3px solid var(--pop); outline-offset: 3px; }
 }
 @media (min-width: 761px) { h1 { max-width: none; } .hot { white-space: nowrap; } }
 @media (max-width: 760px) { h1 { font-size: 32px; } }
+
+/* Trade pages: what your customers receive */
+.msgs-intro { max-width: 60ch; }
+.msgs { list-style: none; padding: 0; margin: 0 0 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+.msgs li { border: 2px solid var(--ink); padding: 14px 16px; background: rgba(255,255,255,.35); }
+.msgs .when { display: block; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--stamp); margin-bottom: 8px; }
+.msgs p { margin: 0; }
+.ph { color: var(--biro); font-weight: 600; }
+.msgs-note { margin: 0; color: var(--muted); max-width: 60ch; }
+
+/* Trade links on the home page */
+.trades { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.trades a { display: block; border: 2px solid var(--ink); margin: -2px 0 0 -2px; padding: 16px 18px 18px; text-decoration: none; }
+.trades a:hover { background: var(--form-deep); }
+.trades .label { margin-bottom: 6px; color: var(--stamp); }
+.trades b { display: block; font-size: 20px; font-weight: 800; line-height: 1.15; }
+.trades span { color: var(--muted); font-size: 16px; }
+
+/* FAQ page */
+.faq h2 { font-size: 22px; }
+.faq-cta { margin-top: 2.2em; }
+.q-nav a.nav-mob { display: none; }
+
+@media (max-width: 760px) {
+  .msgs, .trades { grid-template-columns: 1fr; }
+  .q-nav a.nav-sub { display: none; }
+  .q-nav a.nav-mob { display: flex; }
+  .items .r { white-space: normal; }
+}
