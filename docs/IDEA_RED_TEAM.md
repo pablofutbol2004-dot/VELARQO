@@ -14,7 +14,7 @@ Deadline: pick by **Fri 16 Oct**. First send ~1 Nov.
 | L2 | Delivering the service never means emailing, texting or calling **consumers** without their consent | The installer lesson: the soft opt-in almost never exists |
 | L3 | Not a regulated activity: no financial, debt, insurance, legal, medical or immigration advice; no claims management | Needs FCA/SRA authorisation or carries liability we can't carry |
 | L4 | No buying, selling or renting personal data | Commodity anyway; PECR/UK GDPR risk |
-| D1 | Pablo can deliver it from Spain, by email/async, in **10-20 h a week**, no phone calls | Founder hours are the ceiling; exams exist |
+| D1 | Pablo can deliver it from Spain, mostly async, in **10-20 h a week**. No cold calling. Booked calls with interested prospects or clients are fine; delivery must not depend on answering a phone live during UK hours | Founder hours are the ceiling; exams exist; his rule is no cold calling |
 | D2 | No big software build and no paid tools before the first sale | Free-tier rule; ship fast |
 | D3 | Pablo (plus AI) can do it well enough to get a result in a 30-day pilot | Otherwise no case study |
 | M1 | The buyer **loses money from this problem every month** and knows it | Vitamins don't get replies |
@@ -48,10 +48,11 @@ engine. Pick the highest total; a tie goes to the one with fewer sales steps.
 
 > I run a cold email engine (8 warmed Google Workspace inboxes, UK company
 > lists from Companies House and Google Places). I'm a student in Spain with
-> 10-20 hours a week, no phone sales, no budget before the first sale. Suggest
+> 10-20 hours a week, no cold calling (booked video calls with interested
+> prospects are fine), no budget before the first sale. Suggest
 > B2B services I can sell to UK limited companies (2-50 staff) where: the
-> buyer loses money from the problem every month; I can deliver it by email
-> and with AI, remotely; it can be £300+/month; someone already sells it
+> buyer loses money from the problem every month; I can deliver it mostly by
+> email and with AI, remotely, without answering phones live; it can be £300+/month; someone already sells it
 > today; delivering it never requires contacting consumers without consent;
 > it's not regulated (no financial, legal, medical, debt, insurance advice).
 > For each idea give: the buyer, the problem, what I'd deliver, who already
