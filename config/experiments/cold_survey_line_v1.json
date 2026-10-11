@@ -16,7 +16,7 @@
     "zero complaints"
   ],
   "min_sent_per_arm": 60,
-  "decision_rule": "Directional only (~70 per arm). Keep the specific line if it has >= 80% probability of the higher positive-reply rate and no more opt-outs; then use 'name the real cost from their own site' as a pattern.",
+  "decision_rule": "Waiting since 2026-10-11: v2 email 1 has no cost sentence, so this test's variable is gone. Rewrite on the v2 structure (e.g. a survey-specific opener) or retire it; until then its home_survey firms stay reserved (cold_offer_v1 excludes them). Directional only (~70 per arm). Keep the specific line if it has >= 80% probability of the higher positive-reply rate and no more opt-outs; then use 'name the real cost from their own site' as a pattern.",
   "arms": [
     {
       "key": "A_trip_out_to_measure",
@@ -28,5 +28,6 @@
       "subject": "last year's quotes",
       "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nThe ones who don't ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, and the time spent pricing it up.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?"
     }
-  ]
+  ],
+  "status": "waiting"
 }

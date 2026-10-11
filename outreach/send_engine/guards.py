@@ -1,5 +1,7 @@
 """Pure send-safety rules (no database, no network) so they are easy to test."""
 
+import os
+from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
@@ -37,12 +39,58 @@ SHARED_ISP_DOMAINS = {
     "tesco.net", "o2.co.uk", "zen.co.uk", "onetel.com", "fsmail.net", "supanet.com", "uwclub.net", "lineone.net",
 }
 
-SEND_DAYS = range(0, 5)  # Mon-Fri
-SEND_START, SEND_END = time(8, 30), time(17, 0)
+# Send windows, per environment (.env or the shell), UK time:
+#   VELARQO_SEND_WINDOW="Mon-Fri 08:30-17:00"       nothing goes out outside it
+#   VELARQO_PREFERRED_WINDOW="Tue-Thu 08:30-12:00"  first emails wait for it ("off" disables)
+# Follow-ups ignore the preferred window: they keep their business-day gaps.
+DEFAULT_SEND_WINDOW = "Mon-Fri 08:30-17:00"
+DEFAULT_PREFERRED_WINDOW = "Tue-Thu 08:30-12:00"
+_DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+
+@dataclass(frozen=True)
+class Window:
+    days: frozenset
+    start: time
+    end: time
+
+    def contains(self, now: datetime) -> bool:
+        local = now.astimezone(UK)
+        return local.weekday() in self.days and self.start <= local.time() < self.end
+
+
+def parse_window(text: str) -> "Window | None":
+    """'Tue-Thu 08:30-12:00' or 'Mon,Wed 09:00-11:00'; 'off' or '' -> None."""
+    text = (text or "").strip()
+    if text.lower() in ("", "off", "none"):
+        return None
+    try:
+        day_part, hour_part = text.split()
+        days = set()
+        for chunk in day_part.lower().split(","):
+            first, _, last = chunk.partition("-")
+            a, b = _DAYS.index(first[:3]), _DAYS.index((last or first)[:3])
+            days.update(range(a, b + 1))
+        start, end = (time.fromisoformat(t) for t in hour_part.split("-"))
+    except ValueError as exc:
+        raise ValueError(f"send window {text!r} must look like 'Mon-Fri 08:30-17:00'") from exc
+    if not days or start >= end:
+        raise ValueError(f"send window {text!r} is empty")
+    return Window(frozenset(days), start, end)
+
+
+def send_window() -> Window:
+    return parse_window(os.environ.get("VELARQO_SEND_WINDOW") or DEFAULT_SEND_WINDOW)
+
+
+def preferred_window() -> "Window | None":
+    return parse_window(os.environ.get("VELARQO_PREFERRED_WINDOW", DEFAULT_PREFERRED_WINDOW))
+
 
 # Follow-up step -> business days after the previous step was sent.
 FOLLOW_UP_GAPS = {2: 3, 3: 5}
 LAST_STEP = max(FOLLOW_UP_GAPS)
+DEFAULT_STEPS = 3  # an experiment can send fewer ("steps": 2 = email 1 + follow-up 2)
 
 BOUNCE_STOP_RATE = 0.05
 BOUNCE_STOP_MIN_SENT = 20
@@ -68,9 +116,35 @@ def domain_suppressible(domain: str) -> bool:
     return bool(domain) and domain not in FREE_MAIL_DOMAINS | SHARED_ISP_DOMAINS | PLATFORM_DOMAINS
 
 
-def in_send_window(now: datetime) -> bool:
+def in_send_window(now: datetime, window: Window | None = None) -> bool:
+    return (window or send_window()).contains(now)
+
+
+def preferred_capacity(now: datetime, daily_cap: int, preferred: Window, horizon_days: int = 7) -> int:
+    """First emails one mailbox can still send in preferred windows over the
+    next week (today counts only if its preferred window hasn't started)."""
     local = now.astimezone(UK)
-    return local.weekday() in SEND_DAYS and SEND_START <= local.time() < SEND_END
+    days = 0
+    for offset in range(horizon_days):
+        day = local.date() + timedelta(days=offset)
+        if day.weekday() in preferred.days and (offset > 0 or local.time() < preferred.start):
+            days += 1
+    return days * daily_cap
+
+
+def hold_first_emails(now: datetime, backlog_per_mailbox: int, daily_cap: int, preferred: Window | None) -> bool:
+    """Outside the preferred window, first emails wait for it, unless the
+    queue is bigger than the next week's preferred windows can send: then the
+    surplus goes out in the normal window, so reach never slows down."""
+    if preferred is None or preferred.contains(now):
+        return False
+    return backlog_per_mailbox <= preferred_capacity(now, daily_cap, preferred)
+
+
+def cold_sending_open(now: datetime, cold_from: date | None) -> bool:
+    """A mailbox sends cold email only from its `cold_from` date (UK). Until
+    then (a young domain: under 30 days) it does warm-up only. No date = never."""
+    return cold_from is not None and now.astimezone(UK).date() >= cold_from
 
 
 def uk_day_start(now: datetime) -> datetime:
@@ -88,9 +162,9 @@ def business_days_between(start: date, end: date) -> int:
     return days
 
 
-def follow_up_due(previous_sent_at: datetime, next_step: int, now: datetime) -> bool:
+def follow_up_due(previous_sent_at: datetime, next_step: int, now: datetime, steps: int = DEFAULT_STEPS) -> bool:
     gap = FOLLOW_UP_GAPS.get(next_step)
-    if gap is None:
+    if gap is None or next_step > steps:
         return False
     return business_days_between(previous_sent_at.astimezone(UK).date(), now.astimezone(UK).date()) >= gap
 

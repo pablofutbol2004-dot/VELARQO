@@ -1,5 +1,6 @@
 """Send-engine rules that need no database: guards, reply categories, copy."""
 
+import re
 from datetime import datetime, timezone
 
 import pytest
@@ -23,7 +24,8 @@ def test_only_corporate_subscribers_are_emailable(category, ok):
     assert guards.is_corporate(category) is ok
 
 
-def test_send_window_is_uk_weekday_working_hours():
+def test_send_window_is_uk_weekday_working_hours(monkeypatch):
+    monkeypatch.delenv("VELARQO_SEND_WINDOW", raising=False)
     assert guards.in_send_window(datetime(2026, 10, 6, 9, 0, tzinfo=timezone.utc))       # Tue 10:00 BST
     assert not guards.in_send_window(datetime(2026, 10, 6, 6, 0, tzinfo=timezone.utc))   # Tue 07:00 BST
     assert not guards.in_send_window(datetime(2026, 10, 10, 10, 0, tzinfo=timezone.utc)) # Saturday
@@ -139,13 +141,43 @@ def test_every_cold_email_arm_is_clean_short_and_identifies_us(name, arm):
     assert "Pablo" in body and "velarqo.com" in body
     assert compose.word_count(body, email["company"]) <= compose.MAX_WORDS
     assert not [w for w in BANNED if w in body], "agency talk, unbacked claim, or a price (pricing is undecided)"
-    assert body.count("Urg Windows & Doors") <= 1
+    # The name once in our words; the quoted homeowner text may carry it again (v2).
+    ours = re.sub(r'"[^"]*"', "", body.split("\n\nPablo")[0])
+    assert ours.count("Urg Windows & Doors") <= 1
 
 
-def test_offer_test_changes_only_the_offer():
-    a, b = experiments.load("cold_offer_v1")["arms"]
-    assert a["subject"] == b["subject"]
-    assert a["body"].split("\n\n")[:2] == b["body"].split("\n\n")[:2], "same greeting and opener in both arms"
+@pytest.mark.parametrize("name", ["cold_offer_v1", "cold_roofing_v1"])
+def test_offer_test_changes_only_the_offer(name):
+    a, b = experiments.load(name)["arms"]
+    assert a["subject"] == b["subject"] == "last year's quotes"
+    pa, pb = a["body"].split("\n\n"), b["body"].split("\n\n")
+    differ = [i for i, (x, y) in enumerate(zip(pa, pb)) if x != y]
+    assert len(pa) == len(pb) and len(differ) == 1, "only the offer line differs between arms"
+    assert "You only pay for surveys that get booked." in pa[differ[0]]
+    assert pb[differ[0]] == "I'll chase your first 50 free. Anyone still keen goes in your diary."
+
+
+def test_v2_copy_matches_the_approved_doc():
+    """Email 1 shows the homeowner text (docs/COLD_EMAIL_V2.md, approved 2026-10-11)."""
+    windows = compose.first_touch(ROW, experiments.load("cold_offer_v1"), 0)["body"]
+    roofing = compose.first_touch(ROW, experiments.load("cold_roofing_v1"), 1)["body"]
+    assert windows.startswith(
+        "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\n"
+        "Most don't. So I'd text the ones Urg Windows & Doors quoted last year, from your name:\n\n"
+        "\"Hi, it's Urg Windows & Doors. We quoted for your windows a while back. Did you ever get that sorted?\"\n\n"
+        "Anyone still keen goes in your diary. You only pay for surveys that get booked.\n\nWorth a go?\n\n")
+    assert "We quoted for your roof a while back." in roofing and "your windows" not in roofing
+    follow_up = compose.follow_up(2, ROW, "last year's quotes", experiments.load("cold_roofing_v1")["arms"][0])["body"]
+    assert follow_up.startswith("Hi,\n\nWhat you'd get back: a short list of homeowners")
+    assert "Read me five old quotes on a ten-minute call" in follow_up
+    assert "Roughly how many have you got: tens, hundreds?" in follow_up
+
+
+def test_segment_tests_follow_the_v2_structure_or_wait():
+    tailored, control = experiments.load("cold_nopressure_v1")["arms"]
+    assert control["body"] == experiments.load("cold_offer_v1")["arms"][0]["body"], "control = cold_offer_v1 arm A"
+    assert tailored["body"].split("\n\n")[3:] == control["body"].split("\n\n")[3:], "only the opener differs"
+    assert experiments.load("cold_survey_line_v1")["status"] == "waiting", "its cost-sentence variable is gone in v2"
 
 
 def test_price_arm_is_stable_per_company_and_spreads_across_arms():
@@ -189,13 +221,13 @@ def test_placeholder_signature_is_caught():
     assert "unfilled placeholder" in compose.problems({"subject": "x", "body": "Hi [Your name] velarqo.com"})
 
 
-@pytest.mark.parametrize("name", ["cold_offer_v1"])
+@pytest.mark.parametrize("name", ["cold_offer_v1", "cold_roofing_v1", "cold_nopressure_v1"])
 def test_every_live_email_passes_checks(name):
     exp = experiments.load(name)
     for i, arm in enumerate(exp["arms"]):
         first = compose.first_touch(ROW, exp, i)
         assert compose.problems(first) == [], arm["key"]
-        for step in (2, 3):
+        for step in range(2, experiments.steps(exp) + 1):
             assert compose.problems(compose.follow_up(step, ROW, first["subject"], arm)) == [], (arm["key"], step)
 
 
@@ -236,5 +268,145 @@ def test_free_mail_addresses_are_never_company_mailboxes():
 
 
 def test_possessive_for_names_ending_in_s():
-    email = compose.first_touch({"display_name": "Leeds Windows And Doors"}, experiments.load("cold_offer_v1"), 0)
+    exp = {"arms": [{"key": "a", "subject": "s", "body": "Hi,\n\nStill in {company}'s inbox?"}]}
+    email = compose.first_touch({"display_name": "Leeds Windows And Doors"}, exp, 0)
     assert "Leeds Windows And Doors' inbox" in email["body"] and "Doors's" not in email["body"]
+
+
+# --- Sequence length per experiment ---------------------------------------
+
+@pytest.mark.parametrize("name", ["cold_offer_v1", "cold_roofing_v1"])
+def test_two_email_experiments_never_send_follow_up_three(name):
+    steps = experiments.steps(experiments.load(name))
+    assert steps == 2
+    sent = datetime(2026, 10, 6, 9, tzinfo=timezone.utc)                                      # Tue
+    assert guards.follow_up_due(sent, 2, datetime(2026, 10, 9, 9, tzinfo=timezone.utc), steps)  # Fri = +3 bdays
+    assert not guards.follow_up_due(sent, 3, datetime(2026, 11, 30, 9, tzinfo=timezone.utc), steps)
+
+
+def test_steps_default_to_three_and_are_validated():
+    assert experiments.steps({}) == 3 == experiments.steps(None)
+    assert guards.follow_up_due(datetime(2026, 10, 6, tzinfo=timezone.utc), 3, datetime(2026, 11, 30, tzinfo=timezone.utc))
+    base = {"name": "x", "stage": "cold_email", "hypothesis": "h", "primary_metric": "m", "decision_rule": "d",
+            "arms": [{"key": "a", "subject": "s", "body": "b"}, {"key": "b", "subject": "s", "body": "b"}]}
+    for bad in (0, 4, "2", 2.5):
+        with pytest.raises(ValueError):
+            experiments.validate({**base, "steps": bad})
+    experiments.validate({**base, "steps": 1})
+
+
+# --- Send windows -------------------------------------------------------------
+
+def test_send_windows_parse_and_come_from_the_environment(monkeypatch):
+    window = guards.parse_window("Tue-Thu 08:30-12:00")
+    assert window.days == {1, 2, 3}
+    assert guards.parse_window("Mon,Wed-Thu 09:00-11:00").days == {0, 2, 3}
+    assert guards.parse_window("off") is None
+    for bad in ("Tue-Thu", "Funday 09:00-10:00", "Mon 12:00-09:00"):
+        with pytest.raises(ValueError):
+            guards.parse_window(bad)
+
+    monkeypatch.delenv("VELARQO_SEND_WINDOW", raising=False)
+    monkeypatch.delenv("VELARQO_PREFERRED_WINDOW", raising=False)
+    assert guards.send_window() == guards.parse_window("Mon-Fri 08:30-17:00")
+    assert guards.preferred_window() == window
+    monkeypatch.setenv("VELARQO_SEND_WINDOW", "Mon-Sat 09:00-18:00")
+    monkeypatch.setenv("VELARQO_PREFERRED_WINDOW", "off")
+    assert guards.in_send_window(datetime(2026, 10, 10, 16, 30, tzinfo=timezone.utc))  # Sat 17:30 BST
+    assert guards.preferred_window() is None
+
+
+def test_first_emails_wait_for_the_preferred_window_unless_the_queue_is_too_big():
+    preferred = guards.parse_window("Tue-Thu 08:30-12:00")
+    monday = datetime(2026, 10, 12, 9, tzinfo=timezone.utc)            # Mon 10:00 BST
+    tuesday_morning = datetime(2026, 10, 13, 9, tzinfo=timezone.utc)   # Tue 10:00 BST
+    tuesday_afternoon = datetime(2026, 10, 13, 13, tzinfo=timezone.utc)
+    # The 7 days from Monday hold Tue, Wed, Thu: 3 x 25 first emails per mailbox.
+    assert guards.preferred_capacity(monday, 25, preferred) == 75
+    assert guards.hold_first_emails(monday, 60, 25, preferred)
+    assert not guards.hold_first_emails(monday, 200, 25, preferred), "big queue: use the normal window too"
+    assert not guards.hold_first_emails(tuesday_morning, 10, 25, preferred)
+    # Tuesday afternoon: only Wed and Thu are ahead within the week.
+    assert guards.preferred_capacity(tuesday_afternoon, 25, preferred) == 50
+    assert guards.hold_first_emails(tuesday_afternoon, 10, 25, preferred)
+    assert not guards.hold_first_emails(monday, 10, 25, None), "preferred window off"
+
+
+# --- Best-fit cohorts ---------------------------------------------------------
+
+def test_cohort_preferences_are_whitelisted_and_ordered():
+    from outreach.send_engine.engine import PREFERENCES, _preference_order
+    assert list(PREFERENCES) == ["named_director", "years_trading_5", "accredited", "runs_ads", "tier_a"]
+    order = _preference_order(list(PREFERENCES))
+    assert order.index("has_director") < order.index("years_trading") < order.index("accredited") \
+        < order.index("runs_ads") < order.index("tier")
+    assert _preference_order([]) == ""
+    with pytest.raises(ValueError):
+        _preference_order(["1; drop table companies"])
+
+
+def test_slice_composition_counts_each_trait():
+    from outreach.send_engine.engine import slice_composition
+    rows = [{"has_director": True, "years_trading": 12, "accredited": True, "runs_ads": False, "tier": "A"},
+            {"has_director": False, "years_trading": None, "accredited": None, "runs_ads": True, "tier": "B"}]
+    assert slice_composition(rows, ["named_director"]) == {
+        "companies": 2, "prefer": ["named_director"], "named_director": 1, "years_trading_5": 1,
+        "accredited": 1, "runs_ads": 1, "tier_a": 1}
+
+
+# --- Company names and greetings --------------------------------------------
+
+@pytest.mark.parametrize("raw, clean", [
+    ("Acme Windows Ltd", "Acme Windows"),
+    ("Acme Windows Ltd.", "Acme Windows"),
+    ("Acme Windows LIMITED", "Acme Windows"),
+    ("Acme Windows, llp", "Acme Windows"),
+    ("ACME WINDOWS & DOORS LTD", "Acme Windows & Doors"),
+    ("ACME UPVC WINDOWS LTD", "Acme UPVC Windows"),
+    ("JB PVC (UK) LIMITED", "JB PVC (UK)"),
+    ("A1 DOUBLE-GLAZING LTD", "A1 Double-Glazing"),
+    ("Limited Edition Windows", "Limited Edition Windows"),
+    ("LTD", "LTD"),
+    ("McCann Glazing", "McCann Glazing"),
+])
+def test_company_names_read_like_a_person_wrote_them(raw, clean):
+    assert compose.clean_company(raw) == clean
+
+
+def test_cleaned_name_goes_in_subject_and_body_and_keeps_the_possessive():
+    exp = {"arms": [{"key": "a", "subject": "{company} quotes", "body": "Hi,\n\nStill in {company}'s inbox?"}]}
+    email = compose.first_touch({"display_name": "LEEDS WINDOWS AND DOORS LTD"}, exp, 0)
+    assert email["subject"] == "Leeds Windows And Doors quotes"
+    assert "Leeds Windows And Doors' inbox" in email["body"] and "Ltd" not in email["body"]
+
+
+@pytest.mark.parametrize("director, greeting", [
+    ("Wayne", "Hi Wayne,\n\n"), ("WAYNE", "Hi Wayne,\n\n"), (None, "Hi,\n\n"), ("J", "Hi,\n\n"), ("J.", "Hi,\n\n"),
+])
+def test_single_director_first_name_opens_every_email(director, greeting):
+    row = {**ROW, "director_first_name": director}
+    exp = experiments.load("cold_offer_v1")
+    first = compose.first_touch(row, exp, 0)
+    assert first["body"].startswith(greeting) and compose.problems(first) == []
+    assert compose.follow_up(2, row, first["subject"])["body"].startswith(greeting)
+
+
+# --- Per-mailbox cold-send date -------------------------------------------------
+
+def test_young_mailboxes_send_warm_up_only():
+    from datetime import date
+    day_before = datetime(2026, 10, 24, 22, 30, tzinfo=timezone.utc)   # 23:30 UK on the 24th
+    first_day = datetime(2026, 10, 24, 23, 30, tzinfo=timezone.utc)    # 00:30 UK on the 25th
+    assert not guards.cold_sending_open(day_before, date(2026, 10, 25))
+    assert guards.cold_sending_open(first_day, date(2026, 10, 25))
+    assert not guards.cold_sending_open(first_day, None), "no cold_from: never cold"
+
+
+def test_example_mailboxes_respect_the_30_day_rule():
+    import json
+    from datetime import date
+    boxes = json.loads((experiments.EXPERIMENTS_DIR.parent / "mailboxes.example.json").read_text())
+    for box in boxes:
+        domain = box["email"].split("@")[1]
+        expected = "2026-11-10" if domain == "tryvelarqo.com" else "2026-10-25"
+        assert box["cold_from"] == expected and date.fromisoformat(box["cold_from"])

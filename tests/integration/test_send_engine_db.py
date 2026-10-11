@@ -5,7 +5,7 @@ Opt-in: VELARQO_DB_TESTS=1 (needs DATABASE_URL and the send_engine migration).
 """
 
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import psycopg
 import pytest
@@ -15,6 +15,7 @@ from pipelines.cold_outreach.pipeline import DEFAULT_ICP_PATH, load_icp
 pytestmark = pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
 
 MAILBOX = "test@example.invalid"
+OPEN = date(2026, 1, 1)  # cold sending allowed from
 
 
 class FakeMailbox:
@@ -41,12 +42,12 @@ def conn():
     c.close()
 
 
-def test_full_cycle(conn):
+def test_full_cycle(conn, monkeypatch):
     from outreach.send_engine import engine, experiments
 
     icp = load_icp(DEFAULT_ICP_PATH)
     send = lambda provider, **kw: engine.send_due(  # noqa: E731
-        conn, provider, MAILBOX, daily_cap=50, max_this_run=50, respect_window=False, pause_seconds=(0, 0), **kw)
+        conn, provider, MAILBOX, daily_cap=50, max_this_run=50, respect_window=False, pause_seconds=(0, 0), cold_from=OPEN, **kw)
 
     cohort = engine.create_cohort(conn, "pytest cohort", 4, experiments.load("cold_offer_v1"), icp, "test")
     assert cohort["messages"] == 4
@@ -60,6 +61,16 @@ def test_full_cycle(conn):
     engine.set_campaign_status(conn, cohort["campaign_id"], "active")
     assert send(provider)["stopped"] == "sending disabled"
     engine.set_sending(conn, True)
+
+    # The best-fit slice is recorded with the campaign (review reads it from there).
+    assert engine.campaign_slice(conn, cohort["campaign_id"])["companies"] == 4
+
+    # Monday 10:00 UK with a small queue: first emails wait for Tue-Thu morning.
+    monkeypatch.delenv("VELARQO_SEND_WINDOW", raising=False)
+    monkeypatch.delenv("VELARQO_PREFERRED_WINDOW", raising=False)
+    monday = lambda: datetime(2026, 10, 12, 9, tzinfo=timezone.utc)  # noqa: E731
+    held = engine.send_due(conn, provider, MAILBOX, daily_cap=50, max_this_run=50, pause_seconds=(0, 0), now=monday, cold_from=OPEN)
+    assert held["sent"] == 0 and held["held"]
 
     # Suppressed addresses are skipped at send time, not just at cohort time.
     with conn.cursor() as cur:
@@ -103,6 +114,10 @@ def test_full_cycle(conn):
     assert follow_up["subject"].startswith("Re: ")
     assert follow_up["thread_id"] and follow_up["in_reply_to"].endswith("@test>")
 
+    # cold_offer_v1 is a 2-email sequence: follow-up 3 is never queued.
+    much_later = lambda: datetime.now(timezone.utc) + timedelta(days=30)  # noqa: E731
+    assert engine.schedule_followups(conn, now=much_later) == 0
+
     with conn.cursor() as cur:
         suppressed = {r[0] for r in cur.execute("select lower(email) from suppressions where email is not null")}
     assert {replier.lower(), bouncer.lower()} <= suppressed
@@ -124,6 +139,14 @@ def test_full_cycle(conn):
     assert sum(r["calls"] for r in rows) == 1 and sum(r["samples"] for r in rows) == 1
     assert sum(r["complaints"] for r in rows) == 1
     assert engine.pricing_results(conn, "pricing_p1")[0]["samples"] == 1
+
+    # Replies split by the step they came after: the "no" to email 1, the complaint to follow-up 2.
+    by_step = {}
+    for r in engine.replies_by_step(conn, "cold_offer_v1"):
+        by_step.setdefault(r["sequence_step"], []).append(r)
+    assert set(by_step) == {1, 2}
+    assert sum(r["sent"] for r in by_step[1]) == 3 and sum(r["sent"] for r in by_step[2]) == 1
+    assert sum(r["replied"] for r in by_step[1]) == 1 and sum(r["opted_out"] for r in by_step[2]) == 1
 
 
 def test_one_sequence_per_inbox_and_unmatched_opt_outs(conn):
@@ -152,7 +175,7 @@ def test_one_sequence_per_inbox_and_unmatched_opt_outs(conn):
     engine.set_campaign_status(conn, cohort["campaign_id"], "active")
     engine.set_sending(conn, True)
     provider = FakeMailbox()
-    engine.send_due(conn, provider, MAILBOX, daily_cap=1, max_this_run=1, respect_window=False, pause_seconds=(0, 0))
+    engine.send_due(conn, provider, MAILBOX, daily_cap=1, max_this_run=1, respect_window=False, pause_seconds=(0, 0), cold_from=OPEN)
     sent_to = provider.sent[0]["to"]
     domain = sent_to.split("@")[1]
     result = engine.record_inbound(conn, MAILBOX, {

@@ -22,7 +22,7 @@ their OAuth tokens live in .env (authorize-mailbox writes them).
 
 import csv
 import json
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import click
@@ -33,7 +33,7 @@ from integrations.email.google_auth import access_token_for, authorize_mailbox
 from outreach.alerts import replies as reply_alerts
 from outreach.alerts.channels import Notifier
 from outreach.reply_classifier.classify import label, strip_quoted
-from outreach.send_engine import compose, engine, experiments
+from outreach.send_engine import compose, engine, experiments, guards
 from reporting.scoreboard import scoreboard as scoreboard_cmd
 
 ROOT = Path(__file__).parents[2]
@@ -59,6 +59,15 @@ def _mailboxes() -> list[dict]:
             f"{MAILBOXES_PATH} not found. Copy config/mailboxes.example.json and list your sending mailboxes."
         )
     return [m for m in json.loads(MAILBOXES_PATH.read_text()) if m.get("enabled", True)]
+
+
+def _cold_from(mailbox: dict) -> date | None:
+    """First day this mailbox may send cold email (`cold_from` in config/mailboxes.json).
+    Missing or unreadable = warm-up only: the sender refuses to send from it."""
+    try:
+        return date.fromisoformat(str(mailbox["cold_from"]))
+    except (KeyError, ValueError):
+        return None
 
 
 def _provider(mailbox: dict):
@@ -116,18 +125,38 @@ def status():
 @click.option("--size", default=25, show_default=True, help="How many companies to put in this batch")
 @click.option("--name", default=None, help="Campaign name (defaults to today's date)")
 @click.option("--experiment", default=DEFAULT_EXPERIMENT, show_default=True, help="config/experiments/<name>.json")
-def create_cohort(size, name, experiment):
-    """Pick the best unsent installers and draft their first emails (nothing is sent)."""
+@click.option("--prefer", default=",".join(engine.PREFERENCES), show_default=True,
+              help="Best-fit companies first, in this order, then the priority score. 'none' = priority score only")
+def create_cohort(size, name, experiment, prefer):
+    """Pick the best unsent installers and draft their first emails (nothing is sent).
+    Companies already in a cohort, that replied, or that are suppressed are never picked."""
     icp = _icp()
     exp = experiments.load(experiment)
     if exp.get("status") == "waiting":
         raise click.ClickException(f"{exp['name']} is waiting: {exp['decision_rule']}")
+    prefer = [] if prefer.strip().lower() == "none" else [p.strip() for p in prefer.split(",") if p.strip()]
+    unknown = [p for p in prefer if p not in engine.PREFERENCES]
+    if unknown:
+        raise click.ClickException(f"unknown --prefer {unknown}; choose from {', '.join(engine.PREFERENCES)} or none")
     name = name or f"Windows {datetime.now():%Y-%m-%d} {exp['name']}"
-    result = engine.create_cohort(_conn(), name, size, exp, icp, icp_version(icp))
+    conn = _conn()
+    result = engine.create_cohort(conn, name, size, exp, icp, icp_version(icp), prefer=prefer)
     if not result["campaign_id"]:
         raise click.ClickException("No eligible companies left in outreach_queue")
-    click.echo(f"Drafted campaign {result['campaign_id']} with {result['messages']} emails.")
+    click.echo(f"Drafted campaign {result['campaign_id']} with {result['messages']} emails "
+               f"({experiments.steps(exp)} emails per company).")
+    _echo_slice(engine.campaign_slice(conn, result["campaign_id"]))
     click.echo(f"Next: python -m pipelines.outbound review {result['campaign_id']}")
+
+
+def _echo_slice(s: dict) -> None:
+    if not s:
+        return
+    n = max(s["companies"], 1)
+    click.echo(f"Slice ({s['companies']} companies, best-first: {', '.join(s['prefer']) or 'priority score only'}):")
+    for key, label in [("named_director", "named director"), ("years_trading_5", "5+ years trading"),
+                       ("accredited", "accredited"), ("runs_ads", "runs ads"), ("tier_a", "tier A")]:
+        click.echo(f"  {label:17} {s[key]:4} ({s[key] / n:.0%})")
 
 
 @cli.command()
@@ -135,7 +164,9 @@ def create_cohort(size, name, experiment):
 @click.option("--out", type=click.Path(path_type=Path), default=None)
 def review(campaign_id, out):
     """Write every email in a campaign to a CSV for reading before activation."""
-    rows = engine.review_rows(_conn(), campaign_id)
+    conn = _conn()
+    _echo_slice(engine.campaign_slice(conn, campaign_id))
+    rows = engine.review_rows(conn, campaign_id)
     out = out or ROOT / "data" / f"review_{campaign_id[:8]}.csv"
     with out.open("w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=[*rows[0].keys(), "words"] if rows else ["message_id"])
@@ -223,6 +254,8 @@ def run(dry_run, max_per_mailbox):
         statuses = ("draft", "active") if dry_run else ("active",)
         report["follow-ups queued"] = engine.schedule_followups(conn, campaign_statuses=statuses)
         report["stop rule"] = engine.check_stop_rules(conn)
+        cold_from = {m["email"]: date.min if dry_run else _cold_from(m) for m in mailboxes}
+        cold_ready = [m for m in mailboxes if guards.cold_sending_open(datetime.now(timezone.utc), cold_from[m["email"]])]
         for m in mailboxes:
             if m["email"] not in synced:
                 continue                     # unread replies might include a "stop": don't send blind
@@ -230,7 +263,8 @@ def run(dry_run, max_per_mailbox):
                 report[f"send {m['email']}"] = engine.send_due(
                     conn, provider_for(m), m["email"], m.get("daily_cap", 20), max_per_mailbox,
                     require_enabled=not dry_run, respect_window=not dry_run, campaign_statuses=statuses,
-                    pause_seconds=(0, 0) if dry_run else (45, 120),
+                    pause_seconds=(0, 0) if dry_run else (45, 120), mailbox_count=max(len(cold_ready), 1),
+                    cold_from=cold_from[m["email"]],
                 )
             except Exception as exc:  # noqa: BLE001
                 report[f"send {m['email']}"] = f"ERROR {type(exc).__name__}: {str(exc)[:200]}"
@@ -395,6 +429,11 @@ def results(experiment):
         click.echo(f"  {r['arm']:24} sent {r['sent']:4}  replied {r['replied']:3}  positive {r['positive']:3} "
                    f"({r['positive'] / max(r['sent'], 1):.1%}, likely {low:.1%}-{high:.1%})  calls {r['calls']:2}  "
                    f"samples {r['samples']:2}  pilots {r['pilots']:2}  bounced {r['bounced']:3}  opt-outs {r['opted_out']:3}")
+    click.echo(f"\nBy step ({experiments.steps(exp)} emails per company; a reply counts for the email it came after):")
+    for r in engine.replies_by_step(conn, exp["name"]):
+        arm = exp["arms"][r["variant_index"]]["key"]
+        click.echo(f"  {arm:24} step {r['sequence_step']}  sent {r['sent']:4}  replied {r['replied']:3}  "
+                   f"positive {r['positive']:3}  opt-outs {r['opted_out']:3}")
     click.echo("\n" + experiments.verdict(exp, rows))
 
 

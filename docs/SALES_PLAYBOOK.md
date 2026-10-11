@@ -9,19 +9,41 @@ small sample export. Goal of the sample: a bounded pilot.
 
 ## 1. Answering replies (same day, short, plain text)
 
+**Every reply that could become a call has three parts:** one question they
+can answer in a line, two concrete time options (a day and a time each,
+within the next two working days), and "what's the best number to ring
+you on?". Never a link: no calendar link, no booking page, no website link.
+A link asks them to do work for a stranger; two times only ask them to pick.
+
+**The rule that beats every template: if they give you a number, ring it
+the same day.** Don't email back to arrange the call they've just offered.
+
 **Interested / "tell me more"**
 > Thanks {name}. Simple version: you send me a list of quotes that went
 > quiet, I follow those homeowners up in your company's name, and anyone
 > who's still interested gets booked back in for a survey. You only pay for
 > surveys that get booked.
 >
-> Easiest is a 15-minute call so I can see if your old quotes are worth
-> doing. What day suits, or what's the best number to ring you on?
+> Roughly how many quotes from the last year or two never turned into a
+> job? I can ring you Tuesday at 10:30 or Wednesday at 4 for ten minutes,
+> whichever's easier. What's the best number?
 
 **"How much?"** (no price in marketing copy or emails. Prices are tested on calls, see `docs/PRICING.md`. The price goes in the signed agreement and invoices only.)
 > No setup fee, and you only pay for surveys that get booked.
 > The exact number depends on how many old quotes you've got and what a
-> job's worth to you, so it's easier on a quick 15-minute call. When suits?
+> job's worth to you. Roughly how many have you got: tens, hundreds?
+> I can ring you Thursday at 9:30 or Friday at 2 and give you a straight
+> answer. What's the best number?
+
+**Replied, then went quiet: the voice note (second touch)**
+48 hours after your answer with no reply, send one voice note of 30-45
+seconds from your phone: WhatsApp if they gave you a mobile, otherwise a
+voicemail on the company's published business number (they replied, so
+this isn't a cold call; if they said "email only", stick to email). Say your name, "you replied to my
+email about old quotes", one sentence on what you'd do for them, the same
+question, and "I'll try you Thursday morning unless another time's better".
+Plain voice, no script reading. One voice note only; after that, one last
+short email a week later and then stop.
 
 **"Send me info"**
 Send `docs/delivery/01_send_info_email.md`
