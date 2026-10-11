@@ -124,6 +124,7 @@ Source: `D:\knowledge_base\wl_reviews\2026-10-11_batch2_pricing_leadmagnets.md`.
    - Our pipeline builds it from Companies House and Places, so the firm sends us nothing.
    - It's something lead-gen sellers charge for, so the value is obvious (Hormozi: giving away a paid thing is the biggest lever on replies).
    - The follow-up on the call: "want us to email them for you?"
+   - **Pre-build the list for each firm before email 1 goes out** (Erhart's "I built you one, want to see it?"). Then "I put together 50 businesses near you" is true when sent, and the offer reads as a gift, not a pitch.
    - UK GDPR caution: include only company details, public director names and generic emails. Add this to the solicitor's question list.
 2. **Pricing on calls: offer two options** (Callum, Fazio).
    - Option A: pay per booked walk-through. This is the one we advertise.

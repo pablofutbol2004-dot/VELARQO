@@ -66,3 +66,25 @@ Raw transcripts are in `data/transcripts/` (fetched by video ID; the .srt was co
 - **Before sending:** set up a LinkedIn profile.
 - **Recycle non-responders** after 3-6 months.
 - **Partners move earlier:** cleaning suppliers, BICSc, cleaning software, FM associations, with a revenue share.
+
+## Addendum: 2 more videos (same day)
+
+- **Jordan Platten, channels ranked by cost and speed [SgeJoDWc_9U]:**
+  - **Cold email:** about 0.5% of emails become a meeting (roughly 200 emails per meeting), but it moves a lot with the offer and the list. Slow to start (warm-up, then follow-ups).
+  - **Cold calling:** about 4% of dials become a meeting, with money that week.
+  - **Physical mail to dream clients:** about 10% respond and about 5% book. He calls it "unfair" because almost nobody does it.
+  - **Door to door:** 6-10% book. Not possible for Pablo.
+  - **Partner referrals:** top tier.
+  - **Ads:** "no proof, no ads".
+  - **Content:** slowest to start but compounds.
+  - Give any channel 90 days.
+- **Adam Erhart, build it first and give it away [EJ8sQIBEwRk]:**
+  - Do the work before asking, and frame it as a gift: "I built you one, want to see it?" rather than "want me to build you one?"
+  - Use a real 7-day preview deadline.
+  - Charge for keeping the system running ($297 a month).
+  - Caution: he earns affiliate fees from GoHighLevel, and the website offer itself is a crowded, cheap commodity.
+
+**Applied:**
+- The free prospect list from hook B gets **pre-built for each firm before the email goes out**, so the line "I put together 50 businesses near you that fit your size" is true when sent.
+- Platten's 0.5% meetings-per-email is a vendor benchmark. At about 3,200 emails a month that would mean about 16 meetings, so our own 2-6 calls estimate may be cautious. Real sends will tell.
+- Letters to the top 50-100 dream firms are an option once there's a little money. Post falls under neither PECR nor the Spanish email law. It costs about £1 a letter, so it waits until the first sale.
