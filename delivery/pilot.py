@@ -398,6 +398,16 @@ def ghl_client_for(conn, pilot_id: str):
     from integrations.ghl.client import GHLClient
 
     pilot = pilot_row(conn, pilot_id)
+    if os.environ.get("GHL_DRY_RUN") == "1":
+        # Nothing leaves the machine: calls are written to clients/<slug>/ghl_dry_run.jsonl.
+        from integrations.ghl.dry_run import DryRunGHL, DryRunRefused
+
+        if not pilot["ghl_location_id"]:
+            raise PilotError("dry run needs a location id starting with 'dry-' (pilot set --ghl-location dry-<slug>)")
+        try:
+            return DryRunGHL(ENV_PATH.parent / "clients" / pilot["client_slug"] / "ghl_dry_run.jsonl", pilot["ghl_location_id"]), None
+        except DryRunRefused as exc:
+            raise PilotError(str(exc)) from exc
     env = pilot["client_slug"].upper().replace("-", "_")
     token, location = os.environ.get(f"GHL_TOKEN_{env}"), os.environ.get(f"GHL_LOCATION_{env}")
     if not token or not location:
@@ -638,6 +648,20 @@ def invoice(pilot_id, week):
     result = build_invoice(conn, pilot_id, week or last_week())
     path = write_invoice_file(conn, result["invoice_id"])
     click.echo(json.dumps(result))
+    click.echo(f"-> {path}")
+
+
+@cli.command()
+@click.argument("pilot_id")
+@click.option("--week", help="ISO week like 2026-W44; default: last week")
+def report(pilot_id, week):
+    """Weekly report for the installer (docs/delivery/10): counts only, from
+    the database. Run after `invoice` so the invoice section is filled in."""
+    from delivery.invoices import last_week
+    from delivery.report import write_report
+
+    conn = db()
+    path = write_report(conn, pilot_id, week or last_week())
     click.echo(f"-> {path}")
 
 

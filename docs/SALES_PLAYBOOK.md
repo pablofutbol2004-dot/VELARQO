@@ -91,6 +91,47 @@ Three rules, because the risk is your time, not money:
    GHL build until they agree to continue (GHL trial covers the first one
    or two).
 
+### No-export start (when "send me your old quotes" is the scary step)
+
+Pre-mortem (`PATH_6_MONTHS.md` section 8): replies come, nobody sends data.
+Asking a stranger to export their customer list is the biggest ask in the
+whole process. So don't make it the first step. Offer one of these on the
+call, smallest first:
+
+1. **Read me five.** "Open your quotes, pick five from last year that never
+   went ahead, and read me the date, what it was for, and roughly the
+   price." Pablo types them into a 5-row CSV (`clients/<slug>/first5.csv`:
+   date, product, value, status, first name, mobile). That's the sample.
+2. **Forward me twenty.** "Forward the last 20 quote emails that went
+   quiet to pablo@velarqo.com; I'll do the rest." Pablo pulls the rows out
+   by hand (20-30 min) into the same CSV. No export, no CRM login.
+3. **A screenshot** of the quotes list, if that's easier for them.
+
+Then: `sample_audit` on the CSV, the `03` counts email the same day, and
+the message approval sheet (`09`). The first batch is those 5-20 people.
+When the first replies come in, send them the **"still keen" list**: who
+replied, who wants a survey. That's when the full export and the data
+agreement come: "Want me to do this for the rest? Send me the full list
+from the last two years, and here are the two short documents."
+
+Two rules so this stays legal (the lawyer confirms the wording,
+`PABLO_TODO.md`):
+
+- Before touching even five names, get a one-line written instruction by
+  email: *"Please follow up these quotes for us by text and email in our
+  name; the details stay ours and you delete them when we say."* They
+  reply "agreed". That is the processing instruction UK GDPR needs; the
+  full DPA (`05`) replaces it when they continue. Never message anyone
+  before that reply exists.
+- The five or twenty must be quotes **they** collected (website, phone,
+  showroom), not Checkatrade/Bark leads. Ask on the call; it's a two-second
+  question and it decides whether the messages are allowed.
+
+Everything else is the same path (`docs/delivery/DRY_RUN_2026-10.md`
+section 5): the CSV goes through `pilot import` like any export, the
+holdout can be 0 for a batch this small (`create --holdout 0`), and the
+canary is the whole batch.
+
 ## 4. Objections
 
 | They say | You say |

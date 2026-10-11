@@ -278,7 +278,7 @@ def invoice_markdown(conn, invoice_id: int) -> str:
             return "Rebooked after a credited no-show" + ("" if amount > 0 else " (over cap)")
         return "Booked survey" if amount > 0 else "Booked survey (free / over cap)"
 
-    rows = [f"| {label(kind, amount)} | {first or '-'} ({area or '-'}) | {start or '-'} | £{amount:,.2f} |"
+    rows = [f"| {label(kind, amount)} | {first or '-'} ({area or '-'}) | {_when(start)} | £{amount:,.2f} |"
             for kind, amount, first, area, start in lines]
     return "\n".join([
         f"# Invoice {pilot_id} / {iso_week}", "",
@@ -290,6 +290,19 @@ def invoice_markdown(conn, invoice_id: int) -> str:
         "[VAT wording to confirm with the gestor, e.g. reverse charge for B2B services to a UK business]",
         "[Bank details: GBP account]", "",
     ]) + "\n"
+
+
+def _when(start: str | None) -> str:
+    """GHL's ISO start time as the installer reads it: '14 Oct 2026, 11:00' UK time."""
+    if not start:
+        return "-"
+    try:
+        moment = datetime.fromisoformat(str(start).replace("Z", "+00:00"))
+    except ValueError:
+        return str(start)
+    if moment.tzinfo is None:
+        moment = moment.replace(tzinfo=UK)
+    return moment.astimezone(UK).strftime("%d %b %Y, %H:%M")
 
 
 def write_invoice_file(conn, invoice_id: int) -> Path:
