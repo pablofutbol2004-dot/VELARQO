@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-11T00:00:00Z",
+  "title": "Design System: Velarqo",
+  "extensions": {
+    "colorMeta": {
+      "paper": {"role": "neutral", "displayName": "Paper White", "canonical": "#ffffff", "tonalRamp": ["#16181b","#41464e","#6b717a","#a9afb8","#dcdfe4","#e9ebef","#f3f4f6","#ffffff"]},
+      "ink": {"role": "neutral", "displayName": "Desk Ink", "canonical": "#16181b", "tonalRamp": ["#16181b","#1f2226","#2b2f34","#41464e","#5a6068","#767c85","#a9afb8","#dcdfe4"]},
+      "ink-soft": {"role": "neutral", "displayName": "Soft Ink", "canonical": "#41464e", "tonalRamp": ["#16181b","#2b2f34","#41464e","#5a6068","#767c85","#a9afb8","#dcdfe4","#f3f4f6"]},
+      "rule": {"role": "neutral", "displayName": "Hairline", "canonical": "#dcdfe4", "tonalRamp": ["#41464e","#6b717a","#8d939c","#a9afb8","#c3c7ce","#dcdfe4","#e9ebef","#f3f4f6"]},
+      "rule-strong": {"role": "neutral", "displayName": "Strong Hairline", "canonical": "#a9afb8", "tonalRamp": ["#41464e","#585e67","#767c85","#8d939c","#a9afb8","#c3c7ce","#dcdfe4","#f3f4f6"]},
+      "tint": {"role": "neutral", "displayName": "Tint", "canonical": "#f3f4f6", "tonalRamp": ["#a9afb8","#c3c7ce","#dcdfe4","#e9ebef","#eff0f3","#f3f4f6","#f8f9fa","#ffffff"]},
+      "bubble": {"role": "neutral", "displayName": "Bubble Grey", "canonical": "#e9ebef", "tonalRamp": ["#a9afb8","#c3c7ce","#dcdfe4","#e3e6ea","#e9ebef","#eff0f3","#f3f4f6","#ffffff"]},
+      "brick-red": {"role": "primary", "displayName": "Brick Red", "canonical": "#b3261e", "tonalRamp": ["#3a0c09","#5e130f","#8c1c16","#b3261e","#cf5a53","#e08e89","#f0c4c1","#fbeceb"]},
+      "brick-red-dark": {"role": "primary", "displayName": "Dark Brick", "canonical": "#8c1c16", "tonalRamp": ["#2a0907","#450d0a","#5e130f","#8c1c16","#b3261e","#cf5a53","#e08e89","#fbeceb"]},
+      "red-wash": {"role": "primary", "displayName": "Red Wash (declared, unused)", "canonical": "#fbeceb", "tonalRamp": ["#8c1c16","#b3261e","#cf5a53","#e08e89","#f0c4c1","#f6d9d7","#fbeceb","#fef7f6"]}
+    },
+    "typographyMeta": {
+      "display": {"displayName": "Display", "purpose": "Hero h1 only, 800 weight, max 16ch."},
+      "headline": {"displayName": "Headline", "purpose": "Section h2, max 22ch."},
+      "title": {"displayName": "Title", "purpose": "Step, question, need and trade-link headings."},
+      "body": {"displayName": "Body", "purpose": "Running text at 18-20px, 1.6 line height."},
+      "label": {"displayName": "Label", "purpose": "Times, thread labels, nav, captions; tabular figures only here, on the diary head and day names."}
+    },
+    "shadows": [
+      {"name": "diary-card", "value": "0 1px 2px rgba(22,24,27,.08), 0 10px 18px -14px rgba(22,24,27,.3)", "purpose": "Lifts the diary card off the page."},
+      {"name": "button", "value": "0 1px 2px rgba(22,24,27,.18), 0 6px 16px -8px rgba(140,28,22,.55)", "purpose": "The one button; deepens on hover, flat on press."}
+    ],
+    "motion": [
+      {"name": "write", "value": "1.1s cubic-bezier(.16, 1, .3, 1) .7s backwards; clip-path inset(0 100% 0 0) to inset(0)", "purpose": "The booking block writes itself into Thursday once on load; none under reduced motion."},
+      {"name": "ease-out-quick", "value": "0.15s ease-out", "purpose": "Button fill and shadow, trade-arrow nudge."}
+    ],
+    "breakpoints": [
+      {"name": "phone", "value": "759px (max)"},
+      {"name": "tablet", "value": "760px"},
+      {"name": "split", "value": "900px"},
+      {"name": "hero", "value": "920px"}
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one button on the site: brick red, white 800 text.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Email Pablo</a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:14px 28px;background:#b3261e;color:#fff;font:800 19px/1.2 'Atkinson Hyperlegible Next','Segoe UI',system-ui,sans-serif;text-decoration:none;border-radius:6px;box-shadow:0 1px 2px rgba(22,24,27,.18),0 6px 16px -8px rgba(140,28,22,.55);transition:background-color .15s ease-out,box-shadow .15s ease-out}.ds-btn:hover{background:#8c1c16;box-shadow:0 1px 2px rgba(22,24,27,.2),0 10px 22px -10px rgba(140,28,22,.7)}.ds-btn:active{box-shadow:0 1px 2px rgba(22,24,27,.2)}.ds-btn:focus-visible{outline:3px solid #16181b;outline-offset:3px}"
+    },
+    {
+      "name": "Header Link",
+      "kind": "nav",
+      "refersTo": "header-link",
+      "description": "Header call to action as an ink underlined text link.",
+      "html": "<a class=\"ds-head-link\" href=\"#\">Email Pablo</a>",
+      "css": ".ds-head-link{display:inline-flex;align-items:center;min-height:44px;color:#16181b;font:800 17px/1.2 'Atkinson Hyperlegible Next','Segoe UI',system-ui,sans-serif;text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}.ds-head-link:hover{color:#b3261e}.ds-head-link:focus-visible{outline:3px solid #16181b;outline-offset:3px}"
+    },
+    {
+      "name": "Diary Card",
+      "kind": "card",
+      "refersTo": "diary-card",
+      "description": "Week-to-view card: red-ruled head, red day names, grey SMS, red booking block.",
+      "html": "<div class=\"ds-diary\"><div class=\"ds-head\"><b>November 2026</b><span>Week 45</span></div><div class=\"ds-day\"><div class=\"ds-dn\">Mon<strong>2</strong></div><div class=\"ds-db\"><span class=\"ds-time\">09:12 · text sent for you</span><span class=\"ds-sms\">Did you ever get that sorted?</span></div></div><div class=\"ds-day\"><div class=\"ds-dn\">Thu<strong>5</strong></div><div class=\"ds-db\"><span class=\"ds-booking\"><b>10:00 Survey: new windows</b>Sue, re-measure and requote</span></div></div></div>",
+      "css": ".ds-diary{font-family:'Atkinson Hyperlegible Next','Segoe UI',system-ui,sans-serif;border:1px solid #a9afb8;border-radius:4px;background:#fff;color:#16181b;box-shadow:0 1px 2px rgba(22,24,27,.08),0 10px 18px -14px rgba(22,24,27,.3)}.ds-head{display:flex;justify-content:space-between;align-items:baseline;padding:14px 18px 12px;border-bottom:2px solid #b3261e;font-variant-numeric:tabular-nums}.ds-head b{font-size:20px;font-weight:800}.ds-head span{color:#41464e;font-size:15px;font-weight:700}.ds-day{display:grid;grid-template-columns:62px minmax(0,1fr);border-bottom:1px solid #dcdfe4;min-height:69px}.ds-day:last-child{border-bottom:0}.ds-dn{padding:10px 0 10px 18px;color:#b3261e;font-weight:800;line-height:1;font-size:14px;font-variant-numeric:tabular-nums}.ds-dn strong{display:block;font-size:28px;letter-spacing:-.02em;margin-top:4px}.ds-db{padding:10px 16px 12px 12px;border-left:1px solid #dcdfe4;font-size:16px;line-height:1.45}.ds-time{display:block;color:#41464e;font-size:13px;font-weight:700;margin-bottom:4px;font-variant-numeric:tabular-nums}.ds-sms{display:block;max-width:30em;padding:9px 13px;border-radius:14px 14px 14px 4px;background:#e9ebef}.ds-booking{display:block;padding:10px 14px;border-radius:4px;background:#b3261e;color:#fff;font-weight:700}.ds-booking b{display:block;font-size:19px;font-weight:800}"
+    },
+    {
+      "name": "SMS Reply Bubble",
+      "kind": "custom",
+      "refersTo": "sms-bubble",
+      "description": "Homeowner reply: white, bordered, tail bottom-right.",
+      "html": "<span class=\"ds-them\">No we never did. Can someone come out?</span>",
+      "css": ".ds-them{display:block;max-width:30em;margin-left:auto;padding:9px 13px;font:400 16px/1.45 'Atkinson Hyperlegible Next','Segoe UI',system-ui,sans-serif;color:#16181b;background:#fff;border:1px solid #a9afb8;border-radius:14px 14px 4px 14px}"
+    },
+    {
+      "name": "Ruled Row List",
+      "kind": "custom",
+      "refersTo": "tint-band",
+      "description": "Steps, needs and questions: rows between strong hairlines.",
+      "html": "<ul class=\"ds-needs\"><li><b>A list of old quotes</b><span>Name, number, what you quoted for.</span></li><li><b>Your free survey slots</b><span>So I only offer times you have.</span></li></ul>",
+      "css": ".ds-needs{list-style:none;margin:0;padding:0;font-family:'Atkinson Hyperlegible Next','Segoe UI',system-ui,sans-serif;color:#16181b;font-size:18px;line-height:1.6}.ds-needs li{display:grid;gap:4px;padding:20px 0;border-top:1px solid #a9afb8}.ds-needs b{font-size:1.15em;font-weight:800}.ds-needs span{color:#41464e}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Desk Diary",
+    "overview": "The site is the installer's own week-to-view diary. A white page, near-black ink, hairline cool-grey rules and one brick red that is the logo's colour. Quotes that went quiet are shown becoming survey bookings written into next week. The register is plain, large and legible for a 40-60 year old owner reading on a phone between jobs. Evidence is shown (the exact texts, the exact steps) rather than claimed.\n\nDensity is open and ruled, not carded. Sections are separated by hairlines and generous vertical space; lists are rows between rules rather than boxes. Depth is nearly absent: the diary card and the one button are the only lifted objects. Everything is set in one family, Atkinson Hyperlegible Next, with weight (800 against 400) carrying hierarchy.\n\nIt rejects the agency landing page (gradient hero, stock handshake, stats band) and the old dark quotation-form look.",
+    "keyCharacteristics": [
+      "White page, ink text, hairline rules; red is rare and meaningful.",
+      "One typeface, two working weights, large body (18-20px).",
+      "Week-to-view diary grid with a 34px ruling for note rows and empty days.",
+      "Grey SMS bubbles; the booking is a red set-type block, not script.",
+      "One button on the whole site."
+    ],
+    "rules": [
+      {"name": "The Brick Rarity Rule", "body": "Red appears only on diary day names, the diary-head rule, the booked-survey block, the one button and selection. Anywhere else, use ink.", "section": "colors"},
+      {"name": "The One Tint Rule", "body": "Exactly one tinted full-width band per page (the \"What I need\" section). All other sections sit on white, divided by hairlines.", "section": "colors"},
+      {"name": "The Tabular Time Rule", "body": "Tabular figures apply only to times, the diary head, thread labels and day names. Not to body copy.", "section": "typography"},
+      {"name": "The Weight Is Hierarchy Rule", "body": "Contrast comes from 800 versus 400 and size, never from a second face, italics or uppercase.", "section": "typography"},
+      {"name": "The Two Lifts Rule", "body": "Only the diary card and the button carry shadows. Hairlines do the rest.", "section": "elevation"}
+    ],
+    "dos": [
+      "Do use ink for everything and reserve Brick Red per the Brick Rarity Rule.",
+      "Do keep one button style per page and one tinted band per page.",
+      "Do build lists as hairline-ruled rows, headings at 800 weight, body at 18px or larger.",
+      "Do apply the 34px diary ruling only to note rows and empty days.",
+      "Do show real example text (messages, steps) in the grey bubble and diary vocabulary.",
+      "Do keep touch targets 44px or taller and the 3px ink focus ring."
+    ],
+    "donts": [
+      "Don't add gradients, stock photography, stat bands or a dark quotation-form look.",
+      "Don't introduce a second typeface, script faces for the booking, or uppercase tracking labels.",
+      "Don't wrap sections in shadowed cards; only the diary card and the button lift.",
+      "Don't use red for decoration, borders, icons or secondary links.",
+      "Don't apply tabular figures or ruled backgrounds outside their named places."
+    ]
+  }
+}
