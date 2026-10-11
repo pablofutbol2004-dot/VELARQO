@@ -3,7 +3,11 @@ outreach/campaign_builder and the pipeline don't care which mailbox
 provider a given client account actually sends through.
 """
 
+import re
 from typing import Protocol
+
+# Mailbox config field (config/mailboxes.json "provider") -> implementation.
+PROVIDERS = ("gmail", "outlook")
 
 
 class EmailRateLimitError(Exception):
@@ -25,10 +29,19 @@ class EmailProvider(Protocol):
         thread_id: str | None = None,
         in_reply_to_message_id: str | None = None,
     ) -> dict:
-        """Send an email. Returns {"message_id": str, "thread_id": str | None}.
+        """Send an email. Returns {"message_id": str, "thread_id": str | None}
+        and, when the provider knows it at send time, "rfc_message_id".
 
         thread_id / in_reply_to_message_id let a follow-up land in the same
-        conversation as the original send, once outreach/sequences exists
-        to drive follow-ups.
+        conversation as the original send. A provider that threads by
+        replying to the parent message (Outlook) sets THREADS_BY_PARENT_ID
+        and also accepts parent_provider_message_id.
         """
         ...
+
+
+def html_to_text(html: str) -> str:
+    """Tag-stripped text of an HTML body, quoted history and styles removed."""
+    html = re.sub(r"(?is)<(blockquote|style|script).*?</\1>", "", html)
+    html = re.sub(r"(?i)<br\s*/?>|</p>|</div>", "\n", html)
+    return re.sub(r"<[^>]+>", "", html)
