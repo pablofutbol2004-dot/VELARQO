@@ -115,6 +115,33 @@ Source: `D:\knowledge_base\wl_reviews\2026-10-11_batch_offers_sales_coldemail.md
 
 **Income check (honest):** at £400-600 a month and 3-5 clients, this is £1.5-3k a month by summer if it works. Getting bigger means one of two things. Either per-walk-through pricing at the bottom of the UK B2B range (£150+ per walk-through, against the £150-600 per appointment UK agencies charge), or a move to bigger-ticket niches once there's a case study. Decide prices after the first 3 calls, not now.
 
+## 8. Changes after 14 more transcripts (11 Oct, late)
+
+Source: `D:\knowledge_base\wl_reviews\2026-10-11_batch2_pricing_leadmagnets.md`.
+
+1. **Hook B gets a free offer that's easy to say yes to.**
+   - The offer: "Want a free list of 50 businesses near you that fit the contracts you go after, with who to contact?"
+   - Our pipeline builds it from Companies House and Places, so the firm sends us nothing.
+   - It's something lead-gen sellers charge for, so the value is obvious (Hormozi: giving away a paid thing is the biggest lever on replies).
+   - The follow-up on the call: "want us to email them for you?"
+   - UK GDPR caution: include only company details, public director names and generic emails. Add this to the solicitor's question list.
+2. **Pricing on calls: offer two options** (Callum, Fazio).
+   - Option A: pay per booked walk-through. This is the one we advertise.
+   - Option B: a fixed monthly fee.
+   - Risk reversal stands in for the case studies we don't have.
+3. **Copy rules for every email:**
+   - Third-grade reading level (check with a free tool).
+   - Under 80 words.
+   - Exact numbers only, and only when they're true.
+   - It must read as one-to-one.
+   - "Quick question"-style subject lines.
+4. **Before 30 Oct:** a LinkedIn profile for Pablo with his real name, face and what he does. Prospects check that before the website.
+5. **Partners move up to week 2.**
+   - Who: cleaning supply distributors, BICSc, cleaning software vendors, FM and fire-safety associations.
+   - The offer: a revenue share (10-15%) for introductions or for emailing their list.
+   - This is the fastest shortcut to trust (Pavlo's dental-lab example), and it doubles as the "positive" campaign that keeps the inboxes healthy.
+6. **Recycle non-responders** after 3-6 months with a new angle. A list isn't "used up" after one sequence.
+
 ## 6. Still open (for Pablo)
 
 1. Agree the niche and offer, or name what's wrong with it, by Fri 16 Oct.

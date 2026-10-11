@@ -1,4 +1,4 @@
-# Batch review, 11 Oct 2026: offers, sales, cold email (11 videos)
+# Batch review, 11 Oct 2026: offers, sales, cold email (12 videos; raw transcripts now saved in data/transcripts/ with "-manual" ids)
 
 Pablo pasted these transcripts in chat. They aren't in the ytm database, and the raw text wasn't saved (video IDs unknown). This is a paraphrased digest. Comments and filler are ignored. Ranked by usefulness for Velarqo's pivot (UK commercial service firms, B2B, email only).
 

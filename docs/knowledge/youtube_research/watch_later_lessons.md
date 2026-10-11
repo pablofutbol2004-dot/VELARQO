@@ -75,6 +75,9 @@ Actionable lessons kept from Watch Later reviews, newest first. Full per-video r
   - Judge a campaign only after 1,000 sends; if it gets 1 positive reply, run it to 3,000.
   - The next step must be easy to say yes to (a free sample).
 - **Niche filter** (John Danes): the client makes at least $2,500 profit per deal, up front; the owner is easy to find; they sell through a meeting or survey; the market is big enough. A crowded niche is a sign of life, so ask why an empty one is empty.
+- **Zero proof means reverse the risk** (Fazio cjLYprd-LS4; Callum Mills R4QxPab3ePE): buyers weigh return against risk, so without case studies offer pay-per-result or a guarantee. Advertise pay-per-result and close on two options.
+- **The biggest lever on replies is a free lead magnet that others charge for** (Hormozi via Instantly j5uPj9A7zlE). Write copy at a third-grade reading level, under 80 words, and never let it look mass-sent.
+- **Partners who already hold the buyer list** (Pavlo sXBDL9bvyhE, dental labs at 10-15%) are the fastest trust shortcut for someone with no proof.
 - **Don't automate what doesn't exist yet** (Dan Koe [34:44]). Run the first reactivations by hand, then turn the process into prompts by feeding the AI real good examples and your actual steps.
 
 ### Content (for later)
