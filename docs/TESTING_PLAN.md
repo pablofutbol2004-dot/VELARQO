@@ -18,7 +18,8 @@ about 6 positive replies per arm. So:
 - **One offer test, with segment tests alongside it.** The offer test
   (`cold_offer_v1`) is the main one. The segment tests run in parallel on
   different slices of the list: `cold_nopressure_v1`, `cold_survey_line_v1`
-  and `cold_roofing_v1`. `cold_angle_v1` waits for the offer result. The
+  and `cold_roofing_v1` (`cold_survey_line_v1` waits for a v2 rewrite).
+  `cold_angle_v1` waits for the offer result. The
   segment results are directional, not proof, because the groups are small.
 - Judge on **downstream** results (calls, samples, pilots), with positive
   replies as the early read.
@@ -36,7 +37,7 @@ about 6 positive replies per arm. So:
 | Segment | Does a tailored line help a group of firms? And do roofers reply like window firms? | `cold_nopressure_v1` (~223 firms whose site promises no-pressure selling), `cold_survey_line_v1` (~140 firms whose site says they visit to survey), `cold_roofing_v1` (roofers; same two offers as the window test). Each runs on its own slice alongside the offer test. | Positive reply rate (directional only: the segments are small) | From the first send |
 | Angle | Question opener vs "money already spent"? | `cold_angle_v1` (status waiting; uses the winning offer, ~30% of the list left after the offer test) | Positive reply rate | After the offer test has a winner |
 | Ask / CTA | "Want me to take a look?" vs "Reply with a rough number" | `cold_cta_v1` (to write) | Positive reply rate | Third |
-| Follow-ups | Do follow-ups 2 and 3 earn their keep? | Count replies by the step they came after | Replies per step, opt-outs per step | Ongoing, free |
+| Follow-ups | Does follow-up 2 earn its keep? | Count replies by the step they came after (`results` prints a by-step table) | Replies per step, opt-outs per step | Ongoing, free |
 | Reply speed | Does answering within an hour book more calls? | Log reply times (not randomised; a habit, not a test) | Positive reply to call | Ongoing |
 | Sales call | Which call structure gets a sample sent? | Qualitative: scorecard after every call (`pass_13.../sales/call_scorecard.csv`) | Call to sample rate | Ongoing |
 | **Price** | Which price level, then which model? | `pricing_p1` on every call, then P2 menu | Sample-sent rate, objections, margin | **From the first call** |
@@ -45,6 +46,35 @@ about 6 positive replies per arm. So:
 The offer test and the pricing test can run at the same time: they change
 different things at different stages, and the price arm is assigned
 independently of the email arm.
+
+## Sequence, send windows and who goes first (decided 2026-10-11)
+
+- **2 emails per company** for `cold_offer_v1`, `cold_roofing_v1` and
+  `cold_nopressure_v1`: email 1 (shows the homeowner text, copy v2 from
+  `docs/COLD_EMAIL_V2.md`) and follow-up 2 at +3 business days (what they get
+  back + "read me five old quotes"). Follow-up 3 is never sent for them; it
+  costs list for little gain. Set per experiment with `"steps"` in its JSON
+  (1-3, default 3).
+- **Send windows** (UK time), set per environment in `.env` or the shell:
+  - `VELARQO_SEND_WINDOW="Mon-Fri 08:30-17:00"` (default): nothing goes out
+    outside it.
+  - `VELARQO_PREFERRED_WINDOW="Tue-Thu 08:30-12:00"` (default; `off` turns it
+    off): first emails wait for it. If more first emails are queued than one
+    mailbox can send in the coming week's preferred windows (daily cap x
+    preferred days left), the surplus goes out in the normal window, so reach
+    never slows. Follow-ups ignore it and keep their business-day gaps.
+  - The tick prints `"held": "first emails wait for the preferred window"`
+    when it holds first emails back.
+- **Best-fit companies first.** `create-cohort` puts first, in this order:
+  a named director on record, 5+ years trading, accredited, runs ads, tier A;
+  then the priority score (`--prefer` changes the order, `--prefer none`
+  uses the score only). Companies already in a cohort, that replied, or that
+  are suppressed are never picked. `create-cohort` and `review` print the
+  slice (how many of each trait). Arms stay balanced: they're assigned in
+  shuffled blocks down the sorted list.
+- `cold_survey_line_v1` is **waiting**: v2 email 1 has no cost sentence, so
+  its variable is gone. Its ~140 survey-visit firms stay reserved
+  (`cold_offer_v1` excludes `home_survey`) until it's rewritten or retired.
 
 ## Later: second campaign to non-repliers (not built)
 

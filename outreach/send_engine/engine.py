@@ -30,7 +30,7 @@ from psycopg.types.json import Jsonb
 
 from integrations.email.base import EmailAuthError, EmailRateLimitError
 from outreach.reply_classifier.classify import categorize_reply
-from outreach.send_engine import compose, guards
+from outreach.send_engine import compose, experiments, guards
 
 _EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 
@@ -111,10 +111,46 @@ def _segment_filter(experiment: dict) -> str:
     return "\n              ".join(clauses)
 
 
-def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_version: str) -> dict:
+# Best-fit slice: create_cohort can put these companies first, in this order,
+# before the priority score. Whitelisted: they go into SQL.
+PREFERENCES = {
+    "named_director": "coalesce(has_director, false)",
+    "years_trading_5": "coalesce(years_trading, 0) >= 5",
+    "accredited": "coalesce(accredited, false)",
+    "runs_ads": "coalesce(runs_ads, false)",
+    "tier_a": "coalesce(tier = 'A', false)",
+}
+
+
+def _preference_order(prefer) -> str:
+    unknown = [p for p in prefer if p not in PREFERENCES]
+    if unknown:
+        raise ValueError(f"unknown preference {unknown}; choose from {list(PREFERENCES)}")
+    return "".join(f"{PREFERENCES[p]} desc, " for p in prefer)
+
+
+def slice_composition(rows: list[dict], prefer=()) -> dict:
+    """How many companies in a cohort have each best-fit trait."""
+    return {
+        "companies": len(rows),
+        "prefer": list(prefer),
+        "named_director": sum(bool(r.get("has_director")) for r in rows),
+        "years_trading_5": sum((r.get("years_trading") or 0) >= 5 for r in rows),
+        "accredited": sum(bool(r.get("accredited")) for r in rows),
+        "runs_ads": sum(bool(r.get("runs_ads")) for r in rows),
+        "tier_a": sum(r.get("tier") == "A" for r in rows),
+    }
+
+
+def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_version: str,
+                  prefer=tuple(PREFERENCES)) -> dict:
     """Draft campaign with the top `size` unsent companies from outreach_queue,
-    split across the experiment's arms."""
+    split across the experiment's arms. `prefer` puts best-fit companies first
+    (named director, 5+ years trading, accredited, runs ads, tier A, in the
+    order given), then the priority score. Companies already in a cohort,
+    already replied, or suppressed (outreach_queue drops those) are never picked."""
     segment_sql = _segment_filter(experiment)
+    prefer_sql = _preference_order(prefer)
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         # One email address = one recipient, across every batch and trade:
         # several company rows can share an inbox (group companies, the same
@@ -122,7 +158,10 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
         rows = cur.execute(
             f"""
             select * from (
-              select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category, q.priority
+              select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category,
+                     q.priority, q.years_trading, q.accredited, q.runs_ads, q.tier,
+                     exists (select 1 from contacts ct where ct.company_id = c.id and ct.role = 'director'
+                             and coalesce(ct.full_name, '') <> '') as has_director
               from outreach_queue q
               join companies c on c.id = q.id
               where c.company_category = any(%s)
@@ -134,7 +173,7 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
                 {segment_sql}
               order by lower(c.email), q.priority desc, c.id
             ) one_per_address
-            order by priority desc, id
+            order by {prefer_sql}priority desc, id
             limit %s
             """,
             (sorted(guards.CORPORATE_CATEGORIES), experiment.get("vertical", "windows"),
@@ -145,7 +184,9 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
 
         settings = {
             "icp_version": icp_version,
-            "sequence": {"follow_up_gaps_business_days": guards.FOLLOW_UP_GAPS},
+            "sequence": {"follow_up_gaps_business_days": guards.FOLLOW_UP_GAPS,
+                         "steps": experiments.steps(experiment)},
+            "slice": slice_composition(rows, prefer),
             "signature": compose.SIGNATURE,
             "opt_out_line": compose.OPT_OUT_LINE,
             "experiment": experiment,
@@ -205,6 +246,13 @@ def review_rows(conn, campaign_id: str) -> list[dict]:
         ).fetchall()
 
 
+def campaign_slice(conn, campaign_id: str) -> dict:
+    """The best-fit composition recorded when the cohort was drafted (no outreach_queue scan)."""
+    with conn.cursor() as cur:
+        row = cur.execute("select settings->'slice' from campaigns where id = %s", (campaign_id,)).fetchone()
+    return (row and row[0]) or {}
+
+
 def cancel_message(conn, message_id: str, reason: str) -> bool:
     with conn.transaction(), conn.cursor() as cur:
         cur.execute(
@@ -261,7 +309,7 @@ def _address_taken(cur, msg: dict) -> bool:
 
 # --- Sending ------------------------------------------------------------
 
-def _claim(conn, mailbox: str, statuses: list[str]) -> dict | None:
+def _claim(conn, mailbox: str, statuses: list[str], first_emails: bool = True) -> dict | None:
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         return cur.execute(
             """
@@ -272,14 +320,26 @@ def _claim(conn, mailbox: str, statuses: list[str]) -> dict | None:
               where m.status = 'queued' and c.status = any(%s)
                 and m.scheduled_for <= now()
                 and (m.mailbox is null or m.mailbox = %s)
+                and (m.sequence_step > 1 or %s)
               order by m.sequence_step desc, m.scheduled_for, m.id
               for update of m skip locked
               limit 1
             )
             returning id, campaign_id, company_id, to_email, subject, body, sequence_step, in_reply_to_message_id
             """,
-            (mailbox, statuses, mailbox),
+            (mailbox, statuses, mailbox, first_emails),
         ).fetchone()
+
+
+def _first_email_backlog(conn, mailbox: str, statuses: list[str]) -> int:
+    """First emails waiting to go that this mailbox could pick up."""
+    with conn.cursor() as cur:
+        return cur.execute(
+            "select count(*) from messages m join campaigns c on c.id = m.campaign_id "
+            "where m.status = 'queued' and m.sequence_step = 1 and c.status = any(%s) "
+            "and m.scheduled_for <= now() and (m.mailbox is null or m.mailbox = %s)",
+            (statuses, mailbox),
+        ).fetchone()[0]
 
 
 def _block_reason(conn, msg: dict) -> str | None:
@@ -296,6 +356,10 @@ def _block_reason(conn, msg: dict) -> str | None:
         if not company or not guards.is_corporate(company["company_category"]):
             return "not a corporate subscriber"
         if msg["sequence_step"] > 1:
+            campaign = cur.execute("select settings->'experiment' as experiment from campaigns where id = %s",
+                                   (msg["campaign_id"],)).fetchone()
+            if msg["sequence_step"] > experiments.steps(campaign and campaign["experiment"]):
+                return "beyond the experiment's sequence length"
             parent = cur.execute(
                 "select status, bounced_at from messages where id = %s", (msg["in_reply_to_message_id"],)
             ).fetchone()
@@ -322,13 +386,21 @@ def _thread_of(conn, message_id) -> dict:
 
 def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8, *,
              require_enabled: bool = True, respect_window: bool = True, campaign_statuses=("active",),
-             pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now) -> dict:
+             pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now, mailbox_count: int = 1) -> dict:
     summary = {"mailbox": mailbox, "sent": 0, "skipped": 0, "failed": 0, "stopped": None}
     if not conn.autocommit and not conn.info.transaction_status:  # dry_run wraps us in a rolled-back transaction on purpose
         raise RuntimeError("send_due needs an autocommit connection: the 'sending' claim must be committed before Gmail is called")
     if respect_window and not guards.in_send_window(now()):
         summary["stopped"] = "outside UK send window"
         return summary
+    # First emails go in the preferred window (Tue-Thu mornings by default)
+    # unless the queue is too big for it; follow-ups keep their own timing.
+    first_emails = True
+    if respect_window:
+        backlog = -(-_first_email_backlog(conn, mailbox, list(campaign_statuses)) // max(mailbox_count, 1))
+        first_emails = not guards.hold_first_emails(now(), backlog, daily_cap, guards.preferred_window())
+        if not first_emails:
+            summary["held"] = "first emails wait for the preferred window"
 
     with conn.cursor() as cur:
         sent_today = cur.execute(
@@ -342,7 +414,7 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
         if require_enabled and not controls(conn)["sending_enabled"]:
             summary["stopped"] = "sending disabled"
             break
-        msg = _claim(conn, mailbox, list(campaign_statuses))
+        msg = _claim(conn, mailbox, list(campaign_statuses), first_emails)
         if msg is None:
             break
 
@@ -418,7 +490,7 @@ def schedule_followups(conn, now=_now, campaign_statuses=("active",)) -> int:
     created = 0
     for prev in candidates:
         step = prev["sequence_step"] + 1
-        if not guards.follow_up_due(prev["sent_at"], step, now()):
+        if not guards.follow_up_due(prev["sent_at"], step, now(), experiments.steps(prev["experiment"])):
             continue
         with conn.transaction(), conn.cursor() as cur:
             if _is_suppressed(cur, prev["to_email"]) or _company_has_replied(cur, prev["company_id"]):
@@ -730,6 +802,32 @@ def cold_email_results(conn, experiment_name: str) -> list[dict]:
             left join e on e.company_id = a.company_id
             group by a.variant_index order by a.variant_index
             """, (experiment_name, list(FUNNEL_STAGES)),
+        ).fetchall()
+
+
+def replies_by_step(conn, experiment_name: str) -> list[dict]:
+    """Per arm and step: emails sent, and replies to that step (a reply counts
+    against the latest email in its thread, i.e. the step it came after)."""
+    with conn.cursor(row_factory=dict_row) as cur:
+        return cur.execute(
+            """
+            with sent as (
+              select m.id, m.variant_index, m.sequence_step
+              from messages m join campaigns cp on cp.id = m.campaign_id
+              where m.status = 'sent' and cp.settings->'experiment'->>'name' = %s
+            ),
+            r as (
+              select message_id, array_agg(coalesce(human_category, category)) cats
+              from replies where message_id is not null group by message_id
+            )
+            select s.variant_index, s.sequence_step,
+                   count(*) sent,
+                   count(*) filter (where r.cats && array['positive','unknown','not_interested','unsubscribe','complaint']) replied,
+                   count(*) filter (where 'positive' = any(r.cats)) positive,
+                   count(*) filter (where r.cats && array['unsubscribe','complaint']) opted_out
+            from sent s left join r on r.message_id = s.id
+            group by s.variant_index, s.sequence_step order by s.variant_index, s.sequence_step
+            """, (experiment_name,),
         ).fetchall()
 
 

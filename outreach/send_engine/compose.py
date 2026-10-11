@@ -20,14 +20,16 @@ MAX_WORDS = 80  # whole email, signature and opt-out included
 # so tests can change without code changes. An arm can override a follow-up
 # with its own ("follow_ups": {"2": "..."}); otherwise these shared ones are used.
 FOLLOW_UP_TEMPLATES = {
-    # New reason to reply: answer the installer's real worry (annoying old
-    # customers) by showing the exact message, then a one-word sizing question.
+    # New reason to reply (email 1 already showed the homeowner text): what
+    # they get back, a start that needs no data, then a one-word sizing question.
+    # Approved 2026-10-11 (docs/COLD_EMAIL_V2.md).
     2: (
         "Hi,\n\n"
-        "The usual worry is annoying old customers, so here's how the first text would read, from your name:\n\n"
-        "\"Hi, it's {company}. We quoted you for your windows or doors a while back. Did you ever get that sorted?\"\n\n"
-        "Up to three short reminders. Anyone who says no is left alone.\n\n"
-        "Roughly how many old quotes have you got: tens, hundreds?"
+        "What you'd get back: a short list of homeowners who replied \"yes, still interested\", "
+        "each with a survey time in your diary. Anyone who says no is left alone for good.\n\n"
+        "No spreadsheet needed to start. Read me five old quotes on a ten-minute call "
+        "and I'll tell you if they're worth chasing.\n\n"
+        "Roughly how many have you got: tens, hundreds?"
     ),
     # Close the loop, and ask for the right person in case it's not them.
     3: (

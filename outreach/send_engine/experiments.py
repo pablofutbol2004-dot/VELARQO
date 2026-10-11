@@ -14,6 +14,8 @@ import random
 import re
 from pathlib import Path
 
+from outreach.send_engine import guards
+
 EXPERIMENTS_DIR = Path(__file__).parents[2] / "config" / "experiments"
 _FIELDS = re.compile(r"\{([a-z_]+)\}")
 ALLOWED_FIELDS = {"company"}
@@ -35,11 +37,19 @@ def validate(experiment: dict) -> None:
     if len(experiment["arms"]) < 2:
         raise ValueError("an experiment needs at least two arms")
     if experiment["stage"] == "cold_email":
+        steps = experiment.get("steps", guards.DEFAULT_STEPS)
+        if not isinstance(steps, int) or not 1 <= steps <= guards.LAST_STEP:
+            raise ValueError(f"'steps' must be a whole number from 1 to {guards.LAST_STEP}")
         for arm in experiment["arms"]:
             text = arm["subject"] + arm["body"] + "".join((arm.get("follow_ups") or {}).values())
             unknown = set(_FIELDS.findall(text)) - ALLOWED_FIELDS
             if unknown:
                 raise ValueError(f"arm {arm['key']} uses unknown fields: {sorted(unknown)}")
+
+
+def steps(experiment: dict | None) -> int:
+    """Emails per company: 1 = first email only, 2 = + follow-up 2, 3 = + follow-up 3."""
+    return int((experiment or {}).get("steps", guards.DEFAULT_STEPS))
 
 
 def assigned_arm(experiment: dict, company_id: str) -> dict:

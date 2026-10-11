@@ -49,6 +49,8 @@ up later and join the send as they're ready.
     yet), so sending doesn't depend on your PC being on. Each tick sends up
     to 2 emails per mailbox, and only one tick may run at a time. It only
     sends Mon-Fri, 08:30-17:00 UK time, and only when the kill switch is on.
+    First emails prefer Tue-Thu 08:30-12:00 (see "Send windows" in
+    `docs/TESTING_PLAN.md`); follow-ups go whenever they're due.
 
 ## Where things live
 

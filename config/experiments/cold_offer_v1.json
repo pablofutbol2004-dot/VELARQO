@@ -2,7 +2,7 @@
   "name": "cold_offer_v1",
   "stage": "cold_email",
   "hypothesis": "Chasing a firm's first 50 old quotes for free gets more positive replies (and more calls) from UK window/door installers than chasing them on a pay-per-booked-survey basis, because it removes all risk of saying yes.",
-  "variable": "offer paragraph and ask in the first email (subject, pain opener and follow-ups identical)",
+  "variable": "offer line in the first email (subject, opener, the homeowner text, ask and follow-up 2 identical)",
   "primary_metric": "positive_reply_rate",
   "guardrails": [
     "bounce_rate < 3%",
@@ -15,16 +15,19 @@
     {
       "key": "A_pay_per_booked_survey",
       "subject": "last year's quotes",
-      "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nThe ones who don't ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, and the time spent pricing it up.\n\nI chase them in your name and put anyone still keen in your diary. You only pay for surveys that get booked.\n\nWorth a look?"
+      "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nMost don't. So I'd text the ones {company} quoted last year, from your name:\n\n\"Hi, it's {company}. We quoted for your windows a while back. Did you ever get that sorted?\"\n\nAnyone still keen goes in your diary. You only pay for surveys that get booked.\n\nWorth a go?"
     },
     {
       "key": "B_first_50_free",
       "subject": "last year's quotes",
-      "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nThe ones who don't ring back are still sitting in {company}'s inbox. You've already paid for them: the lead, and the time spent pricing it up.\n\nI'll chase your first 50 for free, in your name, and put anyone still keen in your diary. Costs you nothing either way.\n\nWorth a go?"
+      "body": "Hi,\n\nEver had a homeowner ring back months after a quote, ready to go?\n\nMost don't. So I'd text the ones {company} quoted last year, from your name:\n\n\"Hi, it's {company}. We quoted for your windows a while back. Did you ever get that sorted?\"\n\nI'll chase your first 50 free. Anyone still keen goes in your diary.\n\nWorth a go?"
     }
   ],
   "exclude_segments": [
     "no_pressure_sales",
     "home_survey"
-  ]
+  ],
+  "steps": 2,
+  "sequence_note": "2 emails per company (decided 2026-10-11): email 1 + follow-up 2 at +3 business days; follow-up 3 is never sent.",
+  "copy_version": "v2 (docs/COLD_EMAIL_V2.md, approved 2026-10-11)"
 }
