@@ -1,5 +1,7 @@
 # Making Velarqo hard to fail
 
+> **11 Oct 2026:** `docs/STRATEGY_DECISION_2026-10.md` overrides this file where they disagree (offer delivery by letter, monthly quote desk as the core, who gets emailed first, new kill dates).
+
 Written 2026-10-10. Built on the repo, the live lead list, a web check of the UK
 market (sources at the bottom) and the knowledge-base digest
 (`docs/knowledge/kb_digest_2026-10-10_hard_to_fail.md`).

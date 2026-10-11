@@ -5,6 +5,8 @@ and calls goes here with **what we do about it** and **where it lives now**.
 Rule: nothing gets learned without a line here, and no line stays "to do"
 without a date or a decision point. Claude keeps this current.
 
+**11 Oct: every row marked MEMO was decided in `STRATEGY_DECISION_2026-10.md`; what is left to build is its section 6.**
+
 Status: **DONE** (implemented, see "Where") · **MEMO** (decided in the
 strategy memo due ~18 Oct) · **CALLS** (only real owners can settle it;
 question is in the call script) · **PARKED** (waits for a trigger, named).
@@ -49,3 +51,9 @@ C = `knowledge/web_research/2026-10-10_competitors.md` · R = `knowledge/chat_re
 | 30 | Five cold-email fixes: name + one true fact about the firm; easy reply route (one-word sizing question; phone/WhatsApp option); provider-aware sending via free MX lookup (Google vs Microsoft recipients); test offers, not wording; keep 3 emails; give-first (free audit/rewritten quote) only to people who reply | same | Fold into the email rewrite (row 27) and the engine (MX lookup = small code task) | Memo → `COLD_EMAIL_V2.md`, engine | MEMO |
 | 31 | Warm intros and referral asks work from day 1 even pre-revenue | same | Pablo lists anyone he knows with a UK trade/home-improvement link; every call ends with "who else do you know who quotes a lot?" | Call script close; Pablo task | MEMO |
 | 32 | Facebook groups, LinkedIn-DM PECR status, FENSA/GGF member benefits, Microsoft share of our list: unverified | same | Pablo searches FB groups himself (listen only); MX share computed by the engine task | `PABLO_TODO.md` later | PARKED (after memo) |
+| 33 | Red team: "38% never heard back" = homeowners who never got a quote; 4%/27%/55% = vendor CEO article, none of our trades; Business Pilot "6 in 10" = leads, not quotes | `knowledge/2026-10-11_red_team.md` §2 | Don't use these in old-quote arguments; cite carefully for the quote desk only | Decision §8; outreach copy | DONE (rule) |
+| 34 | Glasgrowth: 10 named installers; published ~30% appointment→job; a booked survey ≈ £330-670 gross profit to the installer | red team §2 | Per-survey £100-150 is fine; trust is the obstacle, not price | Decision §2 | DONE |
+| 35 | Google Workspace acceptable use policy bans unsolicited mass email | red team §1 #7 | ~20/day per inbox, verified addresses, plain text, second provider after first sale | Decision §8 | DONE (rule) |
+| 36 | A 1-hour human reply SLA can't be met by a student; January = window rebound + likely exams | red team §5 | Instant auto-reply + human within 4 UK working hours; exam weeks in calendar; max 2 pilots until March | Decision §6 | To build by 24 Oct |
+| 37 | Holdout of 20% of old quotes on pilot 1 kills "they're my leads" and disputes | red team §5 | Built into the pilot terms and letter pack | Decision §2, §6 | To build by 22 Oct |
+| 38 | Spain/UK money: no Spanish IVA on B2B services to UK firms (guess, gestor to confirm); registering as autónomo ends €0 (~€80-88 cuota + gestor) → register the week the first invoice is certain | red team §5 | Gestor question list; timing rule | `PATH_6_MONTHS.md` §4 already; gestor | PARKED (first invoice) |

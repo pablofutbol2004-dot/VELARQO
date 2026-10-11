@@ -1,5 +1,7 @@
 # The path: October 2026 to March 2027
 
+> **11 Oct 2026:** `docs/STRATEGY_DECISION_2026-10.md` overrides this file where they disagree (offer delivery by letter, monthly quote desk as the core, who gets emailed first, new kill dates).
+
 Written 2026-10-10 from the repo, the live database, your own research
 (`docs/knowledge/kb_digest_2026-10-10_*.md`) and seven web-research passes
 (`docs/knowledge/web_research/2026-10-10_*.md`). Companion to
