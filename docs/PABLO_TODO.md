@@ -3,33 +3,12 @@
 Claude keeps this list up to date. Each item says why it matters and when
 it's needed. Tell Claude when one is done.
 
-## Tomorrow (11 Oct): Microsoft 365 tenant, 8 inboxes
+## Decided 11 Oct: no Microsoft 365, no new spend until the first sale
 
-Claude does all DNS; you do the clicks. Paste every record Microsoft shows
-into the chat and Claude adds it in Cloudflare.
-
-1. **Create the tenant:** microsoft.com/microsoft-365/business → Business
-   Basic → Buy now (not the trial: lower sending limits). Admin email = your
-   Gmail, tenant name e.g. `velarqo.onmicrosoft.com`, 8 licences (~£5 each).
-2. **Add the domains** at admin.microsoft.com → Settings → Domains → Add
-   domain: `usevelarqo.com`, `hellovelarqo.com`, `meetvelarqo.com`. For
-   each: paste the TXT verification record (`MS=ms...`) to Claude → Verify
-   → choose "I'll add the DNS records myself" → paste the MX / Autodiscover
-   CNAME / SPF page to Claude.
-3. **Create 8 users** (Users → Active users → Add a user): Pablo Garcia,
-   `pablo` / `pablo.garcia` / `pablo.g` at usevelarqo (3), hellovelarqo (3),
-   meetvelarqo (2); assign Business Basic; set passwords.
-4. **DKIM:** security.microsoft.com → Email & collaboration → Policies &
-   rules → Threat policies → DKIM → each domain → Create DKIM keys → paste
-   the two CNAMEs (selector1/selector2) to Claude → Enable. Claude adds
-   DMARC `p=none` for each domain.
-5. **Each inbox once:** sign in at outlook.office.com, set up MFA
-   (Authenticator app), add photo, name, signature.
-6. **Instantly:** Add account → Microsoft 365 → sign in with each mailbox.
-   Tell Claude when the 8 are in; warm-up gets set by API (limit 10,
-   +1/day, 30%, slow warm-up on, campaign limit 1).
-
-Warm-up from ~11 Oct → cold sends from ~25 Oct at the earliest, 1 Nov safer.
+The first test runs on the 8 Google inboxes already warming
+(getvelarqo.com, velarqohq.com, tryvelarqo.com). More inboxes, the letter
+test and paid tools wait until replies or money come in. The Outlook steps
+stay in `docs/LAUNCH.md` for later.
 
 ## Open items (as of 10 Oct evening)
 
@@ -77,7 +56,7 @@ Warm-up from ~11 Oct → cold sends from ~25 Oct at the earliest, 1 Nov safer.
 
 ## For more tests (soon, not blocking the first send)
 
-- [ ] **Approve the letter test** (`docs/LETTERS.md`): read the sample
+- [ ] **PARKED 11 Oct (no spend before first sale):** **Approve the letter test** (`docs/LETTERS.md`): read the sample
   (`docs/letters/sample_letter.pdf`), send Claude your surname, UK number,
   legal address line and photo, then order 50 letters on Stannp (about
   £44 + VAT) the same week as the first email batch. Also add a Cloudflare
@@ -91,7 +70,7 @@ Warm-up from ~11 Oct → cold sends from ~25 Oct at the earliest, 1 Nov safer.
 - [ ] **Create 12 mailboxes** in Google Admin (pablo@ and pablo.garcia@ on each
   new domain), log into each once (mail.google.com), then connect each in
   Instantly. Claude turns on warm-up.
-- [ ] **Microsoft 365 Business Basic tenant, 8 users** (the other half of
+- [ ] **PARKED 11 Oct (no spend before first sale):** **Microsoft 365 Business Basic tenant, 8 users** (the other half of
   the 16 mailboxes, decided 10 Oct so one provider can't stop all sending):
   buy it, add 4 of the new domains, create 8 users, register the sign-in
   app and grant consent. Every click is in `docs/LAUNCH.md`, section
