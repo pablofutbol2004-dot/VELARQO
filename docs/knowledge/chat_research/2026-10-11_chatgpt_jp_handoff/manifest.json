@@ -1,0 +1,21 @@
+{
+  "generated_at_utc": "2026-10-11",
+  "project": "JP Middleton business-model conversation Claude takeover",
+  "source_archive_name": "jp_middleton_transcripts_72.zip",
+  "source_archive_sha256": "b54ac090af50a68c04137b5591e98da6e7dbfef1a73da03f365f496ab841283e",
+  "transcript_file_count": 72,
+  "preservation": "source ZIP copied byte-for-byte; individual TXT members copied byte-for-byte; user messages transcribed verbatim; assistant turns reconstructed as summaries",
+  "important_state": {
+    "selected_niche": null,
+    "selected_offer": null,
+    "inboxes": 8,
+    "sends_per_inbox_per_workday": [
+      20,
+      30
+    ],
+    "touches_per_company_current": 2,
+    "launch_target": "2026-11-01",
+    "cold_calling_at_launch": false,
+    "willing_to_do_booked_sales_calls": true
+  }
+}

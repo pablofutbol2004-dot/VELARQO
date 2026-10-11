@@ -1,0 +1,30 @@
+category,niche,proposed_initial_offer,ideal_client_signal,why_commercially_interesting,main_risk
+Home service,HVAC install,Convert legitimate new install enquiries to qualified consultations,Existing inbound demand; ability to schedule,High install values; clear booked consult,"Existing CRMs, competition, seasonal flow"
+Home service,Roofing,New lead response and booked roof inspections,Qualified inbound job enquiries,Potential high contract values,Competitive agency/CRM market
+Home service,Tree care,New inbound requests -> scheduled on-site estimates,Enough requests; multi-crew capacity,Observable estimate bookings,Many firms too small/low volume
+Home service,Pest control,Inbound booking and recurring-plan enrollment,Residential recurring account business,Retention/LTV observable,Field-service platforms already offer reminders
+Home service,Garage door installers,"Capture new inbound missed enquiries, book visits",Inbound phone/web volume,Urgent jobs; near-term outcomes,Existing field-service software; margin variation
+Commercial services,Commercial cleaning,Prospecting to local facility/property managers; qualified bid opportunities,Commercial crews with capacity,Large recurring service contracts,"Slower sales, procurement hurdles"
+Commercial services,Commercial landscaping,B2B maintenance contract opportunity pipeline,Commercial contracts with renewals,Recurring contracts,Bid cycles and local competition
+Home service,Pool maintenance,One-off customers -> new recurring maintenance subscriptions,Installed residential service base,Recurring revenue uplift,"Seasonality, local differences"
+Healthcare/fitness,Dental practice,Fill openings / manage new patient enquiries,Practice with open slots and appropriate permissions,Appointment fill / new patient economics,"HIPAA/privacy, established practice systems"
+Healthcare/fitness,Med spa,Respond to new opted-in enquiries -> attended consults,Adequate new consult requests,High value packages in some clinics,HIPAA/marketing/claim compliance; competition
+Healthcare/fitness,Boutique fitness / franchise studios,Trial booking and trial-to-membership tracking,Studios receiving trial requests,"Short conversion loop, recurring memberships","Smaller budgets, franchise restrictions"
+Healthcare/fitness,Physical therapy,Waitlist/cancellation slot filling and scheduling,"Appointments to fill, compliant workflows",Direct scheduling impact,"PHI handling, practice systems"
+Healthcare/fitness,Hair transplant clinics,Qualify new consultation enquiries and coordinate consults,"High-value inquiries, appropriate consents",Large per-client value,"Hard trust, clinical privacy, longer cycle"
+Insurance,Independent insurance broker,Renewal task tracking; customer account retention,Recurring commission portfolio,Existing book retention value,"Confidential data, attribution slow"
+Property,Small residential property managers,New leasing enquiries -> compliant viewings,Vacancies and active listings,Shorter vacancy/leases,Fair housing law and existing platforms
+B2B services,Staffing/recruitment agencies,Find hiring companies; prospecting and qualification,Defined staffing vertical and placement economics,Measurable conversations and deals,Recruiting demand cycles; deliverability
+B2B technology,Small MSP/IT providers,Qualified business appointment-setting for managed services,Differentiated offer and target accounts,Recurring high-value contracts,"High competition, longer cycle"
+AEC,Architecture/engineering firms,"Identify public tenders, RFP eligibility and proposal prep",Bidding recurrently,Time saved / bid opportunities,"High accuracy, domain knowledge, slower payoff"
+Industrial,Specialty manufacturers,New incoming RFQ workflow and quotation tracking,Regular RFQ volume,Deal values; organized workflow,"Complex products, integrations"
+Automotive,Independent auto repair shops,"Service reminders, unapproved-work tracking with valid consent","Repeat customers, intake volumes",Repeat bookings and conversion,Existing shop management software
+Automotive,Premium detailing/PPF studios,New high-ticket quote enquiries -> booked installations,Enough fresh leads,Visible booking and deal value,Low enquiry volume at many shops
+Emergency services,Water restoration,After-hours emergency phone capture / qualified dispatch,Meaningful emergency call volume,Urgent high-value jobs,24/7 reliability and dispatch burden
+Home service,Foundation repair,Inspection/consultation booking and internal follow-up,Steady demand,High job value,"Seasonal, high competitive lead spend"
+Commercial compliance,Commercial fire safety,Inspection scheduling/renewal management,Recurring building compliance contracts,Renewal and compliance services,Regulatory specifics; technical liability
+Security services,Commercial security installers,B2B appointment setting for commercial installations,Sales capacity and clear buyer profiles,Bigger contracts possible,Longer project cycles
+Industrial,Equipment distributors,"RFQ intake, qualification and internal follow-up",Regular quote activity,Quotes and sales value,Industry knowledge; workflow complexity
+Property,Self-storage operators,New enquiry-to-rental conversion,Vacancies and incoming renters,Direct occupancy economics,Highly competitive software market
+Events,Wedding venues,New lead -> tours and booking management,Venue with regular enquiries,High per-booking value,Seasonality; competitive SaaS
+Commercial automotive,Fleet/commercial vehicle repair,B2B prospecting for contracted fleet accounts,Workshops equipped for fleet service,Recurring B2B fleet contracts,Longer sales; market specificity
