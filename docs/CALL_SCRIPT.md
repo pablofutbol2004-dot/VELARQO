@@ -36,11 +36,25 @@ Ask, then shut up. Write the answers down.
 Follow-ups if short answers: "What do they usually say when they go
 quiet?" "Is it price, timing, or they just vanish?"
 
+3b. > "After a survey, when does the quote go out: on the night, next day,
+    > later? When do you actually write them?"
+3c. > "How do you send it: WhatsApp, text, email, paper?"
+3d. > "Be honest: what's the bigger headache right now, getting enough
+    > enquiries, or turning the ones you get into jobs?"
+
 ## 5:00 The backlog (3 minutes)
 
 4. > "If you looked at the last two years, how many quotes never turned into
    > a yes or a no? Tens, hundreds?"
 5. > "Where do they live: CRM, quoting software, spreadsheet, email?"
+   If "nowhere really": "Do you use Xero or FreeAgent? The customer list
+   exports in two clicks, that's often enough to start."
+5b. > "When people ask you for a quote, how do they do it: phone, web form,
+    > Checkatrade? Does the form say anything about contacting them
+    > later or opting out?" (Legal: decides whether we may text/email old
+    > quotes. Note the exact answer.)
+5c. > "Does your software or your fabricator already send chasers? Do you
+    > actually use it?"
 6. > "Could you pull one up while we're talking? Just tell me the date, what
    > it was for, and roughly the value. Names not needed."
 
@@ -120,6 +134,24 @@ Subject: `Re: last year's quotes` (same thread)
 
 Log it: `python -m pipelines.outbound outcome <email> call_held --reaction ok|hesitant|objected --note "quotes/month X, backlog Y, job value Z, system W"`.
 Add anything new they said to the "questions installers ask" file.
+
+## Signals to log after every call (these can change the strategy)
+
+Write yes/no for each in the outcome note, then add a line to
+`docs/LEARNINGS.md` if anything is new. Thresholds come from
+`knowledge/web_research/2026-10-11_strategy_pain_offers.md` section 6.
+
+- **More enquiries > chasing?** (6+ of the first 10 say yes → shift to
+  booked surveys from live enquiries / leads.)
+- **Quoting eats evenings or goes out days late?** And would they let
+  someone else write/send quotes in their name? (3+ and 2+ → run the
+  free "quote that sells + same-day" test, roofers first.)
+- **Original enquiry form offered an opt-out?** (Mostly no → old-quote
+  texting becomes letters / installer-sent / consent-only.)
+- **Already chasing with software and actually using it?**
+- **Backlog size and age** (tens / hundreds; how far back).
+- **What they pay per survey/lead today** (£).
+- **Exact words** they used for the problem. Copy them into the copy bank.
 
 ## Things that kill the call
 

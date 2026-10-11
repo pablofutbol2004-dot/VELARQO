@@ -28,6 +28,20 @@ These override generic copywriting advice when they conflict. Product truth live
 - Use their words: quotes, surveys, fitters, diary, jobs, homeowners. Avoid: leverage, solutions, AI-powered, growth, pipeline, funnel, synergy, "I hope this finds you well".
 - Cold emails: under 80 words including signature and opt-out (enforced in `compose.problems`), one idea, one soft ask (a reply), no links or attachments in the first touch, plain text.
 - Sign-off: Pablo, Velarqo, velarqo.com. Every email says who we are and how to opt out ("Reply 'no' and I won't email again").
+- Greet the owner by first name when the company has exactly one active director (Companies House). Otherwise a plain "Hi,". Never "Hi there" or "Dear Sir/Madam".
+- Never lead with or mention "AI", "automation" or "software" to prospects: owners suspect AI marketing bots and won't log in to tools. Say what a person does for them ("I chase them", "in your name").
+- No revenue promises, money-back bravado or big round numbers ("30 sales in 30 days"); owners read them as scams. Small and believable beats bold.
+- Their control, stated: their name, their customers, they approve every word, homeowners who say no are left alone.
+- Any statistic used must name its source in plain words ("a survey of 140 tradespeople"). Learnings and sourced lines: `docs/LEARNINGS.md`, `docs/NICHE_PROFILE.md`.
+
+## Homeowner-facing messages (sent in the installer's name)
+
+- Calm, plain British, short: the tone of "No rush", "No bother". The double-glazing pressure-sales reputation is the thing to be the opposite of.
+- No deadlines, no "today only", no discount offers, no finance figures (a monthly finance figure is a financial promotion: link to the lender's calculator or leave it out).
+- When price is the doubt, restate what's included (guarantee, materials, who fits it), never undercut.
+- Stop at the first "no". Every message carries a free opt-out ("Reply STOP").
+- Send late afternoon or early evening; homeowners reply after work.
+- Only to homeowners the installer can lawfully contact (soft opt-in with an opt-out at collection, or consent). See `docs/delivery/06_compliance_notes.md`.
 
 ## Legal checklist (run before ANY send)
 
