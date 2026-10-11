@@ -43,3 +43,10 @@ Searched "quote follow-up / chasing / lost quote / estimate follow-up / unsold q
 | Directory subscription | £30-500/month (Checkatrade) | [3P] |
 
 Implication: a booked survey at or below ~£130, tied to a quote the installer already owns, is at or below the going rate.
+
+## Update 2026-10-11: Glasgrowth public pricing (screenshot from Pablo, glasgrowth site)
+- **Growth (1-2 teams): £1,500/month**, 10 appointments included, "Booked or Back" £100 refund per missed included appointment, extra appointments £100 each, no cap.
+- **Scale (3+ teams or a sales team): £2,000/month**, 20 appointments included, £75 back per miss, extras £75.
+- Both: "We work your old quotes first"; booking by WhatsApp, text or phone call; client portal; shoot day (extra £600 + VAT); protected area in the contract; **ad spend paid by client to Meta from £40/day (Growth) / £75/day (Scale)**; two-month minimum then monthly; one-off setup fee set on the call.
+- All-in for Growth ≈ £1,500 + ~£1,200 ads + setup ≈ **£270+ per appointment** in month 1-2.
+- Read: installers with 1-2 fitting teams pay this, so £75-150 per booked survey from old quotes is cheap by comparison. Our edge vs Glasgrowth: no retainer, no ad spend, no setup, no 2-month lock-in. Their edge: proof, video, phone booking, a team.
