@@ -52,6 +52,9 @@ def normalize_postcode(postcode: str) -> str | None:
     match = re.match(r"^([A-Z]{1,2}\d[A-Z\d]?)(\d[A-Z]{2})$", cleaned)
     if match:
         return f"{match.group(1)} {match.group(2)}"
+    # Irish Eircode: routing key (A65, D6W) + 4-character unique identifier
+    if match := re.match(r"^([A-Z]\d{2}|D6W)([A-Z\d]{4})$", cleaned):
+        return f"{match.group(1)} {match.group(2)}"
     return cleaned or None
 
 

@@ -105,7 +105,7 @@ def companies_to_refresh(conn, limit: int):
         from companies c
         left join outreach_queue q on q.id = c.id
         left join company_facts p on p.company_id = c.id and p.source = 'ch_profile'
-        where c.company_number is not null and c.tier in ('A', 'B', 'C')
+        where c.country = 'UK' and c.company_number is not null and c.tier in ('A', 'B', 'C')
           and (p.fetched_at is null or p.fetched_at < %s)
         order by (q.id is not null) desc, q.priority desc nulls last, c.icp_score desc nulls last
         limit %s
