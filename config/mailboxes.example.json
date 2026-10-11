@@ -1,3 +1,8 @@
 [
-  {"email": "pablo@getvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true}
+  {"email": "pablo@getvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-10-25"},
+  {"email": "pablo.g@getvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-10-25"},
+  {"email": "pablo@velarqohq.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-10-25"},
+  {"email": "pablo.g@velarqohq.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-10-25"},
+  {"email": "pablo@tryvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-11-10"},
+  {"email": "pablo.garcia@tryvelarqo.com", "provider": "gmail", "daily_cap": 20, "enabled": true, "cold_from": "2026-11-10"}
 ]

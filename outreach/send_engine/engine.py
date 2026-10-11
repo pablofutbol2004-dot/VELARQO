@@ -22,7 +22,7 @@ import json
 import random
 import re
 import time as _time
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 import psycopg
 from psycopg.rows import dict_row
@@ -161,7 +161,10 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
               select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category,
                      q.priority, q.years_trading, q.accredited, q.runs_ads, q.tier,
                      exists (select 1 from contacts ct where ct.company_id = c.id and ct.role = 'director'
-                             and coalesce(ct.full_name, '') <> '') as has_director
+                             and coalesce(ct.full_name, '') <> '') as has_director,
+                     (select split_part(ct.full_name, ' ', 1) from contacts ct
+                      where ct.company_id = c.id and ct.role = 'director' and ct.is_primary
+                      limit 1) as director_first_name
               from outreach_queue q
               join companies c on c.id = q.id
               where c.company_category = any(%s)
@@ -386,10 +389,14 @@ def _thread_of(conn, message_id) -> dict:
 
 def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8, *,
              require_enabled: bool = True, respect_window: bool = True, campaign_statuses=("active",),
-             pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now, mailbox_count: int = 1) -> dict:
+             pause_seconds: tuple[int, int] = (45, 120), sleep=_time.sleep, now=_now, mailbox_count: int = 1,
+             cold_from: date | None = None) -> dict:
     summary = {"mailbox": mailbox, "sent": 0, "skipped": 0, "failed": 0, "stopped": None}
     if not conn.autocommit and not conn.info.transaction_status:  # dry_run wraps us in a rolled-back transaction on purpose
         raise RuntimeError("send_due needs an autocommit connection: the 'sending' claim must be committed before Gmail is called")
+    if not guards.cold_sending_open(now(), cold_from):
+        summary["stopped"] = f"warm-up only: cold email from {cold_from or '(no cold_from set in config/mailboxes.json)'}"
+        return summary
     if respect_window and not guards.in_send_window(now()):
         summary["stopped"] = "outside UK send window"
         return summary
@@ -474,7 +481,10 @@ def schedule_followups(conn, now=_now, campaign_statuses=("active",)) -> int:
             """
             select m.id, m.campaign_id, m.company_id, m.to_email, m.mailbox, m.variant_index,
                    m.sequence_step, m.sent_at, first.subject as first_subject, c.display_name,
-                   cp.settings->'experiment' as experiment
+                   cp.settings->'experiment' as experiment,
+                   (select split_part(ct.full_name, ' ', 1) from contacts ct
+                    where ct.company_id = m.company_id and ct.role = 'director' and ct.is_primary
+                    limit 1) as director_first_name
             from messages m
             join campaigns cp on cp.id = m.campaign_id
             join companies c on c.id = m.company_id

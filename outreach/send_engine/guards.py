@@ -141,6 +141,12 @@ def hold_first_emails(now: datetime, backlog_per_mailbox: int, daily_cap: int, p
     return backlog_per_mailbox <= preferred_capacity(now, daily_cap, preferred)
 
 
+def cold_sending_open(now: datetime, cold_from: date | None) -> bool:
+    """A mailbox sends cold email only from its `cold_from` date (UK). Until
+    then (a young domain: under 30 days) it does warm-up only. No date = never."""
+    return cold_from is not None and now.astimezone(UK).date() >= cold_from
+
+
 def uk_day_start(now: datetime) -> datetime:
     local = now.astimezone(UK)
     return datetime.combine(local.date(), time(0), tzinfo=UK)

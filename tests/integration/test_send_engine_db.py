@@ -5,7 +5,7 @@ Opt-in: VELARQO_DB_TESTS=1 (needs DATABASE_URL and the send_engine migration).
 """
 
 import os
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import psycopg
 import pytest
@@ -15,6 +15,7 @@ from pipelines.cold_outreach.pipeline import DEFAULT_ICP_PATH, load_icp
 pytestmark = pytest.mark.skipif(os.environ.get("VELARQO_DB_TESTS") != "1", reason="set VELARQO_DB_TESTS=1")
 
 MAILBOX = "test@example.invalid"
+OPEN = date(2026, 1, 1)  # cold sending allowed from
 
 
 class FakeMailbox:
@@ -46,7 +47,7 @@ def test_full_cycle(conn, monkeypatch):
 
     icp = load_icp(DEFAULT_ICP_PATH)
     send = lambda provider, **kw: engine.send_due(  # noqa: E731
-        conn, provider, MAILBOX, daily_cap=50, max_this_run=50, respect_window=False, pause_seconds=(0, 0), **kw)
+        conn, provider, MAILBOX, daily_cap=50, max_this_run=50, respect_window=False, pause_seconds=(0, 0), cold_from=OPEN, **kw)
 
     cohort = engine.create_cohort(conn, "pytest cohort", 4, experiments.load("cold_offer_v1"), icp, "test")
     assert cohort["messages"] == 4
@@ -68,7 +69,7 @@ def test_full_cycle(conn, monkeypatch):
     monkeypatch.delenv("VELARQO_SEND_WINDOW", raising=False)
     monkeypatch.delenv("VELARQO_PREFERRED_WINDOW", raising=False)
     monday = lambda: datetime(2026, 10, 12, 9, tzinfo=timezone.utc)  # noqa: E731
-    held = engine.send_due(conn, provider, MAILBOX, daily_cap=50, max_this_run=50, pause_seconds=(0, 0), now=monday)
+    held = engine.send_due(conn, provider, MAILBOX, daily_cap=50, max_this_run=50, pause_seconds=(0, 0), now=monday, cold_from=OPEN)
     assert held["sent"] == 0 and held["held"]
 
     # Suppressed addresses are skipped at send time, not just at cohort time.
@@ -174,7 +175,7 @@ def test_one_sequence_per_inbox_and_unmatched_opt_outs(conn):
     engine.set_campaign_status(conn, cohort["campaign_id"], "active")
     engine.set_sending(conn, True)
     provider = FakeMailbox()
-    engine.send_due(conn, provider, MAILBOX, daily_cap=1, max_this_run=1, respect_window=False, pause_seconds=(0, 0))
+    engine.send_due(conn, provider, MAILBOX, daily_cap=1, max_this_run=1, respect_window=False, pause_seconds=(0, 0), cold_from=OPEN)
     sent_to = provider.sent[0]["to"]
     domain = sent_to.split("@")[1]
     result = engine.record_inbound(conn, MAILBOX, {

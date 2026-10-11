@@ -19,7 +19,7 @@ their OAuth tokens live in .env (authorize-mailbox writes them).
 
 import csv
 import json
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 import click
@@ -28,7 +28,7 @@ from data.supabase_store import connect, icp_version
 from integrations.email.gmail import GmailProvider
 from integrations.email.google_auth import access_token_for, authorize_mailbox
 from outreach.reply_classifier.classify import strip_quoted
-from outreach.send_engine import compose, engine, experiments
+from outreach.send_engine import compose, engine, experiments, guards
 
 ROOT = Path(__file__).parents[2]
 ICP_PATH = ROOT / "config" / "templates" / "icp-template.json"
@@ -53,6 +53,15 @@ def _mailboxes() -> list[dict]:
             f"{MAILBOXES_PATH} not found. Copy config/mailboxes.example.json and list your sending mailboxes."
         )
     return [m for m in json.loads(MAILBOXES_PATH.read_text()) if m.get("enabled", True)]
+
+
+def _cold_from(mailbox: dict) -> date | None:
+    """First day this mailbox may send cold email (`cold_from` in config/mailboxes.json).
+    Missing or unreadable = warm-up only: the sender refuses to send from it."""
+    try:
+        return date.fromisoformat(str(mailbox["cold_from"]))
+    except (KeyError, ValueError):
+        return None
 
 
 def _provider(mailbox: dict):
@@ -235,6 +244,8 @@ def run(dry_run, max_per_mailbox):
         statuses = ("draft", "active") if dry_run else ("active",)
         report["follow-ups queued"] = engine.schedule_followups(conn, campaign_statuses=statuses)
         report["stop rule"] = engine.check_stop_rules(conn)
+        cold_from = {m["email"]: date.min if dry_run else _cold_from(m) for m in mailboxes}
+        cold_ready = [m for m in mailboxes if guards.cold_sending_open(datetime.now(timezone.utc), cold_from[m["email"]])]
         for m in mailboxes:
             if m["email"] not in synced:
                 continue                     # unread replies might include a "stop": don't send blind
@@ -242,7 +253,8 @@ def run(dry_run, max_per_mailbox):
                 report[f"send {m['email']}"] = engine.send_due(
                     conn, provider_for(m), m["email"], m.get("daily_cap", 20), max_per_mailbox,
                     require_enabled=not dry_run, respect_window=not dry_run, campaign_statuses=statuses,
-                    pause_seconds=(0, 0) if dry_run else (45, 120), mailbox_count=len(mailboxes),
+                    pause_seconds=(0, 0) if dry_run else (45, 120), mailbox_count=max(len(cold_ready), 1),
+                    cold_from=cold_from[m["email"]],
                 )
             except Exception as exc:  # noqa: BLE001
                 report[f"send {m['email']}"] = f"ERROR {type(exc).__name__}: {str(exc)[:200]}"

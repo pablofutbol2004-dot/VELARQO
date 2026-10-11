@@ -43,8 +43,48 @@ FOLLOW_UP_TEMPLATES = {
 _PLACEHOLDER = re.compile(r"\[[^\]]+\]|\{[a-z_]+\}")
 
 
+_LEGAL_SUFFIX = re.compile(r"[\s,.]+(ltd\.?|limited|llp)\s*$", re.IGNORECASE)
+KEEP_UPPER = {"UPVC", "PVC", "PVCU", "UK", "GB", "NI"}
+
+
+def _title_word(word: str) -> str:
+    core = word.strip("()[],.&")
+    if core in KEEP_UPPER or any(ch.isdigit() for ch in word):
+        return word
+    if len(core) <= 3 and core.isalpha() and not set(core) & set("AEIOUY"):
+        return word  # initials like "JB" or "MTS"
+    return "-".join(part[:1].upper() + part[1:].lower() for part in word.split("-"))
+
+
+def clean_company(name: str) -> str:
+    """How a person would write the name: no 'Ltd'/'Limited'/'LLP' on the end,
+    and 'ACME WINDOWS LTD' -> 'Acme Windows' (acronyms like UPVC kept)."""
+    name = " ".join((name or "").split())
+    while True:
+        shorter = _LEGAL_SUFFIX.sub("", name).strip()
+        if shorter == name or not shorter:
+            break
+        name = shorter
+    if name.isupper():
+        name = " ".join(_title_word(w) for w in name.split())
+    return name
+
+
 def _company(row: dict) -> str:
-    return (row.get("display_name") or "your company").strip()
+    return clean_company(row.get("display_name") or "") or "your company"
+
+
+def first_name(row: dict) -> str | None:
+    """The company's only director's first name, if it's a real name."""
+    name = (row.get("director_first_name") or "").strip()
+    if len(name) < 2 or not name.replace("-", "").replace("'", "").isalpha():
+        return None
+    return name[:1].upper() + name[1:].lower() if name.isupper() or name.islower() else name
+
+
+def _greet(body: str, row: dict) -> str:
+    name = first_name(row)
+    return f"Hi {name},{body[3:]}" if name and body.startswith("Hi,") else body
 
 
 def _fill(template: str, company: str) -> str:
@@ -69,14 +109,14 @@ def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
         "arm": arm["key"],
         "company": company,
         "subject": _fill(arm["subject"], company),
-        "body": _finish(_fill(arm["body"], company)),
+        "body": _finish(_greet(_fill(arm["body"], company), row)),
     }
 
 
 def follow_up(step: int, row: dict, first_subject: str, arm: dict | None = None) -> dict:
     subject = first_subject if first_subject.lower().startswith("re:") else f"Re: {first_subject}"
     template = ((arm or {}).get("follow_ups") or {}).get(str(step)) or FOLLOW_UP_TEMPLATES[step]
-    return {"subject": subject, "body": _finish(_fill(template, _company(row)))}
+    return {"subject": subject, "body": _finish(_greet(_fill(template, _company(row)), row))}
 
 
 def problems(email: dict) -> list[str]:

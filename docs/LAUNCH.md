@@ -38,7 +38,21 @@ up later and join the send as they're ready.
 
 7. `config/mailboxes.json` from `config/mailboxes.example.json`, start at
    `daily_cap: 10` per mailbox and raise it weekly (10 → 20 → 30) while
-   bounces stay under 3%.
+   bounces stay under 3%. Every mailbox needs `cold_from` (ISO date, UK):
+   the first day it may send cold email. Before it, or with no date, the
+   sender refuses and the tick reports "warm-up only" (Instantly keeps
+   warming it). Rule: no cold email from a domain under 30 days old. Set:
+   getvelarqo.com / velarqohq.com `2026-10-25`, tryvelarqo.com `2026-11-10`.
+   A warming mailbox also doesn't count when the queue is split for the
+   preferred window.
+
+   **How names appear in emails:** `{company}` drops a trailing "Ltd",
+   "Limited" or "LLP" and turns ALL-CAPS names into normal case
+   ("ACME UPVC WINDOWS LTD" → "Acme UPVC Windows"; UPVC, PVC, UK and
+   initials like "JB" stay in capitals). If Companies House shows exactly
+   one director, the email opens "Hi Wayne," instead of "Hi," (follow-ups
+   too). With several directors it stays "Hi,": guessing who reads the
+   inbox would be wrong half the time.
 8. `python -m pipelines.outbound authorize-mailbox <email>` for each mailbox
    (opens Google sign-in; the token goes into `.env`, never into chat). It
    now checks that the token really belongs to that mailbox.

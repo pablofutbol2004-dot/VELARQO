@@ -352,3 +352,61 @@ def test_slice_composition_counts_each_trait():
     assert slice_composition(rows, ["named_director"]) == {
         "companies": 2, "prefer": ["named_director"], "named_director": 1, "years_trading_5": 1,
         "accredited": 1, "runs_ads": 1, "tier_a": 1}
+
+
+# --- Company names and greetings --------------------------------------------
+
+@pytest.mark.parametrize("raw, clean", [
+    ("Acme Windows Ltd", "Acme Windows"),
+    ("Acme Windows Ltd.", "Acme Windows"),
+    ("Acme Windows LIMITED", "Acme Windows"),
+    ("Acme Windows, llp", "Acme Windows"),
+    ("ACME WINDOWS & DOORS LTD", "Acme Windows & Doors"),
+    ("ACME UPVC WINDOWS LTD", "Acme UPVC Windows"),
+    ("JB PVC (UK) LIMITED", "JB PVC (UK)"),
+    ("A1 DOUBLE-GLAZING LTD", "A1 Double-Glazing"),
+    ("Limited Edition Windows", "Limited Edition Windows"),
+    ("LTD", "LTD"),
+    ("McCann Glazing", "McCann Glazing"),
+])
+def test_company_names_read_like_a_person_wrote_them(raw, clean):
+    assert compose.clean_company(raw) == clean
+
+
+def test_cleaned_name_goes_in_subject_and_body_and_keeps_the_possessive():
+    exp = {"arms": [{"key": "a", "subject": "{company} quotes", "body": "Hi,\n\nStill in {company}'s inbox?"}]}
+    email = compose.first_touch({"display_name": "LEEDS WINDOWS AND DOORS LTD"}, exp, 0)
+    assert email["subject"] == "Leeds Windows And Doors quotes"
+    assert "Leeds Windows And Doors' inbox" in email["body"] and "Ltd" not in email["body"]
+
+
+@pytest.mark.parametrize("director, greeting", [
+    ("Wayne", "Hi Wayne,\n\n"), ("WAYNE", "Hi Wayne,\n\n"), (None, "Hi,\n\n"), ("J", "Hi,\n\n"), ("J.", "Hi,\n\n"),
+])
+def test_single_director_first_name_opens_every_email(director, greeting):
+    row = {**ROW, "director_first_name": director}
+    exp = experiments.load("cold_offer_v1")
+    first = compose.first_touch(row, exp, 0)
+    assert first["body"].startswith(greeting) and compose.problems(first) == []
+    assert compose.follow_up(2, row, first["subject"])["body"].startswith(greeting)
+
+
+# --- Per-mailbox cold-send date -------------------------------------------------
+
+def test_young_mailboxes_send_warm_up_only():
+    from datetime import date
+    day_before = datetime(2026, 10, 24, 22, 30, tzinfo=timezone.utc)   # 23:30 UK on the 24th
+    first_day = datetime(2026, 10, 24, 23, 30, tzinfo=timezone.utc)    # 00:30 UK on the 25th
+    assert not guards.cold_sending_open(day_before, date(2026, 10, 25))
+    assert guards.cold_sending_open(first_day, date(2026, 10, 25))
+    assert not guards.cold_sending_open(first_day, None), "no cold_from: never cold"
+
+
+def test_example_mailboxes_respect_the_30_day_rule():
+    import json
+    from datetime import date
+    boxes = json.loads((experiments.EXPERIMENTS_DIR.parent / "mailboxes.example.json").read_text())
+    for box in boxes:
+        domain = box["email"].split("@")[1]
+        expected = "2026-11-10" if domain == "tryvelarqo.com" else "2026-10-25"
+        assert box["cold_from"] == expected and date.fromisoformat(box["cold_from"])
