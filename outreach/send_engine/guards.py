@@ -1,11 +1,25 @@
 """Pure send-safety rules (no database, no network) so they are easy to test."""
 
 import os
+import re
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 UK = ZoneInfo("Europe/London")
+
+# Markets: an experiment says which law and clock its emails fall under
+# ("market": "UK" | "US" in config/experiments/*.json, default UK). A company
+# is US when companies.country = 'US'; every other country keeps the UK rules.
+MARKETS = ("UK", "US")
+DEFAULT_MARKET = "UK"
+
+
+def normalise_market(value) -> str:
+    market = DEFAULT_MARKET if value in (None, "") else str(value).strip().upper()
+    if market not in MARKETS:
+        raise ValueError(f"'market' must be one of {list(MARKETS)}, not {value!r}")
+    return market
 
 # UK PECR: B2B email without prior consent is allowed only to corporate
 # subscribers. Sole traders and ordinary/limited partnerships count as
@@ -42,9 +56,14 @@ SHARED_ISP_DOMAINS = {
 # Send windows, per environment (.env or the shell), UK time:
 #   VELARQO_SEND_WINDOW="Mon-Fri 08:30-17:00"       nothing goes out outside it
 #   VELARQO_PREFERRED_WINDOW="Tue-Thu 08:30-12:00"  first emails wait for it ("off" disables)
+# US mail uses the same format, read in the prospect's own local time:
+#   VELARQO_SEND_WINDOW_US="Mon-Fri 08:30-16:30"
+#   VELARQO_PREFERRED_WINDOW_US="Tue-Thu 08:30-11:30"
 # Follow-ups ignore the preferred window: they keep their business-day gaps.
 DEFAULT_SEND_WINDOW = "Mon-Fri 08:30-17:00"
 DEFAULT_PREFERRED_WINDOW = "Tue-Thu 08:30-12:00"
+DEFAULT_SEND_WINDOW_US = "Mon-Fri 08:30-16:30"
+DEFAULT_PREFERRED_WINDOW_US = "Tue-Thu 08:30-11:30"
 _DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 
 
@@ -54,8 +73,8 @@ class Window:
     start: time
     end: time
 
-    def contains(self, now: datetime) -> bool:
-        local = now.astimezone(UK)
+    def contains(self, now: datetime, tz: ZoneInfo = UK) -> bool:
+        local = now.astimezone(tz)
         return local.weekday() in self.days and self.start <= local.time() < self.end
 
 
@@ -120,10 +139,11 @@ def in_send_window(now: datetime, window: Window | None = None) -> bool:
     return (window or send_window()).contains(now)
 
 
-def preferred_capacity(now: datetime, daily_cap: int, preferred: Window, horizon_days: int = 7) -> int:
+def preferred_capacity(now: datetime, daily_cap: int, preferred: Window, horizon_days: int = 7,
+                       tz: ZoneInfo = UK) -> int:
     """First emails one mailbox can still send in preferred windows over the
     next week (today counts only if its preferred window hasn't started)."""
-    local = now.astimezone(UK)
+    local = now.astimezone(tz)
     days = 0
     for offset in range(horizon_days):
         day = local.date() + timedelta(days=offset)
@@ -132,13 +152,14 @@ def preferred_capacity(now: datetime, daily_cap: int, preferred: Window, horizon
     return days * daily_cap
 
 
-def hold_first_emails(now: datetime, backlog_per_mailbox: int, daily_cap: int, preferred: Window | None) -> bool:
+def hold_first_emails(now: datetime, backlog_per_mailbox: int, daily_cap: int, preferred: Window | None,
+                      tz: ZoneInfo = UK) -> bool:
     """Outside the preferred window, first emails wait for it, unless the
     queue is bigger than the next week's preferred windows can send: then the
     surplus goes out in the normal window, so reach never slows down."""
-    if preferred is None or preferred.contains(now):
+    if preferred is None or preferred.contains(now, tz):
         return False
-    return backlog_per_mailbox <= preferred_capacity(now, daily_cap, preferred)
+    return backlog_per_mailbox <= preferred_capacity(now, daily_cap, preferred, tz=tz)
 
 
 def cold_sending_open(now: datetime, cold_from: date | None) -> bool:
