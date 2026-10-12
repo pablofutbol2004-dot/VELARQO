@@ -36,6 +36,7 @@ def validate(experiment: dict) -> None:
             raise ValueError(f"experiment is missing '{key}'")
     if len(experiment["arms"]) < 2:
         raise ValueError("an experiment needs at least two arms")
+    guards.normalise_market(experiment.get("market"))  # raises on anything but UK / US
     if experiment["stage"] == "cold_email":
         steps = experiment.get("steps", guards.DEFAULT_STEPS)
         if not isinstance(steps, int) or not 1 <= steps <= guards.LAST_STEP:
@@ -45,6 +46,11 @@ def validate(experiment: dict) -> None:
             unknown = set(_FIELDS.findall(text)) - ALLOWED_FIELDS
             if unknown:
                 raise ValueError(f"arm {arm['key']} uses unknown fields: {sorted(unknown)}")
+
+
+def market(experiment: dict | None) -> str:
+    """'UK' (default) or 'US': which law, footer and clock the experiment's emails use."""
+    return guards.normalise_market((experiment or {}).get("market"))
 
 
 def steps(experiment: dict | None) -> int:

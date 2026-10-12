@@ -142,6 +142,41 @@ def slice_composition(rows: list[dict], prefer=()) -> dict:
     }
 
 
+def _us_candidates(cur, experiment: dict, prefer_sql: str, size: int) -> list[dict]:
+    """US prospects (companies.country = 'US'). outreach_queue is UK-only, so
+    this reads companies directly: tier A/B with an email, not a platform
+    address, not suppressed, not already in a sequence or replied. No
+    corporate-category rule (CAN-SPAM); free-mail addresses are allowed."""
+    return cur.execute(
+        f"""
+        select * from (
+          select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category,
+                 coalesce(c.icp_score, 0) as priority,
+                 date_part('year', age(current_date, c.incorporation_date))::integer as years_trading,
+                 false as accredited, false as runs_ads, c.tier,
+                 exists (select 1 from contacts ct where ct.company_id = c.id and ct.role = 'director'
+                         and coalesce(ct.full_name, '') <> '') as has_director,
+                 (select split_part(ct.full_name, ' ', 1) from contacts ct
+                  where ct.company_id = c.id and ct.role = 'director' and ct.is_primary
+                  limit 1) as director_first_name
+          from companies c
+          where c.country = 'US' and c.vertical = %s and c.tier = any(array['A', 'B'])
+            and position('@' in coalesce(c.email, '')) > 1
+            and not (lower(split_part(c.email, '@', 2)) = any(%s))
+            and not exists (select 1 from suppressions s where lower(s.email) = lower(c.email)
+                            or lower(s.domain) = lower(split_part(c.email, '@', 2)))
+            and not exists (select 1 from messages m where m.company_id = c.id and m.status <> 'cancelled')
+            and not exists (select 1 from messages m where lower(m.to_email) = lower(c.email) and m.status <> 'cancelled')
+            and not exists (select 1 from replies r where lower(r.from_email) = lower(c.email))
+          order by lower(c.email), coalesce(c.icp_score, 0) desc, c.id
+        ) one_per_address
+        order by {prefer_sql}priority desc, id
+        limit %s
+        """,
+        (experiment.get("vertical", "windows"), sorted(guards.PLATFORM_DOMAINS), size),
+    ).fetchall()
+
+
 def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_version: str,
                   prefer=tuple(PREFERENCES)) -> dict:
     """Draft campaign with the top `size` unsent companies from outreach_queue,
@@ -151,11 +186,16 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
     already replied, or suppressed (outreach_queue drops those) are never picked."""
     segment_sql = _segment_filter(experiment)
     prefer_sql = _preference_order(prefer)
+    market = experiments.market(experiment)
+    if market == "US":
+        if experiment.get("segment") or experiment.get("exclude_segments"):
+            raise ValueError("US cohorts can't use segments: they come from outreach_queue, which is UK-only")
+        compose.us_signature()  # fail closed before anything is written: no postal address, no US cohort
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         # One email address = one recipient, across every batch and trade:
         # several company rows can share an inbox (group companies, the same
         # firm in windows and roofing), and it must get one sequence only.
-        rows = cur.execute(
+        rows = _us_candidates(cur, experiment, prefer_sql, size) if market == "US" else cur.execute(
             f"""
             select * from (
               select distinct on (lower(c.email)) c.id, c.display_name, c.email, c.city, c.extra, c.company_category,
@@ -190,8 +230,9 @@ def create_cohort(conn, name: str, size: int, experiment: dict, icp: dict, icp_v
             "sequence": {"follow_up_gaps_business_days": guards.FOLLOW_UP_GAPS,
                          "steps": experiments.steps(experiment)},
             "slice": slice_composition(rows, prefer),
-            "signature": compose.SIGNATURE,
-            "opt_out_line": compose.OPT_OUT_LINE,
+            "market": market,
+            "signature": compose.us_signature() if market == "US" else compose.SIGNATURE,
+            "opt_out_line": compose.US_OPT_OUT_LINE if market == "US" else compose.OPT_OUT_LINE,
             "experiment": experiment,
             "follow_up_templates": compose.FOLLOW_UP_TEMPLATES,
         }
@@ -311,55 +352,132 @@ def _address_taken(cur, msg: dict) -> bool:
 
 # --- Sending ------------------------------------------------------------
 
-def _claim(conn, mailbox: str, statuses: list[str], first_emails: bool = True) -> dict | None:
+US_STATES = sorted(guards.US_STATE_TZ)
+_STATE_SQL = "upper(coalesce(co.extra->>'state', ''))"   # US loaders put the 2-letter state in companies.extra.state
+
+
+class Gates:
+    """Which messages may be claimed right now, per market. UK messages (every
+    company outside the US) follow the UK window; a US message follows the
+    window in its own state's time zone (New York when the state is unknown).
+    `first` = first emails allowed (preferred window); follow-ups only need `open`."""
+
+    def __init__(self, uk_open=True, uk_first=True, us_open=None, us_first=None, unknown_open=True, unknown_first=True):
+        self.uk_open, self.uk_first = uk_open, uk_first
+        self.us_open = list(US_STATES if us_open is None else us_open)
+        self.us_first = list(US_STATES if us_first is None else us_first)
+        self.unknown_open, self.unknown_first = unknown_open, unknown_first
+
+    @property
+    def any_open(self) -> bool:
+        return self.uk_open or bool(self.us_open) or self.unknown_open
+
+    def params(self) -> dict:
+        return {"uk_open": self.uk_open, "uk_first": self.uk_first, "us_open": self.us_open, "us_first": self.us_first,
+                "known": US_STATES, "unk_open": self.unknown_open, "unk_first": self.unknown_first}
+
+
+_GATE_SQL = f"""and (
+                  (co.country is distinct from 'US' and %(uk_open)s and (m.sequence_step > 1 or %(uk_first)s))
+                  or (co.country = 'US' and (
+                        ({_STATE_SQL} = any(%(us_open)s) and (m.sequence_step > 1 or {_STATE_SQL} = any(%(us_first)s)))
+                     or ({_STATE_SQL} <> all(%(known)s) and %(unk_open)s and (m.sequence_step > 1 or %(unk_first)s))))
+                )"""
+
+
+def _claim(conn, mailbox: str, statuses: list[str], gates: "Gates | None" = None) -> dict | None:
     with conn.transaction(), conn.cursor(row_factory=dict_row) as cur:
         return cur.execute(
-            """
-            update messages set status = 'sending', mailbox = %s
+            f"""
+            update messages set status = 'sending', mailbox = %(mailbox)s
             where id = (
               select m.id from messages m
               join campaigns c on c.id = m.campaign_id
-              where m.status = 'queued' and c.status = any(%s)
+              join companies co on co.id = m.company_id
+              where m.status = 'queued' and c.status = any(%(statuses)s)
                 and m.scheduled_for <= now()
-                and (m.mailbox is null or m.mailbox = %s)
-                and (m.sequence_step > 1 or %s)
+                and (m.mailbox is null or m.mailbox = %(mailbox)s)
+                {_GATE_SQL}
               order by m.sequence_step desc, m.scheduled_for, m.id
               for update of m skip locked
               limit 1
             )
             returning id, campaign_id, company_id, to_email, subject, body, sequence_step, in_reply_to_message_id
             """,
-            (mailbox, statuses, mailbox, first_emails),
+            {"mailbox": mailbox, "statuses": statuses, **(gates or Gates()).params()},
         ).fetchone()
 
 
-def _first_email_backlog(conn, mailbox: str, statuses: list[str]) -> int:
-    """First emails waiting to go that this mailbox could pick up."""
+def _first_email_backlog(conn, mailbox: str, statuses: list[str], market: str | None = None) -> int:
+    """First emails waiting to go that this mailbox could pick up (optionally one market's)."""
+    us = {None: "", "UK": "and co.country is distinct from 'US'", "US": "and co.country = 'US'"}[market]
     with conn.cursor() as cur:
         return cur.execute(
             "select count(*) from messages m join campaigns c on c.id = m.campaign_id "
+            "join companies co on co.id = m.company_id "
             "where m.status = 'queued' and m.sequence_step = 1 and c.status = any(%s) "
-            "and m.scheduled_for <= now() and (m.mailbox is null or m.mailbox = %s)",
+            f"and m.scheduled_for <= now() and (m.mailbox is null or m.mailbox = %s) {us}",
             (statuses, mailbox),
         ).fetchone()[0]
+
+
+def _gates(conn, mailbox: str, statuses: list[str], now: datetime, daily_cap: int, mailbox_count: int) -> Gates:
+    """Window and preferred-window state for each market right now."""
+    per_mailbox = lambda n: -(-n // max(mailbox_count, 1))  # noqa: E731
+    uk_backlog = per_mailbox(_first_email_backlog(conn, mailbox, statuses, "UK"))
+    gates = Gates(
+        uk_open=guards.in_send_window(now),
+        uk_first=not guards.hold_first_emails(now, uk_backlog, daily_cap, guards.preferred_window()),
+    )
+    window, preferred = guards.send_window_us(), guards.preferred_window_us()
+    us_backlog = per_mailbox(_first_email_backlog(conn, mailbox, statuses, "US"))
+
+    def state_gate(state):
+        is_open = guards.us_state_open(now, state, window)
+        first = not guards.hold_first_emails(now, us_backlog, daily_cap, preferred, guards.us_timezone(state))
+        return is_open, first
+
+    gates.us_open, gates.us_first = [], []
+    for state in US_STATES:
+        is_open, first = state_gate(state)
+        if is_open:
+            gates.us_open.append(state)
+            if first:
+                gates.us_first.append(state)
+    gates.unknown_open, gates.unknown_first = state_gate(None)
+    return gates
 
 
 def _block_reason(conn, msg: dict) -> str | None:
     with conn.cursor(row_factory=dict_row) as cur:
         if _is_suppressed(cur, msg["to_email"]):
             return "suppressed"
-        if not guards.is_company_mailbox(msg["to_email"]):
+        company = cur.execute("select company_category, country from companies where id = %s",
+                              (msg["company_id"],)).fetchone()
+        campaign = cur.execute("select settings->'experiment' as experiment from campaigns where id = %s",
+                               (msg["campaign_id"],)).fetchone()
+        # The company's country decides which law applies; the campaign must agree.
+        market = "US" if company and company["country"] == "US" else "UK"
+        if experiments.market(campaign and campaign["experiment"]) != market:
+            return f"campaign market doesn't match the company's country ({market})"
+        if market == "US":
+            if not guards.is_us_mailbox(msg["to_email"]):
+                return "platform address (not a company mailbox)"
+        elif not guards.is_company_mailbox(msg["to_email"]):
             return "free-mail or platform address (not a company mailbox)"
         if _company_has_replied(cur, msg["company_id"], msg["to_email"]):
             return "company replied"
         if _address_taken(cur, msg):
             return "address already emailed in another sequence"
-        company = cur.execute("select company_category from companies where id = %s", (msg["company_id"],)).fetchone()
-        if not company or not guards.is_corporate(company["company_category"]):
+        if market == "US":
+            # CAN-SPAM, re-checked on every send: honest subject, who we are,
+            # postal address (fails closed when VELARQO_POSTAL_ADDRESS is unset), opt-out.
+            issues = compose.legal_problems({"subject": msg["subject"], "body": msg["body"]})
+            if issues:
+                return "US email rules: " + "; ".join(issues)
+        elif not company or not guards.is_corporate(company["company_category"]):
             return "not a corporate subscriber"
         if msg["sequence_step"] > 1:
-            campaign = cur.execute("select settings->'experiment' as experiment from campaigns where id = %s",
-                                   (msg["campaign_id"],)).fetchone()
             if msg["sequence_step"] > experiments.steps(campaign and campaign["experiment"]):
                 return "beyond the experiment's sequence length"
             parent = cur.execute(
@@ -396,16 +514,17 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
     if not guards.cold_sending_open(now(), cold_from):
         summary["stopped"] = f"warm-up only: cold email from {cold_from or '(no cold_from set in config/mailboxes.json)'}"
         return summary
-    if respect_window and not guards.in_send_window(now()):
-        summary["stopped"] = "outside UK send window"
-        return summary
-    # First emails go in the preferred window (Tue-Thu mornings by default)
-    # unless the queue is too big for it; follow-ups keep their own timing.
-    first_emails = True
+    # Each market has its own clock: UK mail in UK time, US mail in the
+    # prospect's state time zone. First emails go in the preferred window
+    # (Tue-Thu mornings by default) unless the queue is too big for it;
+    # follow-ups keep their own timing. Caps and the kill switch are shared.
+    gates = Gates()
     if respect_window:
-        backlog = -(-_first_email_backlog(conn, mailbox, list(campaign_statuses)) // max(mailbox_count, 1))
-        first_emails = not guards.hold_first_emails(now(), backlog, daily_cap, guards.preferred_window())
-        if not first_emails:
+        gates = _gates(conn, mailbox, list(campaign_statuses), now(), daily_cap, mailbox_count)
+        if not gates.any_open:
+            summary["stopped"] = "outside send windows (UK and US)"
+            return summary
+        if (gates.uk_open and not gates.uk_first) or len(gates.us_first) < len(gates.us_open):
             summary["held"] = "first emails wait for the preferred window"
 
     with conn.cursor() as cur:
@@ -420,7 +539,7 @@ def send_due(conn, provider, mailbox: str, daily_cap: int, max_this_run: int = 8
         if require_enabled and not controls(conn)["sending_enabled"]:
             summary["stopped"] = "sending disabled"
             break
-        msg = _claim(conn, mailbox, list(campaign_statuses), first_emails)
+        msg = _claim(conn, mailbox, list(campaign_statuses), gates)
         if msg is None:
             break
 
@@ -507,7 +626,10 @@ def schedule_followups(conn, now=_now, campaign_statuses=("active",)) -> int:
                 continue
             arms = (prev["experiment"] or {}).get("arms") or []
             arm = arms[prev["variant_index"] % len(arms)] if arms and prev["variant_index"] is not None else None
-            email = compose.follow_up(step, prev, prev["first_subject"], arm)
+            try:
+                email = compose.follow_up(step, prev, prev["first_subject"], arm, experiments.market(prev["experiment"]))
+            except compose.PostalAddressMissing:
+                continue  # US follow-up with no postal address configured: write nothing (fail closed)
             cur.execute(
                 """
                 insert into messages (campaign_id, company_id, to_email, variant_index, subject, body, sequence_step,

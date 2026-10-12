@@ -516,22 +516,26 @@ def authorize(email, provider):
 @click.argument("to")
 @click.option("--mailbox", required=True, help="Sending mailbox from config/mailboxes.json")
 @click.option("--with-follow-up", is_flag=True, help="Also send the step-2 follow-up threaded under the first email")
-def test_send(to, mailbox, with_follow_up):
+@click.option("--market", type=click.Choice(["UK", "US"]), default="UK", help="US previews the CAN-SPAM footer (needs VELARQO_POSTAL_ADDRESS)")
+def test_send(to, mailbox, with_follow_up, market):
     """Send one sample first email to yourself through a real mailbox (no database writes)."""
     config = next((m for m in _mailboxes() if m["email"].lower() == mailbox.lower()), None)
     if not config:
         raise click.ClickException(f"{mailbox} is not in config/mailboxes.json (or is disabled)")
     sample = {"id": "test", "display_name": "Example Windows Ltd", "email": to, "city": "Leeds",
               "extra": {"website_signals": ["free quotes"], "accreditations": ["FENSA registered"]}}
-    exp = experiments.load(DEFAULT_EXPERIMENT)
-    email = compose.first_touch(sample, exp, 0)
+    exp = {**experiments.load(DEFAULT_EXPERIMENT), "market": market}
+    try:
+        email = compose.first_touch(sample, exp, 0)
+    except compose.PostalAddressMissing as exc:
+        raise click.ClickException(str(exc)) from exc
     provider = _provider(config)
     result = provider.send_email(to=to, subject=f"[TEST] {email['subject']}", body=email["body"])
     click.echo(f"Sent test email from {config['email']} ({config['provider']}), id {result['message_id']}")
     if not with_follow_up:
         return
     rfc_id = result.get("rfc_message_id") or (provider.rfc_message_id(result["message_id"]) if result.get("message_id") else None)
-    follow = compose.follow_up(2, sample, f"[TEST] {email['subject']}", exp["arms"][0])
+    follow = compose.follow_up(2, sample, f"[TEST] {email['subject']}", exp["arms"][0], market)
     kwargs = dict(to=to, subject=follow["subject"], body=follow["body"],
                   thread_id=result.get("thread_id"), in_reply_to_message_id=rfc_id)
     if getattr(provider, "THREADS_BY_PARENT_ID", False):

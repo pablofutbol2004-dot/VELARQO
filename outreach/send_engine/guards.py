@@ -106,6 +106,58 @@ def preferred_window() -> "Window | None":
     return parse_window(os.environ.get("VELARQO_PREFERRED_WINDOW", DEFAULT_PREFERRED_WINDOW))
 
 
+def send_window_us() -> Window:
+    return parse_window(os.environ.get("VELARQO_SEND_WINDOW_US") or DEFAULT_SEND_WINDOW_US)
+
+
+def preferred_window_us() -> "Window | None":
+    return parse_window(os.environ.get("VELARQO_PREFERRED_WINDOW_US", DEFAULT_PREFERRED_WINDOW_US))
+
+
+# --- US: state -> time zone ---------------------------------------------
+# States split across zones use the zone most of their population lives in.
+DEFAULT_US_TZ = "America/New_York"
+_US_ZONES = {
+    "America/New_York": "CT DE DC FL GA IN KY MA MD ME MI NC NH NJ NY OH PA RI SC VA VT WV",
+    "America/Chicago": "AL AR IA IL KS LA MN MO MS ND NE OK SD TN TX WI",
+    "America/Denver": "AZ CO ID MT NM UT WY",
+    "America/Los_Angeles": "CA NV OR WA",
+    "America/Anchorage": "AK",
+    "Pacific/Honolulu": "HI",
+}
+US_STATE_TZ = {state: zone for zone, states in _US_ZONES.items() for state in states.split()}
+_US_STATE_NAMES = {
+    "alabama": "AL", "alaska": "AK", "arizona": "AZ", "arkansas": "AR", "california": "CA", "colorado": "CO",
+    "connecticut": "CT", "delaware": "DE", "district of columbia": "DC", "florida": "FL", "georgia": "GA",
+    "hawaii": "HI", "idaho": "ID", "illinois": "IL", "indiana": "IN", "iowa": "IA", "kansas": "KS",
+    "kentucky": "KY", "louisiana": "LA", "maine": "ME", "maryland": "MD", "massachusetts": "MA",
+    "michigan": "MI", "minnesota": "MN", "mississippi": "MS", "missouri": "MO", "montana": "MT",
+    "nebraska": "NE", "nevada": "NV", "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM",
+    "new york": "NY", "north carolina": "NC", "north dakota": "ND", "ohio": "OH", "oklahoma": "OK",
+    "oregon": "OR", "pennsylvania": "PA", "rhode island": "RI", "south carolina": "SC", "south dakota": "SD",
+    "tennessee": "TN", "texas": "TX", "utah": "UT", "vermont": "VT", "virginia": "VA", "washington": "WA",
+    "west virginia": "WV", "wisconsin": "WI", "wyoming": "WY",
+}
+
+
+def us_state_code(value: str | None) -> str | None:
+    """'tx', 'TX' or 'Texas' -> 'TX'; anything unknown -> None."""
+    text = " ".join((value or "").replace(".", " ").split()).lower()
+    if text.upper() in US_STATE_TZ:
+        return text.upper()
+    return _US_STATE_NAMES.get(text)
+
+
+def us_timezone(state: str | None) -> ZoneInfo:
+    """The prospect's local zone from their US state; New York when unknown."""
+    return ZoneInfo(US_STATE_TZ.get(us_state_code(state) or "", DEFAULT_US_TZ))
+
+
+def us_state_open(now: datetime, state: str | None, window: "Window | None" = None) -> bool:
+    """Is it inside the US send window where a prospect in `state` is?"""
+    return (window or send_window_us()).contains(now, us_timezone(state))
+
+
 # Follow-up step -> business days after the previous step was sent.
 FOLLOW_UP_GAPS = {2: 3, 3: 5}
 LAST_STEP = max(FOLLOW_UP_GAPS)
@@ -125,6 +177,44 @@ def is_company_mailbox(email: str | None) -> bool:
     Ltd uses it. Only company-domain mailboxes are emailed."""
     domain = email_domain(email)
     return bool(domain) and domain not in FREE_MAIL_DOMAINS and domain not in PLATFORM_DOMAINS
+
+
+def is_us_mailbox(email: str | None) -> bool:
+    """CAN-SPAM has no corporate-subscriber rule: company-domain and free-mail
+    (Gmail etc.) addresses are both fine. Scraped platform junk is still not."""
+    domain = email_domain(email)
+    return bool(domain) and "." in domain and domain not in PLATFORM_DOMAINS
+
+
+# A "Re:" / "Fwd:" subject on a cold email claims a conversation that never
+# happened: deceptive under CAN-SPAM.
+_FAKE_THREAD_SUBJECT = re.compile(r"^\s*(re|fwd?)\s*:", re.IGNORECASE)
+
+
+def deceptive_subject(subject: str | None) -> bool:
+    return not (subject or "").strip() or bool(_FAKE_THREAD_SUBJECT.match(subject or ""))
+
+
+def strip_thread_prefix(subject: str) -> str:
+    while _FAKE_THREAD_SUBJECT.match(subject):
+        subject = _FAKE_THREAD_SUBJECT.sub("", subject, count=1)
+    return subject.strip()
+
+
+# CAN-SPAM needs a valid physical postal address in every commercial email.
+# It comes from the environment so it is never hard-coded; unset (or not
+# shaped like a US street address) = US mail is refused: fail closed.
+_ZIP = re.compile(r"\b\d{5}(-\d{4})?\b")
+
+
+def postal_address() -> str | None:
+    """VELARQO_POSTAL_ADDRESS as one line, or None when unset or not a US
+    address (needs a number and a ZIP code)."""
+    raw = os.environ.get("VELARQO_POSTAL_ADDRESS") or ""
+    text = " ".join(", ".join(part.strip() for part in raw.splitlines() if part.strip()).split())
+    if len(text) < 15 or not any(ch.isdigit() for ch in text) or not _ZIP.search(text):
+        return None
+    return text
 
 
 def email_domain(email: str | None) -> str:

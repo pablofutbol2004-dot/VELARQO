@@ -10,11 +10,40 @@ Rules (from the ad pack's outbound/copywriting essentials and
 - Every email says who we are and how to opt out.
 """
 
+import os
 import re
+
+from outreach.send_engine import guards
 
 SIGNATURE = "Pablo\nVelarqo, velarqo.com"
 OPT_OUT_LINE = "Reply \"no\" and I won't email again."
 MAX_WORDS = 80  # whole email, signature and opt-out included
+
+# US (CAN-SPAM) footer: who we are (real name + business), a physical postal
+# address from VELARQO_POSTAL_ADDRESS, and a plain opt-out. Replying "no" or
+# "unsubscribe" is honoured by the reply classifier / suppression list.
+US_OPT_OUT_LINE = "Reply \"no\" or \"unsubscribe\" and I won't email you again."
+US_WORD_ALLOWANCE = 5  # the longer US footer (address words are not counted at all)
+
+
+class PostalAddressMissing(ValueError):
+    """US email needs VELARQO_POSTAL_ADDRESS; without it nothing US is written or sent."""
+
+
+def sender_name() -> str:
+    return " ".join((os.environ.get("VELARQO_SENDER_NAME") or "Pablo").split())
+
+
+def business_name() -> str:
+    return " ".join((os.environ.get("VELARQO_BUSINESS_NAME") or "Velarqo").split())
+
+
+def us_signature() -> str:
+    address = guards.postal_address()
+    if not address:
+        raise PostalAddressMissing(
+            "VELARQO_POSTAL_ADDRESS is unset or not a US street address with a ZIP code: refusing to write US email")
+    return f"{sender_name()}\n{business_name()}, velarqo.com\n{address}"
 
 # First-email copy lives in config/experiments/*.json (one arm per variant),
 # so tests can change without code changes. An arm can override a follow-up
@@ -96,7 +125,9 @@ def _fill(template: str, company: str) -> str:
     return text
 
 
-def _finish(body: str) -> str:
+def _finish(body: str, market: str = "UK") -> str:
+    if market == "US":
+        return f"{body.rstrip()}\n\n{us_signature()}\n\n{US_OPT_OUT_LINE}\n"
     return f"{body.rstrip()}\n\n{SIGNATURE}\n\n{OPT_OUT_LINE}\n"
 
 
@@ -104,33 +135,64 @@ def first_touch(row: dict, experiment: dict, variant_index: int) -> dict:
     index = variant_index % len(experiment["arms"])
     arm = experiment["arms"][index]
     company = _company(row)
+    market = guards.normalise_market(experiment.get("market"))
     return {
         "variant_index": index,
         "arm": arm["key"],
         "company": company,
+        "market": market,
         "subject": _fill(arm["subject"], company),
-        "body": _finish(_greet(_fill(arm["body"], company), row)),
+        "body": _finish(_greet(_fill(arm["body"], company), row), market),
     }
 
 
-def follow_up(step: int, row: dict, first_subject: str, arm: dict | None = None) -> dict:
-    subject = first_subject if first_subject.lower().startswith("re:") else f"Re: {first_subject}"
+def follow_up(step: int, row: dict, first_subject: str, arm: dict | None = None, market: str = "UK") -> dict:
+    if market == "US":
+        # Same subject, threaded by headers: a "Re:" here would pretend they wrote first.
+        subject = guards.strip_thread_prefix(first_subject)
+    else:
+        subject = first_subject if first_subject.lower().startswith("re:") else f"Re: {first_subject}"
     template = ((arm or {}).get("follow_ups") or {}).get(str(step)) or FOLLOW_UP_TEMPLATES[step]
-    return {"subject": subject, "body": _finish(_greet(_fill(template, _company(row)), row))}
+    return {"subject": subject, "market": market, "body": _finish(_greet(_fill(template, _company(row)), row), market)}
+
+
+def legal_problems(email: dict) -> list[str]:
+    """CAN-SPAM checks for a US email: honest subject, sender identity, postal
+    address (the current VELARQO_POSTAL_ADDRESS, which must be set), opt-out."""
+    issues = []
+    address = guards.postal_address()
+    body = email["body"]
+    if guards.deceptive_subject(email["subject"]):
+        issues.append("deceptive or empty subject")
+    if not address:
+        issues.append("VELARQO_POSTAL_ADDRESS unset or not a US address")
+    elif address not in body:
+        issues.append("missing postal address")
+    if sender_name() not in body or business_name() not in body:
+        issues.append("missing sender name or business name")
+    if US_OPT_OUT_LINE not in body:
+        issues.append("missing opt-out line")
+    return issues
 
 
 def problems(email: dict) -> list[str]:
     """Reasons an email must not go out as written."""
     issues = []
     text = f"{email['subject']}\n{email['body']}"
+    us = email.get("market", "UK") == "US"
     if _PLACEHOLDER.search(text):
         issues.append("unfilled placeholder")
-    if OPT_OUT_LINE not in email["body"]:
+    if us:
+        issues += legal_problems(email)
+    elif OPT_OUT_LINE not in email["body"]:
         issues.append("missing opt-out line")
     if "velarqo.com" not in email["body"]:
         issues.append("missing sender identity")
-    if word_count(email["body"], email.get("company")) > MAX_WORDS:
-        issues.append(f"over {MAX_WORDS} words")
+    body, cap = email["body"], MAX_WORDS
+    if us:
+        body, cap = body.replace(guards.postal_address() or "", ""), MAX_WORDS + US_WORD_ALLOWANCE
+    if word_count(body, email.get("company")) > cap:
+        issues.append(f"over {cap} words")
     return issues
 
 
