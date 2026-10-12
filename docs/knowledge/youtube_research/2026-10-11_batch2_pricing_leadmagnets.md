@@ -132,3 +132,24 @@ Raw transcripts are in `data/transcripts/` (fetched by video ID; the .srt was co
 - The discovery list above becomes the call script.
 - Performance-trial wording for the first clients.
 - 8 follow-ups for interested replies.
+
+## Addendum 4 (12 Oct): Clay Lawrence, "5 boring but high-paying local marketing offers" [tbhoenh1lkE]
+
+Self-reported: $45k a month from review systems alone at $100-300 per client, so a high client count. He runs a coaching community.
+
+1. **Google Local Service Ads:** $300-1,000 a month to manage. They depend on good reviews and on the business answering its phone.
+2. **Google Business Profile optimisation:** $300-500 a month. Most of the ranking gain comes from the one-time setup, and businesses without an address are hard to rank.
+3. **Reviews:** $100-500 a month. Easy to prove ("you got X five-star reviews") and sticky, but weak for low-volume businesses.
+4. **Websites:** $3-5k, often paid over 2 years, then $100 a month for hosting. The stickiest offer, provided the owner loves the site.
+5. **Database reactivation:**
+   - **Pricing:** $1-2k to set up, or about $1,500-2,000 per quarter for home services. A revenue share is the risk-free starter version.
+   - **Lists run out fast:** a list of 500-1,000 leads is used up in weeks. Don't re-contact it more often than every 2-3 months.
+   - **Pairing:** pair it with a slower ongoing service so the quick win buys trust.
+   - **Who it suits:** owners who need cash now.
+
+His advice is to learn all five and pick per prospect after a conversation, though cold email needs one clear offer (Fazio).
+
+**Applied to the US plan:**
+- It supports the structure we chose: reactivation as the quick win, an ongoing service behind it, and re-working the backlog quarterly rather than monthly.
+- Quarterly reactivation pricing ($1.5-2k a quarter) is a price point to test on calls next to the $750 a month.
+- Review requests after each won job make a cheap, sticky add-on for retention later. They aren't a front-end offer for us.
