@@ -88,3 +88,19 @@ Raw transcripts are in `data/transcripts/` (fetched by video ID; the .srt was co
 - The free prospect list from hook B gets **pre-built for each firm before the email goes out**, so the line "I put together 50 businesses near you that fit your size" is true when sent.
 - Platten's 0.5% meetings-per-email is a vendor benchmark. At about 3,200 emails a month that would mean about 16 meetings, so our own 2-6 calls estimate may be cautious. Real sends will tell.
 - Letters to the top 50-100 dream firms are an option once there's a little money. Post falls under neither PECR nor the Spanish email law. It costs about £1 a letter, so it waits until the first sale.
+
+## Addendum 2 (12 Oct): Fazio, "Why cold outreach fails for AI automation offers" [KD_XytXiVW8]
+
+(Re-titled on YouTube as "The Only 3 Ways To Get Customers".)
+
+- There are only three channels: content, ads and outreach. Each one costs either time or money.
+- **Match the offer to the channel.**
+  - Cold outreach works for done-for-you services with a clear money result that fits in one sentence, sold into a category the buyer already understands. It's a "demand generation" offer: you can create the want.
+  - It fails for "demand capture" offers (AI automation, consulting, custom builds), which people only buy when they already need them. His analogy: selling a toilet to someone who doesn't need the bathroom.
+  - Content suits automation and consulting offers. Ads work for anything that also works on outreach.
+- Once one channel works, use every other channel that fits the same offer.
+- "All in" means more hours of work, not one task followed by scrolling.
+
+**Applied:**
+- **Quote recovery passes the test.** "We bring back your unsold estimates" is one sentence with a clear money result.
+- **Speed-to-lead and automation sold on their own fail it** (demand capture). That's another reason to lead with estimate recovery and add the automation pieces later, inside the client relationship.
