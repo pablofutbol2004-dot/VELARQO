@@ -1,5 +1,7 @@
 # Pivot decision: what Velarqo sells next (draft, 11 Oct 2026)
 
+> **12 Oct 2026: superseded by `PLAN_US_2026-10.md`** (US estimate recovery for remodelers, windows/doors and roofing). Kept for history.
+
 This takes over from ChatGPT's JP Middleton handoff (`knowledge/chat_research/2026-10-11_chatgpt_jp_handoff/`). It replaces the installer plan in `STRATEGY_DECISION_2026-10.md`. Every idea was run through `IDEA_RED_TEAM.md`. Pablo decides by **Fri 16 Oct**. The first send goes out around **2 Nov**.
 
 ## 1. The answer

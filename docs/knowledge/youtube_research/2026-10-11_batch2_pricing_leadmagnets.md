@@ -104,3 +104,31 @@ Raw transcripts are in `data/transcripts/` (fetched by video ID; the .srt was co
 **Applied:**
 - **Quote recovery passes the test.** "We bring back your unsold estimates" is one sentence with a clear money result.
 - **Speed-to-lead and automation sold on their own fail it** (demand capture). That's another reason to lead with estimate recovery and add the automation pieces later, inside the client relationship.
+
+## Addendum 3 (12 Oct): Cam Meunier, "How I'm scaling a new agency to $100K/month (again)" [1cV_LPmF0HY]
+
+- **Sell outcomes, not marketing.** His income went from $3k to $14k a month when he moved to $2k a month plus 25% of whatever the client made above their best month.
+- **With no proof, run a performance trial:** no upfront fee, and his fee comes out of what he produces for them.
+- **Fee rule:** never charge more than about 20% of the client's monthly profit.
+- **Exclusivity:** only one client per trade per city ("I only work with one roofer in this city").
+- **Discovery: 8 things to learn on every call:**
+  - Revenue and profit.
+  - Average job value.
+  - Where leads come from now.
+  - How many jobs they could take on versus how many they're doing.
+  - Whether the problem is getting leads or fulfilling work.
+  - What they already have in place.
+  - When they want to hit their target.
+  - Who else is involved in the decision.
+- **Close by doing the maths out loud with their own numbers**, then split "the fit" from "the money" when they say "let me think about it".
+- **Two kinds of buyer:** owners under ~$20k a month in profit buy on emotion; bigger owners want the maths.
+- **Follow-up:** 3 follow-ups for cold contacts, 8 for anyone who showed interest. Reply to inbound leads within 60 seconds.
+- **Consistency:** a fixed daily outreach volume, and doubt is the cue to send the next one. Track lead cost, booked-call cost, show rate and close rate.
+- **Hiring:** hire before you're stuck at around $10k a month doing the delivery yourself ("agency quicksand").
+- **Caution:** his "local monopoly" channel mix (cold calls, walk-ins, follower ads) doesn't fit Pablo. He also sells a coaching programme.
+
+**Applied to the US plan:**
+- Offer one client per trade per city.
+- The discovery list above becomes the call script.
+- Performance-trial wording for the first clients.
+- 8 follow-ups for interested replies.
