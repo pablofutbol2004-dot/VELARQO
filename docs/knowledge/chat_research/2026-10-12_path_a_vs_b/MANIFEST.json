@@ -1,0 +1,52 @@
+{
+  "title": "Path A vs B business model discussion archive",
+  "created_date": "2026-10-12",
+  "accuracy": "mixed: user turns exact, long assistant messages summarized, earlier cross-chat partial",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "sha256": "31317ea486d99251e5288f7619f508e6f6c3c748871cb4fbcd75ccc029069c10",
+      "uncompressed_bytes": 3812
+    },
+    {
+      "path": "01_ORIGINAL_PATH_A_B_DISCUSSION.md",
+      "sha256": "5a29b643d8b5271d8cca35424bd754cc7d80e191c7e53918c62ec0cc63d87113",
+      "uncompressed_bytes": 5819
+    },
+    {
+      "path": "02_CURRENT_CHAT_CHRONOLOGY.md",
+      "sha256": "e1b3b1a8dab82355644ff0ed50e6d4b731ee0b5c4fa39e8abb3749fdc6f634fb",
+      "uncompressed_bytes": 11422
+    },
+    {
+      "path": "03_BUSINESS_MODEL_COMPARISON.md",
+      "sha256": "ac23f16100ae27ac60a136347052f3cce75b54475147c9e12087148c685d4112",
+      "uncompressed_bytes": 5564
+    },
+    {
+      "path": "04_RESEARCH_EVIDENCE_AND_LINKS.md",
+      "sha256": "c4c54773aea57c2027412730f8e9ad5ea331222042a3d3b1db52b6ccc51b3e6c",
+      "uncompressed_bytes": 6879
+    },
+    {
+      "path": "05_DECISIONS_RISKS_AND_VALIDATION_PLAN.md",
+      "sha256": "e75d0bc7972f01e3f6651d8368827fe4ba9238b30c60ee6b5e621b1cbef3158e",
+      "uncompressed_bytes": 6385
+    },
+    {
+      "path": "06_GROKBOT_PROMPT_RECREATED.md",
+      "sha256": "ceb49f359db9f833af0bf986f998c9810b312218e91a4cdaa9d4062377f2674d",
+      "uncompressed_bytes": 6231
+    },
+    {
+      "path": "08_SOURCE_MATERIAL_MANIFEST.md",
+      "sha256": "684c24206ef0a9e3eea13c16d9010de4b3e05c2e072fbf2c35a9737eb450c7f1",
+      "uncompressed_bytes": 2286
+    },
+    {
+      "path": "07_USER_MESSAGES_AND_TIMELINE.json",
+      "sha256": "86973348243e98a4db04d1d4878b76493ee58d2d7ebf04c669a5c35f155bc42b",
+      "uncompressed_bytes": 4485
+    }
+  ]
+}
